@@ -27,4 +27,10 @@ export interface CustomAttributeProps {
     content?: string
     key?: any
     access?: Access
+    filter?:string
+    hint?:string
+    order?:number
+    resource?:string
+    value?:string
+    fields?:string
 }

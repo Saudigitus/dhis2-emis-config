@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-07-13T07:19:04.656Z\n"
-"PO-Revision-Date: 2023-07-13T07:19:04.656Z\n"
+"POT-Creation-Date: 2023-09-06T06:39:28.734Z\n"
+"PO-Revision-Date: 2023-09-06T06:39:28.734Z\n"
 
 msgid "Column"
 msgstr "Column"
@@ -22,3 +22,6 @@ msgstr "Save"
 
 msgid "No data to display"
 msgstr "No data to display"
+
+msgid "Something went wrong when loading the objects"
+msgstr "Something went wrong when loading the objects"

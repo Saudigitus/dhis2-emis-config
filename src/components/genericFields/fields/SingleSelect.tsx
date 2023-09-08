@@ -2,22 +2,32 @@ import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import { useField, type FieldRenderProps } from "react-final-form";
-import { type CustomAttributeProps } from "../../../types/table/AttributeColumns";
+import { type CustomAttributeProps } from "../../../types/table/attributeColumns";
+import { useOptions } from "../../../hooks/optionSets/useOptions";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 interface AutoCompleteProps {
   disabled?: boolean
   options?: CustomAttributeProps["options"]
   name: string
+  filter: string
+  resource:string
+  fields:string
+  option: any
+  loading:boolean
 }
 
 const OptionSetAutocomplete = (props: AutoCompleteProps) => {
   const { input, meta }: FieldRenderProps<any, HTMLElement> = useField(props.name);
+  const { loading } = props
 
-  const options = (props?.options?.optionSet?.options != null)
-    ? props?.options.optionSet?.options.map((option: { value: string, label: string }) => ({
-        value: option.value,
-        label: option.label
-      }))
-    : [];
+  const options = (props?.option != null)
+  ? props?.option.map((option: { id: string, displayName: string }) => ({
+      value: option.id,
+      label: option.displayName
+    }))
+  : [];
 
   return (
     <Autocomplete
@@ -39,7 +49,13 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
             ...params.InputProps,
             style: {
               backgroundColor: "#fff"
-            }
+            },
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
           }}
         />
       )}
@@ -51,9 +67,15 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
 };
 
 function SingleSelectField(props: AutoCompleteProps) {
+  const { options, loading, getData } = useOptions(props.fields, props.resource, props.filter)
+
+  React.useEffect(()=> {
+    getData()
+  },[props.name])
+
   return (
     <div>
-      <OptionSetAutocomplete {...props} name={props.name}/>
+      <OptionSetAutocomplete {...props} name={props.name} option={options} loading={loading}/>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./text.module.css";
 
 interface TitleProps {
-  label: string
+  label: string | undefined
 }
 function Title(props: TitleProps): React.ReactElement {
   const { label } = props;
