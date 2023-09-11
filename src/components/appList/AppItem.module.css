@@ -1,0 +1,8 @@
+@import "../../assets/style/font.css";
+
+.AppItemContainer {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
