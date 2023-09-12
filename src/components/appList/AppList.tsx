@@ -5,13 +5,22 @@ import AppItem from './AppItem'
 
 interface Props {
     data: AppItemProps[]
+    updateDataStore: any
+    setNotification: any
 }
 
 const AppList = ({ data, ...props }: Props) => {
     return (
         <>
             <div>
-                {data.map((item: any) => <AppItem key={uuidv4()} {...item} />)}
+                {data.map((item: any) => (
+                    <AppItem
+                        {...item}
+                        key={uuidv4()}
+                        setNotification={props.setNotification}
+                        updateDataStore={props.updateDataStore}
+                    />
+                ))}
             </div>
         </>
     )

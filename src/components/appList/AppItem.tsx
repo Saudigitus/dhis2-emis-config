@@ -1,21 +1,24 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react'
 import style from "./AppItem.module.css"
 import { Status } from './AppStatus'
 import { Button } from '@dhis2/ui'
-import type IAppItem from './IAppItem'
-import { format } from 'date-fns'
 import { useConfig } from '@dhis2/app-runtime'
 import axios from 'axios'
+import { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from './AppListNotification'
+import dayjs from 'dayjs'
 
-export default function AppItem(item: IAppItem): React.ReactElement {
+export default function AppItem(item: any): React.ReactElement {
     const [loadingUpload, setLoadingUpload] = useState(false)
     const { baseUrl } = useConfig()
-    const [currentItem, setCurrentItem] = useState<IAppItem>()
+    const [currentItem, setCurrentItem] = useState<any>()
+
+    const { updateDataStore, setNotification } = item
 
     const handleClickOnUploadBtn = () => {
         setCurrentItem(item)
         const fileElement: any = document.getElementById(`file-input-${item.id}`)
-        if (fileElement !== undefined) {
+        if (fileElement !== undefined || fileElement !== null) {
             fileElement.removeAttribute('value')
             fileElement.click()
         }
@@ -26,22 +29,26 @@ export default function AppItem(item: IAppItem): React.ReactElement {
             setLoadingUpload(true)
             const formData = new FormData()
             formData.append('file', event.target.files[0], event.target.files[0]?.name)
-            console.log("base url : ", baseUrl)
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
 
+            if (updateDataStore !== undefined) {
+                updateDataStore(item)
+            }
+
             setLoadingUpload(false)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
-            if (fileElement !== undefined) {
+            if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')
             }
-        } catch (err) {
+            setNotification({ show: true, message: "Upload successful", type: NOTIFICATION_SUCCESS })
+        } catch (err: any) {
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
-            if (fileElement !== undefined) {
+            if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')
             }
-            // setNotification({ show: true, message: err.response?.data?.message || err.message, type: NOTIFICATION_CRITICAL })
             setLoadingUpload(false)
+            setNotification({ show: true, message: (Boolean((err.response?.data?.message))) || err.message, type: NOTIFICATION_CRITICAL })
         }
     }
 
@@ -75,7 +82,7 @@ export default function AppItem(item: IAppItem): React.ReactElement {
                         <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.name}</div>
                         <div style={{ marginTop: '5px', display: 'flex', alignItems: 'center' }}>
                             <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
-                                Version {`${item.version} - ${format(item.updatedAt, 'yyyy-mm-dd')}`}
+                                Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD')}`}
                             </span>
                         </div>
                     </div>
@@ -97,7 +104,3 @@ export default function AppItem(item: IAppItem): React.ReactElement {
         </>
     )
 }
-
-// AppItem.propTypes = {
-//     item: PropTypes.object
-// }
