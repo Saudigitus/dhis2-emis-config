@@ -7,6 +7,7 @@ interface AutoCompleteProps {
   disabled?: boolean
   options?: CustomAttributeProps["options"]
   name: string
+  label?: string
 }
 
 const OptionSetAutocomplete = (props: AutoCompleteProps) => {
@@ -14,9 +15,9 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
 
   const options = (props?.options?.optionSet?.options != null)
     ? props?.options.optionSet?.options.map((option: { value: string, label: string }) => ({
-        value: option.value,
-        label: option.label
-      }))
+      value: option.value,
+      label: option.label
+    }))
     : [];
 
   return (
@@ -35,6 +36,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
           error={(meta.touched === true) && meta.error}
           helperText={(meta.touched === true) && meta.error}
           size="small"
+          label={props.label !== undefined ? props.label : ''}
           InputProps={{
             ...params.InputProps,
             style: {
@@ -53,7 +55,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
 function SingleSelectField(props: AutoCompleteProps) {
   return (
     <div>
-      <OptionSetAutocomplete {...props} name={props.name}/>
+      <OptionSetAutocomplete {...props} name={props.name} />
     </div>
   );
 }

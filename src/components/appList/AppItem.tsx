@@ -13,7 +13,7 @@ export default function AppItem(item: any): React.ReactElement {
     const { baseUrl } = useConfig()
     const [currentItem, setCurrentItem] = useState<any>()
 
-    const { updateDataStore, setNotification } = item
+    const { updateDataStore, setNotification, me } = item
 
     const handleClickOnUploadBtn = () => {
         setCurrentItem(item)
@@ -28,6 +28,10 @@ export default function AppItem(item: any): React.ReactElement {
         try {
             setLoadingUpload(true)
             const formData = new FormData()
+            if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
+                throw new Error("The application that you try to install is not the correct one !")
+            }
+
             formData.append('file', event.target.files[0], event.target.files[0]?.name)
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
@@ -66,6 +70,7 @@ export default function AppItem(item: any): React.ReactElement {
         }
         return ""
     }
+
     return (
         <>
             <div
@@ -81,9 +86,29 @@ export default function AppItem(item: any): React.ReactElement {
                     <div style={{ marginLeft: '30px' }}>
                         <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.name}</div>
                         <div style={{ marginTop: '5px', display: 'flex', alignItems: 'center' }}>
-                            <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
-                                Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD')}`}
-                            </span>
+                            {
+                                item.status === Status.INSTALLED && (
+                                    <>
+                                        <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                            Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss') : dayjs().format('YYYY-MM-DD HH:mm:ss')}`}
+                                        </span>
+                                        {
+                                            me?.username !== undefined && (
+                                                <span style={{ marginLeft: '10px', fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                                    {` by ${me?.username}`}
+                                                </span>
+                                            )
+                                        }
+                                    </>
+                                )
+                            }
+                            {
+                                item.status === Status.NOT_INSTALLED && (
+                                    <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                        Not Installed
+                                    </span>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -96,9 +121,14 @@ export default function AppItem(item: any): React.ReactElement {
                             type="file"
                             accept=".zip"
                         />
-                        <Button loading={currentItem?.id === item.id ? loadingUpload : false} disabled={loadingUpload} primary onClick={handleClickOnUploadBtn}> Upload </Button>
+                        <Button loading={currentItem?.id === item.id ? loadingUpload : false} disabled={loadingUpload} primary onClick={handleClickOnUploadBtn}>
+                            {item.id === currentItem?.id && loadingUpload ? <span>Processing...</span> : <span>Upload</span>}
+                        </Button>
                     </div>
-                    <div style={{ marginLeft: '10px' }}><Button primary>Install from App Hub</Button></div>
+                    <div style={{ marginLeft: '10px' }}><Button primary>
+                        {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
+                    </Button>
+                    </div>
                 </div>
             </div>
         </>

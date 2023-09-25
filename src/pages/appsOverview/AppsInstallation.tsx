@@ -13,8 +13,10 @@ import AppListNotification, { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from
 function AppsInstallation(): React.ReactElement {
   const { baseUrl } = useConfig()
   const [apps, setApps] = useState<any>([])
+  const [dhis2Apps, setDhis2Apps] = useState<any>([])
   const [loadingAppList, setLoadingAppList] = useState(false)
   const [notification, setNotification] = useState<any>({ show: false, message: "", type: "" })
+  const [me, setMe] = useState<any>(null)
 
   const getIconUrl = (url: any, icons: any) => {
     if (icons[48] !== undefined) {
@@ -34,68 +36,70 @@ function AppsInstallation(): React.ReactElement {
       const responseDataStoreApps = await axios.get(`${baseUrl}/api/dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_APP_NAME}`)
       const responseDhis2Apps = await axios.get(`${baseUrl}/api/apps.json`)
 
-      const appList = responseDataStoreApps.data.reduce((prev: any, cur: any) => {
-        const appFounded = responseDhis2Apps.data?.find((app: any) => app.name?.trim() === cur.name?.trim() && app.appType === "APP")
-
-        let payload: any = { ...cur }
-
-        if (appFounded !== undefined) {
-          payload = {
-            ...payload,
-            icon: getIconUrl(appFounded.baseUrl, appFounded.icons),
-            key: appFounded.key,
-            version: appFounded.version,
-            launchUrl: appFounded.launchUrl,
-            baseUrl: appFounded.baseUrl
-          }
-        } else {
-          payload = { ...payload, status: Status.NOT_INSTALLED }
-        }
-
-        prev.push(payload)
-
-        return prev
-      }, [])
-
-      console.log("app list : ", appList)
-      setApps(appList)
+      setApps(responseDataStoreApps.data)
+      setDhis2Apps(responseDhis2Apps.data)
       setLoadingAppList(false)
-      return appList
     } catch (err) {
-      console.log(err)
       setLoadingAppList(false)
     }
   }
 
+  const filterApps = (dataStoreApps: any[], dhis2Apps: any[]) => dataStoreApps.reduce((prev: any, cur: any) => {
+    const appFounded = dhis2Apps?.find((app: any) => app.name?.trim() === cur.name?.trim() && app.appType === "RESOURCE")
+
+    let payload: any = { ...cur }
+
+    if (appFounded !== undefined) {
+      payload = {
+        ...payload,
+        icon: getIconUrl(appFounded.baseUrl, appFounded.icons),
+        key: appFounded.key,
+        version: appFounded.version,
+        launchUrl: appFounded.launchUrl,
+        baseUrl: appFounded.baseUrl,
+        status: Status.INSTALLED
+      }
+    } else {
+      payload = { ...payload, status: Status.NOT_INSTALLED }
+    }
+
+    prev.push(payload)
+
+    return prev
+  }, [])
+
+  const loadMe = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/me.json?fields=username`)
+      setMe(response.data)
+    } catch (err) { }
+  }
+
   const updateDataStore = async (item: any) => {
     try {
-      const newAppList = await loadAppList()
-
-      if (newAppList?.length > 0) {
-        const payloads: any[] = newAppList.map((app: any) => {
+      if (apps?.length > 0) {
+        const payloads: any[] = apps.map((app: any) => {
           if (app.id === item.id) {
             return {
               ...app,
-              updatedAt: new Date(),
-              status: Status.INSTALLED
+              updatedAt: new Date()
             }
           }
           return app
         })
 
         await axios.put(`${baseUrl}/api/dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_APP_NAME}`, payloads)
-
-        setApps(payloads)
         setNotification({ show: true, message: "Operation success !", type: NOTIFICATION_SUCCESS })
+        void loadAppList()
       }
     } catch (err: any) {
-      console.log(err)
       setNotification({ show: true, message: (Boolean((err.response?.data?.message))) || err.message, type: NOTIFICATION_CRITICAL })
     }
   }
 
   useEffect(() => {
     void loadAppList()
+    void loadMe()
   }, [])
 
   return (
@@ -111,7 +115,10 @@ function AppsInstallation(): React.ReactElement {
       }
       <>
         <AppList
+          me={me}
           data={apps}
+          filterApps={filterApps}
+          dhis2Apps={dhis2Apps}
           updateDataStore={updateDataStore}
           setNotification={setNotification}
         />

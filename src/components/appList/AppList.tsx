@@ -7,20 +7,26 @@ interface Props {
     data: AppItemProps[]
     updateDataStore: any
     setNotification: any
+    filterApps: any
+    dhis2Apps: any
+    me: any
 }
 
-const AppList = ({ data, ...props }: Props) => {
+const AppList = ({ ...props }: Props) => {
+    const { data, dhis2Apps, filterApps, setNotification, updateDataStore, me } = props
     return (
         <>
             <div>
-                {data.map((item: any) => (
-                    <AppItem
-                        {...item}
-                        key={uuidv4()}
-                        setNotification={props.setNotification}
-                        updateDataStore={props.updateDataStore}
-                    />
-                ))}
+                {
+                    filterApps(data, dhis2Apps).map((item: any) => (
+                        <AppItem
+                            {...item}
+                            me={me}
+                            key={uuidv4()}
+                            setNotification={setNotification}
+                            updateDataStore={updateDataStore}
+                        />
+                    ))}
             </div>
         </>
     )
