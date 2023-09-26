@@ -8,6 +8,7 @@ interface AutoCompleteProps {
   options?: CustomAttributeProps["options"]
   name: string
   label?: string
+  onChange?: any
 }
 
 const OptionSetAutocomplete = (props: AutoCompleteProps) => {
@@ -47,6 +48,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
       )}
       onChange={(_, value) => {
         input.onChange(value?.value);
+        (Boolean(props.onChange)) && props.onChange(value)
       }}
     />
   );

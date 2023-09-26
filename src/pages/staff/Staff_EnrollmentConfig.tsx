@@ -51,7 +51,7 @@ function StaffEnrollment(): React.ReactElement {
               <form onSubmit={handleSubmit}>
                 <GroupForm
                   disabled={false}
-                  name="Enrollment"
+                  name="Staff Enrollment"
                   fields={formFields}
                 />
               </form>
