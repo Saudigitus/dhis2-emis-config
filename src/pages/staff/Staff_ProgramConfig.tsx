@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from "react";
 import { GroupForm, Title, WithPadding } from "../../components";
 import { Form } from "react-final-form"
@@ -7,7 +7,7 @@ import { useDataQuery, useDataMutation } from '@dhis2/app-runtime'
 import AppListNotification, { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from "../../components/appList/AppListNotification";
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
-
+import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
 interface NotificationInt {
   show: boolean
   message: string
@@ -48,14 +48,18 @@ function StaffProgram(): React.ReactElement {
   const [mutate] = useDataMutation(updateDataStoreMutation, {
     onError(error) {
       console.log(error)
-    },
+    }
   })
 
   const getFormFields = (programs: any[]) => {
     const foundProgram: any = data.dataStoreConfigs?.find((dt: any) => dt.key === "staff")?.program?.program
-    if (foundProgram) {
-      return [
+    if (foundProgram !== undefined) {
+      const list: CustomAttributeProps[] = [
         {
+          id: "program",
+          header: foundProgram.label,
+          displayName: foundProgram.label,
+          required: true,
           visible: true,
           disabled: false,
           labelName: foundProgram.label,
@@ -70,19 +74,21 @@ function StaffProgram(): React.ReactElement {
           }
         }
       ]
+      return list
     } else {
       return []
     }
   }
+
   const onSubmit = async (values: SubmitValue) => {
     try {
-      if (values.program) {
+      if (values.program !== undefined) {
         setLoadingProcessing(true)
         let payload: any[] = []
 
         const foundElement: any = data.dataStoreValues?.find((dt: any) => dt.key === "staff")
 
-        if (foundElement) {
+        if (foundElement !== undefined) {
           payload = data.dataStoreValues.map((el: any) => {
             if (el.key === foundElement.key) {
               return {
@@ -98,6 +104,9 @@ function StaffProgram(): React.ReactElement {
             ...data.dataStoreValues,
             {
               key: "staff",
+              defaults: {
+                currentAcademicYear: dayjs().format('YYYY')
+              },
               lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               program: values.program
             }
@@ -112,16 +121,16 @@ function StaffProgram(): React.ReactElement {
       }
     } catch (err: any) {
       setLoadingProcessing(false)
-      setNotification({ show: true, message: err?.response?.data?.data || err.message, type: NOTIFICATION_CRITICAL })
+      setNotification({ show: true, message: err?.response?.data?.message !== undefined ? err?.response?.data?.message : err.message, type: NOTIFICATION_CRITICAL })
     }
   }
 
   return (
     <WithPadding>
-      <Title label="Staff - Program" />
+      <Title label="Staffs - Program" />
       <div>
         {
-          loading && (
+          Boolean(loading) && (
             <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0px' }}>
               <CircularLoader small />
               <span style={{ marginLeft: '10px' }}>Loading...</span>
@@ -129,12 +138,12 @@ function StaffProgram(): React.ReactElement {
           )
         }
         {
-          error && (
+          error !== undefined && (
             <span>{`${error.message}`}</span>
           )
         }
         {
-          data && (
+          data !== undefined && (
             <div>
               <Form
                 onSubmit={onSubmit}
@@ -144,7 +153,7 @@ function StaffProgram(): React.ReactElement {
                     <form onSubmit={handleSubmit}>
                       <GroupForm
                         disabled={false}
-                        name="Staff Program"
+                        name="Staffs Program"
                         fields={data.programs?.programs?.length > 0 ? getFormFields(data.programs.programs) : []}
                       />
                       <div style={{ marginTop: '20px', padding: '0px 10px', display: 'flex' }}>

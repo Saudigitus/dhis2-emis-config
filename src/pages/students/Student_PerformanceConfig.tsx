@@ -1,15 +1,15 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 
 import React, { useState, useEffect } from "react";
 import { GroupForm, Title, WithPadding } from "../../components";
 import { Form } from "react-final-form"
-import { Button } from '@dhis2/ui'
-import AppListNotification, { NOTIFICATION_CRITICAL } from "../../components/appList/AppListNotification";
+import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import AppListNotification, { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from "../../components/appList/AppListNotification";
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
 import { useConfig, useDataQuery, useDataMutation } from '@dhis2/app-runtime'
-import { CircularLoader } from '@dhis2/ui'
 import axios from 'axios'
+import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
 
 interface NotificationInt {
   show: boolean
@@ -18,62 +18,74 @@ interface NotificationInt {
 }
 
 interface SubmitValue {
-  programStages: string
+  programStages: Array<{
+    programStage: string
+  }>
 }
 
 const query = {
   dataStoreValues: {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`
   },
   dataStoreConfigs: {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_CONFIG_KEY}`
   }
 }
 
-
 const updateDataStoreMutation: any = {
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`,
   type: 'update',
   data: ({ data }: any) => data
 }
 
 function StudentsPerformance(): React.ReactElement {
-  const { data, error, loading }: any = useDataQuery(query)
+  const { data, error, loading, refetch }: any = useDataQuery(query)
+  const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>(null)
   const [notification, setNotification] = useState<NotificationInt>({ show: false, message: "", type: "" })
   const [loadingProcessing, setLoadingProcessing] = useState<boolean>(false)
-  const [programStages, setProgramStages] = useState<Array<any>>([])
+  const [loadingProgramStages, setLoadingProgramStages] = useState<boolean>(false)
+  const [programStages, setProgramStages] = useState<any[]>([])
   const { baseUrl } = useConfig()
   const [mutate] = useDataMutation(updateDataStoreMutation, {
     onError(error: any) {
       console.log(error)
-    },
+    }
   })
 
   const loadProgramStage = async (programId: string) => {
     try {
+      setLoadingProgramStages(true)
       const response = await axios.get(`${baseUrl}/api/programStages.json?paging=false&filter=program.id:eq:${programId}&fields=id,displayName,programStageDataElements[dataElement[id,displayName]]`)
-      const progStages: Array<any> = response.data.programStages || []
+      const progStages: any[] = response.data?.programStages !== undefined ? response.data.programStages : []
       setProgramStages(progStages)
-    } catch (err) { }
+      setLoadingProgramStages(false)
+    } catch (err) { setLoadingProgramStages(false) }
   }
 
   const getFormFields = () => {
-    const formFieldsList = []
+    const formFieldsList: CustomAttributeProps[] = []
     const foundProgramStage = getDataStoreElement({ dataStores: data.dataStoreConfigs, key: "student", elementKey: "performance" })?.programStages
 
-    if (foundProgramStage) {
+    if (foundProgramStage !== undefined) {
       formFieldsList.push(
         {
+          id: "programStages",
+          header: foundProgramStage.label,
+          displayName: foundProgramStage.label,
+          required: true,
+          multiple: true,
           visible: true,
           disabled: false,
-
           labelName: foundProgramStage.label,
           description: foundProgramStage.hint,
           valueType: foundProgramStage.inputType,
-          name: "programStage",
+          name: "programStages",
           options: {
             optionSet: {
-              id: 'programStage',
+              id: 'programStages',
               options: programStages.map((prog: any) => ({ value: prog.id, label: prog.displayName }))
             }
           }
@@ -84,10 +96,9 @@ function StudentsPerformance(): React.ReactElement {
     return formFieldsList
   }
 
-
   const onSubmit = async (values: SubmitValue) => {
     try {
-      if (values.programStages) {
+      if (values.programStages !== undefined) {
         setLoadingProcessing(true)
         let payload: any[] = []
 
@@ -95,7 +106,7 @@ function StudentsPerformance(): React.ReactElement {
 
         const performance = getDataStoreElement({ dataStores: data.dataStoreConfigs, key: "student", elementKey: "performance" })
 
-        if (foundElement) {
+        if (foundElement !== undefined) {
           payload = data.dataStoreValues.map((el: any) => {
             if (el.key === foundElement.key) {
               return {
@@ -103,7 +114,7 @@ function StudentsPerformance(): React.ReactElement {
                 lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 performance: {
                   ...performance,
-                  programStages: values.programStages,
+                  programStages: values.programStages.map(v => ({ programStage: v }))
                 }
               }
             }
@@ -116,60 +127,74 @@ function StudentsPerformance(): React.ReactElement {
               key: "student",
               lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               performance: {
-                programStages: values.programStages,
+                programStages: values.programStages.map(v => ({ programStage: v }))
               }
             }
           ]
         }
 
-
-
-        console.log("payload: , ", payload)
         await mutate({ data: payload })
+        refetch()
         setLoadingProcessing(false)
+        setNotification({ show: true, message: "Operation Successfull !", type: NOTIFICATION_SUCCESS })
       } else {
-        throw Error("Please Select a program a programStage !")
+        throw Error("Please Select a programStage !")
       }
     } catch (err: any) {
       setLoadingProcessing(false)
-      setNotification({ show: true, message: err?.response?.data?.data || err.message, type: NOTIFICATION_CRITICAL })
+      setNotification({ show: true, message: err?.response?.data?.message !== undefined ? err?.response?.data?.message : err.message, type: NOTIFICATION_CRITICAL })
     }
   }
 
-
   useEffect(() => {
-    console.log(data?.dataStoreValues)
-    if (data?.dataStoreValues) {
-      const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
-      programId && loadProgramStage(programId)
+    if (data?.dataStoreValues !== undefined) {
+      setNoProgramErrorMessage(null)
+      const programId: string = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
+      if (programId === undefined) {
+        setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
+      }
+      void (programId !== undefined ? loadProgramStage(programId) : null)
     }
   }, [data])
-
 
   return (
     <WithPadding>
       <Title label="Students - Performance" />
       {
-        loading && (
-          <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0px' }}>
-            <CircularLoader small />
-            <span style={{ marginLeft: '10px' }}>Loading...</span>
-          </div>
+        Boolean(loading) || Boolean(loadingProgramStages)
+          ? (
+            <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0px' }}>
+              <CircularLoader small />
+              <span style={{ marginLeft: '10px' }}>Loading...</span>
+            </div>
+          )
+          : (
+            <></>
+          )
+      }
+      {
+        (error !== undefined && (data === undefined || data === null)) && (
+          <NoticeBox error>
+            {`${error !== undefined ? error.message : notification.message}`}
+          </NoticeBox>
         )
       }
       {
-        error && (
-          <span>{`${error.message}`}</span>
+        (noProgramErrorMessage !== null ) && (
+          <NoticeBox title="Configuration" warning>
+            {`${noProgramErrorMessage}`}
+          </NoticeBox>
         )
       }
       {
-        data && programStages.length && (
+        data !== undefined && programStages.length > 0 && (
           <div>
             <Form
               onSubmit={onSubmit}
               initialValues={
                 {
-                  programStage: getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages,
+                  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                  programStages: getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages?.map((p: { programStage: string }) => p.programStage) || []
                 }
               }
               render={

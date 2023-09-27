@@ -9,6 +9,7 @@ import { useConfig } from '@dhis2/app-runtime'
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core"
 import AppListNotification, { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from "../../components/appList/AppListNotification";
+import { getIconUrl } from "../../utils/functions";
 
 function AppsInstallation(): React.ReactElement {
   const { baseUrl } = useConfig()
@@ -17,18 +18,6 @@ function AppsInstallation(): React.ReactElement {
   const [loadingAppList, setLoadingAppList] = useState(false)
   const [notification, setNotification] = useState<any>({ show: false, message: "", type: "" })
   const [me, setMe] = useState<any>(null)
-
-  const getIconUrl = (url: any, icons: any) => {
-    if (icons[48] !== undefined) {
-      return "".concat(url).concat('/').concat(icons[48])
-    }
-    if (icons[128] !== undefined) {
-      return "".concat(url).concat('/').concat(icons[128])
-    }
-    if (icons[16] !== undefined) {
-      return "".concat(url).concat('/').concat(icons[16])
-    }
-  }
 
   const loadAppList = async () => {
     try {

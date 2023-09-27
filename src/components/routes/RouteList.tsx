@@ -58,7 +58,7 @@ export default function RouteList() {
         {
             path: "/apps/configuration",
             layout: SideBarLayout,
-            component: AppsConfiguration
+            component: () => <AppsConfiguration />
         },
         {
             path: "/form",

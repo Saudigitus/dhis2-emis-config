@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { GroupForm, Title, WithPadding } from "../../components";
 import { Form } from "react-final-form"
-import { Button } from '@dhis2/ui'
+import { Button, NoticeBox, CircularLoader } from '@dhis2/ui'
 import AppListNotification, { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from "../../components/appList/AppListNotification";
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
 import { useConfig, useDataQuery, useDataMutation } from '@dhis2/app-runtime'
-import { CircularLoader } from '@dhis2/ui'
 import axios from 'axios'
+import { CustomAttributeProps } from "../../types/table/AttributeColumns";
 
 interface NotificationInt {
   show: boolean
@@ -43,6 +43,7 @@ function StudentsSocioEconomics(): React.ReactElement {
   const [loadingProcessing, setLoadingProcessing] = useState<boolean>(false)
   const [programStages, setProgramStages] = useState<Array<any>>([])
   const { baseUrl } = useConfig()
+  const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>(null)
   const [mutate] = useDataMutation(updateDataStoreMutation, {
     onError(error: any) {
       console.log(error)
@@ -58,12 +59,16 @@ function StudentsSocioEconomics(): React.ReactElement {
   }
 
   const getFormFields = () => {
-    const formFieldsList = []
+    const formFieldsList: Array<CustomAttributeProps> = []
     const foundProgramStage = getDataStoreElement({ dataStores: data.dataStoreConfigs, key: "student", elementKey: "socio-economics" })?.programStage
 
     if (foundProgramStage) {
       formFieldsList.push(
         {
+          id: "programStage",
+          header: foundProgramStage.label,
+          displayName: foundProgramStage.label,
+          required: true,
           visible: true,
           disabled: false,
           labelName: foundProgramStage.label,
@@ -121,9 +126,6 @@ function StudentsSocioEconomics(): React.ReactElement {
           ]
         }
 
-
-
-        console.log("payload: , ", payload)
         await mutate({ data: payload })
         setLoadingProcessing(false)
         setNotification({ show: true, message: "Operation Successfull !", type: NOTIFICATION_SUCCESS })
@@ -136,10 +138,13 @@ function StudentsSocioEconomics(): React.ReactElement {
     }
   }
 
-
   useEffect(() => {
     if (data?.dataStoreValues) {
+      setNoProgramErrorMessage(null)
       const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
+      if (programId === undefined) {
+        setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
+      }
       programId && loadProgramStage(programId)
     }
   }, [data])
@@ -157,8 +162,17 @@ function StudentsSocioEconomics(): React.ReactElement {
         )
       }
       {
-        error && (
-          <span>{`${error.message}`}</span>
+        (error !== undefined && (data === undefined || data === null)) && (
+          <NoticeBox error>
+            {`${error !== undefined ? error.message : notification.message}`}
+          </NoticeBox>
+        )
+      }
+      {
+        (noProgramErrorMessage !== null ) && (
+          <NoticeBox title="Configuration" warning>
+            {`${noProgramErrorMessage}`}
+          </NoticeBox>
         )
       }
       {
@@ -167,9 +181,9 @@ function StudentsSocioEconomics(): React.ReactElement {
             <Form
               onSubmit={onSubmit}
               initialValues={
-                  {
-                    programStage: getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "socio-economics", key: "student" })?.programStage
-                  }
+                {
+                  programStage: getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "socio-economics", key: "student" })?.programStage
+                }
               }
               render={
                 ({ handleSubmit }: any) => (
