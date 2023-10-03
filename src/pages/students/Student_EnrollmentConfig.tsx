@@ -39,7 +39,7 @@ const updateDataStoreMutation: any = {
 }
 
 function StudentsEnrollment(): React.ReactElement {
-  const { data, error, loading }: any = useDataQuery(query)
+  const { data, error, loading, refetch }: any = useDataQuery(query)
   const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>(null)
   const [notification, setNotification] = useState<NotificationInt>({ show: false, message: "", type: "" })
   const [loadingProcessing, setLoadingProcessing] = useState<boolean>(false)
@@ -303,7 +303,7 @@ function StudentsEnrollment(): React.ReactElement {
                     />
                     <div style={{ marginTop: '20px', padding: '0px 10px', display: 'flex' }}>
                       <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                      <div style={{ marginLeft: '10px' }}><Button type="button">Cancel</Button></div>
+                      <div style={{ marginLeft: '10px' }}><Button onClick={() => refetch()} type="button">Cancel</Button></div>
                     </div>
                   </form>
                 )
