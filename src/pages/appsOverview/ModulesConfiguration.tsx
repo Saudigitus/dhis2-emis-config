@@ -3,19 +3,11 @@
 import React from "react";
 import { DashboardCard, Title, WithPadding } from "../../components";
 import style from "./overview.module.css"
-// import { cardsData } from "../../utils/constants/dashboard/dashboardData";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { v4 as uuidv4 } from 'uuid'
 import { CircularLoader } from '@dhis2/ui'
 import { type CardProps } from "../../components/card/CardComponent";
 import { getCategoryName, getCorrespondingColor, getIconUrl } from "../../utils/functions";
-// import { cardsData } from "../../utils/constants/dashboard/dashboardData";
-
-// interface NotificationInt {
-//   show: boolean
-//   message: string
-//   type: string
-// }
 
 interface DataStoreAppInterf {
   id: string | number

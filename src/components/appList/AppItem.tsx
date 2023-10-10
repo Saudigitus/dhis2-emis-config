@@ -1,19 +1,38 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import React, { useState } from 'react'
-import style from "./AppItem.module.css"
 import { Status } from './AppStatus'
 import { Button } from '@dhis2/ui'
 import { useConfig } from '@dhis2/app-runtime'
 import axios from 'axios'
-import { NOTIFICATION_CRITICAL, NOTIFICATION_SUCCESS } from './AppListNotification'
 import dayjs from 'dayjs'
+import useUpdateDataStore from '../../hooks/appInstallations/useUpdateDataStore'
+import useShowAlerts from '../../hooks/commons/useShowAlert'
+import style from "./AppItem.module.css"
+
+const getColor = (status: Status) => {
+    if (status === Status.INSTALLED) {
+        return "#21b26d"
+    }
+
+    if (status === Status.DISABLED) {
+        return "#EAB631"
+    }
+
+    if (status === Status.NOT_INSTALLED) {
+        return "#F05C5C"
+    }
+    return ""
+}
 
 export default function AppItem(item: any): React.ReactElement {
+    const { dataStoreApps, id, me } = item
     const [loadingUpload, setLoadingUpload] = useState(false)
     const { baseUrl } = useConfig()
     const [currentItem, setCurrentItem] = useState<any>()
 
-    const { updateDataStore, setNotification, me } = item
+    const { updateDataStore } = useUpdateDataStore()
+    const { show, hide } = useShowAlerts()
 
     const handleClickOnUploadBtn = () => {
         setCurrentItem(item)
@@ -37,7 +56,7 @@ export default function AppItem(item: any): React.ReactElement {
             await axios.post(uploadRoute, formData)
 
             if (updateDataStore !== undefined) {
-                updateDataStore(item)
+                await updateDataStore({ dataStoreApps, item: { id } })
             }
 
             setLoadingUpload(false)
@@ -45,30 +64,24 @@ export default function AppItem(item: any): React.ReactElement {
             if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')
             }
-            setNotification({ show: true, message: "Upload successful", type: NOTIFICATION_SUCCESS })
+
+            show({
+                message: `Update success !`,
+                type: { success: true }
+            })
+            setTimeout(hide, 4000)
         } catch (err: any) {
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
             if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')
             }
             setLoadingUpload(false)
-            setNotification({ show: true, message: (Boolean((err.response?.data?.message))) || err.message, type: NOTIFICATION_CRITICAL })
+            show({
+                message: `Can't update datastore : ${err.message}`,
+                type: { critical: true }
+            })
+            setTimeout(hide, 5000)
         }
-    }
-
-    const getColor = (status: Status) => {
-        if (status === Status.INSTALLED) {
-            return "#21b26d"
-        }
-
-        if (status === Status.DISABLED) {
-            return "#EAB631"
-        }
-
-        if (status === Status.NOT_INSTALLED) {
-            return "#F05C5C"
-        }
-        return ""
     }
 
     return (
@@ -76,13 +89,13 @@ export default function AppItem(item: any): React.ReactElement {
             <div
                 className={style.AppItemContainer}
                 style={{
-                    borderRadius: '5px',
-                    marginTop: '10px',
                     border: `2px solid ${getColor(item.status)}`
                 }}
             >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div><img style={{ width: '40px', height: '40px' }} src={item.icon} /></div>
+                    <div>
+                        <img style={{ width: '40px', height: '40px' }} src={item.icon} />
+                    </div>
                     <div style={{ marginLeft: '30px' }}>
                         <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.name}</div>
                         <div style={{ marginTop: '5px', display: 'flex', alignItems: 'center' }}>
@@ -125,9 +138,10 @@ export default function AppItem(item: any): React.ReactElement {
                             {item.id === currentItem?.id && loadingUpload ? <span>Processing...</span> : <span>Upload</span>}
                         </Button>
                     </div>
-                    <div style={{ marginLeft: '10px' }}><Button primary>
-                        {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
-                    </Button>
+                    <div style={{ marginLeft: '10px' }}>
+                        <Button primary>
+                            {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
+                        </Button>
                     </div>
                 </div>
             </div>
