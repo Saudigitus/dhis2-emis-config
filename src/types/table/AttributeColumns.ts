@@ -10,6 +10,8 @@ export interface CustomAttributeProps {
     labelName: string
     description?: string
     valueType: typeof Attribute.valueType
+    multiple?: boolean
+    onChange?: any
     options?: {
         optionSet: {
             id: string
