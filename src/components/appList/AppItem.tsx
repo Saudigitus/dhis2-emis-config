@@ -1,113 +1,45 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Status } from './AppStatus'
 import { Button } from '@dhis2/ui'
-import { useConfig } from '@dhis2/app-runtime'
-import axios from 'axios'
 import dayjs from 'dayjs'
-import useUpdateDataStore from '../../hooks/appInstallations/useUpdateDataStore'
-import useShowAlerts from '../../hooks/commons/useShowAlert'
 import style from "./AppItem.module.css"
+import { useGetRightColor, useHandleFileReader } from '../../hooks/appInstallations'
+import classNames from 'classnames'
+import { type ClickOnUploadBtnProp, type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
 
-const getColor = (status: Status) => {
-    if (status === Status.INSTALLED) {
-        return "#21b26d"
-    }
-
-    if (status === Status.DISABLED) {
-        return "#EAB631"
-    }
-
-    if (status === Status.NOT_INSTALLED) {
-        return "#F05C5C"
-    }
-    return ""
+interface useFileReaderProp {
+    loading: boolean
+    currentItem: any
+    handleFileReader: ({ dataStoreApps, event, item }: FileReaderProps) => void
+    clickOnUploadBtn: ({ item }: ClickOnUploadBtnProp) => void
 }
 
 export default function AppItem(item: any): React.ReactElement {
     const { dataStoreApps, id, me } = item
-    const [loadingUpload, setLoadingUpload] = useState(false)
-    const { baseUrl } = useConfig()
-    const [currentItem, setCurrentItem] = useState<any>()
-
-    const { updateDataStore } = useUpdateDataStore()
-    const { show, hide } = useShowAlerts()
-
-    const handleClickOnUploadBtn = () => {
-        setCurrentItem(item)
-        const fileElement: any = document.getElementById(`file-input-${item.id}`)
-        if (fileElement !== undefined || fileElement !== null) {
-            fileElement.removeAttribute('value')
-            fileElement.click()
-        }
-    }
-
-    const handleFileReader: any = async (event: any) => {
-        try {
-            setLoadingUpload(true)
-            const formData = new FormData()
-            if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
-                throw new Error("The application that you try to install is not the correct one !")
-            }
-
-            formData.append('file', event.target.files[0], event.target.files[0]?.name)
-            const uploadRoute = `${baseUrl}/api/apps.json`
-            await axios.post(uploadRoute, formData)
-
-            if (updateDataStore !== undefined) {
-                await updateDataStore({ dataStoreApps, item: { id } })
-            }
-
-            setLoadingUpload(false)
-            const fileElement: any = document.getElementById(`file-input-${item.id}`)
-            if (fileElement !== undefined || fileElement !== null) {
-                fileElement.removeAttribute('value')
-            }
-
-            show({
-                message: `Update success !`,
-                type: { success: true }
-            })
-            setTimeout(hide, 4000)
-        } catch (err: any) {
-            const fileElement: any = document.getElementById(`file-input-${item.id}`)
-            if (fileElement !== undefined || fileElement !== null) {
-                fileElement.removeAttribute('value')
-            }
-            setLoadingUpload(false)
-            show({
-                message: `Can't update datastore : ${err.message}`,
-                type: { critical: true }
-            })
-            setTimeout(hide, 5000)
-        }
-    }
+    const { getColor } = useGetRightColor()
+    const { loading, currentItem, handleFileReader, clickOnUploadBtn }: useFileReaderProp = useHandleFileReader()
 
     return (
         <>
-            <div
-                className={style.AppItemContainer}
-                style={{
-                    border: `2px solid ${getColor(item.status)}`
-                }}
-            >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div className={classNames(style.AppItemContainer, getColor(item.status))}>
+                <div className={style.AppItemContainerFlex}>
                     <div>
-                        <img style={{ width: '40px', height: '40px' }} src={item.icon} />
+                        <img className={style.AppItemImageStyle} src={item.icon} />
                     </div>
-                    <div style={{ marginLeft: '30px' }}>
-                        <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.name}</div>
-                        <div style={{ marginTop: '5px', display: 'flex', alignItems: 'center' }}>
+                    <div className={style.appItemContainerMarginLeft}>
+                        <div className={style.AppItemName}>{item.name}</div>
+                        <div className={style.AppItemFlexMargin}>
                             {
                                 item.status === Status.INSTALLED && (
                                     <>
-                                        <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                        <span className={style.AppItemVersion}>
                                             Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss') : dayjs().format('YYYY-MM-DD HH:mm:ss')}`}
                                         </span>
                                         {
                                             me?.username !== undefined && (
-                                                <span style={{ marginLeft: '10px', fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                                <span className={style.AppItemBy}>
                                                     {` by ${me?.username}`}
                                                 </span>
                                             )
@@ -117,7 +49,7 @@ export default function AppItem(item: any): React.ReactElement {
                             }
                             {
                                 item.status === Status.NOT_INSTALLED && (
-                                    <span style={{ fontStyle: 'italic', color: '#00000090', fontSize: '14px' }}>
+                                    <span className={style.appItemStatus}>
                                         Not Installed
                                     </span>
                                 )
@@ -125,26 +57,26 @@ export default function AppItem(item: any): React.ReactElement {
                         </div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div className={style.AppItemContainerFlex}>
                     <div>
                         <input
                             style={{ display: 'none' }}
                             id={`file-input-${item.id}`}
-                            onChange={handleFileReader}
+                            onChange={(event: any) => { handleFileReader({ event, dataStoreApps, item }) }}
                             type="file"
                             accept=".zip"
                         />
-                        <Button loading={currentItem?.id === item.id ? loadingUpload : false} disabled={loadingUpload} primary onClick={handleClickOnUploadBtn}>
-                            {item.id === currentItem?.id && loadingUpload ? <span>Processing...</span> : <span>Upload</span>}
+                        <Button loading={currentItem?.id === item.id ? loading : false} disabled={loading} primary onClick={() => { clickOnUploadBtn({ item: { id } }) }}>
+                            {item.id === currentItem?.id && loading ? <span>Processing...</span> : <span>Upload</span>}
                         </Button>
                     </div>
-                    <div style={{ marginLeft: '10px' }}>
+                    <div className={style.AppItemMarginLeft}>
                         <Button primary>
                             {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
