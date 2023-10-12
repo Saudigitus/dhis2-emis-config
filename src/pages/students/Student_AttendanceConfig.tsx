@@ -260,7 +260,7 @@ function StudentsAttendance(): React.ReactElement {
         )
       }
       {
-        (noProgramErrorMessage !== null ) && (
+        (noProgramErrorMessage !== null) && (
           <NoticeBox title="Configuration" warning>
             {`${noProgramErrorMessage}`}
           </NoticeBox>

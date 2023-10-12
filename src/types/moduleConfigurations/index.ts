@@ -40,4 +40,53 @@ interface AppListByCategoryProps {
     data: FetchDatasProps["data"]
 }
 
-export type { DataStoreAppInterf, Dhis2AppInterf, DataProps, FetchDatasProps, AppListByCategoryProps }
+interface ProgramSubmitValueProps {
+    program: string
+    data: {
+        dataStoreValues: any[]
+    }
+}
+
+interface ProgramFormFieldProps {
+    programs: any[]
+    data: {
+        dataStoreConfigs?: any[]
+    }
+}
+
+interface ProgramFormProps {
+    data: any
+}
+
+interface SubmitProgramDataProps {
+    loadingProcessing: boolean
+    submit: ({ data, program }: ProgramSubmitValueProps) => void
+}
+
+interface FetchProgramDatasProps {
+    programs: any[]
+    dataStoreValues: any[]
+    dataStoreConfigs: any[]
+}
+
+interface FetchProgramDatasHooksProps {
+    error?: any
+    loading: boolean
+    refetch?: () => void
+    data: FetchProgramDatasProps
+    programNotConfiguratedMessage?: string
+}
+
+export type {
+    DataStoreAppInterf,
+    ProgramSubmitValueProps,
+    Dhis2AppInterf,
+    DataProps,
+    FetchDatasProps,
+    AppListByCategoryProps,
+    ProgramFormFieldProps,
+    ProgramFormProps,
+    SubmitProgramDataProps,
+    FetchProgramDatasProps,
+    FetchProgramDatasHooksProps
+}
