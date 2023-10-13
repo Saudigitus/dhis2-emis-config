@@ -3,14 +3,6 @@ import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
 import useShowAlerts from "../commons/useShowAlert"
 
 const query = {
-    programs: {
-        resource: 'programs',
-        params: {
-            paging: false,
-            fields: ['id', 'displayName', 'programType'],
-            filter: "programType:eq:WITH_REGISTRATION"
-        }
-    },
     dataStoreValues: {
         resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`
     },
@@ -19,7 +11,7 @@ const query = {
     }
 }
 
-export default function useFetchProgramDatas() {
+export default function useFetchEnrollmentDatas() {
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
         onError: (error: FetchError) => {
@@ -30,5 +22,5 @@ export default function useFetchProgramDatas() {
             setTimeout(hide, 5000)
         }
     })
-    return { refetch, loading, data: (data?.programs?.programs !== undefined && data?.programs?.programs !== null) ? { ...data, programs: data.programs.programs } : null, error }
+    return { data, error, loading, refetch }
 }

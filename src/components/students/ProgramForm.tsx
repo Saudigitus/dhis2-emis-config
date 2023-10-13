@@ -8,6 +8,7 @@ import {
     type SubmitProgramDataProps,
     type FetchProgramDatasHooksProps
 } from "../../types/moduleConfigurations";
+import style from './ProgramForm.module.css'
 
 export default function ProgramForm(): React.JSX.Element {
     const { getFormFields } = useGetProgramFormField()
@@ -17,21 +18,21 @@ export default function ProgramForm(): React.JSX.Element {
         <div>
             {
                 Boolean(loading) && (
-                    <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0px' }}>
+                    <div className={style.loadingContainer}>
                         <CircularLoader small />
                         <span style={{ marginLeft: '10px' }}>Loading...</span>
                     </div>
                 )
             }
             {
-                (error !== undefined || error !== null) && (
+                (error !== undefined && error !== null) && (
                     <NoticeBox title="Configurations" warning>
                         {error.message}
                     </NoticeBox>
                 )
             }
 
-            {data !== undefined && (
+            {(data !== undefined && data !== null) && (
                 <div>
                     <Form
                         onSubmit={(values: { program: string }) => { submit({ data, program: values.program }) }}
@@ -44,9 +45,9 @@ export default function ProgramForm(): React.JSX.Element {
                                         name="Student Program"
                                         fields={data.programs?.length > 0 ? getFormFields({ programs: data.programs, data }) : []}
                                     />
-                                    <div style={{ marginTop: '20px', padding: '0px 10px', display: 'flex' }}>
+                                    <div className={style.btnContainer}>
                                         <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                        <div style={{ marginLeft: '10px' }}><Button onClick={refetch} type="button">Cancel</Button></div>
+                                        <div className={style.btnCancel}><Button onClick={refetch} type="button">Cancel</Button></div>
                                     </div>
                                 </form>
                             )

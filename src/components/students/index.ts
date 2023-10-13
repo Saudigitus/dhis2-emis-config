@@ -1,3 +1,4 @@
+import EnrollmentForm from "./EnrollmentForm"
 import ProgramForm from "./ProgramForm"
 
-export { ProgramForm }
+export { ProgramForm, EnrollmentForm }

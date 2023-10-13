@@ -47,7 +47,7 @@ export default function useSubmitProgramDatas() {
                 setLoadingProcessing(false)
                 show({
                     message: 'Operation Successfull !',
-                    type: { critical: true }
+                    type: { success: true }
                 })
                 setTimeout(hide, 3000)
             } else {

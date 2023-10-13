@@ -1,7 +1,7 @@
 import { useAlert } from '@dhis2/app-runtime';
 
 interface AlertProps {
-    show: ({ type, message }?: { message: string, type: any }) => void
+    show: ({ type, message }: { message: string, type: any }) => void
     hide: () => void
 }
 
