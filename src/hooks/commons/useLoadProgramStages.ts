@@ -7,9 +7,9 @@ const query: any = {
         resource: "programStages",
         params: ({ programId }: { programId: string }) => (
             {
-                fields: ['id', 'displayName', 'programStageDataElements[dataElement[id,displayName]]'],
+                fields: ['id', 'displayName'],
                 paging: false,
-                filters: `filter=program.id:eq:${programId}`
+                filter: `program.id:eq:${programId}`
             }
         )
     }
@@ -17,7 +17,7 @@ const query: any = {
 
 export default function useLoadProgramStages() {
     const { show, hide } = useShowAlerts()
-    const { data, refetch, loading, error } = useDataQuery<any>(query, {
+    const { data, refetch, error, loading } = useDataQuery<any>(query, {
         lazy: true,
         onError: (error: FetchError) => {
             show({
@@ -39,23 +39,16 @@ export default function useLoadProgramStages() {
         }
     }
 
-    if (error !== null && error !== undefined) {
-        return {
-            error,
-            loading,
-            getProgramStages
-        }
-    }
-
-    if (data !== null && data !== undefined) {
-        return {
-            data: {
+    return {
+        error,
+        programStagesDatas: (data !== undefined && data !== null)
+            ? {
                 ...data,
                 programStages: data.programStages.programStages
-            },
-            loading,
-            refetch,
-            getProgramStages
-        }
+            }
+            : undefined,
+        loadingProgramStages: loading,
+        refetch,
+        getProgramStages
     }
 }

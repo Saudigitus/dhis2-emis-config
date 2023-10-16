@@ -9,7 +9,7 @@ const query: any = {
             {
                 fields: ['id', 'displayName', 'programStageDataElements[dataElement[id,displayName]]'],
                 paging: false,
-                filters: `filter=id:eq:${programStageId}`
+                filter: `id:eq:${programStageId}`
             }
         )
     }
@@ -53,23 +53,16 @@ export default function useLoadDataElements() {
         return dataElmts
     }
 
-    if (error !== null && error !== undefined) {
-        return {
-            error,
-            loading,
-            getDataElements
-        }
-    }
-
-    if (data !== null && data !== undefined) {
-        return {
-            data: {
+    return {
+        error,
+        dataElementsDatas: (data !== undefined && data !== null)
+            ? {
                 ...data,
                 dataElements: extractDataElements(data.programStages.programStages)
-            },
-            loading,
-            refetch,
-            getDataElements
-        }
+            }
+            : undefined,
+        loading,
+        refetch,
+        getDataElements
     }
 }

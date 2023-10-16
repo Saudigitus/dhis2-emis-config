@@ -1,10 +1,8 @@
-import { type FetchError } from "@dhis2/app-runtime"
-
 interface GetEnrollmentFormFieldsProps {
     dataStoreConfigs: any[]
     programStages: any[]
     dataElements: any[]
-    getDataElements: () => void
+    getDataElements: (programStageId: string) => void
 }
 
 interface UseFetchEnrollmentDatasResponse {
@@ -17,24 +15,24 @@ interface UseFetchEnrollmentDatasResponse {
     refetch?: () => void
 }
 
-// interface LoadingProgramStagesResponse {
-//     loading: boolean
-//     data?: {
-//         programStages: any[]
-//     }
-//     error?: FetchError
-//     refetch?: () => void
-//     getProgramStages: (programId: string) => void
-// }
-// interface LoadDataElementsResponse {
-//     loading: boolean
-//     data?: {
-//         dataElements: any[]
-//     }
-//     error?: any
-//     refetch?: () => void
-//     getDataElements: Promise<GetEnrollmentFormFieldsProps["getDataElements"]>
-// }
+interface LoadProgramStagesResponse {
+    loadingProgramStages: boolean
+    programStagesDatas?: {
+        programStages: any[]
+    }
+    error?: any
+    refetch?: () => void
+    getProgramStages: (programId: string) => void
+}
+interface LoadDataElementsResponse {
+    loading?: boolean
+    dataElementsDatas?: {
+        dataElements: any[]
+    }
+    error?: any
+    refetch?: () => void
+    getDataElements: (programStageId: string) => void
+}
 
 interface SubmitEnrollmentValue {
     programStage: string
@@ -43,4 +41,4 @@ interface SubmitEnrollmentValue {
     section: string
 }
 
-export type { SubmitEnrollmentValue, GetEnrollmentFormFieldsProps, UseFetchEnrollmentDatasResponse }
+export type { LoadProgramStagesResponse, LoadDataElementsResponse, SubmitEnrollmentValue, GetEnrollmentFormFieldsProps, UseFetchEnrollmentDatasResponse }

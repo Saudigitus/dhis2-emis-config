@@ -7,7 +7,7 @@ const updateDataStoreMutation: any = {
   data: ({ data }: any) => data
 }
 
-export default function useUpdateEnrollmentDataStoreMutation() {
+export default function useUpdateConfigValues() {
   const [mutate] = useDataMutation(updateDataStoreMutation, {
     onError(error: any) {
       console.log(error)

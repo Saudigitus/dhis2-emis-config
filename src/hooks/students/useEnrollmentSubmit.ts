@@ -3,12 +3,17 @@ import { useState } from 'react'
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
 import { type SubmitEnrollmentValue } from "../../types/students";
+import useUpdateConfigValues from '../commons/useUpdateConfigValues';
+import useShowAlerts from '../commons/useShowAlert';
 
 export default function useEnrollmentSubmit() {
     const [loadingProcessing, setLoadingProcessing] = useState<any>(false)
+    const { mutate } = useUpdateConfigValues()
+    const { show, hide } = useShowAlerts()
 
     const submit = async (values: SubmitEnrollmentValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
         try {
+            console.log("values: ", values)
             if (values.academicYear !== undefined && values.grade !== undefined && values.section !== undefined && values.programStage !== undefined) {
                 setLoadingProcessing(true)
                 let payload: any[] = []
@@ -52,13 +57,21 @@ export default function useEnrollmentSubmit() {
 
                 await mutate({ data: payload })
                 setLoadingProcessing(false)
-                setNotification({ show: true, message: "Operation Successfull !", type: NOTIFICATION_SUCCESS })
+                show({
+                    message: `Operation success !`,
+                    type: { success: true }
+                })
+                setTimeout(hide, 3000)
             } else {
                 throw Error("Please fill all fields !")
             }
         } catch (err: any) {
             setLoadingProcessing(false)
-            setNotification({ show: true, message: err?.response?.data?.message !== undefined ? err?.response?.data?.message : err.message, type: NOTIFICATION_CRITICAL })
+            show({
+                message: `Can make update: ${err.message}`,
+                type: { critical: true }
+            })
+            setTimeout(hide, 5000)
         }
     }
 

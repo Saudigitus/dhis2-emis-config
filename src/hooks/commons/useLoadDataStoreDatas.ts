@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
-import useShowAlerts from "../commons/useShowAlert"
+import useShowAlerts from "./useShowAlert"
 
 const query = {
     dataStoreValues: {
@@ -11,7 +11,7 @@ const query = {
     }
 }
 
-export default function useFetchEnrollmentDatas() {
+export default function useLoadDataStoreDatas() {
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
         onError: (error: FetchError) => {
