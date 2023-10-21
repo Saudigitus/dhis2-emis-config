@@ -6,11 +6,11 @@ import { Divider, IconButton, Tooltip } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 
-interface CardProps {
-  icon: string
+export interface CardProps {
+  icon: string | undefined
   title: string
   timeLabel: string
-  program: string
+  program?: string
   configRoute: string
   status: string
 }

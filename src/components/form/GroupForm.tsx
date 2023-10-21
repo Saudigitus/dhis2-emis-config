@@ -2,7 +2,7 @@ import { Label } from "@dhis2/ui";
 import React from "react";
 import WithPadding from "../template/WithPadding";
 import GenericFields from "../genericFields/GenericFields";
-import { type CustomAttributeProps } from "../../types/table/attributeColumns";
+import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
 
 interface FormProps {
     name: string
@@ -15,7 +15,6 @@ function GroupForm(props: FormProps) {
 
     return (
         <WithPadding p={"5px"}>
-            {/* <Subtitle label={name} /> */}
             <WithPadding p={"0px"}>
                 {fields?.filter(x => x.visible)?.map((x, i) => {
                     return (
@@ -37,7 +36,7 @@ function GroupForm(props: FormProps) {
                                 </small>
                                 <br />
                                 <span style={{ color: "#E53935", marginTop: 20 }}>
-                                   {x.content}
+                                    {x.content}
                                 </span>
                             </div>
                         </div>

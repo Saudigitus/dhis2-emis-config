@@ -13,52 +13,52 @@ export default function RouteList() {
         {
             path: "/students/program",
             layout: SideBarLayout,
-            component: StudentsProgram
+            component: () => <StudentsProgram />
         },
         {
             path: "/students/enrollment",
             layout: SideBarLayout,
-            component: StudentsEnrollment
+            component: () => <StudentsEnrollment />
         },
         {
             path: "/students/socio-economics",
             layout: SideBarLayout,
-            component: StudentsSocioEconomics
+            component: () => <StudentsSocioEconomics />
         },
         {
             path: "/students/attendance",
             layout: SideBarLayout,
-            component: StudentsAttendance
+            component: () => <StudentsAttendance />
         },
         {
             path: "/students/performance",
             layout: SideBarLayout,
-            component: StudentsPerformance
+            component: () => <StudentsPerformance />
         },
         {
             path: "/staff/program",
             layout: SideBarLayout,
-            component: StaffProgram
+            component: () => <StaffProgram />
         },
         {
             path: "/staff/enrollment",
             layout: SideBarLayout,
-            component: StaffEnrollment
+            component: () => <StaffEnrollment />
         },
         {
             path: "/staff/attendance",
             layout: SideBarLayout,
-            component: StaffAttendance
+            component: () => <StaffAttendance />
         },
         {
             path: "/apps/installation",
             layout: SideBarLayout,
-            component: AppsInstallation
+            component: () => <AppsInstallation />
         },
         {
             path: "/apps/configuration",
             layout: SideBarLayout,
-            component: AppsConfiguration
+            component: () => <AppsConfiguration />
         },
         {
             path: "/form",
