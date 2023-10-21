@@ -21,7 +21,6 @@ export default function AppListHeader(): React.ReactElement {
             setLoadingUpload(true)
             const formData = new FormData()
             formData.append('file', event.target.files[0], event.target.files[0]?.name)
-            console.log("base url : ", baseUrl)
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
 

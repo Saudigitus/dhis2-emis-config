@@ -24,7 +24,6 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
     : [];
 
   return (
-    <>
       <Autocomplete
         {...props}
         multiple={props.multiple !== undefined ? props.multiple : false}
@@ -58,7 +57,6 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
           (Boolean(props.onChange)) && props.onChange(value)
         }}
       />
-    </>
   );
 };
 

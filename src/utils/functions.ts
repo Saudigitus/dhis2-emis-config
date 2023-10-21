@@ -27,13 +27,8 @@ export const getIconUrl = (url: string, icons: any) => {
 
 export const getCorrespondingColor = (elementKey: string, categoryType: string, dataStoreConfigs: any[], dataStoreValues: any[]) => {
     let color = 'unstable'
-    console.log("dataStoreConfigs:  ", dataStoreConfigs)
     const currentElementConfig = getDataStoreElement({ dataStores: dataStoreConfigs, elementKey, key: categoryType })
     const currentElementValue = getDataStoreElement({ dataStores: dataStoreValues, elementKey, key: categoryType })
-    if (elementKey === "performance" && categoryType === "Students") {
-        console.log("current Element config :", currentElementConfig)
-        console.log("current Element Value :", currentElementValue)
-    }
 
     // unstable case
     if (
@@ -55,7 +50,6 @@ export const getCorrespondingColor = (elementKey: string, categoryType: string, 
             let isAllOk = true
             for (const keyStringValue of Object.keys(currentElementValue)) {
                 const foundEl = currentElementValue[keyStringValue]
-                console.log("Key string : ", keyStringValue, " value : ", foundEl)
                 if (foundEl === null || foundEl === undefined || foundEl.length === 0) {
                     isAllOk = false
                 }
