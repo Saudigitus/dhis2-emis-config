@@ -24,39 +24,41 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
     : [];
 
   return (
-    <Autocomplete
-      {...props}
-      multiple={props.multiple !== undefined ? props.multiple : false}
-      options={options}
-      closeIcon={null}
-      disabled={props.disabled}
-      getOptionLabel={(option: any) => option.label}
-      value={
-        props.multiple !== undefined && Boolean(props.multiple) && input.value?.length > 0
-          ? input.value.map((val: any) => options.find((element: { value: string }) => element.value === val))
-          : options.find((element: { value: string }) => element.value === input.value)
-      }
-      renderInput={(params: any) => (
-        <TextField
-          {...params}
-          variant="outlined"
-          error={(meta.touched === true) && meta.error}
-          helperText={(meta.touched === true) && meta.error}
-          size="small"
-          label={props.label !== undefined ? props.label : ''}
-          InputProps={{
-            ...params.InputProps,
-            style: {
-              backgroundColor: "#fff"
-            }
-          }}
-        />
-      )}
-      onChange={(_, value: any) => {
-        input.onChange(props.multiple !== undefined && Boolean(props.multiple) ? value?.length > 0 ? value.map((v: { value: string }) => v.value) : [] : value?.value);
-        (Boolean(props.onChange)) && props.onChange(value)
-      }}
-    />
+    <>
+      <Autocomplete
+        {...props}
+        multiple={props.multiple !== undefined ? props.multiple : false}
+        options={options}
+        closeIcon={null}
+        disabled={props.disabled}
+        getOptionLabel={(option: any) => option.label}
+        value={
+          props.multiple !== undefined && Boolean(props.multiple)
+            ? input.value?.length > 0 ? input.value.map((val: any) => options.find((element: { value: string }) => element.value === val)) : []
+            : options.find((element: { value: string }) => element.value === input.value)
+        }
+        renderInput={(params: any) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            error={(meta.touched === true) && meta.error}
+            helperText={(meta.touched === true) && meta.error}
+            size="small"
+            label={props.label !== undefined ? props.label : ''}
+            InputProps={{
+              ...params.InputProps,
+              style: {
+                backgroundColor: "#fff"
+              }
+            }}
+          />
+        )}
+        onChange={(_, value: any) => {
+          input.onChange(props.multiple !== undefined && props.multiple !== null && Boolean(props.multiple) ? value?.length > 0 ? value.map((v: { value: string }) => v.value) : [] : value?.value);
+          (Boolean(props.onChange)) && props.onChange(value)
+        }}
+      />
+    </>
   );
 };
 

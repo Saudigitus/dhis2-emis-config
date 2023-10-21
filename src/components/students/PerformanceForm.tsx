@@ -8,18 +8,14 @@ import { Button, NoticeBox } from '@dhis2/ui'
 import { getDataStoreElement } from "../../utils/functions";
 import { usePerformanceFormFields, usePerformanceSubmit } from "../../hooks/students";
 import useLoadProgramStages from "../../hooks/commons/useLoadProgramStages";
-import {
-    type LoadProgramStagesResponse,
-    type UseFetchEnrollmentDatasResponse
-} from "../../types/students";
 import Loading from "../appList/Loading";
 import useLoadDataStoreDatas from "../../hooks/commons/useLoadDataStoreDatas";
 import style from './ProgramForm.module.css'
 
 export default function PerformanceForm(): React.JSX.Element {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
-    const { loadingProgramStages, programStagesDatas, getProgramStages }: LoadProgramStagesResponse = useLoadProgramStages()
-    const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
+    const { loadingProgramStages, programStagesDatas, getProgramStages }: any = useLoadProgramStages()
+    const { data, loading, error, refetch }: any = useLoadDataStoreDatas()
     const { getFormFields } = usePerformanceFormFields()
     const { loadingProcessing, submit } = usePerformanceSubmit()
 
@@ -63,6 +59,7 @@ export default function PerformanceForm(): React.JSX.Element {
                             onSubmit={
                                 async (values: { programStages: any[] }) => {
                                     await submit({ values, dataStoreConfigs: data?.dataStoreConfigs || [], dataStoreValues: data?.dataStoreValues || [] })
+                                    refetch()
                                 }
                             }
                             initialValues={{ programStages: getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages?.map((p: { programStage: string }) => p.programStage) || [] }}
