@@ -31,7 +31,6 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
       closeIcon={null}
       disabled={props.disabled}
       getOptionLabel={(option: any) => option.label}
-      // getOptionSelected={(option: any, value) => option.value === value.value}
       value={
         props.multiple !== undefined && Boolean(props.multiple) && input.value?.length > 0
           ? input.value.map((val: any) => options.find((element: { value: string }) => element.value === val))
@@ -54,7 +53,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
         />
       )}
       onChange={(_, value: any) => {
-        input.onChange(props.multiple !== undefined && Boolean(props.multiple) ? value.map((v: { value: string }) => v.value) : value?.value);
+        input.onChange(props.multiple !== undefined && Boolean(props.multiple) ? value?.length > 0 ? value.map((v: { value: string }) => v.value) : [] : value?.value);
         (Boolean(props.onChange)) && props.onChange(value)
       }}
     />

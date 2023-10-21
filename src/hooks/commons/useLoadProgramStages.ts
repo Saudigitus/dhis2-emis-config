@@ -17,6 +17,7 @@ const query: any = {
 
 export default function useLoadProgramStages() {
     const { show, hide } = useShowAlerts()
+
     const { data, refetch, error, loading } = useDataQuery<any>(query, {
         lazy: true,
         onError: (error: FetchError) => {
@@ -27,7 +28,8 @@ export default function useLoadProgramStages() {
             setTimeout(hide, 5000)
         }
     })
-    const getProgramStages: any = async (programId: string) => {
+
+    const getProgramStages = async (programId: string) => {
         try {
             await refetch({ programId })
         } catch (err: any) {

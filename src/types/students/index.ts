@@ -1,14 +1,7 @@
-interface GetEnrollmentFormFieldsProps {
-    dataStoreConfigs: any[]
-    programStages: any[]
-    dataElements: any[]
-    getDataElements: (programStageId: string) => void
-}
-
 interface UseFetchEnrollmentDatasResponse {
     loading: boolean
     data?: {
-        dataStoreConfigs: GetEnrollmentFormFieldsProps["dataStoreConfigs"]
+        dataStoreConfigs: any[]
         dataStoreValues: any[]
     }
     error?: any
@@ -34,6 +27,12 @@ interface LoadDataElementsResponse {
     getDataElements: (programStageId: string) => void
 }
 
+interface SubmitAttendanceValue {
+    status: string
+    programStage: string
+    absenceReason: string
+}
+
 interface SubmitEnrollmentValue {
     programStage: string
     academicYear: string
@@ -41,4 +40,4 @@ interface SubmitEnrollmentValue {
     section: string
 }
 
-export type { LoadProgramStagesResponse, LoadDataElementsResponse, SubmitEnrollmentValue, GetEnrollmentFormFieldsProps, UseFetchEnrollmentDatasResponse }
+export type { SubmitAttendanceValue, LoadProgramStagesResponse, LoadDataElementsResponse, SubmitEnrollmentValue, UseFetchEnrollmentDatasResponse }

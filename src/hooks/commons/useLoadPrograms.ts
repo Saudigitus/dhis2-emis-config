@@ -19,7 +19,7 @@ const query = {
     }
 }
 
-export default function useFetchProgramDatas() {
+export default function useLoadPrograms() {
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
         onError: (error: FetchError) => {

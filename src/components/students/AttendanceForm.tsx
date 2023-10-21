@@ -1,34 +1,37 @@
-/* eslint-disable*/
-
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState, useEffect } from "react";
 import { NoticeBox } from '@dhis2/ui'
 import { getDataStoreElement } from "../../utils/functions";
-import useGetEnrollmentField from "../../hooks/students/useGetEnrollmentField";
+import { useGetAttendanceFormFields } from "../../hooks/students";
 import useLoadProgramStages from "../../hooks/commons/useLoadProgramStages";
 import useLoadDataElements from "../../hooks/commons/useLoadDataElements";
-import useEnrollmentSubmit from "../../hooks/students/useEnrollmentSubmit";
+import {
+    type LoadProgramStagesResponse,
+    type LoadDataElementsResponse,
+    type UseFetchEnrollmentDatasResponse
+} from "../../types/students";
 import Loading from "../appList/Loading";
 import useLoadDataStoreDatas from "../../hooks/commons/useLoadDataStoreDatas";
-import EnrollmentFormContent from "./EnrollmentFormContent";
+import useAttendanceSubmit from "../../hooks/students/useAttendanceSubmit";
+import AttendanceFormContent from "./AttendanceFormContent";
 
-export default function EnrollmentForm(): React.JSX.Element {
+export default function AttendanceForm(): React.JSX.Element {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
-    const { getDataElements, dataElementsDatas } = useLoadDataElements()
-    const { getFormFields } = useGetEnrollmentField()
-    const { loadingProgramStages, programStagesDatas, getProgramStages } = useLoadProgramStages()
-    const { submit, loadingProcessing } = useEnrollmentSubmit()
-    const { data, loading, error } = useLoadDataStoreDatas()
+    const { getDataElements, dataElementsDatas }: LoadDataElementsResponse = useLoadDataElements()
+    const { getFormFields } = useGetAttendanceFormFields()
+    const { loadingProgramStages, programStagesDatas, getProgramStages }: LoadProgramStagesResponse = useLoadProgramStages()
+    const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
+    const { submit, loadingProcessing } = useAttendanceSubmit()
 
     useEffect(() => {
         if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
-            const programStageId = getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "registration", key: "student" })?.programStage
+            const programStageId = getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
-
             if (programId !== null && programId !== undefined) {
                 getProgramStages(programId)
             }
@@ -44,11 +47,10 @@ export default function EnrollmentForm(): React.JSX.Element {
             {
                 (error !== undefined && (data === undefined || data === null)) && (
                     <NoticeBox error>
-                        {`${error.message}`}
+                        {`${error?.message}`}
                     </NoticeBox>
                 )
             }
-
             {
                 (noProgramErrorMessage !== undefined && noProgramErrorMessage !== null) && (
                     <NoticeBox title="Configuration" warning>
@@ -56,8 +58,7 @@ export default function EnrollmentForm(): React.JSX.Element {
                     </NoticeBox>
                 )
             }
-
-            <EnrollmentFormContent
+            <AttendanceFormContent
                 data={data}
                 dataElements={dataElementsDatas?.dataElements}
                 programStages={programStagesDatas?.programStages}

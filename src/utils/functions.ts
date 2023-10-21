@@ -5,7 +5,7 @@ interface DataStoreElementProps {
 }
 
 export const getDataStoreElement = (item: DataStoreElementProps) => {
-    const foundElement = item.dataStores.find(el => el.key === item.key)
+    const foundElement = item.dataStores?.find(el => el.key === item.key)
     if (foundElement === undefined || foundElement === null) {
         return undefined
     }

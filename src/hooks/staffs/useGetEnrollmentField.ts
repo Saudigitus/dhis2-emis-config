@@ -1,12 +1,6 @@
+import { type GetEnrollmentFormFieldsProps } from "../../types/students"
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns"
 import { getDataStoreElement } from "../../utils/functions"
-
-interface FormFieldProps {
-    programStages: any[]
-    dataStoreConfigs: any[]
-    dataElements: any[]
-    getDataElements: (programStageId: string) => void
-}
 
 export default function useGetEnrollmentField() {
     const onProgramStageSelected = (value: any, getDataElements: (programStageId: string) => void) => {
@@ -15,7 +9,7 @@ export default function useGetEnrollmentField() {
         }
     }
 
-    const getFormFields = ({ dataStoreConfigs, programStages, dataElements, getDataElements }: FormFieldProps) => {
+    const getFormFields = ({ dataStoreConfigs, programStages, dataElements, getDataElements }: GetEnrollmentFormFieldsProps) => {
         const formFieldsList: CustomAttributeProps[] = []
         const foundProgramStage = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.programStage
         const foundAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.academicYear
@@ -69,7 +63,7 @@ export default function useGetEnrollmentField() {
             )
         }
 
-        if (foundGrade !== null && foundGrade !== undefined) {
+        if (foundGrade !== undefined) {
             formFieldsList.push(
                 {
                     id: "grade",
@@ -92,7 +86,7 @@ export default function useGetEnrollmentField() {
             )
         }
 
-        if (foundSection !== undefined && foundSection !== null) {
+        if (foundSection !== undefined) {
             formFieldsList.push(
                 {
                     id: "section",
