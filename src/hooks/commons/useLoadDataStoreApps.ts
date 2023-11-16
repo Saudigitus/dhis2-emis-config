@@ -3,15 +3,12 @@ import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
 import useShowAlerts from "./useShowAlert"
 
 const query = {
-    dataStoreValues: {
-        resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`
-    },
-    dataStoreConfigs: {
-        resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_CONFIG_KEY}`
+    dataStoreApps: {
+        resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_APP_NAME}`
     }
 }
 
-export default function useLoadDataStoreDatas(lazy: boolean = false) {
+export default function useLoadDataStoreApps(lazy: boolean = false) {
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
         lazy,

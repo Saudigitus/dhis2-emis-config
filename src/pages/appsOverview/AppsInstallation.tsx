@@ -9,8 +9,8 @@ import { useGetAppListFromDHIS2, useGetAppListFromDataStore, useGetMe } from "..
 
 function AppsInstallation(): React.ReactElement {
   const { me } = useGetMe()
-  const { dhis2Apps, loading: loadingDHIS2AppList } = useGetAppListFromDHIS2()
-  const { dataStoreApps, loading: loadingDataStoreAppList } = useGetAppListFromDataStore()
+  const { dhis2Apps, loading: loadingDHIS2AppList, refetch: dhis2AppsRefresh } = useGetAppListFromDHIS2()
+  const { dataStoreApps, loading: loadingDataStoreAppList, refetch: dataStoreAppsRefresh } = useGetAppListFromDataStore()
   return (
     <WithPadding>
       <AppListHeader />
@@ -27,6 +27,8 @@ function AppsInstallation(): React.ReactElement {
           me={me}
           data={dataStoreApps}
           dhis2Apps={dhis2Apps}
+          dhis2AppsRefresh={dhis2AppsRefresh}
+          dataStoreAppsRefresh={dataStoreAppsRefresh}
         />
       </>
     </WithPadding>

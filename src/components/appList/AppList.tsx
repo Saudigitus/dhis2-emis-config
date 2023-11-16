@@ -7,10 +7,12 @@ interface Props {
     data: AppItemProps[]
     dhis2Apps: any[]
     me?: any
+    dhis2AppsRefresh: any
+    dataStoreAppsRefresh: any
 }
 
 const AppList = ({ ...props }: Props) => {
-    const { data: dataStoreApps, dhis2Apps, me } = props
+    const { data: dataStoreApps, dhis2Apps, me, dataStoreAppsRefresh, dhis2AppsRefresh } = props
     const { filterApps } = useFilterApps()
 
     return (
@@ -23,6 +25,8 @@ const AppList = ({ ...props }: Props) => {
                             me={me}
                             key={uuidv4()}
                             dataStoreApps={dataStoreApps}
+                            dataStoreAppsRefresh={dataStoreAppsRefresh}
+                            dhis2AppsRefresh={dhis2AppsRefresh}
                         />
                     ))}
             </div>

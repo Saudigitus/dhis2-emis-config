@@ -5,11 +5,14 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useUpdateDataStore } from './'
 import useShowAlerts from '../commons/useShowAlert'
+import useLoadDataStoreApps from '../commons/useLoadDataStoreApps'
 
 export interface FileReaderProps {
     event: any
     item: { name: string, id: any }
     dataStoreApps: any[]
+    dataStoreAppsRefresh: any
+    dhis2AppsRefresh: any
 }
 
 export interface ClickOnUploadBtnProp {
@@ -24,6 +27,7 @@ export default function useHandleFileReader() {
     const [currentItem, setCurrentItem] = useState<any>()
     const { updateDataStore } = useUpdateDataStore()
     const { show, hide } = useShowAlerts()
+    const { refetch } = useLoadDataStoreApps(true)
 
     const clickOnUploadBtn = ({ item }: ClickOnUploadBtnProp) => {
         setCurrentItem(item)
@@ -34,7 +38,7 @@ export default function useHandleFileReader() {
         }
     }
 
-    const handleFileReader = async ({ event, item, dataStoreApps }: FileReaderProps) => {
+    const handleFileReader = async ({ event, item, dataStoreApps, dataStoreAppsRefresh, dhis2AppsRefresh }: FileReaderProps) => {
         try {
             setLoading(true)
             const formData = new FormData()
@@ -46,9 +50,16 @@ export default function useHandleFileReader() {
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
 
-            if (updateDataStore !== undefined) {
-                await updateDataStore({ dataStoreApps, item: { id: item.id } })
-            }
+            const r: any = await refetch()
+            // if (r?.dataStoreApps !== undefined && r?.dataStoreApps !== null) {
+            await updateDataStore({ dataStoreApps, item: { id: item.id } })
+            // if (dataStoreAppsRefresh !== undefined) {
+            //     dataStoreAppsRefresh()
+            // }
+            // if (dhis2AppsRefresh !== undefined) {
+            dhis2AppsRefresh()
+            // }
+            // }
 
             setLoading(false)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)

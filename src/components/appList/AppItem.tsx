@@ -7,17 +7,17 @@ import dayjs from 'dayjs'
 import style from "./AppItem.module.css"
 import { useGetRightColor, useHandleFileReader } from '../../hooks/appInstallations'
 import classNames from 'classnames'
-import { type ClickOnUploadBtnProp, type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
+import { type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
 
 interface useFileReaderProp {
     loading: boolean
     currentItem: any
     handleFileReader: ({ dataStoreApps, event, item }: FileReaderProps) => void
-    clickOnUploadBtn: ({ item }: ClickOnUploadBtnProp) => void
+    clickOnUploadBtn: ({ item, dataStoreAppsRefresh, dhis2AppsRefresh }: any) => void
 }
 
 export default function AppItem(item: any): React.ReactElement {
-    const { dataStoreApps, id, me } = item
+    const { dataStoreApps, id, me, dataStoreAppsRefresh, dhis2AppsRefresh } = item
     const { getColor } = useGetRightColor()
     const { loading, currentItem, handleFileReader, clickOnUploadBtn }: useFileReaderProp = useHandleFileReader()
 
@@ -62,12 +62,12 @@ export default function AppItem(item: any): React.ReactElement {
                         <input
                             style={{ display: 'none' }}
                             id={`file-input-${item.id}`}
-                            onChange={(event: any) => { handleFileReader({ event, dataStoreApps, item }) }}
+                            onChange={(event: any) => { handleFileReader({ event, dataStoreApps, item, dataStoreAppsRefresh, dhis2AppsRefresh }) }}
                             type="file"
                             accept=".zip"
                         />
                         <Button loading={currentItem?.id === item.id ? loading : false} disabled={loading} primary onClick={() => { clickOnUploadBtn({ item: { id } }) }}>
-                            {item.id === currentItem?.id && loading ? <span>Processing...</span> : <span>Upload</span>}
+                            {item.id === currentItem?.id && (Boolean(loading)) ? <span>Processing...</span> : <span>Upload</span>}
                         </Button>
                     </div>
                     <div className={style.AppItemMarginLeft}>
