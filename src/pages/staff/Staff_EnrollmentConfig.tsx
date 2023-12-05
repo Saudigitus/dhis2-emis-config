@@ -1,12 +1,14 @@
 import React from "react";
 import { Title, WithPadding } from "../../components";
+import { EnrollmentForm } from "../../components/staffs";
 
-function StaffEnrollment(): React.ReactElement {
+function StaffsEnrollment(): React.ReactElement {
   return (
     <WithPadding>
-      <Title label="Staff - Enrollment" />
+      <Title label="Staffs - Enrollment" />
+      <EnrollmentForm />
     </WithPadding>
   );
 }
 
-export default StaffEnrollment;
+export default StaffsEnrollment;

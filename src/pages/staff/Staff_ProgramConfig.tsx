@@ -1,12 +1,16 @@
-import React from "react";
-import { Title, WithPadding } from "../../components";
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-function StaffProgram(): React.ReactElement {
+import React from "react";
+import { Title, WithPadding } from "../../components"
+import { ProgramForm } from "../../components/staffs";
+
+function StudentsProgram(): React.ReactElement {
   return (
     <WithPadding>
-      <Title label="Staff - Program" />
+      <Title label="Staffs - Program" />
+      <ProgramForm />
     </WithPadding>
-  );
+  )
 }
 
-export default StaffProgram;
+export default StudentsProgram;

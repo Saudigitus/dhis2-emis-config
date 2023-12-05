@@ -7,3 +7,13 @@
     box-sizing: border-box !important;
     margin: 0px 0px 20px 0px;
 }
+
+.overviewLoadingContainer {
+    display: flex;
+    align-items: center;
+}
+
+
+.overviewMarginLeft {
+    margin-left: 20px;
+}

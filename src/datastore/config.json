@@ -1,0 +1,212 @@
+[
+    {
+      "attendance": {
+        "absenceReason": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Reason of absence",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "programStage": {
+          "filter": "repeatable:eq:true",
+          "hint": "Repeatable Program Stage",
+          "inputType": "LIST",
+          "label": "Attendance Program Stage",
+          "order": 0,
+          "resource": "programStages"
+        },
+        "status": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Attendance Status",
+          "order": 1,
+          "resource": "dataElements"
+        }
+      },
+      "final-result": {
+        "programStage": {
+          "filter": "repeatable:eq:false",
+          "hint": "Non-Repeatable Program Stage",
+          "inputType": "LIST",
+          "label": "Final Result Program Stage",
+          "order": 0,
+          "resource": "programStages"
+        },
+        "status": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Final result status",
+          "order": 1,
+          "resource": "dataElements"
+        }
+      },
+      "key": "student",
+      "lastUpdate": "2022-01-01",
+      "performance": {
+        "programStages": {
+          "filter": "repeatable:eq:false",
+          "hint": "Allow multi selection of program stage",
+          "inputType": "LIST",
+          "label": "Performance/marks Program Stages",
+          "order": 2,
+          "resource": "programStages"
+        }
+      },
+      "program": {
+        "program": {
+          "filter": "",
+          "hint": "Tracker Program",
+          "inputType": "LIST",
+          "label": "Student Program",
+          "resource": "programs"
+        }
+      },
+      "registration": {
+        "academicYear": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data Element with Option Sets",
+          "inputType": "LIST",
+          "label": "Academic Year",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "grade": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data Element with Option Sets",
+          "inputType": "LIST",
+          "label": "Grade",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "programStage": {
+          "filter": "repeatable:eq:false",
+          "hint": "Non-repeatable ProgramStage",
+          "inputType": "LIST",
+          "label": "Registration Program Stage",
+          "order": 2,
+          "resource": "programStages"
+        },
+        "section": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data optionally with Option Sets",
+          "inputType": "LIST",
+          "label": "Class/Section",
+          "order": 2,
+          "resource": "dataElements"
+        }
+      },
+      "socio-economics": {
+        "programStage": {
+          "filter": "repeatable:eq:false",
+          "hint": "Non-repeateable ProgramStage",
+          "inputType": "LIST",
+          "label": "Socio-economics Program Stage",
+          "order": 2,
+          "resource": "programStages"
+        }
+      },
+      "transfer": {
+        "destinySchool": {
+          "filter": "valueType:eq:ORGANISATION_UNIT",
+          "hint": "Organisation Unit  Data Element",
+          "inputType": "LIST",
+          "label": "Destiny School",
+          "order": 1,
+          "resource": "dataElements"
+        },
+        "programStage": {
+          "filter": "repeatable:eq:true",
+          "hint": "Repeatable Program Stage",
+          "inputType": "LIST",
+          "label": "Destiny School",
+          "order": 0,
+          "resource": "programStages"
+        },
+        "status": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Destiny School",
+          "order": 2,
+          "resource": "dataElements"
+        }
+      }
+    },
+    {
+      "attendance": {
+        "absenceReason": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Reason of absence",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "programStage": {
+          "filter": "repeatable:eq:true",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Attendance Program Stage",
+          "order": 0,
+          "resource": "programStages"
+        },
+        "status": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "TEXT  Data Element",
+          "inputType": "LIST",
+          "label": "Attendance Status",
+          "order": 1,
+          "resource": "dataElements"
+        }
+      },
+      "key": "staff",
+      "lastUpdate": "2022-01-01",
+      "program": {
+        "program": {
+          "filter": "",
+          "hint": "Tracker Program",
+          "inputType": "LIST",
+          "label": "Staff Program",
+          "resource": "programs"
+        }
+      },
+      "registration": {
+        "academicYear": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data Element with Option Sets",
+          "inputType": "LIST",
+          "label": "Academic Year",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "grade": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data Element with Option Sets",
+          "inputType": "LIST",
+          "label": "Grade",
+          "order": 2,
+          "resource": "dataElements"
+        },
+        "programStage": {
+          "filter": "repeatable:eq:false",
+          "hint": "Non-repeatable ProgramStage",
+          "inputType": "LIST",
+          "label": "Registration Program Stage",
+          "order": 2,
+          "resource": "programStages"
+        },
+        "section": {
+          "filter": "valueType:eq:TEXT",
+          "hint": "Text Data optionally with Option Sets",
+          "inputType": "LIST",
+          "label": "Class/Section",
+          "order": 2,
+          "resource": "dataElements"
+        }
+      }
+    }
+  ]

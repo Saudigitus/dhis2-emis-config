@@ -1,0 +1,15 @@
+.btnContainer {
+    margin-top: 20px;
+    padding: 0px 10px;
+    display: flex;
+}
+
+.btnCancel {
+    margin-left: 20px;
+}
+
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}

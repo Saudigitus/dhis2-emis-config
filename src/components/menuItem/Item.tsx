@@ -7,7 +7,7 @@ export default function Item(menuItens: MenuItemTypes[]): React.ReactElement {
         <>
             {
                 menuItens.map(menuIten => (
-                    < MenuItem key={menuIten.id} label="Menu item" />
+                    <MenuItem key={menuIten.id} label="Menu item" />
                 ))
             }
         </>

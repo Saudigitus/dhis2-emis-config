@@ -6,8 +6,8 @@ import InputText from "./fields/InputText.js";
 import SingleSelectField from "./fields/SingleSelect.js";
 import SwitchInput from "./fields/SwitchInput.js";
 import InputArea from "./fields/InputArea.js";
-import { type CustomAttributeProps } from "../../types/table/attributeColumns.js";
 import { Attribute } from "../../types/generated/models.js";
+import { type CustomAttributeProps } from "../../types/table/AttributeColumns.js";
 
 interface GenericFieldsProps {
   attribute: CustomAttributeProps

@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from "react";
 import { Title, WithPadding } from "../../components";
+import { AttendanceForm } from "../../components/staffs";
 
-function StaffAttendance(): React.ReactElement {
+function StaffsAttendance(): React.ReactElement {
   return (
     <WithPadding>
-      <Title label="Staff - Attendance" />
+      <Title label="Staffs - Attendance" />
+      <AttendanceForm />
     </WithPadding>
   );
 }
 
-export default StaffAttendance;
+export default StaffsAttendance;

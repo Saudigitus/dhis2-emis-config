@@ -1,0 +1,9 @@
+.LoadingContainer {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px
+}
+
+.marginLeft {
+    margin-left: 10px;
+}
