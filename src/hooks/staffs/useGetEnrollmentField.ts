@@ -1,4 +1,3 @@
-import { type GetEnrollmentFormFieldsProps } from "../../types/students"
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns"
 import { getDataStoreElement } from "../../utils/functions"
 
@@ -9,7 +8,7 @@ export default function useGetEnrollmentField() {
         }
     }
 
-    const getFormFields = ({ dataStoreConfigs, programStages, dataElements, getDataElements }: GetEnrollmentFormFieldsProps) => {
+    const getFormFields = ({ dataStoreConfigs, programStages, dataElements, getDataElements }: any) => {
         const formFieldsList: CustomAttributeProps[] = []
         const foundProgramStage = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.programStage
         const foundAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.academicYear

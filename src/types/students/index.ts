@@ -15,7 +15,7 @@ interface LoadProgramStagesResponse {
     }
     error?: any
     refetch?: () => void
-    getProgramStages: (programId: string) => void
+    getProgramStages: (programId: string, filter?: string | undefined | null) => void
 }
 interface LoadDataElementsResponse {
     loading?: boolean

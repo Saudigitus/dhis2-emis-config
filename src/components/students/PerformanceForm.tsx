@@ -23,12 +23,13 @@ export default function PerformanceForm(): React.JSX.Element {
         if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
+            const studentProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "performance", key: "student" })?.programStages?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId)
+                getProgramStages(programId, studentProgramFilterConfig)
             }
         }
     }, [data])

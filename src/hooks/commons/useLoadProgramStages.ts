@@ -5,11 +5,13 @@ import useShowAlerts from "./useShowAlert"
 const query: any = {
     programStages: {
         resource: "programStages",
-        params: ({ programId }: { programId: string }) => (
+        params: ({ programId, filter }: { programId: string, filter?: string | undefined | null }) => (
             {
                 fields: ['id', 'displayName'],
                 paging: false,
-                filter: `program.id:eq:${programId}`
+                filter: filter !== undefined && filter !== null && filter.trim().length > 0
+                    ? [`program.id:eq:${programId}`, `${filter.trim()}`]
+                    : [`program.id:eq:${programId}`]
             }
         )
     }
@@ -29,9 +31,9 @@ export default function useLoadProgramStages() {
         }
     })
 
-    const getProgramStages = async (programId: string) => {
+    const getProgramStages = async (programId: string, filter = undefined) => {
         try {
-            await refetch({ programId })
+            await refetch({ programId, filter })
         } catch (err: any) {
             show({
                 message: `Can't load resources : ${err.message}`,

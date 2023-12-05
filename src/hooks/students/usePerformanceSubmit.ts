@@ -67,7 +67,7 @@ export default function usePerformanceSubmit() {
         } catch (err: any) {
             setLoadingProcessing(false)
             show({
-                message: `Can make update: ${err.message}`,
+                message: `Cant make update: ${err.message}`,
                 type: { critical: true }
             })
             setTimeout(hide, 5000)

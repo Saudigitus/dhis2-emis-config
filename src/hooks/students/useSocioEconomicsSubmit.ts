@@ -13,51 +13,50 @@ export default function useSocioEconomicsSubmit() {
   const submit = async (values: { programStage: string }, dataStoreValues: any[], dataStoreConfigs: any[]) => {
     try {
       console.log("values: ", values)
-      if (values.programStage !== null && values.programStage !== undefined) {
-        setLoadingProcessing(true)
-        let payload: any[] = []
+      setLoadingProcessing(true)
+      let payload: any[] = []
+      if (values.programStage === null || values.programStage === undefined) {
+        throw new Error("Program Stage is required !")
+      }
 
-        const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "student")
+      const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "student")
 
-        const socioEconomics = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "socio-economics" })
+      const socioEconomics = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "socio-economics" })
 
-        if (foundElement !== undefined && foundElement !== null) {
-          payload = dataStoreValues.map((el: any) => {
-            if (el.key === foundElement.key) {
-              return {
-                ...foundElement,
-                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                "socio-economics": {
-                  ...socioEconomics,
-                  programStage: values.programStage
-                }
-              }
-            }
-            return el
-          })
-        } else {
-          payload = [
-            ...dataStoreValues,
-            {
-              key: "student",
+      if (foundElement !== undefined && foundElement !== null) {
+        payload = dataStoreValues.map((el: any) => {
+          if (el.key === foundElement.key) {
+            return {
+              ...foundElement,
               lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               "socio-economics": {
+                ...socioEconomics,
                 programStage: values.programStage
               }
             }
-          ]
-        }
-
-        await mutate({ data: payload })
-        setLoadingProcessing(false)
-        show({
-          message: `Operation success !`,
-          type: { success: true }
+          }
+          return el
         })
-        setTimeout(hide, 5000)
       } else {
-        throw Error("Please Select a programStage !")
+        payload = [
+          ...dataStoreValues,
+          {
+            key: "student",
+            lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+            "socio-economics": {
+              programStage: values.programStage
+            }
+          }
+        ]
       }
+
+      await mutate({ data: payload })
+      setLoadingProcessing(false)
+      show({
+        message: `Operation success !`,
+        type: { success: true }
+      })
+      setTimeout(hide, 5000)
     } catch (err: any) {
       setLoadingProcessing(false)
       show({

@@ -27,7 +27,7 @@ export default function useHandleFileReader() {
     const [currentItem, setCurrentItem] = useState<any>()
     const { updateDataStore } = useUpdateDataStore()
     const { show, hide } = useShowAlerts()
-    const { refetch } = useLoadDataStoreApps(true)
+    // const { refetch } = useLoadDataStoreApps(true)
 
     const clickOnUploadBtn = ({ item }: ClickOnUploadBtnProp) => {
         setCurrentItem(item)
@@ -50,16 +50,15 @@ export default function useHandleFileReader() {
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
 
-            const r: any = await refetch()
-            // if (r?.dataStoreApps !== undefined && r?.dataStoreApps !== null) {
+            // const storeApplicationList = await refetch()
+            // console.log(storeApplicationList)
             await updateDataStore({ dataStoreApps, item: { id: item.id } })
-            // if (dataStoreAppsRefresh !== undefined) {
-            //     dataStoreAppsRefresh()
-            // }
-            // if (dhis2AppsRefresh !== undefined) {
+
             dhis2AppsRefresh()
-            // }
-            // }
+            dataStoreAppsRefresh()
+
+            console.log("dataStoreAppsRefresh: ", dataStoreAppsRefresh)
+            console.log("dhis2AppsRefresh: ", dhis2AppsRefresh)
 
             setLoading(false)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
@@ -73,6 +72,7 @@ export default function useHandleFileReader() {
             })
             setTimeout(hide, 4000)
         } catch (err: any) {
+            console.log("Error: ", err)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
             if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')

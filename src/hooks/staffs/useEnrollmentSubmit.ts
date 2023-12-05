@@ -14,61 +14,71 @@ export default function useEnrollmentSubmit() {
     const submit = async (values: SubmitEnrollmentValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
         try {
             console.log("values: ", values)
-            if (values.academicYear !== undefined && values.grade !== undefined && values.section !== undefined && values.programStage !== undefined) {
-                setLoadingProcessing(true)
-                let payload: any[] = []
+            setLoadingProcessing(true)
+            let payload: any[] = []
 
-                const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "staff")
+            if (values.academicYear === null || values.academicYear === undefined) {
+                throw new Error('Academic Year is required')
+            }
+            if (values.grade === null || values.grade === undefined) {
+                throw new Error('Grade is required')
+            }
+            if (values.programStage === null || values.programStage === undefined) {
+                throw new Error('Program Stage is required')
+            }
 
-                const registration = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })
+            if (values.section === null || values.section === undefined) {
+                throw new Error('Section is required')
+            }
 
-                if (foundElement !== undefined) {
-                    payload = dataStoreValues.map((el: any) => {
-                        if (el.key === foundElement.key) {
-                            return {
-                                ...foundElement,
-                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                                registration: {
-                                    ...registration,
-                                    programStage: values.programStage,
-                                    grade: values.grade,
-                                    section: values.section,
-                                    academicYear: values.academicYear
-                                }
-                            }
-                        }
-                        return el
-                    })
-                } else {
-                    payload = [
-                        ...dataStoreValues,
-                        {
-                            key: "staff",
+            const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "staff")
+
+            const registration = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })
+
+            if (foundElement !== undefined) {
+                payload = dataStoreValues.map((el: any) => {
+                    if (el.key === foundElement.key) {
+                        return {
+                            ...foundElement,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                             registration: {
+                                ...registration,
                                 programStage: values.programStage,
                                 grade: values.grade,
                                 section: values.section,
                                 academicYear: values.academicYear
                             }
                         }
-                    ]
-                }
-
-                await mutate({ data: payload })
-                setLoadingProcessing(false)
-                show({
-                    message: `Operation success !`,
-                    type: { success: true }
+                    }
+                    return el
                 })
-                setTimeout(hide, 3000)
             } else {
-                throw Error("Please fill all fields !")
+                payload = [
+                    ...dataStoreValues,
+                    {
+                        key: "staff",
+                        lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                        registration: {
+                            programStage: values.programStage,
+                            grade: values.grade,
+                            section: values.section,
+                            academicYear: values.academicYear
+                        }
+                    }
+                ]
             }
+
+            await mutate({ data: payload })
+            setLoadingProcessing(false)
+            show({
+                message: `Operation success !`,
+                type: { success: true }
+            })
+            setTimeout(hide, 3000)
         } catch (err: any) {
             setLoadingProcessing(false)
             show({
-                message: `Can make update: ${err.message}`,
+                message: `Cant make update: ${err.message}`,
                 type: { critical: true }
             })
             setTimeout(hide, 5000)

@@ -12,8 +12,8 @@ import { type FileReaderProps } from '../../hooks/appInstallations/useHandleFile
 interface useFileReaderProp {
     loading: boolean
     currentItem: any
-    handleFileReader: ({ dataStoreApps, event, item }: FileReaderProps) => void
-    clickOnUploadBtn: ({ item, dataStoreAppsRefresh, dhis2AppsRefresh }: any) => void
+    handleFileReader: ({ dataStoreApps, event, item, dataStoreAppsRefresh, dhis2AppsRefresh }: FileReaderProps) => void
+    clickOnUploadBtn: ({ item }: any) => void
 }
 
 export default function AppItem(item: any): React.ReactElement {

@@ -23,13 +23,13 @@ function AppsConfiguration(): React.ReactElement {
           )
         }
         {
-          error !== undefined && (
+          error !== undefined && error !== null && (
             <div>{error}</div>
           )
         }
 
         {
-          data !== undefined && (
+          data !== undefined && data !== null && (
             <>
               <AppListByCategory data={data} category="student" />
               <AppListByCategory data={data} category="staff" />

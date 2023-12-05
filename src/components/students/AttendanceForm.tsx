@@ -6,7 +6,6 @@ import { useGetAttendanceFormFields } from "../../hooks/students";
 import useLoadProgramStages from "../../hooks/commons/useLoadProgramStages";
 import useLoadDataElements from "../../hooks/commons/useLoadDataElements";
 import {
-    type LoadProgramStagesResponse,
     type LoadDataElementsResponse,
     type UseFetchEnrollmentDatasResponse
 } from "../../types/students";
@@ -19,7 +18,7 @@ export default function AttendanceForm(): React.JSX.Element {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
     const { getDataElements, dataElementsDatas }: LoadDataElementsResponse = useLoadDataElements()
     const { getFormFields } = useGetAttendanceFormFields()
-    const { loadingProgramStages, programStagesDatas, getProgramStages }: LoadProgramStagesResponse = useLoadProgramStages()
+    const { loadingProgramStages, programStagesDatas, getProgramStages } = useLoadProgramStages()
     const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
     const { submit, loadingProcessing } = useAttendanceSubmit()
 
@@ -28,12 +27,13 @@ export default function AttendanceForm(): React.JSX.Element {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
             const programStageId = getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage
+            const studentProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "attendance", key: "student" })?.programStage?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId)
+                void getProgramStages(programId, studentProgramFilterConfig)
             }
             if (programStageId !== null && programStageId !== undefined) {
                 getDataElements(programStageId)

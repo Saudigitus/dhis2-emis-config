@@ -9,7 +9,6 @@ import { getDataStoreElement } from "../../utils/functions";
 import { useGetSocioEconomicsFormFields, useSocioEconomicsSubmit } from "../../hooks/students";
 import useLoadProgramStages from "../../hooks/commons/useLoadProgramStages";
 import {
-    type LoadProgramStagesResponse,
     type UseFetchEnrollmentDatasResponse
 } from "../../types/students";
 import Loading from "../appList/Loading";
@@ -18,7 +17,7 @@ import style from './ProgramForm.module.css'
 
 export default function SocioEconomicForm(): React.JSX.Element {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
-    const { loadingProgramStages, programStagesDatas, getProgramStages }: LoadProgramStagesResponse = useLoadProgramStages()
+    const { loadingProgramStages, programStagesDatas, getProgramStages } = useLoadProgramStages()
     const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
     const { getFormFields } = useGetSocioEconomicsFormFields()
     const { submit, loadingProcessing } = useSocioEconomicsSubmit()
@@ -27,12 +26,13 @@ export default function SocioEconomicForm(): React.JSX.Element {
         if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
+            const studentProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "socio-economics", key: "student" })?.programStage?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId)
+                void getProgramStages(programId, studentProgramFilterConfig)
             }
         }
     }, [data])
