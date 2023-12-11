@@ -12,7 +12,7 @@ const useFilterApps = () => {
         ? dataStoreApps.reduce((prev: any, cur: any) => {
             const appFounded = dhis2Apps?.find((app: any) => app.name?.trim() === cur.name?.trim() && app.appType === "RESOURCE")
 
-            let payload: any = { ...cur }
+            let payload: any = { ...cur, icon: null }
 
             if (appFounded !== undefined && appFounded !== null) {
                 payload = {

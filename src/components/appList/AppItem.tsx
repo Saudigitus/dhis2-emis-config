@@ -8,6 +8,7 @@ import style from "./AppItem.module.css"
 import { useGetRightColor, useHandleFileReader } from '../../hooks/appInstallations'
 import classNames from 'classnames'
 import { type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
+import { IoSchoolOutline } from 'react-icons/io5'
 
 interface useFileReaderProp {
     loading: boolean
@@ -26,7 +27,11 @@ export default function AppItem(item: any): React.ReactElement {
             <div className={classNames(style.AppItemContainer, getColor(item.status))}>
                 <div className={style.AppItemContainerFlex}>
                     <div>
-                        <img className={style.AppItemImageStyle} src={item.icon} />
+                        {
+                            item.icon?.trim()?.length > 0
+                                ? <img className={style.AppItemImageStyle} src={item.icon} />
+                                : <IoSchoolOutline style={{ fontSize: '35px', color: "blue" }} />
+                        }
                     </div>
                     <div className={style.appItemContainerMarginLeft}>
                         <div className={style.AppItemName}>{item.name}</div>

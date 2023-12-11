@@ -5,7 +5,6 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useUpdateDataStore } from './'
 import useShowAlerts from '../commons/useShowAlert'
-import useLoadDataStoreApps from '../commons/useLoadDataStoreApps'
 
 export interface FileReaderProps {
     event: any
