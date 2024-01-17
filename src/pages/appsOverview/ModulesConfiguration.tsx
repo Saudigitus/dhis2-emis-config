@@ -1,35 +1,43 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import React from "react";
-import { DashboardCard, Title, WithPadding } from "../../components";
+import { WithPadding } from "../../components";
+import { CircularLoader } from '@dhis2/ui'
+import { useFetchDatas } from "../../hooks/moduleConfigurations";
+import { type FetchDatasProps } from "../../types/moduleConfigurations";
+import { AppListByCategory } from "../../components/moduleConfigurations";
 import style from "./overview.module.css"
-import { cardsData } from "../../utils/constants/dashboard/dashboardData";
 
 function AppsConfiguration(): React.ReactElement {
+  const { data, error, loading }: FetchDatasProps = useFetchDatas()
+
   return (
     <WithPadding>
       <div className={style.bodyContainer}>
-        {cardsData().map((section, y) => (
-          <div key={y} className={style.section}>
-            <Title label={section.title} />
-            <div className={style.containerCards}>
-              {section.subItem.map((data: any, i: number) => (
-                <div key={i}>
-                  <DashboardCard
-                    program={data.program}
-                    icon={data.icon}
-                    title={data.title}
-                    configRoute={data.configRoute}
-                    timeLabel={data.timeLabel}
-                    status={data.status}
-                  />
-                  &nbsp;&nbsp;
-                </div>
-              ))}
+        {
+          Boolean(loading) && (
+            <div className={style.overviewLoadingContainer}>
+              <CircularLoader small />
+              <span className={style.overviewMarginLeft}>Loading...</span>
             </div>
-          </div>
-        ))}
+          )
+        }
+        {
+          error !== undefined && error !== null && (
+            <div>{error}</div>
+          )
+        }
+
+        {
+          data !== undefined && data !== null && (
+            <>
+              <AppListByCategory data={data} category="student" />
+              <AppListByCategory data={data} category="staff" />
+            </>
+          )
+        }
       </div>
     </WithPadding>
   );
 }
-
 export default AppsConfiguration;
