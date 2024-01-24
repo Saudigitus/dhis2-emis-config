@@ -67,7 +67,8 @@ export default function PerformanceForm(): React.JSX.Element {
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        form.change('programStages', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages?.map((p: { programStage: string }) => p.programStage) || [])
+                                        return window?.location?.reload()
+                                        // form.change('programStages', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages?.map((p: { programStage: string }) => p.programStage) || [])
                                     }
                                     return (
                                         (

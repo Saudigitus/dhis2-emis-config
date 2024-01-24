@@ -58,9 +58,10 @@ export default function AttendanceFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.programStage)
-                                        form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.absenceReason)
-                                        form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.status)
+                                        return window.location?.reload()
+                                        // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.programStage)
+                                        // form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.absenceReason)
+                                        // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.status)
                                     }
 
                                     return (
@@ -106,9 +107,10 @@ export default function AttendanceFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.programStage)
-                                        form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.absenceReason)
-                                        form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.status)
+                                        return window.location?.reload()
+                                        // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.programStage)
+                                        // form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.absenceReason)
+                                        // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.status)
                                     }
 
                                     return (

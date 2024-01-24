@@ -66,22 +66,23 @@ function sideBarData(): SideBarItemProps[] {
                     icon: settings,
                     label: "Program",
                     showBadge: false,
-                    route: "/staff/program"
+                    route: "/staffs/program"
                 },
                 {
                     icon: listAdd,
                     label: "Enrollment",
                     showBadge: false,
-                    route: "/staff/enrollment"
+                    route: "/staffs/enrollment"
                 },
                 {
                     icon: glyph,
                     label: "Attendance",
                     showBadge: false,
-                    route: "/staff/attendance"
+                    route: "/staffs/attendance"
                 }
             ]
         }
     ]
 }
+
 export { sideBarData }

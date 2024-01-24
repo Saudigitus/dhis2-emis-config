@@ -36,17 +36,17 @@ export default function RouteList() {
             component: () => <StudentsPerformance />
         },
         {
-            path: "/staff/program",
+            path: "/staffs/program",
             layout: SideBarLayout,
             component: () => <StaffProgram />
         },
         {
-            path: "/staff/enrollment",
+            path: "/staffs/enrollment",
             layout: SideBarLayout,
             component: () => <StaffEnrollment />
         },
         {
-            path: "/staff/attendance",
+            path: "/staffs/attendance",
             layout: SideBarLayout,
             component: () => <StaffAttendance />
         },

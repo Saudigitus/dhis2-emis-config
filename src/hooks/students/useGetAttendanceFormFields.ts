@@ -46,6 +46,7 @@ export default function useGetAttendanceFormFields() {
         }
 
         if (foundAbsenceReason !== undefined) {
+            console.log("dataElements: ", dataElements)
             formFieldsList.push(
                 {
                     id: "absenceReason",
@@ -61,7 +62,9 @@ export default function useGetAttendanceFormFields() {
                     options: {
                         optionSet: {
                             id: 'absenceReason',
-                            options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === foundAbsenceReason.optionSetValue && dx.valueType === foundAbsenceReason.valueType)
+                                .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }
@@ -84,7 +87,9 @@ export default function useGetAttendanceFormFields() {
                     options: {
                         optionSet: {
                             id: 'status',
-                            options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === foundStatus.optionSetValue && dx.valueType === foundStatus.valueType)
+                                .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }

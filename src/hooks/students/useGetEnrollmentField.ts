@@ -17,10 +17,10 @@ export default function useGetEnrollmentField() {
 
     const getFormFields = ({ dataStoreConfigs, programStages, dataElements, getDataElements }: FormFieldProps) => {
         const formFieldsList: CustomAttributeProps[] = []
-        const foundProgramStage = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.programStage
-        const foundAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.academicYear
-        const foundGrade = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.grade
-        const foundSection = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.section
+        const foundProgramStage = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "registration" })?.programStage
+        const foundAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "registration" })?.academicYear
+        const foundGrade = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "registration" })?.grade
+        const foundSection = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "registration" })?.section
 
         if (foundProgramStage !== undefined && foundProgramStage !== null) {
             formFieldsList.push(
@@ -47,6 +47,7 @@ export default function useGetEnrollmentField() {
         }
 
         if (foundAcademicYear !== undefined && foundAcademicYear !== null) {
+            console.log("foundAcademicYear: ", foundAcademicYear)
             formFieldsList.push(
                 {
                     id: "academicYear",
@@ -62,7 +63,9 @@ export default function useGetEnrollmentField() {
                     options: {
                         optionSet: {
                             id: 'academicYear',
-                            options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === foundAcademicYear.optionSetValue && dx.valueType === foundAcademicYear.valueType)
+                                .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }
@@ -85,7 +88,9 @@ export default function useGetEnrollmentField() {
                     options: {
                         optionSet: {
                             id: 'grade',
-                            options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                            options: dataElements
+                            .filter((dx: any) => dx.optionSetValue === foundGrade.optionSetValue && dx.valueType === foundGrade.valueType)
+                            .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }
@@ -108,7 +113,9 @@ export default function useGetEnrollmentField() {
                     options: {
                         optionSet: {
                             id: 'section',
-                            options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                            options: dataElements
+                            .filter((dx: any) => dx.optionSetValue === foundSection.optionSetValue && dx.valueType === foundSection.valueType)
+                            .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }

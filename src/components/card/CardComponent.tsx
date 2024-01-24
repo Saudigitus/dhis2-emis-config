@@ -19,17 +19,17 @@ export default function DashboardCard(props: CardProps): React.ReactElement {
   const { icon, title, configRoute, timeLabel, status } = props;
 
   return (
-    <Box height="245px" width="200px">
+    <Box height="200px" width="200px">
       <Card className={classNames(style.cardContainer, style[status])}>
         <div className={style.cardHeader}>
           <img src={icon} />
         </div>
         <div className={style.cardTitle}>{title}</div>
-        <Divider />
+        {/* <Divider />
         <div className={style.cardStatistics}>
           <i className={style.cardTotalLabel}>{timeLabel}</i>
         </div>
-        <Divider />
+        <Divider /> */}
         <div className={style.cardActions}>
           <NavLink to={configRoute}>
             <Tooltip title={`${title} configuration`}>
