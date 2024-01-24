@@ -43,7 +43,7 @@ export default function AppItem(item: any): React.ReactElement {
                                             Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss') : dayjs().format('YYYY-MM-DD HH:mm:ss')}`}
                                         </span>
                                         {
-                                            me?.username !== undefined && (
+                                            0 > 1 && me?.username !== undefined && (
                                                 <span className={style.AppItemBy}>
                                                     {` by ${me?.username}`}
                                                 </span>
