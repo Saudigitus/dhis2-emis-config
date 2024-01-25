@@ -56,7 +56,20 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Performance",
                     showBadge: false,
                     route: "/students/performance"
-                }
+                },
+                // {
+                //     icon: gauge,
+                //     label: "Final result",
+                //     showBadge: false,
+                //     route: "/students/final-result"
+                // },    
+                // {
+                //     icon: gauge,
+                //     label: "Transfer",
+                //     showBadge: false,
+                //     route: "/students/transfer"
+                // },
+                
             ]
         },
         {
@@ -79,7 +92,13 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Attendance",
                     showBadge: false,
                     route: "/staffs/attendance"
-                }
+                },
+                // {
+                //     icon: gauge,
+                //     label: "Transfer",
+                //     showBadge: false,
+                //     route: "/staffs/transfer"
+                // },
             ]
         }
     ]

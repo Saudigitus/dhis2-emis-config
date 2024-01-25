@@ -24,7 +24,9 @@ export default function DashboardCard(props: CardProps): React.ReactElement {
         <div className={style.cardHeader}>
           <img src={icon} />
         </div>
+        <Divider />
         <div className={style.cardTitle}>{title}</div>
+        <Divider />
         {/* <Divider />
         <div className={style.cardStatistics}>
           <i className={style.cardTotalLabel}>{timeLabel}</i>

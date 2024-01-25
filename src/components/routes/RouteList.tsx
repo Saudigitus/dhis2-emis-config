@@ -36,6 +36,16 @@ export default function RouteList() {
             component: () => <StudentsPerformance />
         },
         {
+            path: "/students/final-result",
+            layout: SideBarLayout,
+            component: () => <></>
+        },
+        {
+            path: "/students/transfer",
+            layout: SideBarLayout,
+            component: () => <></>
+        },
+        {
             path: "/staffs/program",
             layout: SideBarLayout,
             component: () => <StaffProgram />
@@ -49,6 +59,11 @@ export default function RouteList() {
             path: "/staffs/attendance",
             layout: SideBarLayout,
             component: () => <StaffAttendance />
+        },  
+          {
+            path: "/staffs/transfer",
+            layout: SideBarLayout,
+            component: () => <></>
         },
         {
             path: "/apps/installation",
