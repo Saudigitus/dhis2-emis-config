@@ -57,12 +57,12 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     route: "/students/performance"
                 },
-                // {
-                //     icon: gauge,
-                //     label: "Final result",
-                //     showBadge: false,
-                //     route: "/students/final-result"
-                // },    
+                {
+                    icon: gauge,
+                    label: "Final result",
+                    showBadge: false,
+                    route: "/students/final-result"
+                },    
                 // {
                 //     icon: gauge,
                 //     label: "Transfer",
@@ -83,7 +83,7 @@ function sideBarData(): SideBarItemProps[] {
                 },
                 {
                     icon: listAdd,
-                    label: "Enrollment",
+                    label: "Staff registry",
                     showBadge: false,
                     route: "/staffs/enrollment"
                 },
@@ -93,12 +93,12 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     route: "/staffs/attendance"
                 },
-                // {
-                //     icon: gauge,
-                //     label: "Transfer",
-                //     showBadge: false,
-                //     route: "/staffs/transfer"
-                // },
+                {
+                    icon: gauge,
+                    label: "Transfer",
+                    showBadge: false,
+                    route: "/staffs/transfer"
+                },
             ]
         }
     ]

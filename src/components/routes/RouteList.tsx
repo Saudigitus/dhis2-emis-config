@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 import { SideBarLayout, SimpleLayout } from "../../layout"
 import { AppsConfiguration, AppsInstallation, GenericForm, StaffAttendance, StaffEnrollment, StaffProgram, StudentsAttendance, StudentsEnrollment, StudentsPerformance, StudentsProgram, StudentsSocioEconomics } from "../../pages";
+import StudentsFinalResults from "../../pages/students/Student_FinalResultConfig";
 
 export default function RouteList() {
     return [
@@ -38,7 +39,7 @@ export default function RouteList() {
         {
             path: "/students/final-result",
             layout: SideBarLayout,
-            component: () => <></>
+            component: () => <StudentsFinalResults />
         },
         {
             path: "/students/transfer",

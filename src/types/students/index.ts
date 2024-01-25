@@ -33,6 +33,7 @@ interface SubmitAttendanceValue {
     absenceReason: string
 }
 
+
 interface SubmitEnrollmentValue {
     programStage: string
     academicYear: string

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Status } from './AppStatus'
 import { Button } from '@dhis2/ui'
 import dayjs from 'dayjs'
@@ -9,6 +9,7 @@ import { useGetRightColor, useHandleFileReader } from '../../hooks/appInstallati
 import classNames from 'classnames'
 import { type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
 import { IoSchoolOutline } from 'react-icons/io5'
+import useUploadAppFromAppHub from '../../hooks/appInstallations/useUploadAppFromAppHub'
 
 interface useFileReaderProp {
     loading: boolean
@@ -18,9 +19,11 @@ interface useFileReaderProp {
 }
 
 export default function AppItem(item: any): React.ReactElement {
-    const { dataStoreApps, id, me, dataStoreAppsRefresh, dhis2AppsRefresh } = item
+    const { dataStoreApps, id, me, dataStoreAppsRefresh, dhis2AppsRefresh, appHubId } = item
     const { getColor } = useGetRightColor()
     const { loading, currentItem, handleFileReader, clickOnUploadBtn }: useFileReaderProp = useHandleFileReader()
+    const { upload, loading: loadingAppHub } = useUploadAppFromAppHub()
+    const [currentItemElement, setCurrentItemElement] = useState<any>(null)
 
     return (
         <>
@@ -67,7 +70,9 @@ export default function AppItem(item: any): React.ReactElement {
                         <input
                             style={{ display: 'none' }}
                             id={`file-input-${item.id}`}
-                            onChange={(event: any) => { handleFileReader({ event, dataStoreApps, item, dataStoreAppsRefresh, dhis2AppsRefresh }) }}
+                            onChange={(event: any) => {
+                                handleFileReader({ event, dataStoreApps, item, dataStoreAppsRefresh, dhis2AppsRefresh })
+                            }}
                             type="file"
                             accept=".zip"
                         />
@@ -76,7 +81,10 @@ export default function AppItem(item: any): React.ReactElement {
                         </Button>
                     </div>
                     <div className={style.AppItemMarginLeft}>
-                        <Button primary disabled>
+                        <Button disabled={item?.appHubId?.trim()?.length > 0 ? false : true} primary loading={currentItemElement?.id === item?.id ? loadingAppHub : false} onClick={() => {
+                            setCurrentItemElement(item)
+                            upload({ dataStoreApps, dataStoreAppsRefresh, dhis2AppsRefresh, appHubId, item: { id } })
+                        }}>
                             {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
                         </Button>
                     </div>
