@@ -46,7 +46,6 @@ export default function useGetAttendanceFormFields() {
         }
 
         if (foundAbsenceReason !== undefined) {
-            console.log("dataElements: ", dataElements)
             formFieldsList.push(
                 {
                     id: "absenceReason",

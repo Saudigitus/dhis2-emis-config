@@ -76,7 +76,7 @@ export default function AppItem(item: any): React.ReactElement {
                         </Button>
                     </div>
                     <div className={style.AppItemMarginLeft}>
-                        <Button primary>
+                        <Button primary disabled>
                             {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
                         </Button>
                     </div>

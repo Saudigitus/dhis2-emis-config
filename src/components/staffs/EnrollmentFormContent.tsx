@@ -58,7 +58,6 @@ export default function EnrollmentFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const handleCancel = () => {
-                                        console.log("form staff: ", form)
                                         // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.programStage)
                                         // form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.grade)
                                         // form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.section)

@@ -57,9 +57,6 @@ export default function useHandleFileReader() {
             dhis2AppsRefresh()
             dataStoreAppsRefresh()
 
-            console.log("dataStoreAppsRefresh: ", dataStoreAppsRefresh)
-            console.log("dhis2AppsRefresh: ", dhis2AppsRefresh)
-
             setLoading(false)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
             if (fileElement !== undefined || fileElement !== null) {

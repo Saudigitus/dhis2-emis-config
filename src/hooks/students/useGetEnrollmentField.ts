@@ -47,7 +47,6 @@ export default function useGetEnrollmentField() {
         }
 
         if (foundAcademicYear !== undefined && foundAcademicYear !== null) {
-            console.log("foundAcademicYear: ", foundAcademicYear)
             formFieldsList.push(
                 {
                     id: "academicYear",

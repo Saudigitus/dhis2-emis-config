@@ -13,7 +13,6 @@ export default function useEnrollmentSubmit() {
 
     const submit = async (values: SubmitEnrollmentValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
         try {
-            console.log("values: ", values)
             setLoadingProcessing(true)
             let payload: any[] = []
 
