@@ -89,8 +89,8 @@ export default function useGetEnrollmentField() {
                         optionSet: {
                             id: 'grade',
                             options: dataElements
-                            .filter((dx: any) => dx.optionSetValue === foundGrade.optionSetValue && dx.valueType === foundGrade.valueType)
-                            .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                                .filter((dx: any) => dx.optionSetValue === foundGrade.optionSetValue && dx.valueType === foundGrade.valueType)
+                                .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }
@@ -114,8 +114,8 @@ export default function useGetEnrollmentField() {
                         optionSet: {
                             id: 'section',
                             options: dataElements
-                            .filter((dx: any) => dx.optionSetValue === foundSection.optionSetValue && dx.valueType === foundSection.valueType)
-                            .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                                .filter((dx: any) => dx.optionSetValue === foundSection.optionSetValue && dx.valueType === foundSection.valueType)
+                                .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                         }
                     }
                 }

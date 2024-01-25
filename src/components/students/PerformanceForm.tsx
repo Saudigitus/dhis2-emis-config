@@ -67,7 +67,6 @@ export default function PerformanceForm(): React.JSX.Element {
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        return window?.location?.reload()
                                         // form.change('programStages', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "performance", key: "student" })?.programStages?.map((p: { programStage: string }) => p.programStage) || [])
                                     }
                                     return (
@@ -80,7 +79,7 @@ export default function PerformanceForm(): React.JSX.Element {
                                                 />
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button onClick={cancelBtn} type="button">Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button disabled onClick={cancelBtn} type="button">Cancel</Button></div>
                                                 </div>
                                             </form>
                                         )

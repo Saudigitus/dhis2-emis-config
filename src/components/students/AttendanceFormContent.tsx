@@ -79,7 +79,7 @@ export default function AttendanceFormContent(
                                             />
                                             <div className={style.btnContainer}>
                                                 <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                <div className={style.btnCancel}><Button type="button" onClick={cancelBtn}>Cancel</Button></div>
+                                                <div className={style.btnCancel}><Button type="button" disabled onClick={cancelBtn}>Cancel</Button></div>
                                             </div>
                                         </form>
                                     )
@@ -104,9 +104,9 @@ export default function AttendanceFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                         form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage)
-                                         form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.absenceReason)
-                                         form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.status)
+                                        //  form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage)
+                                        //  form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.absenceReason)
+                                        //  form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.status)
                                     }
 
                                     return (
@@ -127,7 +127,7 @@ export default function AttendanceFormContent(
                                             />
                                             <div className={style.btnContainer}>
                                                 <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                <div className={style.btnCancel}><Button type="button" onClick={cancelBtn}>Cancel</Button></div>
+                                                <div className={style.btnCancel}><Button type="button" disabled onClick={cancelBtn}>Cancel</Button></div>
                                             </div>
                                         </form>
                                     )

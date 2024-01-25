@@ -58,10 +58,11 @@ export default function EnrollmentFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const handleCancel = () => {
-                                        form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.programStage)
-                                        form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.grade)
-                                        form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.section)
-                                        form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.academicYear)
+                                        console.log("form staff: ", form)
+                                        // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.programStage)
+                                        // form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.grade)
+                                        // form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.section)
+                                        // form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "staff" })?.academicYear)
                                     }
 
                                     return (
@@ -84,7 +85,7 @@ export default function EnrollmentFormContent(
                                                 />
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button onClick={handleCancel} type="button">Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button onClick={handleCancel} disabled type="button">Cancel</Button></div>
                                                 </div>
                                             </form>
                                         </div>
@@ -136,7 +137,7 @@ export default function EnrollmentFormContent(
                                                 />
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button onClick={handleCancel} type="button">Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
                                                 </div>
                                             </form>
                                         </div>

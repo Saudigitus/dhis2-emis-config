@@ -69,7 +69,7 @@ export default function SocioEconomicForm(): React.JSX.Element {
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelbtn = () => {
-                                        form.change('programStage', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "socio-economics", key: "student" })?.programStage)
+                                        // form.change('programStage', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "socio-economics", key: "student" })?.programStage)
                                     }
                                     return (
                                         <div>
@@ -81,7 +81,7 @@ export default function SocioEconomicForm(): React.JSX.Element {
                                                 />
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button type="button" onClick={cancelbtn} >Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button type="button" disabled onClick={cancelbtn} >Cancel</Button></div>
                                                 </div>
                                             </form>
                                         </div>

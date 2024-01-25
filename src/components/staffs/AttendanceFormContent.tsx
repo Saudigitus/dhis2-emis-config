@@ -82,7 +82,7 @@ export default function AttendanceFormContent(
                                             />
                                             <div className={style.btnContainer}>
                                                 <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                <div className={style.btnCancel}><Button type="button" onClick={cancelBtn}>Cancel</Button></div>
+                                                <div className={style.btnCancel}><Button type="button" disabled onClick={cancelBtn}>Cancel</Button></div>
                                             </div>
                                         </form>
                                     )
@@ -107,7 +107,6 @@ export default function AttendanceFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        return window.location?.reload()
                                         // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.programStage)
                                         // form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.absenceReason)
                                         // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "staff" })?.status)
@@ -131,7 +130,7 @@ export default function AttendanceFormContent(
                                             />
                                             <div className={style.btnContainer}>
                                                 <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                <div className={style.btnCancel}><Button type="button" onClick={cancelBtn}>Cancel</Button></div>
+                                                <div className={style.btnCancel}><Button type="button" disabled onClick={cancelBtn}>Cancel</Button></div>
                                             </div>
                                         </form>
                                     )

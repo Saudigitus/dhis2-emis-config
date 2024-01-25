@@ -49,7 +49,7 @@ export default function ProgramForm(): React.JSX.Element {
                                     />
                                     <div className={style.btnContainer}>
                                         <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                        <div className={style.btnCancel}><Button onClick={refetch} type="button">Cancel</Button></div>
+                                        <div className={style.btnCancel}><Button onClick={refetch} disabled type="button">Cancel</Button></div>
                                     </div>
                                 </form>
                             )

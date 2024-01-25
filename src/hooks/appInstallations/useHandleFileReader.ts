@@ -40,10 +40,11 @@ export default function useHandleFileReader() {
     const handleFileReader = async ({ event, item, dataStoreApps, dataStoreAppsRefresh, dhis2AppsRefresh }: FileReaderProps) => {
         try {
             setLoading(true)
+            
             const formData = new FormData()
-            if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
-                throw new Error("The application that you try to install is not the correct one !")
-            }
+            // if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
+            //     throw new Error("The application that you try to install is not the correct one !")
+            // }
 
             formData.append('file', event.target.files[0], event.target.files[0]?.name)
             const uploadRoute = `${baseUrl}/api/apps.json`

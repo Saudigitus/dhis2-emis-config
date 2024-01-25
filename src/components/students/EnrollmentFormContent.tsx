@@ -54,10 +54,10 @@ export default function EnrollmentFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const handleCancel = () => {
-                                        form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.programStage)
-                                        form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.grade)
-                                        form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.section)
-                                        form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.academicYear)
+                                        // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.programStage)
+                                        // form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.grade)
+                                        // form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.section)
+                                        // form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.academicYear)
                                     }
 
                                     return (
@@ -80,7 +80,7 @@ export default function EnrollmentFormContent(
                                                 />
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button onClick={handleCancel} type="button">Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
                                                 </div>
                                             </form>
                                         </div>
@@ -106,15 +106,17 @@ export default function EnrollmentFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const handleCancel = () => {
-                                        form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.programStage)
-                                        form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.grade)
-                                        form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.section)
-                                        form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.academicYear)
+
+                                        // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.programStage)
+                                        // form.change("grade", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.grade)
+                                        // form.change("section", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.section)
+                                        // form.change("academicYear", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "registration", key: "student" })?.academicYear)
                                     }
 
                                     return (
                                         <div>
                                             <form onSubmit={handleSubmit}>
+
                                                 <GroupForm
                                                     disabled={false}
                                                     name="Enrollment"
@@ -130,10 +132,12 @@ export default function EnrollmentFormContent(
                                                                 : []
                                                         })}
                                                 />
+
                                                 <div className={style.btnContainer}>
                                                     <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button onClick={handleCancel} type="button">Cancel</Button></div>
+                                                    <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
                                                 </div>
+
                                             </form>
                                         </div>
                                     )

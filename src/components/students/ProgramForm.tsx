@@ -42,7 +42,7 @@ export default function ProgramForm(): React.JSX.Element {
                         render={
                             ({ handleSubmit, form }: { handleSubmit: any, form: any }) => {
                                 const handleCancel = () => {
-                                    form.change("program", getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "program", key: "student" }))
+                                    // form.change("program", getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "program", key: "student" }))
                                 }
                                 return (
                                     <form onSubmit={handleSubmit}>
@@ -53,7 +53,7 @@ export default function ProgramForm(): React.JSX.Element {
                                         />
                                         <div className={style.btnContainer}>
                                             <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                            <div className={style.btnCancel}><Button onClick={handleCancel} type="button">Cancel</Button></div>
+                                            <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
                                         </div>
                                     </form>
                                 )
