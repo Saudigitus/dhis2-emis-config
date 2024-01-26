@@ -34,7 +34,8 @@ export default function usePerformanceSubmit() {
                                 lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                                 performance: {
                                     ...performance,
-                                    programStages: values.programStages.map((v: any) => ({ programStage: v }))
+                                    programStages: values.programStages.map((v: any) => ({ programStage: v })),
+                                    lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                                 }
                             }
                         }
@@ -47,7 +48,8 @@ export default function usePerformanceSubmit() {
                             key: "student",
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                             performance: {
-                                programStages: values.programStages.map((v: any) => ({ programStage: v }))
+                                programStages: values.programStages.map((v: any) => ({ programStage: v })),
+                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
                     ]

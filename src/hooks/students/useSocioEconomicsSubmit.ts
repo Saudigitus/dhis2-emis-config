@@ -31,7 +31,8 @@ export default function useSocioEconomicsSubmit() {
               lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               "socio-economics": {
                 ...socioEconomics,
-                programStage: values.programStage
+                programStage: values.programStage,
+                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
               }
             }
           }
@@ -44,7 +45,8 @@ export default function useSocioEconomicsSubmit() {
             key: "student",
             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             "socio-economics": {
-              programStage: values.programStage
+              programStage: values.programStage,
+              lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
             }
           }
         ]

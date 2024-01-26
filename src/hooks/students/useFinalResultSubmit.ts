@@ -3,10 +3,10 @@ import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
 import useUpdateConfigValues from '../commons/useUpdateConfigValues';
 import useShowAlerts from '../commons/useShowAlert';
-import { type SubmitAttendanceValue } from '../../types/students';
+import { SubmitFinalResultValue } from '../../types/students';
 
 interface SubmitFuctionProps {
-    values: SubmitAttendanceValue
+    values: SubmitFinalResultValue
     dataStoreValues: any[]
     dataStoreConfigs: any[]
 }
@@ -20,7 +20,7 @@ export default function useFinalResultSubmit() {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
-
+            
             if (values.programStage === null || values.programStage === undefined) {
                 throw new Error("Program stage is required !")
             }
@@ -42,6 +42,7 @@ export default function useFinalResultSubmit() {
                                 ...finalResult,
                                 programStage: values.programStage,
                                 status: values.status,
+                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
                     }
@@ -56,6 +57,7 @@ export default function useFinalResultSubmit() {
                         "final-result": {
                             programStage: values.programStage,
                             status: values.status,
+                            lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                         }
                     }
                 ]

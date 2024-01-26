@@ -55,7 +55,6 @@ export default function AttendanceFormContent(
                             render={
                                 ({ handleSubmit, form }: any) => {
                                     const cancelBtn = () => {
-                                        return window?.location?.reload()
                                         // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage)
                                         // form.change("absenceReason", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.absenceReason)
                                         // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.status)

@@ -33,6 +33,10 @@ interface SubmitAttendanceValue {
     absenceReason: string
 }
 
+interface SubmitFinalResultValue {
+    status: string
+    programStage: string
+}
 
 interface SubmitEnrollmentValue {
     programStage: string
@@ -41,4 +45,12 @@ interface SubmitEnrollmentValue {
     section: string
 }
 
-export type { SubmitAttendanceValue, LoadProgramStagesResponse, LoadDataElementsResponse, SubmitEnrollmentValue, UseFetchEnrollmentDatasResponse }
+interface SubmitTransferValue{
+    programStage: string
+    originSchool: string
+    destinySchool: string
+    reason: string
+    status: string
+}
+
+export type { SubmitAttendanceValue, LoadProgramStagesResponse,SubmitFinalResultValue, LoadDataElementsResponse, SubmitEnrollmentValue, UseFetchEnrollmentDatasResponse, SubmitTransferValue }

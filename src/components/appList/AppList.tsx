@@ -28,7 +28,8 @@ const AppList = ({ ...props }: Props) => {
                             dataStoreAppsRefresh={dataStoreAppsRefresh}
                             dhis2AppsRefresh={dhis2AppsRefresh}
                         />
-                    ))}
+                    ))
+                }
             </div>
         </>
     )

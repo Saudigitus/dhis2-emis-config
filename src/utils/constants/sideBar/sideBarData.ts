@@ -2,6 +2,9 @@ import settings from "../../../assets/images/sidebar/settings.svg"
 import gauge from "../../../assets/images/sidebar/gauge.svg"
 import fileDocument from "../../../assets/images/sidebar/file-document.svg"
 import appsLoggOut from "../../../assets/images/sidebar/apps-loggOut.svg"
+import transfer from "../../../assets/images/sidebar/transfer.svg"
+import performance from "../../../assets/images/sidebar/performance.svg"
+import finalresult from "../../../assets/images/sidebar/final-result.svg"
 import glyph from "../../../assets/images/sidebar/Glyph.svg"
 import listAdd from "../../../assets/images/sidebar/listAdd.svg"
 import { type SideBarItemProps } from "../../../types/sideBar/SideBarTypes"
@@ -52,23 +55,23 @@ function sideBarData(): SideBarItemProps[] {
                     route: "/students/attendance"
                 },
                 {
-                    icon: gauge,
+                    icon: performance,
                     label: "Performance",
                     showBadge: false,
                     route: "/students/performance"
                 },
                 {
-                    icon: gauge,
+                    icon: finalresult,
                     label: "Final result",
                     showBadge: false,
                     route: "/students/final-result"
                 },    
-                // {
-                //     icon: gauge,
-                //     label: "Transfer",
-                //     showBadge: false,
-                //     route: "/students/transfer"
-                // },
+                {
+                    icon: transfer,
+                    label: "Transfer",
+                    showBadge: false,
+                    route: "/students/transfer"
+                },
                 
             ]
         },
@@ -94,7 +97,7 @@ function sideBarData(): SideBarItemProps[] {
                     route: "/staffs/attendance"
                 },
                 {
-                    icon: gauge,
+                    icon: transfer,
                     label: "Transfer",
                     showBadge: false,
                     route: "/staffs/transfer"

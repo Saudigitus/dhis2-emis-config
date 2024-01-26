@@ -1,40 +1,41 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useState } from 'react'
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
+import {type SubmitTransferValue } from "../../types/students";
 import useUpdateConfigValues from '../commons/useUpdateConfigValues';
 import useShowAlerts from '../commons/useShowAlert';
-import { type SubmitAttendanceValue } from '../../types/students';
 
-interface SubmitFuctionProps {
-    values: SubmitAttendanceValue
-    dataStoreValues: any[]
-    dataStoreConfigs: any[]
-}
-
-export default function useAttendanceSubmit() {
+export default function useTransferSubmit() {
     const [loadingProcessing, setLoadingProcessing] = useState<any>(false)
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async ({ dataStoreConfigs, dataStoreValues, values }: SubmitFuctionProps) => {
+    const submit = async (values: SubmitTransferValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
 
+            if (values.destinySchool === null || values.destinySchool === undefined) {
+                throw new Error('Destiny School is required')
+            }
+            if (values.originSchool === null || values.originSchool === undefined) {
+                throw new Error('Origin School is required')
+            }
             if (values.programStage === null || values.programStage === undefined) {
-                throw new Error('Program Stage is required !')
+                throw new Error('Program Stage is required')
             }
 
             if (values.status === null || values.status === undefined) {
-                throw new Error('Status is required !')
+                throw new Error('Status is required')
             }
 
-            if (values.absenceReason === null || values.absenceReason === undefined) {
-                throw new Error('Absence Reason is required !')
+            if (values.reason === null || values.reason === undefined) {
+                throw new Error('Reason is required')
             }
+
             const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "staff")
-            const attendance = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "attendance" })
+
+            const transfer = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })
 
             if (foundElement !== undefined) {
                 payload = dataStoreValues.map((el: any) => {
@@ -42,11 +43,13 @@ export default function useAttendanceSubmit() {
                         return {
                             ...foundElement,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                            attendance: {
-                                ...attendance,
+                            transfer: {
+                                ...transfer,
                                 programStage: values.programStage,
+                                destinySchool: values.destinySchool,
+                                originSchool: values.originSchool,
                                 status: values.status,
-                                absenceReason: values.absenceReason,
+                                reason: values.reason,
                                 lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
@@ -55,28 +58,15 @@ export default function useAttendanceSubmit() {
                 })
             } else {
                 payload = [
-                    ...dataStoreValues,
-                    {
+                    ...dataStoreValues, {
                         key: "staff",
                         lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                        attendance: {
+                        transfer: {
                             programStage: values.programStage,
+                            destinySchool: values.destinySchool,
+                            originSchool: values.originSchool,
                             status: values.status,
-                            absenceReason: values.absenceReason,
-                            statusOptions: [
-                                {
-                                    code: "present",
-                                    icon: "correct_blue_fill"
-                                },
-                                {
-                                    code: "absent",
-                                    icon: "wrong_red_fill"
-                                },
-                                {
-                                    code: "late",
-                                    icon: "clock_orange_fill"
-                                }
-                            ],
+                            reason: values.reason,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                         }
                     }
@@ -87,14 +77,19 @@ export default function useAttendanceSubmit() {
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,
-                type: { success: true }
+                type: {
+                    success: true
+                }
             })
-            setTimeout(hide, 5000)
+            setTimeout(hide, 3000)
         } catch (err: any) {
             setLoadingProcessing(false)
             show({
-                message: `Cant make update: ${err.message}`,
-                type: { critical: true }
+                message: `Cant make update: ${err.message
+                    }`,
+                type: {
+                    critical: true
+                }
             })
             setTimeout(hide, 5000)
         }

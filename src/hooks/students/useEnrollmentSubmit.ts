@@ -45,7 +45,8 @@ export default function useEnrollmentSubmit() {
                                 programStage: values.programStage,
                                 grade: values.grade,
                                 section: values.section,
-                                academicYear: values.academicYear
+                                academicYear: values.academicYear,
+                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
                     }
@@ -60,7 +61,8 @@ export default function useEnrollmentSubmit() {
                             programStage: values.programStage,
                             grade: values.grade,
                             section: values.section,
-                            academicYear: values.academicYear
+                            academicYear: values.academicYear,
+                            lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                         }
                     }
                 ]

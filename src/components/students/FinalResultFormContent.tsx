@@ -6,11 +6,7 @@ import { Button } from '@dhis2/ui'
 import { getDataStoreElement } from "../../utils/functions";
 
 import style from './ProgramForm.module.css'
-
-interface SubmitFinalResultValue {
-    status: string
-    programStage: string
-}
+import { type SubmitFinalResultValue } from "../../types/students";
 
 export default function FinalResultFormContent(
     {
