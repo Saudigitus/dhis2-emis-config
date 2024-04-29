@@ -4,7 +4,7 @@ import React from "react";
 import { WithPadding } from "../../components";
 import AppList from "../../components/appList/AppList";
 import AppListHeader from "../../components/appList/AppListHeader";
-import { CircularProgress } from "@material-ui/core"
+import { CircularLoader } from '@dhis2/ui'
 import { useGetAppListFromDHIS2, useGetAppListFromDataStore, useGetMe } from "../../hooks/appInstallations";
 
 function AppsInstallation(): React.ReactElement {
@@ -17,7 +17,7 @@ function AppsInstallation(): React.ReactElement {
       {
         (loadingDataStoreAppList || loadingDHIS2AppList) && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <CircularProgress />
+            <CircularLoader small />
             <span style={{ marginLeft: '20px' }}>Loading</span>
           </div>
         )
