@@ -1,14 +1,7 @@
-interface GetEnrollmentFormFieldsProps {
-    dataStoreConfigs: any[]
-    programStages: any[]
-    dataElements: any[]
-    getDataElements: (programStageId: string) => void
-}
-
 interface UseFetchEnrollmentDatasResponse {
     loading: boolean
     data?: {
-        dataStoreConfigs: GetEnrollmentFormFieldsProps["dataStoreConfigs"]
+        dataStoreConfigs: any[]
         dataStoreValues: any[]
     }
     error?: any
@@ -22,7 +15,7 @@ interface LoadProgramStagesResponse {
     }
     error?: any
     refetch?: () => void
-    getProgramStages: (programId: string) => void
+    getProgramStages: (programId: string, filter?: string | undefined | null) => void
 }
 interface LoadDataElementsResponse {
     loading?: boolean
@@ -34,6 +27,17 @@ interface LoadDataElementsResponse {
     getDataElements: (programStageId: string) => void
 }
 
+interface SubmitAttendanceValue {
+    status: string
+    programStage: string
+    absenceReason: string
+}
+
+interface SubmitFinalResultValue {
+    status: string
+    programStage: string
+}
+
 interface SubmitEnrollmentValue {
     programStage: string
     academicYear: string
@@ -41,4 +45,12 @@ interface SubmitEnrollmentValue {
     section: string
 }
 
-export type { LoadProgramStagesResponse, LoadDataElementsResponse, SubmitEnrollmentValue, GetEnrollmentFormFieldsProps, UseFetchEnrollmentDatasResponse }
+interface SubmitTransferValue{
+    programStage: string
+    originSchool: string
+    destinySchool: string
+    reason: string
+    status: string
+}
+
+export type { SubmitAttendanceValue, LoadProgramStagesResponse,SubmitFinalResultValue, LoadDataElementsResponse, SubmitEnrollmentValue, UseFetchEnrollmentDatasResponse, SubmitTransferValue }

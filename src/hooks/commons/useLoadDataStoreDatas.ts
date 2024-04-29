@@ -11,9 +11,10 @@ const query = {
     }
 }
 
-export default function useLoadDataStoreDatas() {
+export default function useLoadDataStoreDatas(lazy: boolean = false) {
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
+        lazy,
         onError: (error: FetchError) => {
             show({
                 message: `Can't load resources : ${error.message}`,

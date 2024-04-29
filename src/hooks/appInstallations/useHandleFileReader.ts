@@ -10,6 +10,8 @@ export interface FileReaderProps {
     event: any
     item: { name: string, id: any }
     dataStoreApps: any[]
+    dataStoreAppsRefresh: any
+    dhis2AppsRefresh: any
 }
 
 export interface ClickOnUploadBtnProp {
@@ -24,6 +26,7 @@ export default function useHandleFileReader() {
     const [currentItem, setCurrentItem] = useState<any>()
     const { updateDataStore } = useUpdateDataStore()
     const { show, hide } = useShowAlerts()
+    // const { refetch } = useLoadDataStoreApps(true)
 
     const clickOnUploadBtn = ({ item }: ClickOnUploadBtnProp) => {
         setCurrentItem(item)
@@ -34,21 +37,25 @@ export default function useHandleFileReader() {
         }
     }
 
-    const handleFileReader = async ({ event, item, dataStoreApps }: FileReaderProps) => {
+    const handleFileReader = async ({ event, item, dataStoreApps, dataStoreAppsRefresh, dhis2AppsRefresh }: FileReaderProps) => {
         try {
             setLoading(true)
+            
             const formData = new FormData()
-            if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
-                throw new Error("The application that you try to install is not the correct one !")
-            }
+            // if (event.target.files[0]?.name?.split('.zip')?.[0] !== item.name) {
+            //     throw new Error("The application that you try to install is not the correct one !")
+            // }
 
             formData.append('file', event.target.files[0], event.target.files[0]?.name)
             const uploadRoute = `${baseUrl}/api/apps.json`
             await axios.post(uploadRoute, formData)
 
-            if (updateDataStore !== undefined) {
-                await updateDataStore({ dataStoreApps, item: { id: item.id } })
-            }
+            // const storeApplicationList = await refetch()
+            // console.log(storeApplicationList)
+            await updateDataStore({ dataStoreApps, item: { id: item.id } })
+
+            dhis2AppsRefresh()
+            dataStoreAppsRefresh()
 
             setLoading(false)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
@@ -62,6 +69,7 @@ export default function useHandleFileReader() {
             })
             setTimeout(hide, 4000)
         } catch (err: any) {
+            console.log("Error: ", err)
             const fileElement: any = document.getElementById(`file-input-${item.id}`)
             if (fileElement !== undefined || fileElement !== null) {
                 fileElement.removeAttribute('value')

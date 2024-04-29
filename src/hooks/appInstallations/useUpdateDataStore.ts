@@ -7,7 +7,8 @@ import type AppItemProps from '../../components/appList/IAppItem'
 
 const mutation: any = {
     resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_APP_NAME}`,
-    data: (payload: any) => payload
+    type: "update",
+    data: ({ payloads }: any) => payloads
 }
 
 const useUpdateDataStore = () => {
@@ -37,7 +38,8 @@ const useUpdateDataStore = () => {
                     }
                     return app
                 })
-                await mutate(payloads)
+
+                await mutate({ payloads })
                 setLoading(false)
             }
         } catch (err: any) {

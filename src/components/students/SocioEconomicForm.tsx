@@ -9,15 +9,15 @@ import { getDataStoreElement } from "../../utils/functions";
 import { useGetSocioEconomicsFormFields, useSocioEconomicsSubmit } from "../../hooks/students";
 import useLoadProgramStages from "../../hooks/commons/useLoadProgramStages";
 import {
-    type LoadProgramStagesResponse,
     type UseFetchEnrollmentDatasResponse
 } from "../../types/students";
 import Loading from "../appList/Loading";
 import useLoadDataStoreDatas from "../../hooks/commons/useLoadDataStoreDatas";
+import style from './ProgramForm.module.css'
 
 export default function SocioEconomicForm(): React.JSX.Element {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
-    const { loadingProgramStages, programStagesDatas, getProgramStages }: LoadProgramStagesResponse = useLoadProgramStages()
+    const { loadingProgramStages, programStagesDatas, getProgramStages } = useLoadProgramStages()
     const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
     const { getFormFields } = useGetSocioEconomicsFormFields()
     const { submit, loadingProcessing } = useSocioEconomicsSubmit()
@@ -26,12 +26,13 @@ export default function SocioEconomicForm(): React.JSX.Element {
         if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "student" })
+            const studentProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "socio-economics", key: "student" })?.programStage?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId)
+                void getProgramStages(programId, studentProgramFilterConfig)
             }
         }
     }, [data])
@@ -54,8 +55,8 @@ export default function SocioEconomicForm(): React.JSX.Element {
                 )
             }
             {
-                data !== undefined &&
-                (programStagesDatas?.programStages !== undefined && programStagesDatas.programStages.length > 0) &&
+                data !== undefined && data !== null &&
+                (programStagesDatas?.programStages !== undefined && programStagesDatas?.programStages !== null && programStagesDatas.programStages.length > 0) &&
                 (
                     <div>
                         <Form
@@ -66,19 +67,26 @@ export default function SocioEconomicForm(): React.JSX.Element {
                                 }
                             }
                             render={
-                                ({ handleSubmit }: any) => (
-                                    <form onSubmit={handleSubmit}>
-                                        <GroupForm
-                                            disabled={false}
-                                            name="socio-economics"
-                                            fields={getFormFields(data, programStagesDatas?.programStages || [])}
-                                        />
-                                        <div style={{ marginTop: '20px', padding: '0px 10px', display: 'flex' }}>
-                                            <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                            <div style={{ marginLeft: '10px' }}><Button type="button">Cancel</Button></div>
+                                ({ handleSubmit, form }: any) => {
+                                    const cancelbtn = () => {
+                                        // form.change('programStage', getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "socio-economics", key: "student" })?.programStage)
+                                    }
+                                    return (
+                                        <div>
+                                            <form onSubmit={handleSubmit}>
+                                                <GroupForm
+                                                    disabled={false}
+                                                    name="socio-economics"
+                                                    fields={getFormFields(data, programStagesDatas?.programStages || [])}
+                                                />
+                                                <div className={style.btnContainer}>
+                                                    <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
+                                                    <div className={style.btnCancel}><Button type="button" disabled onClick={cancelbtn} >Cancel</Button></div>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
-                                )
+                                    )
+                                }
                             }
                         />
 

@@ -10,15 +10,15 @@
 }
 
 .borderInstalled {
-    border: 2px solid #21b26d;
+    border: 1px solid #21b26d;
 }
 
 .borderDisabled {
-    border: 2px solid #EAB631;
+    border: 1px solid #EAB631;
 }
 
 .borderNotInstalled {
-    border: 2px solid #F05C5C;
+    border: 1px solid #F05C5C;
 }
 
 .AppItemContainerFlex {

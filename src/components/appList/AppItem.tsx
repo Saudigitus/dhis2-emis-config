@@ -1,32 +1,40 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Status } from './AppStatus'
 import { Button } from '@dhis2/ui'
 import dayjs from 'dayjs'
 import style from "./AppItem.module.css"
 import { useGetRightColor, useHandleFileReader } from '../../hooks/appInstallations'
 import classNames from 'classnames'
-import { type ClickOnUploadBtnProp, type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
+import { type FileReaderProps } from '../../hooks/appInstallations/useHandleFileReader'
+import { IoSchoolOutline } from 'react-icons/io5'
+import useUploadAppFromAppHub from '../../hooks/appInstallations/useUploadAppFromAppHub'
 
 interface useFileReaderProp {
     loading: boolean
     currentItem: any
-    handleFileReader: ({ dataStoreApps, event, item }: FileReaderProps) => void
-    clickOnUploadBtn: ({ item }: ClickOnUploadBtnProp) => void
+    handleFileReader: ({ dataStoreApps, event, item, dataStoreAppsRefresh, dhis2AppsRefresh }: FileReaderProps) => void
+    clickOnUploadBtn: ({ item }: any) => void
 }
 
 export default function AppItem(item: any): React.ReactElement {
-    const { dataStoreApps, id, me } = item
+    const { dataStoreApps, id, me, dataStoreAppsRefresh, dhis2AppsRefresh, appHubId } = item
     const { getColor } = useGetRightColor()
     const { loading, currentItem, handleFileReader, clickOnUploadBtn }: useFileReaderProp = useHandleFileReader()
+    const { upload, loading: loadingAppHub } = useUploadAppFromAppHub()
+    const [currentItemElement, setCurrentItemElement] = useState<any>(null)
 
     return (
         <>
             <div className={classNames(style.AppItemContainer, getColor(item.status))}>
                 <div className={style.AppItemContainerFlex}>
                     <div>
-                        <img className={style.AppItemImageStyle} src={item.icon} />
+                        {
+                            item.icon?.trim()?.length > 0
+                                ? <img className={style.AppItemImageStyle} src={item.icon} />
+                                : <IoSchoolOutline style={{ fontSize: '35px', color: "blue" }} />
+                        }
                     </div>
                     <div className={style.appItemContainerMarginLeft}>
                         <div className={style.AppItemName}>{item.name}</div>
@@ -38,7 +46,7 @@ export default function AppItem(item: any): React.ReactElement {
                                             Version {`${item.version} - ${item.updatedAt !== undefined ? dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss') : dayjs().format('YYYY-MM-DD HH:mm:ss')}`}
                                         </span>
                                         {
-                                            me?.username !== undefined && (
+                                            0 > 1 && me?.username !== undefined && (
                                                 <span className={style.AppItemBy}>
                                                     {` by ${me?.username}`}
                                                 </span>
@@ -62,16 +70,21 @@ export default function AppItem(item: any): React.ReactElement {
                         <input
                             style={{ display: 'none' }}
                             id={`file-input-${item.id}`}
-                            onChange={(event: any) => { handleFileReader({ event, dataStoreApps, item }) }}
+                            onChange={(event: any) => {
+                                handleFileReader({ event, dataStoreApps, item, dataStoreAppsRefresh, dhis2AppsRefresh })
+                            }}
                             type="file"
                             accept=".zip"
                         />
                         <Button loading={currentItem?.id === item.id ? loading : false} disabled={loading} primary onClick={() => { clickOnUploadBtn({ item: { id } }) }}>
-                            {item.id === currentItem?.id && loading ? <span>Processing...</span> : <span>Upload</span>}
+                            {item.id === currentItem?.id && (Boolean(loading)) ? <span>Processing...</span> : <span>Upload</span>}
                         </Button>
                     </div>
                     <div className={style.AppItemMarginLeft}>
-                        <Button primary>
+                        <Button disabled={item?.appHubId?.trim()?.length > 0 ? false : true} primary loading={currentItemElement?.id === item?.id ? loadingAppHub : false} onClick={() => {
+                            setCurrentItemElement(item)
+                            upload({ dataStoreApps, dataStoreAppsRefresh, dhis2AppsRefresh, appHubId, item: { id } })
+                        }}>
                             {item.status === Status.INSTALLED ? <span>Update from App Hub</span> : <span>Install from App Hub</span>}
                         </Button>
                     </div>

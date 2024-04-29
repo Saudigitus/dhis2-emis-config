@@ -12,26 +12,25 @@ export default function AppListByCategory({ category, data }: AppListByCategoryP
             <Title label={getCategoryName(category)} />
             <div className={style.containerCards}>
                 {
-                    data?.dataStoreApps
-                        .reduce((prev: CardProps[], curr: DataStoreAppInterf) => {
-                            const foundAppFromDhis2: Dhis2AppInterf = data?.dhis2Apps.find((app: { name: string }) => app.name === curr.name)
-                            if (
-                                curr.category === category &&
-                                foundAppFromDhis2 !== undefined &&
-                                foundAppFromDhis2 !== null
-                            ) {
-                                const newPayload: CardProps = {
-                                    icon: getIconUrl(foundAppFromDhis2.baseUrl, foundAppFromDhis2.icons),
-                                    status: getCorrespondingColor(curr.configKey, category, data?.dataStoreConfigs, data?.dataStoreValues),
-                                    timeLabel: "30 min",
-                                    configRoute: curr.configRoute,
-                                    title: curr.name
-                                }
-                                prev.push(newPayload)
+                    data?.dataStoreApps?.reduce((prev: CardProps[], curr: DataStoreAppInterf) => {
+                        const foundAppFromDhis2: Dhis2AppInterf = data?.dhis2Apps.find((app: { name: string }) => app.name === curr.name)
+                        if (
+                            curr.category === category &&
+                            foundAppFromDhis2 !== undefined &&
+                            foundAppFromDhis2 !== null
+                        ) {
+                            const newPayload: CardProps = {
+                                icon: getIconUrl(foundAppFromDhis2.baseUrl, foundAppFromDhis2.icons),
+                                status: getCorrespondingColor(curr.configKey, category, data?.dataStoreConfigs, data?.dataStoreValues),
+                                timeLabel: "30 min",
+                                configRoute: curr.configRoute,
+                                title: curr.name
                             }
-                            return prev
-                        }, [])
-                        .map((app: CardProps) => (
+                            prev.push(newPayload)
+                        }
+                        return prev
+                    }, [])
+                        ?.map((app: CardProps) => (
                             <div key={uuidv4()}>
                                 <DashboardCard
                                     program={app.program}

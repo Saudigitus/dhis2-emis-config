@@ -29,7 +29,6 @@ function ContentFilter(props: ContentFilterProps) {
     };
 
     const addSearchableHeaders = (e: CustomAttributeProps) => {
-        console.log(e);
         const copyHeader = [...headers]
         const copyHeaderLocal = [...localFilters]
 

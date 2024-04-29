@@ -2,6 +2,9 @@ import { Navigate } from "react-router-dom";
 import React from "react";
 import { SideBarLayout, SimpleLayout } from "../../layout"
 import { AppsConfiguration, AppsInstallation, GenericForm, StaffAttendance, StaffEnrollment, StaffProgram, StudentsAttendance, StudentsEnrollment, StudentsPerformance, StudentsProgram, StudentsSocioEconomics } from "../../pages";
+import StudentsFinalResults from "../../pages/students/Student_FinalResultConfig";
+import StudentsTransfer from "../../pages/students/Student_TransferConfig";
+import StaffTransfer from "../../pages/staff/Staff_TransferConfig";
 
 export default function RouteList() {
     return [
@@ -36,19 +39,34 @@ export default function RouteList() {
             component: () => <StudentsPerformance />
         },
         {
-            path: "/staff/program",
+            path: "/students/final-result",
+            layout: SideBarLayout,
+            component: () => <StudentsFinalResults />
+        },
+        {
+            path: "/students/transfer",
+            layout: SideBarLayout,
+            component: () => <StudentsTransfer />
+        },
+        {
+            path: "/staffs/program",
             layout: SideBarLayout,
             component: () => <StaffProgram />
         },
         {
-            path: "/staff/enrollment",
+            path: "/staffs/enrollment",
             layout: SideBarLayout,
             component: () => <StaffEnrollment />
         },
         {
-            path: "/staff/attendance",
+            path: "/staffs/attendance",
             layout: SideBarLayout,
             component: () => <StaffAttendance />
+        },  
+          {
+            path: "/staffs/transfer",
+            layout: SideBarLayout,
+            component: () => <StaffTransfer />
         },
         {
             path: "/apps/installation",
