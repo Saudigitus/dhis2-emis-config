@@ -28,6 +28,84 @@
         "order": 1,
         "resource": "dataElements",
         "valueType": "TEXT"
+      },
+      "type": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Type of object",
+        "inputType": "LIST",
+        "label": "Type of object",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "customOptions",
+        "options": [
+          {
+            "label": "Present",
+            "value": "present"
+          },
+          {
+            "label": "Absent",
+            "value": "absent"
+          },
+          {
+            "label": "Late",
+            "value": "late"
+          },
+          {
+            "label": "Leave",
+            "value": "leave"
+          }
+        ],
+        "valueType": "TEXT"
+      },
+      "code": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Code of object",
+        "inputType": "LIST",
+        "label": "Code of object",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "icon": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Name of icon",
+        "inputType": "TEXT",
+        "label": "Name of icon",
+        "optionSetValue": false,
+        "order": 1,
+        "resource": "",
+        "valueType": "TEXT"
+      },
+      "color": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Hexagesimal Color",
+        "inputType": "TEXT",
+        "label": "Hexagesimal Color",
+        "optionSetValue": false,
+        "order": 1,
+        "resource": "",
+        "valueType": "TEXT"
+      },
+      "table": {
+        "header": [
+          {
+            "displayName":"Type",
+            "key": "type"
+          },
+          {
+            "displayName":"Code",
+            "key": "code"
+          },
+          {
+            "displayName":"Icon",
+            "key": "icon"
+          },
+          {
+            "displayName":"Color",
+            "key": "color"
+          }
+        ]
       }
     },
     "final-result": {

@@ -72,7 +72,12 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     route: "/students/transfer"
                 },
-                
+                {
+                    icon: appsLoggOut,
+                    label: "Default Settings",
+                    showBadge: false,
+                    route: "/students/default-settings"
+                }
             ]
         },
         {
@@ -101,6 +106,12 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Transfer",
                     showBadge: false,
                     route: "/staffs/transfer"
+                },
+                {
+                    icon: appsLoggOut,
+                    label: "Default Settings",
+                    showBadge: false,
+                    route: "/staffs/default-settings"
                 },
             ]
         }
