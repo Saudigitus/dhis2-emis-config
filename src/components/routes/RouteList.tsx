@@ -5,8 +5,7 @@ import { AppsConfiguration, AppsInstallation, GenericForm, StaffAttendance, Staf
 import StudentsFinalResults from "../../pages/students/Student_FinalResultConfig";
 import StudentsTransfer from "../../pages/students/Student_TransferConfig";
 import StaffTransfer from "../../pages/staff/Staff_TransferConfig";
-import StaffDefaultSettings from "../../pages/staff/Staff_DefaultSettings";
-import StudentDefaultSettings from "../../pages/students/Student_DefaultSettings";
+import DefaultSettings from "../../pages/appsOverview/DefaultSettings";
 
 export default function RouteList() {
     return [
@@ -51,9 +50,9 @@ export default function RouteList() {
             component: () => <StudentsTransfer />
         },
         {
-            path: "/students/default-settings",
+            path: "/apps/default-settings",
             layout: SideBarLayout,
-            component: () => <StudentDefaultSettings />
+            component: () => <DefaultSettings />
         },
         {
             path: "/staffs/program",
@@ -74,11 +73,6 @@ export default function RouteList() {
             path: "/staffs/transfer",
             layout: SideBarLayout,
             component: () => <StaffTransfer />
-        },
-        {
-            path: "/staffs/default-settings",
-            layout: SideBarLayout,
-            component: () => <StaffDefaultSettings />
         },
         {
             path: "/apps/installation",

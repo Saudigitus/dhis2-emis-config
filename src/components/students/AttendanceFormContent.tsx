@@ -49,7 +49,11 @@ export default function AttendanceFormContent(
                                 {
                                     programStage: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.programStage,
                                     absenceReason: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.absenceReason,
-                                    status: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.status
+                                    status: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.status,
+                                    absentCode: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.statusOptions?.find((x: any) => x.key === "absent")?.code,
+                                    presentCode: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.statusOptions?.find((x: any) => x.key === "present")?.code,
+                                    lateCode: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.statusOptions?.find((x: any) => x.key === "late")?.code,
+                                    leaveCode: getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "attendance", key: "student" })?.statusOptions?.find((x: any) => x.key === "leave")?.code,
                                 }
                             }
                             render={

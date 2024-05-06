@@ -37,6 +37,21 @@ export default function useTransferSubmit() {
 
             const transfer = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })
 
+            const statusValues = [
+                {
+                    "code": values.penddingCode,
+                    "key": "pending"
+                },
+                {
+                    "code": values.approvedCode,
+                    "key": "approved"
+                },
+                {
+                    "code": values.reprovedCode,
+                    "key": "reproved"
+                }
+            ]
+
             if (foundElement !== undefined) {
                 payload = dataStoreValues.map((el: any) => {
                     if (el.key === foundElement.key) {
@@ -50,6 +65,7 @@ export default function useTransferSubmit() {
                                 originSchool: values.originSchool,
                                 status: values.status,
                                 reason: values.reason,
+                                statusOptions: statusValues.filter(obj => obj.code !== null && obj.code !== undefined),
                                 lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                             }
                         }
@@ -67,6 +83,7 @@ export default function useTransferSubmit() {
                             originSchool: values.originSchool,
                             status: values.status,
                             reason: values.reason,
+                            statusOptions: statusValues.filter(obj => obj.code !== null && obj.code !== undefined),
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
                         }
                     }

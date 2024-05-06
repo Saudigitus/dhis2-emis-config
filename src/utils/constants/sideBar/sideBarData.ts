@@ -24,6 +24,12 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Apps Instalation",
                     showBadge: false,
                     route: "/apps/installation"
+                },
+                {
+                    icon: appsLoggOut,
+                    label: "Default Settings",
+                    showBadge: false,
+                    route: "/apps/default-settings"
                 }
             ]
         },
@@ -71,12 +77,6 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Transfer",
                     showBadge: false,
                     route: "/students/transfer"
-                },
-                {
-                    icon: appsLoggOut,
-                    label: "Default Settings",
-                    showBadge: false,
-                    route: "/students/default-settings"
                 }
             ]
         },
@@ -106,13 +106,7 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Transfer",
                     showBadge: false,
                     route: "/staffs/transfer"
-                },
-                {
-                    icon: appsLoggOut,
-                    label: "Default Settings",
-                    showBadge: false,
-                    route: "/staffs/default-settings"
-                },
+                }
             ]
         }
     ]

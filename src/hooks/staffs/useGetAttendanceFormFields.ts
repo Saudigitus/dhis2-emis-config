@@ -20,7 +20,12 @@ export default function useGetAttendanceFormFields() {
         const foundProgramStage = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "attendance" })?.programStage
         const foundAbsenceReason = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "attendance" })?.absenceReason
         const foundStatus = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "attendance" })?.status
+        const absentCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })?.absentCode
+        const presentCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })?.presentCode
+        const lateCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })?.lateCode
+        const leaveCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })?.leaveCode
 
+        console.log(dataElements);
         if (foundProgramStage !== undefined) {
             formFieldsList.push(
                 {
@@ -89,6 +94,106 @@ export default function useGetAttendanceFormFields() {
                             options: dataElements
                                 .filter((dx: any) => dx.optionSetValue === foundStatus.optionSetValue && dx.valueType === foundStatus.valueType)
                                 .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                        }
+                    }
+                }
+            )
+        }
+
+        if (absentCode !== undefined) {
+            formFieldsList.push(
+                {
+                    id: "absentCode",
+                    displayName: absentCode.label,
+                    header: absentCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: absentCode.label,
+                    description: absentCode.hint,
+                    valueType: absentCode.inputType,
+                    name: "absentCode",
+                    options: {
+                        optionSet: {
+                            id: 'absentCode',
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === absentCode.optionSetValue && dx.valueType === absentCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
+
+        if (presentCode !== undefined) {
+            formFieldsList.push(
+                {
+                    id: "presentCode",
+                    displayName: presentCode.label,
+                    header: presentCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: presentCode.label,
+                    description: presentCode.hint,
+                    valueType: presentCode.inputType,
+                    name: "presentCode",
+                    options: {
+                        optionSet: {
+                            id: 'presentCode',
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === presentCode.optionSetValue && dx.valueType === presentCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
+
+        if (lateCode !== undefined) {
+            formFieldsList.push(
+                {
+                    id: "lateCode",
+                    displayName: lateCode.label,
+                    header: lateCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: lateCode.label,
+                    description: lateCode.hint,
+                    valueType: lateCode.inputType,
+                    name: "lateCode",
+                    options: {
+                        optionSet: {
+                            id: 'lateCode',
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === lateCode.optionSetValue && dx.valueType === lateCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
+
+        if (leaveCode !== undefined) {
+            formFieldsList.push(
+                {
+                    id: "leaveCode",
+                    displayName: leaveCode.label,
+                    header: leaveCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: leaveCode.label,
+                    description: leaveCode.hint,
+                    valueType: leaveCode.inputType,
+                    name: "leaveCode",
+                    options: {
+                        optionSet: {
+                            id: 'leaveCode',
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === leaveCode.optionSetValue && dx.valueType === leaveCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
                         }
                     }
                 }
