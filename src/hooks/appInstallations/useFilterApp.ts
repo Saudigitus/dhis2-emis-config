@@ -8,12 +8,20 @@ interface functionProps {
     dhis2Apps: any[]
 }
 
+function removeDuplicates(data: AppItemProps[]) {
+    return data.filter((item: any, index: any, self: any) => {
+        return index === self.findIndex((t: any) => (
+            t.name === item.name
+        ));
+    });
+}
+
 const useFilterApps = () => {
 
     const filterApps = ({ dataStoreApps, dhis2Apps }: functionProps) => dataStoreApps?.length > 0
-        ? dataStoreApps.reduce((prev: any, cur: any) => {
+        ? removeDuplicates(dataStoreApps).reduce((prev: any, cur: any) => {
+            console.log(dataStoreApps, dhis2Apps);
             const appFounded = dhis2Apps?.find((app: any) => app.name?.trim() === cur.name?.trim() && app.appType === "RESOURCE")
-
             let payload: any = {
                 ...cur,
                 icon: null

@@ -37,6 +37,33 @@ export default function useAttendanceSubmit() {
             const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "student")
             const attendance = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })
 
+            const statusValues = [
+                {
+                    "code": values.absentCode,
+                    "color": "#E57373",
+                    "icon": "Clear",
+                    "key": "absent"
+                },
+                {
+                    "code": values.presentCode,
+                    "color": "#81C784",
+                    "icon": "Done",
+                    "key": "present"
+                },
+                {
+                    "code": values.lateCode,
+                    "color": "#FFB74D",
+                    "icon": "Schedule",
+                    "key": "late"
+                },
+                {
+                    "code": values.leaveCode,
+                    "color": "#FFB74D",
+                    "icon": "Schedule",
+                    "key": "leave"
+                },
+            ]
+
             if (foundElement !== undefined) {
                 payload = dataStoreValues.map((el: any) => {
                     if (el.key === foundElement.key) {
@@ -44,11 +71,11 @@ export default function useAttendanceSubmit() {
                             ...foundElement,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                             attendance: {
-                                ...attendance,
                                 programStage: values.programStage,
                                 status: values.status,
                                 absenceReason: values.absenceReason,
-                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+                                lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                                statusOptions: statusValues.filter(obj => obj.code !== null && obj.code !== undefined)
                             }
                         }
                     }
@@ -65,20 +92,7 @@ export default function useAttendanceSubmit() {
                             status: values.status,
                             absenceReason: values.absenceReason,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-                            statusOptions: [
-                                {
-                                    code: "present",
-                                    icon: "correct_blue_fill"
-                                },
-                                {
-                                    code: "absent",
-                                    icon: "wrong_red_fill"
-                                },
-                                {
-                                    code: "late",
-                                    icon: "clock_orange_fill"
-                                }
-                            ]
+                            statusOptions: statusValues.filter(obj => obj.code !== null && obj.code !== undefined)
                         }
                     }
                 ]

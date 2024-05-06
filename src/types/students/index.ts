@@ -31,6 +31,10 @@ interface SubmitAttendanceValue {
     status: string
     programStage: string
     absenceReason: string
+    absentCode: string
+    presentCode: string
+    lateCode: string
+    leaveCode: string
 }
 
 interface SubmitFinalResultValue {
@@ -51,6 +55,9 @@ interface SubmitTransferValue{
     destinySchool: string
     reason: string
     status: string
+    approvedCode: string
+    penddingCode: string
+    reprovedCode: string
 }
 
 export type { SubmitAttendanceValue, LoadProgramStagesResponse,SubmitFinalResultValue, LoadDataElementsResponse, SubmitEnrollmentValue, UseFetchEnrollmentDatasResponse, SubmitTransferValue }

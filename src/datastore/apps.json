@@ -1,6 +1,6 @@
 [
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "registration",
@@ -13,7 +13,7 @@
     "updatedAt": "2024-01-25T10:25:09.858Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "attendance",
@@ -26,7 +26,7 @@
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "performance",
@@ -39,7 +39,7 @@
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "final-result",
@@ -52,7 +52,7 @@
     "updatedAt": "2024-01-25T10:22:25.500Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "transfer",
@@ -61,11 +61,11 @@
     "folder": "rbTuGJB8W1N",
     "icon": "semis",
     "id": 1,
-    "name": "SEMIS-Student-Transfer",
+    "name": "SEMIS-Transfer",
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "staff",
     "configKey": "registration",
@@ -74,11 +74,11 @@
     "folder": "rbTuGJB8W1N",
     "icon": "semis",
     "id": 10,
-    "name": "SEMIS-Enrollment-Staff",
+    "name": "SEMIS-Enrollment",
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "staff",
     "configKey": "attendance",
@@ -87,11 +87,11 @@
     "folder": "rbTuGJB8W1N",
     "icon": "semis",
     "id": 4,
-    "name": "SEMIS-Attendance-Staff",
+    "name": "SEMIS-Attendance",
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "staff",
     "configKey": "transfer",
@@ -100,11 +100,11 @@
     "folder": "rbTuGJB8W1N",
     "icon": "semis",
     "id": 7,
-    "name": "SEMIS-Staff-Transfer",
+    "name": "SEMIS-Transfer",
     "updatedAt": "2023-09-21T08:57:23.892Z"
   },
   {
-    "appHubId": "8a05188c-5b2d-496d-a08e-595810748d52",
+    "appHubId": "",
     "appType": "RESOURCE",
     "category": "student",
     "configKey": "transfer",
@@ -113,7 +113,7 @@
     "folder": "rbTuGJB8W1N",
     "icon": "semis",
     "id": 9,
-    "name": "SEMIS-Student-Transfer-Execute",
+    "name": "SEMIS-Transfer-Execute",
     "updatedAt": "2023-09-21T08:57:23.892Z"
   }
 ]

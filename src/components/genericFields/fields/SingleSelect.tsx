@@ -18,8 +18,8 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
 
   const options = (props?.options?.optionSet?.options != null)
     ? props?.options.optionSet?.options.map((option: { value: string, label: string }) => ({
-      value: option.value,
-      label: option.label
+      value: option?.value,
+      label: option?.label
     }))
     : [];
 

@@ -28,6 +28,46 @@
         "order": 1,
         "resource": "dataElements",
         "valueType": "TEXT"
+      },
+      "absentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Absent Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "presentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "lateCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Late Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "leaveCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Leave Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
       }
     },
     "final-result": {
@@ -147,6 +187,36 @@
         "order": 2,
         "resource": "dataElements",
         "valueType": "TEXT"
+      },
+      "pending": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Absent Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "approved": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "reproved": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Late Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
       }
     }
   },
@@ -178,6 +248,46 @@
         "optionSetValue": true,
         "order": 1,
         "resource": "dataElements",
+        "valueType": "TEXT"
+      },
+      "absentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Absent Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "presentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "lateCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Late Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "leaveCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Leave Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
         "valueType": "TEXT"
       }
     },
@@ -229,6 +339,64 @@
         "optionSetValue": true,
         "order": 2,
         "resource": "dataElements",
+        "valueType": "TEXT"
+      }
+    },
+    "transfer": {
+      "destinySchool": {
+        "filter": "valueType:eq:ORGANISATION_UNIT",
+        "hint": "Organisation Unit  Data Element",
+        "inputType": "LIST",
+        "label": "Destiny School",
+        "order": 1,
+        "resource": "dataElements"
+      },
+      "programStage": {
+        "filter": "repeatable:eq:true",
+        "hint": "Repeatable Program Stage",
+        "inputType": "LIST",
+        "label": "Destiny School",
+        "order": 0,
+        "resource": "programStages"
+      },
+      "status": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Data Element",
+        "inputType": "LIST",
+        "label": "Destiny School",
+        "optionSetValue": true,
+        "order": 2,
+        "resource": "dataElements",
+        "valueType": "TEXT"
+      },
+      "pending": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Absent Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "approved": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "reproved": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Late Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
         "valueType": "TEXT"
       }
     }

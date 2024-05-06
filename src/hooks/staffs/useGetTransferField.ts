@@ -24,6 +24,9 @@ export default function useGetTransferField() {
         const foundOriginSchool = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.originSchool
         const foundStatus = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.status
         const foundReason = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.reason
+        const penddingCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.penddingCode
+        const approvedCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.approvedCode
+        const reprovedCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.reprovedCode
 
         if (foundProgramStage !== undefined && foundProgramStage !== null) {
             formFieldsList.push(
@@ -149,6 +152,81 @@ export default function useGetTransferField() {
             )
         }
 
+        
+        if (penddingCode !== undefined && penddingCode !== null) {
+            formFieldsList.push(
+                {
+                    id: "destinySchool",
+                    displayName: penddingCode.label,
+                    header: penddingCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: penddingCode.label,
+                    description: penddingCode.hint,
+                    valueType: penddingCode.inputType,
+                    name: "penddingCode",
+                    options: {
+                        optionSet: {
+                            id: 'penddingCode',
+                            options: dataElements
+                            .filter((dx: any) => dx.optionSetValue === penddingCode.optionSetValue && dx.valueType === penddingCode.valueType)
+                            .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
+
+        if (approvedCode !== undefined && approvedCode !== null) {
+            formFieldsList.push(
+                {
+                    id: "destinySchool",
+                    displayName: approvedCode.label,
+                    header: approvedCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: approvedCode.label,
+                    description: approvedCode.hint,
+                    valueType: approvedCode.inputType,
+                    name: "approvedCode",
+                    options: {
+                        optionSet: {
+                            id: 'approvedCode',
+                            options: dataElements
+                            .filter((dx: any) => dx.optionSetValue === approvedCode.optionSetValue && dx.valueType === approvedCode.valueType)
+                            .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
+
+        if (reprovedCode !== undefined && reprovedCode !== null) {
+            formFieldsList.push(
+                {
+                    id: "destinySchool",
+                    displayName: reprovedCode.label,
+                    header: reprovedCode.label,
+                    required: false,
+                    visible: true,
+                    disabled: false,
+                    labelName: reprovedCode.label,
+                    description: reprovedCode.hint,
+                    valueType: reprovedCode.inputType,
+                    name: "reprovedCode",
+                    options: {
+                        optionSet: {
+                            id: 'reprovedCode',
+                            options: dataElements
+                            .filter((dx: any) => dx.optionSetValue === reprovedCode.optionSetValue && dx.valueType === reprovedCode.valueType)
+                            .flatMap((x: any) => x?.optionSet?.options) || []
+                        }
+                    }
+                }
+            )
+        }
 
         return formFieldsList
     }
