@@ -47,6 +47,7 @@ interface SubmitEnrollmentValue {
     academicYear: string
     grade: string
     section: string
+    activeAcademicYear: string
 }
 
 interface SubmitTransferValue{

@@ -14,6 +14,7 @@ export default function useGetEnrollmentField() {
         const foundAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.academicYear
         const foundGrade = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.grade
         const foundSection = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "registration" })?.section
+        const activeAcademicYear = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "registration" })?.activeAcademicYear
 
         if (foundProgramStage !== undefined && foundProgramStage !== null) {
             formFieldsList.push(
@@ -56,6 +57,31 @@ export default function useGetEnrollmentField() {
                         optionSet: {
                             id: 'academicYear',
                             options: dataElements.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                        }
+                    }
+                }
+            )
+        }
+
+        if (activeAcademicYear !== undefined && activeAcademicYear !== null) {
+            formFieldsList.push(
+                {
+                    id: "academicYear",
+                    displayName: activeAcademicYear.label,
+                    header: activeAcademicYear.label,
+                    required: true,
+                    visible: true,
+                    disabled: false,
+                    labelName: activeAcademicYear.label,
+                    description: activeAcademicYear.hint,
+                    valueType: activeAcademicYear.inputType,
+                    name: "activeAcademicYear",
+                    options: {
+                        optionSet: {
+                            id: 'activeAcademicYear',
+                            options: dataElements
+                                .filter((dx: any) => dx.optionSetValue === activeAcademicYear.optionSetValue && dx.valueType === activeAcademicYear.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
                         }
                     }
                 }
