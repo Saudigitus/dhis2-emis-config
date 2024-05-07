@@ -47,6 +47,10 @@ export default function useEnrollmentSubmit() {
                                 section: values.section,
                                 academicYear: values.academicYear,
                                 lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+                            },
+                            defaults: {
+                                "allowSearching": true,
+                                "currentAcademicYear": values.activeAcademicYear
                             }
                         }
                     }
@@ -64,6 +68,10 @@ export default function useEnrollmentSubmit() {
                             section: values.section,
                             academicYear: values.academicYear,
                             lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss')
+                        },
+                        defaults: {
+                            "allowSearching": true,
+                            "currentAcademicYear": values.activeAcademicYear
                         }
                     }
                 ]

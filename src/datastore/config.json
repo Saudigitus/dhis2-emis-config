@@ -11,39 +11,11 @@
         "resource": "dataElements",
         "valueType": "TEXT"
       },
-      "programStage": {
-        "filter": "repeatable:eq:true",
-        "hint": "Repeatable Program Stage",
-        "inputType": "LIST",
-        "label": "Attendance Program Stage",
-        "order": 0,
-        "resource": "programStages"
-      },
-      "status": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "Data Element with option sets",
-        "inputType": "LIST",
-        "label": "Attendance Status",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "dataElements",
-        "valueType": "TEXT"
-      },
       "absentCode": {
         "filter": "valueType:eq:TEXT",
         "hint": "option sets",
         "inputType": "LIST",
         "label": "Absent Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "presentCode": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Present Code",
         "optionSetValue": true,
         "order": 1,
         "resource": "optionSets",
@@ -67,6 +39,34 @@
         "optionSetValue": true,
         "order": 1,
         "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "presentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "programStage": {
+        "filter": "repeatable:eq:true",
+        "hint": "Repeatable Program Stage",
+        "inputType": "LIST",
+        "label": "Attendance Program Stage",
+        "order": 0,
+        "resource": "programStages"
+      },
+      "status": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Data Element with option sets",
+        "inputType": "LIST",
+        "label": "Attendance Status",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "dataElements",
         "valueType": "TEXT"
       }
     },
@@ -122,6 +122,16 @@
         "resource": "dataElements",
         "valueType": "TEXT"
       },
+      "activeAcademicYear": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Data optionally with Option Sets",
+        "inputType": "LIST",
+        "label": "Active Academic Year",
+        "optionSetValue": true,
+        "order": 2,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
       "grade": {
         "filter": "valueType:eq:TEXT",
         "hint": "Data Element with Option Sets",
@@ -162,6 +172,16 @@
       }
     },
     "transfer": {
+      "approvedCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Approved Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
       "destinySchool": {
         "filter": "valueType:eq:ORGANISATION_UNIT",
         "hint": "Organisation Unit  Data Element",
@@ -169,6 +189,16 @@
         "label": "Destiny School",
         "order": 1,
         "resource": "dataElements"
+      },
+      "penddingCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Pedding Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
       },
       "programStage": {
         "filter": "repeatable:eq:true",
@@ -178,6 +208,16 @@
         "order": 0,
         "resource": "programStages"
       },
+      "reprovedCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Reproved Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
       "status": {
         "filter": "valueType:eq:TEXT",
         "hint": "Data Element",
@@ -186,36 +226,6 @@
         "optionSetValue": true,
         "order": 2,
         "resource": "dataElements",
-        "valueType": "TEXT"
-      },
-      "pending": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Absent Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "approved": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Present Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "reproved": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Late Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
         "valueType": "TEXT"
       }
     }
@@ -232,39 +242,11 @@
         "resource": "dataElements",
         "valueType": "TEXT"
       },
-      "programStage": {
-        "filter": "repeatable:eq:true",
-        "hint": "Repeatable ProgramStage",
-        "inputType": "LIST",
-        "label": "Attendance Program Stage",
-        "order": 0,
-        "resource": "programStages"
-      },
-      "status": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "Data Element",
-        "inputType": "LIST",
-        "label": "Attendance Status",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "dataElements",
-        "valueType": "TEXT"
-      },
       "absentCode": {
         "filter": "valueType:eq:TEXT",
         "hint": "option sets",
         "inputType": "LIST",
         "label": "Absent Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "presentCode": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Present Code",
         "optionSetValue": true,
         "order": 1,
         "resource": "optionSets",
@@ -289,6 +271,34 @@
         "order": 1,
         "resource": "optionSets",
         "valueType": "TEXT"
+      },
+      "presentCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Present Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "programStage": {
+        "filter": "repeatable:eq:true",
+        "hint": "Repeatable ProgramStage",
+        "inputType": "LIST",
+        "label": "Attendance Program Stage",
+        "order": 0,
+        "resource": "programStages"
+      },
+      "status": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Data Element",
+        "inputType": "LIST",
+        "label": "Attendance Status",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "dataElements",
+        "valueType": "TEXT"
       }
     },
     "key": "staff",
@@ -311,6 +321,16 @@
         "optionSetValue": true,
         "order": 2,
         "resource": "dataElements",
+        "valueType": "TEXT"
+      },
+      "activeAcademicYear": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "Data optionally with Option Sets",
+        "inputType": "LIST",
+        "label": "Active Academic Year",
+        "optionSetValue": true,
+        "order": 2,
+        "resource": "optionSets",
         "valueType": "TEXT"
       },
       "grade": {
@@ -343,6 +363,16 @@
       }
     },
     "transfer": {
+      "approvedCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Approved Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
       "destinySchool": {
         "filter": "valueType:eq:ORGANISATION_UNIT",
         "hint": "Organisation Unit  Data Element",
@@ -350,6 +380,16 @@
         "label": "Destiny School",
         "order": 1,
         "resource": "dataElements"
+      },
+      "penddingCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Pedding Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
       },
       "programStage": {
         "filter": "repeatable:eq:true",
@@ -359,6 +399,16 @@
         "order": 0,
         "resource": "programStages"
       },
+      "reprovedCode": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Reproved Code",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
       "status": {
         "filter": "valueType:eq:TEXT",
         "hint": "Data Element",
@@ -367,36 +417,6 @@
         "optionSetValue": true,
         "order": 2,
         "resource": "dataElements",
-        "valueType": "TEXT"
-      },
-      "pending": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Absent Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "approved": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Present Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
-        "valueType": "TEXT"
-      },
-      "reproved": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "option sets",
-        "inputType": "LIST",
-        "label": "Late Code",
-        "optionSetValue": true,
-        "order": 1,
-        "resource": "optionSets",
         "valueType": "TEXT"
       }
     }
