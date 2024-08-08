@@ -24,12 +24,6 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Apps Instalation",
                     showBadge: false,
                     route: "/apps/installation"
-                },
-                {
-                    icon: appsLoggOut,
-                    label: "Default Settings",
-                    showBadge: false,
-                    route: "/apps/default-settings"
                 }
             ]
         },
