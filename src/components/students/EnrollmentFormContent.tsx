@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { GroupForm } from "..";
 import { Form } from "react-final-form"
 import { Button } from '@dhis2/ui'
@@ -31,6 +31,8 @@ export default function EnrollmentFormContent(
         getDataElements: any
     }
 ): React.JSX.Element {
+    const [edit, setedit] = useState(false)
+
     return (
         <>
             {
@@ -79,8 +81,19 @@ export default function EnrollmentFormContent(
                                                         })}
                                                 />
                                                 <div className={style.btnContainer}>
-                                                    <div><Button type="submit" primary loading={loadingProcessing}>Save</Button></div>
-                                                    <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
+                                                    {edit ?
+                                                        <>
+                                                            <div>
+                                                                <Button type="submit" primary loading={loadingProcessing}>Save</Button>
+                                                            </div>
+                                                            <div className={style.btnCancel}><Button disabled onClick={handleCancel} type="button">Cancel</Button></div>
+                                                        </>
+                                                        :
+                                                        <div>
+                                                            <Button onClick={() => setedit(true)} primary>Edit</Button>
+                                                        </div>
+                                                    }
+
                                                 </div>
                                             </form>
                                         </div>
