@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
 import { SideBarLayout, SimpleLayout } from "../../layout"
-import { AppsConfiguration, AppsInstallation, GenericForm, StaffAttendance, StaffEnrollment, StaffProgram, StudentsAttendance, StudentsEnrollment, StudentsPerformance, StudentsProgram, StudentsSocioEconomics } from "../../pages";
+import { AppsConfiguration, AppsInstallation, GenericForm, StaffAttendance, StaffEnrollment, StaffProgram, StudentWizard, StudentsAttendance, StudentsEnrollment, StudentsPerformance, StudentsProgram, StudentsSocioEconomics } from "../../pages";
 import StudentsFinalResults from "../../pages/students/Student_FinalResultConfig";
 import StudentsTransfer from "../../pages/students/Student_TransferConfig";
 import StaffTransfer from "../../pages/staff/Staff_TransferConfig";
@@ -13,6 +13,11 @@ export default function RouteList() {
             path: "/",
             layout: SimpleLayout,
             component: () => <Navigate to="/students/program" replace />
+        },
+        {
+            path: "/students/wizard",
+            layout: SideBarLayout,
+            component: () => <StudentWizard />
         },
         {
             path: "/students/program",

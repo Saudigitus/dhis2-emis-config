@@ -45,6 +45,7 @@ interface ProgramSubmitValueProps {
     data: {
         dataStoreValues: any[]
     }
+    goToNext?: () => void
 }
 
 interface ProgramFormFieldProps {

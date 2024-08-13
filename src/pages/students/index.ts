@@ -3,4 +3,12 @@ import StudentsEnrollment from "./Student_EnrollmentConfig";
 import StudentsProgram from "./Student_ProgramConfig";
 import StudentsPerformance from "./Student_PerformanceConfig";
 import StudentsSocioEconomics from "./Student_SocioEconomicsConfig";
-export {StudentsEnrollment, StudentsProgram, StudentsPerformance, StudentsAttendance, StudentsSocioEconomics}
+import StudentWizard from "./Student_Wizard";
+export {
+  StudentsEnrollment,
+  StudentsProgram,
+  StudentsPerformance,
+  StudentsAttendance,
+  StudentsSocioEconomics,
+  StudentWizard
+};

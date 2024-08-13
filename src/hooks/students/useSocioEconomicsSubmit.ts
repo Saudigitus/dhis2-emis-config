@@ -10,7 +10,7 @@ export default function useSocioEconomicsSubmit() {
   const { mutate } = useUpdateConfigValues()
   const { show, hide } = useShowAlerts()
 
-  const submit = async (values: { programStage: string }, dataStoreValues: any[], dataStoreConfigs: any[]) => {
+  const submit = async (values: { programStage: string }, dataStoreValues: any[], dataStoreConfigs: any[], goToNext: any) => {
     try {
       console.log("values: ", values)
       setLoadingProcessing(true)
@@ -53,6 +53,9 @@ export default function useSocioEconomicsSubmit() {
       }
 
       await mutate({ data: payload })
+      if (goToNext !== undefined) {
+        goToNext()
+      }
       setLoadingProcessing(false)
       show({
         message: `Operation success !`,
