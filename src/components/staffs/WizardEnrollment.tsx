@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { NoticeBox, Button } from '@dhis2/ui'
 import { getDataStoreElement } from '../../utils/functions'
-import useGetEnrollmentField from '../../hooks/students/useGetEnrollmentField'
 import useLoadProgramStages from '../../hooks/commons/useLoadProgramStages'
 import useLoadDataElements from '../../hooks/commons/useLoadDataElements'
-import useEnrollmentSubmit from '../../hooks/students/useEnrollmentSubmit'
-import useLoadDataStoreDatas from '../../hooks/commons/useLoadDataStoreDatas'
 import Loading from '../appList/Loading'
-import style from './index.module.css'
+import useLoadDataStoreDatas from '../../hooks/commons/useLoadDataStoreDatas'
+import { useEnrollmentSubmit, useGetEnrollmentField } from '../../hooks/staffs'
 
 import { Form } from 'react-final-form'
 import GroupForm from '../form/GroupForm'
-import { type SubmitEnrollmentValue } from '../../types/students'
 import { IoIosArrowRoundForward } from 'react-icons/io'
+
+import style from './index.module.css'
 
 interface WizardPageProps {
     setWizardSetp: React.Dispatch<React.SetStateAction<number>>
@@ -27,22 +26,22 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
     const { data, loading, error } = useLoadDataStoreDatas()
 
     useEffect(() => {
-        if (data?.dataStoreValues && data?.dataStoreConfigs) {
+        if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({
                 dataStores: data.dataStoreValues,
                 elementKey: 'program',
-                key: 'student'
+                key: 'staff'
             })
             const programStageId = getDataStoreElement({
                 dataStores: data?.dataStoreValues,
                 elementKey: 'registration',
-                key: 'student'
+                key: 'staff'
             })?.programStage
-            const studentProgramFilterConfig = getDataStoreElement({
+            const staffProgramFilterConfig = getDataStoreElement({
                 dataStores: data?.dataStoreConfigs,
                 elementKey: 'registration',
-                key: 'student'
+                key: 'staff'
             })?.programStage?.filter
 
             if (programId === undefined) {
@@ -50,14 +49,13 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
             }
 
             if (programId !== null && programId !== undefined) {
-                void getProgramStages(programId, studentProgramFilterConfig)
+                getProgramStages(programId, staffProgramFilterConfig)
             }
             if (programStageId !== null && programStageId !== undefined) {
-                void getDataElements(programStageId)
+                getDataElements(programStageId)
             }
         }
     }, [data])
-
     return (
         <>
             <Loading loadings={[loading, loadingProgramStages]} />
@@ -76,7 +74,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
-                            onSubmit={async (value: SubmitEnrollmentValue) => {
+                            onSubmit={async (value: any) => {
                                 await submit(value, data.dataStoreValues, data.dataStoreConfigs, () => {
                                     setWizardSetp(2)
                                 })
@@ -87,7 +85,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                         <form onSubmit={handleSubmit}>
                                             <GroupForm
                                                 disabled={false}
-                                                name="Student Enrollment"
+                                                name="Staff Enrollment"
                                                 fields={getFormFields({
                                                     dataStoreConfigs: data.dataStoreConfigs,
                                                     programStages: programStagesDatas?.programStages,
@@ -104,7 +102,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                             defaultValue: getDataStoreElement({
                                                                 dataStores: data.dataStoreValues,
                                                                 elementKey: 'registration',
-                                                                key: 'student'
+                                                                key: 'staff'
                                                             })?.programStage
                                                         }
                                                     }
@@ -114,7 +112,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                             defaultValue: getDataStoreElement({
                                                                 dataStores: data.dataStoreValues,
                                                                 elementKey: 'registration',
-                                                                key: 'student'
+                                                                key: 'staff'
                                                             })?.grade
                                                         }
                                                     }
@@ -124,7 +122,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                             defaultValue: getDataStoreElement({
                                                                 dataStores: data.dataStoreValues,
                                                                 elementKey: 'registration',
-                                                                key: 'student'
+                                                                key: 'staff'
                                                             })?.section
                                                         }
                                                     }
@@ -134,7 +132,7 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                             defaultValue: getDataStoreElement({
                                                                 dataStores: data.dataStoreValues,
                                                                 elementKey: 'registration',
-                                                                key: 'student'
+                                                                key: 'staff'
                                                             })?.academicYear
                                                         }
                                                     }
@@ -157,22 +155,22 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                 {getDataStoreElement({
                                                     dataStores: data.dataStoreValues,
                                                     elementKey: 'registration',
-                                                    key: 'student'
+                                                    key: 'staff'
                                                 })?.programStage &&
                                                     getDataStoreElement({
                                                         dataStores: data.dataStoreValues,
                                                         elementKey: 'registration',
-                                                        key: 'student'
+                                                        key: 'staff'
                                                     })?.grade &&
                                                     getDataStoreElement({
                                                         dataStores: data.dataStoreValues,
                                                         elementKey: 'registration',
-                                                        key: 'student'
+                                                        key: 'staff'
                                                     })?.section &&
                                                     getDataStoreElement({
                                                         dataStores: data.dataStoreValues,
                                                         elementKey: 'registration',
-                                                        key: 'student'
+                                                        key: 'staff'
                                                     })?.academicYear && (
                                                         <div>
                                                             <Button

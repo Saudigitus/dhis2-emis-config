@@ -22,11 +22,11 @@ export default function useAttendanceSubmit() {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
-
+            console.log("values : ", values)
+            
             if (values.absenceReason === null || values.absenceReason === undefined) {
                 throw new Error("Absence Reason is required !")
             }
-
             if (values.programStage === null || values.programStage === undefined) {
                 throw new Error("Program stage is required !")
             }

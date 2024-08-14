@@ -1,11 +1,12 @@
 import React from 'react'
-import Loading from '../appList/Loading'
-import { useGetProgramFormField, useSubmitProgramDatas } from '../../hooks/students'
-import useLoadPrograms from '../../hooks/commons/useLoadPrograms'
 import { NoticeBox, Button } from '@dhis2/ui'
+import { GroupForm } from '..'
 import { Form } from 'react-final-form'
-import GroupForm from '../form/GroupForm'
 import { getDataStoreElement } from '../../utils/functions'
+import { type SubmitProgramDataProps, type FetchProgramDatasHooksProps } from '../../types/moduleConfigurations'
+import useLoadPrograms from '../../hooks/commons/useLoadPrograms'
+import { useGetProgramFormField, useSubmitProgramDatas } from '../../hooks/staffs'
+import Loading from '../appList/Loading'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import style from './index.module.css'
 
@@ -14,10 +15,9 @@ interface WizardPageProps {
 }
 
 export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
-    const { data, error, loading } = useLoadPrograms()
     const { getFormFields } = useGetProgramFormField()
-    const { loadingProcessing, submit } = useSubmitProgramDatas()
-
+    const { loadingProcessing, submit }: SubmitProgramDataProps = useSubmitProgramDatas()
+    const { data, error, loading }: FetchProgramDatasHooksProps = useLoadPrograms()
     return (
         <>
             <Loading loadings={[loading]} />
@@ -31,8 +31,8 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
-                            onSubmit={async (values: { program: string }) => {
-                                await submit({
+                            onSubmit={(values: { program: string }) => {
+                                submit({
                                     data,
                                     program: values.program,
                                     goToNext: () => {
@@ -46,7 +46,7 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                         <form onSubmit={handleSubmit}>
                                             <GroupForm
                                                 disabled={false}
-                                                name="Student Program"
+                                                name="Staffs Program"
                                                 fields={getFormFields({
                                                     programs: data.programs,
                                                     data
@@ -56,7 +56,7 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                                         defaultValue: getDataStoreElement({
                                                             dataStores: data?.dataStoreValues,
                                                             elementKey: 'program',
-                                                            key: 'student'
+                                                            key: 'staff'
                                                         })
                                                     }
                                                 })}
@@ -74,10 +74,9 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                                         </Button>
                                                     </div>
                                                 </div>
-                                                {getDataStoreElement({
-                                                    dataStores: data?.dataStoreValues,
-                                                    elementKey: 'program',
-                                                    key: 'student'
+                                                {getFormFields({
+                                                    programs: data.programs,
+                                                    data
                                                 })?.length > 0 && (
                                                     <div>
                                                         <Button

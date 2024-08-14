@@ -11,7 +11,7 @@ export default function useEnrollmentSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async (values: SubmitEnrollmentValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
+    const submit = async (values: SubmitEnrollmentValue, dataStoreValues: any[], dataStoreConfigs: any[], gotToNext?: any) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
@@ -78,6 +78,9 @@ export default function useEnrollmentSubmit() {
             }
 
             await mutate({ data: payload })
+            if (gotToNext){
+                gotToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

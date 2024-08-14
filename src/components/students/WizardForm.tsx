@@ -7,6 +7,7 @@ import WizardAttendance from "./WizardAttendance";
 import WizardPerformance from "./WizardPerformance";
 import WizardFinalResult from "./WizardFinalResult";
 import WizardTransfer from "./WizardTransfer";
+import WizardConfigDone from "./WizardConfigDone";
 
 const steps = [
   { label: "Program" },
@@ -15,47 +16,58 @@ const steps = [
   { label: "Attendance" },
   { label: "Performance" },
   { label: "Final Result" },
-  { label: "Transfer" }
-]
+  { label: "Transfer" },
+];
 
 export default function WizardForm() {
-  const [wizardStep, setWizardSetp] = useState(0)
+  const [wizardStep, setWizardSetp] = useState(0);
 
   const RenderContent = () => {
     switch (wizardStep) {
       case 0:
-        return <WizardProgram setWizardSetp={setWizardSetp} />
+        return <WizardProgram setWizardSetp={setWizardSetp} />;
       case 1:
-        return <WizardEnrollment setWizardSetp={setWizardSetp} />
+        return <WizardEnrollment setWizardSetp={setWizardSetp} />;
       case 2:
-        return <WizardSocioEconomics setWizardSetp={setWizardSetp} />
+        return <WizardSocioEconomics setWizardSetp={setWizardSetp} />;
       case 3:
-        return <WizardAttendance setWizardSetp={setWizardSetp} />
+        return <WizardAttendance setWizardSetp={setWizardSetp} />;
       case 4:
-        return <WizardPerformance setWizardSetp={setWizardSetp} />
+        return <WizardPerformance setWizardSetp={setWizardSetp} />;
       case 5:
-        return <WizardFinalResult setWizardSetp={setWizardSetp} />
+        return <WizardFinalResult setWizardSetp={setWizardSetp} />;
       case 6:
-        return <WizardTransfer setWizardSetp={setWizardSetp} />
+        return <WizardTransfer setWizardSetp={setWizardSetp} />;
+      case 7:
+        return <WizardConfigDone />;
       default:
-        return <></>
+        return <></>;
     }
-  }
+  };
 
   return (
     <>
       <Stepper
         activeStep={wizardStep}
         connectorStateColors={true}
-        styleConfig={{ size: 40, activeBgColor: 'blue', completedBgColor: 'green' }}
+        styleConfig={{
+          size: 40,
+          activeBgColor: "blue",
+          completedBgColor: "green",
+        }}
         connectorStyleConfig={{
-          activeColor: 'green'
+          activeColor: "green",
         }}
       >
-        {
-          steps.map((step, index) => <Step
-            key={index} onClick={() => { setWizardSetp(index) }} label={step.label} />)
-        }
+        {steps.map((step, index) => (
+          <Step
+            key={index}
+            onClick={() => {
+              setWizardSetp(index);
+            }}
+            label={step.label}
+          />
+        ))}
       </Stepper>
       <RenderContent />
     </>

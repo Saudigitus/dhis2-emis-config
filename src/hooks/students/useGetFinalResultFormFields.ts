@@ -10,7 +10,7 @@ interface FormFieldProps {
 
 export default function useGetFinalResultFormFields() {
     const onProgramStageSelected = (value: any, getDataElements: (programStageId: string) => void) => {
-        if (getDataElements !== undefined && getDataElements !== null) {
+        if (getDataElements) {
             getDataElements(value.value)
         }
     }

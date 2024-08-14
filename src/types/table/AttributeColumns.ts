@@ -8,6 +8,7 @@ export interface CustomAttributeProps {
     required: string | boolean
     name: string
     labelName: string
+    defaultValue?: any
     description?: string
     valueType: typeof Attribute.valueType
     multiple?: boolean

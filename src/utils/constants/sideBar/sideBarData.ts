@@ -85,6 +85,12 @@ function sideBarData(): SideBarItemProps[] {
             subItems: [
                 {
                     icon: settings,
+                    label: "Wizard",
+                    showBadge: false,
+                    route: "/staffs/wizard"
+                },
+                {
+                    icon: settings,
                     label: "Program",
                     showBadge: false,
                     route: "/staffs/program"

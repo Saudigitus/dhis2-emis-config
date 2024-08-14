@@ -6,91 +6,97 @@ import StudentsFinalResults from "../../pages/students/Student_FinalResultConfig
 import StudentsTransfer from "../../pages/students/Student_TransferConfig";
 import StaffTransfer from "../../pages/staff/Staff_TransferConfig";
 import DefaultSettings from "../../pages/appsOverview/DefaultSettings";
+import { StaffWizard } from "../../pages/staff";
 
 export default function RouteList() {
     return [
         {
-            path: "/",
+            path: '/',
             layout: SimpleLayout,
             component: () => <Navigate to="/students/program" replace />
         },
         {
-            path: "/students/wizard",
+            path: '/students/wizard',
             layout: SideBarLayout,
             component: () => <StudentWizard />
         },
         {
-            path: "/students/program",
+            path: '/students/program',
             layout: SideBarLayout,
             component: () => <StudentsProgram />
         },
         {
-            path: "/students/enrollment",
+            path: '/students/enrollment',
             layout: SideBarLayout,
             component: () => <StudentsEnrollment />
         },
         {
-            path: "/students/socio-economics",
+            path: '/students/socio-economics',
             layout: SideBarLayout,
             component: () => <StudentsSocioEconomics />
         },
         {
-            path: "/students/attendance",
+            path: '/students/attendance',
             layout: SideBarLayout,
             component: () => <StudentsAttendance />
         },
         {
-            path: "/students/performance",
+            path: '/students/performance',
             layout: SideBarLayout,
             component: () => <StudentsPerformance />
         },
         {
-            path: "/students/final-result",
+            path: '/students/final-result',
             layout: SideBarLayout,
             component: () => <StudentsFinalResults />
         },
         {
-            path: "/students/transfer",
+            path: '/students/transfer',
             layout: SideBarLayout,
             component: () => <StudentsTransfer />
         },
         {
-            path: "/apps/default-settings",
+            path: '/apps/default-settings',
             layout: SideBarLayout,
             component: () => <DefaultSettings />
         },
         {
-            path: "/staffs/program",
+            path: '/staffs/wizard',
+            layout: SideBarLayout,
+            component: () => <StaffWizard />
+        },
+        {
+            path: '/staffs/program',
             layout: SideBarLayout,
             component: () => <StaffProgram />
         },
         {
-            path: "/staffs/enrollment",
+            path: '/staffs/enrollment',
             layout: SideBarLayout,
             component: () => <StaffEnrollment />
         },
         {
-            path: "/staffs/attendance",
+            path: '/staffs/attendance',
             layout: SideBarLayout,
             component: () => <StaffAttendance />
         },
         {
-            path: "/staffs/transfer",
+            path: '/staffs/transfer',
             layout: SideBarLayout,
             component: () => <StaffTransfer />
         },
         {
-            path: "/apps/installation",
+            path: '/apps/installation',
             layout: SideBarLayout,
             component: () => <AppsInstallation />
         },
         {
-            path: "/apps/configuration",
+            path: '/apps/configuration',
             layout: SideBarLayout,
             component: () => <AppsConfiguration />
         },
         {
-            path: "/form",
+            path: '/form',
             layout: SideBarLayout,
             component: GenericForm
         }
