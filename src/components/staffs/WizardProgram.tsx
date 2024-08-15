@@ -31,6 +31,13 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
+                            initialValues={{
+                                program: getDataStoreElement({
+                                    dataStores: data?.dataStoreValues,
+                                    elementKey: 'program',
+                                    key: 'staff'
+                                })
+                            }}
                             onSubmit={(values: { program: string }) => {
                                 submit({
                                     data,
@@ -50,15 +57,6 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                                 fields={getFormFields({
                                                     programs: data.programs,
                                                     data
-                                                }).map((p) => {
-                                                    return {
-                                                        ...p,
-                                                        defaultValue: getDataStoreElement({
-                                                            dataStores: data?.dataStoreValues,
-                                                            elementKey: 'program',
-                                                            key: 'staff'
-                                                        })
-                                                    }
                                                 })}
                                             />
                                             <div className={style.flexBetween}>
@@ -74,9 +72,10 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                                         </Button>
                                                     </div>
                                                 </div>
-                                                {getFormFields({
-                                                    programs: data.programs,
-                                                    data
+                                                {getDataStoreElement({
+                                                    dataStores: data?.dataStoreValues,
+                                                    elementKey: 'program',
+                                                    key: 'staff'
                                                 })?.length > 0 && (
                                                     <div>
                                                         <Button

@@ -10,6 +10,7 @@ interface SubmitFuctionProps {
     values: SubmitAttendanceValue
     dataStoreValues: any[]
     dataStoreConfigs: any[]
+    goToNext?: () => void
 }
 
 export default function useAttendanceSubmit() {
@@ -17,7 +18,7 @@ export default function useAttendanceSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async ({ dataStoreConfigs, dataStoreValues, values }: SubmitFuctionProps) => {
+    const submit = async ({ dataStoreConfigs, dataStoreValues, values, goToNext }: SubmitFuctionProps) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
@@ -99,6 +100,9 @@ export default function useAttendanceSubmit() {
             }
 
             await mutate({ data: payload })
+            if (goToNext) {
+                goToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

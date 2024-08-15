@@ -25,10 +25,6 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
               }))
             : []
 
-    if (props?.defaultValue) {
-        input.onChange(props.defaultValue)
-    }
-
     return (
         <Autocomplete
             {...props}
@@ -43,11 +39,8 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
                         ? input.value.map((val: any) =>
                               options.find((element: { value: string }) => element.value === val)
                           )
-                        : props?.defaultValue?.map((val: any) =>
-                              options.find((element: { value: string }) => element.value === val)
-                          ) || []
-                    : options.find((element: { value: string }) => element.value === input.value) ||
-                      options.find((element: { value: string }) => element.value === props?.defaultValue)
+                        : []
+                    : options.find((element: { value: string }) => element.value === input.value)
             }
             renderInput={(params: any) => (
                 <TextField

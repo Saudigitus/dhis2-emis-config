@@ -3,15 +3,16 @@ import { NoticeBox, Button } from '@dhis2/ui'
 import { getDataStoreElement } from '../../utils/functions'
 import useLoadProgramStages from '../../hooks/commons/useLoadProgramStages'
 import useLoadDataElements from '../../hooks/commons/useLoadDataElements'
-import useLoadDataStoreDatas from '../../hooks/commons/useLoadDataStoreDatas'
 import Loading from '../appList/Loading'
-import useGetTransferField from '../../hooks/students/useGetTransferField'
-import useTransferSubmit from '../../hooks/students/useTransferSubmit'
+import useLoadDataStoreDatas from '../../hooks/commons/useLoadDataStoreDatas'
+import useGetTransferField from '../../hooks/staffs/useGetTransferField'
+import useTransferSubmit from '../../hooks/staffs/useTransferSubmit'
 
 import style from './index.module.css'
 import { Form } from 'react-final-form'
 import { GroupForm } from '..'
 import { type SubmitTransferValue } from '../../types/students'
+import { IoIosArrowRoundForward } from 'react-icons/io'
 
 interface WizardPageProps {
     setWizardSetp: React.Dispatch<React.SetStateAction<number>>
@@ -26,27 +27,23 @@ export default function WizardTransfer({ setWizardSetp }: WizardPageProps) {
     const { data, loading, error } = useLoadDataStoreDatas()
 
     useEffect(() => {
-        if (
-            data?.dataStoreValues !== undefined &&
-            data?.dataStoreValues !== null &&
-            data?.dataStoreConfigs !== null &&
-            data?.dataStoreConfigs !== undefined
-        ) {
+        if (data?.dataStoreValues !== undefined && data?.dataStoreValues !== null) {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({
                 dataStores: data.dataStoreValues,
                 elementKey: 'program',
-                key: 'student'
+                key: 'staff'
             })
             const programStageId = getDataStoreElement({
                 dataStores: data?.dataStoreValues,
                 elementKey: 'transfer',
-                key: 'student'
+                key: 'staff'
             })?.programStage
+
             const studentProgramFilterConfig = getDataStoreElement({
                 dataStores: data?.dataStoreConfigs,
                 elementKey: 'transfer',
-                key: 'student'
+                key: 'staff'
             })?.programStage?.filter
 
             if (programId === undefined) {
@@ -56,6 +53,7 @@ export default function WizardTransfer({ setWizardSetp }: WizardPageProps) {
             if (programId !== null && programId !== undefined) {
                 getProgramStages(programId, studentProgramFilterConfig)
             }
+            console.log('programStageId', programStageId)
             if (programStageId !== null && programStageId !== undefined) {
                 getDataElements(programStageId)
             }
@@ -83,69 +81,103 @@ export default function WizardTransfer({ setWizardSetp }: WizardPageProps) {
                         <Form
                             onSubmit={async (value: SubmitTransferValue) => {
                                 await submit(value, data.dataStoreValues, data.dataStoreConfigs, () => {
-                                    setWizardSetp(7)
+                                    setWizardSetp(4)
                                 })
                             }}
                             initialValues={{
                                 programStage: getDataStoreElement({
                                     dataStores: data.dataStoreValues,
                                     elementKey: 'transfer',
-                                    key: 'student'
+                                    key: 'staff'
                                 })?.programStage,
-                                destinySchool: getDataStoreElement({
-                                    dataStores: data.dataStoreValues,
-                                    elementKey: 'transfer',
-                                    key: 'student'
-                                })?.destinySchool,
                                 originSchool: getDataStoreElement({
                                     dataStores: data.dataStoreValues,
                                     elementKey: 'transfer',
-                                    key: 'student'
+                                    key: 'staff'
                                 })?.originSchool,
+                                destinySchool: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'transfer',
+                                    key: 'staff'
+                                })?.destinySchool,
                                 status: getDataStoreElement({
                                     dataStores: data.dataStoreValues,
                                     elementKey: 'transfer',
-                                    key: 'student'
+                                    key: 'staff'
                                 })?.status,
                                 reason: getDataStoreElement({
                                     dataStores: data.dataStoreValues,
                                     elementKey: 'transfer',
-                                    key: 'student'
+                                    key: 'staff'
                                 })?.reason
                             }}
-                            render={({ handleSubmit, form }: any) => {
-                                const handleCancel = () => {
-                                    // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.programStage)
-                                    // form.change("destinySchool", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.destinySchool)
-                                    // form.change("originSchool", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.originSchool)
-                                    // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.status)
-                                }
-
+                            render={({ handleSubmit }: any) => {
                                 return (
                                     programStagesDatas?.programStages?.length > 0 && (
                                         <div>
                                             <form onSubmit={handleSubmit}>
                                                 <GroupForm
                                                     disabled={false}
-                                                    name="transfer"
+                                                    name="Enrollment"
                                                     fields={getFormFields({
                                                         dataStoreConfigs: data.dataStoreConfigs,
-                                                        programStages: programStagesDatas.programStages,
+                                                        programStages: programStagesDatas?.programStages || [],
                                                         getDataElements,
                                                         dataElements: dataElementsDatas?.dataElements || []
                                                     })}
                                                 />
-                                                <div className={style.btnContainer}>
-                                                    <div>
-                                                        <Button type="submit" primary loading={loadingProcessing}>
-                                                            Save
-                                                        </Button>
+                                                <div className={style.flexBetween}>
+                                                    <div className={style.flex}>
+                                                        <div>
+                                                            <Button type="submit" primary loading={loadingProcessing}>
+                                                                Save
+                                                            </Button>
+                                                        </div>
+                                                        <div className={style.btnCancel}>
+                                                            <Button disabled type="button">
+                                                                Cancel
+                                                            </Button>
+                                                        </div>
                                                     </div>
-                                                    <div className={style.btnCancel}>
-                                                        <Button disabled onClick={handleCancel} type="button">
-                                                            Cancel
-                                                        </Button>
-                                                    </div>
+                                                    {getDataStoreElement({
+                                                        dataStores: data.dataStoreValues,
+                                                        elementKey: 'transfer',
+                                                        key: 'staff'
+                                                    })?.programStage &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'staff'
+                                                        })?.originSchool &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'staff'
+                                                        })?.destinySchool &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'staff'
+                                                        })?.status &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'staff'
+                                                        })?.reason && (
+                                                            <div>
+                                                                <Button
+                                                                    primary
+                                                                    onClick={() => {
+                                                                        setWizardSetp(4)
+                                                                    }}
+                                                                >
+                                                                    <IoIosArrowRoundForward
+                                                                        style={{ fontSize: '20px' }}
+                                                                    />
+                                                                    Next
+                                                                </Button>
+                                                            </div>
+                                                        )}
                                                 </div>
                                             </form>
                                         </div>

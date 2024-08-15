@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { NoticeBox, Button } from '@dhis2/ui'
 import { getDataStoreElement } from '../../utils/functions'
-import { useGetAttendanceFormFields } from '../../hooks/students'
 import useLoadProgramStages from '../../hooks/commons/useLoadProgramStages'
 import useLoadDataElements from '../../hooks/commons/useLoadDataElements'
-import {
-    type SubmitAttendanceValue,
-    type LoadDataElementsResponse,
-    type UseFetchEnrollmentDatasResponse
-} from '../../types/students'
 import Loading from '../appList/Loading'
 import useLoadDataStoreDatas from '../../hooks/commons/useLoadDataStoreDatas'
-import useAttendanceSubmit from '../../hooks/students/useAttendanceSubmit'
+import { useAttendanceSubmit, useGetAttendanceFormFields } from '../../hooks/staffs'
 
 import style from './index.module.css'
 import { Form } from 'react-final-form'
@@ -24,10 +18,10 @@ interface WizardPageProps {
 
 export default function WizardAttendance({ setWizardSetp }: WizardPageProps) {
     const [noProgramErrorMessage, setNoProgramErrorMessage] = useState<any>()
-    const { getDataElements, dataElementsDatas }: LoadDataElementsResponse = useLoadDataElements()
+    const { getDataElements, dataElementsDatas }: any = useLoadDataElements()
     const { getFormFields } = useGetAttendanceFormFields()
-    const { loadingProgramStages, programStagesDatas, getProgramStages } = useLoadProgramStages()
-    const { data, loading, error }: UseFetchEnrollmentDatasResponse = useLoadDataStoreDatas()
+    const { loadingProgramStages, programStagesDatas, getProgramStages }: any = useLoadProgramStages()
+    const { data, loading, error }: any = useLoadDataStoreDatas()
     const { submit, loadingProcessing } = useAttendanceSubmit()
 
     useEffect(() => {
@@ -36,24 +30,24 @@ export default function WizardAttendance({ setWizardSetp }: WizardPageProps) {
             const programId = getDataStoreElement({
                 dataStores: data.dataStoreValues,
                 elementKey: 'program',
-                key: 'student'
+                key: 'staff'
             })
             const programStageId = getDataStoreElement({
                 dataStores: data?.dataStoreValues,
                 elementKey: 'attendance',
-                key: 'student'
+                key: 'staff'
             })?.programStage
-            const studentProgramFilterConfig = getDataStoreElement({
+            const staffProgramFilterConfig = getDataStoreElement({
                 dataStores: data?.dataStoreConfigs,
                 elementKey: 'attendance',
-                key: 'student'
+                key: 'staff'
             })?.programStage?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage('No programs have been configured. Please configure it before continuing !')
             }
             if (programId !== null && programId !== undefined) {
-                void getProgramStages(programId, studentProgramFilterConfig)
+                getProgramStages(programId, staffProgramFilterConfig)
             }
             if (programStageId !== null && programStageId !== undefined) {
                 getDataElements(programStageId)
@@ -79,15 +73,52 @@ export default function WizardAttendance({ setWizardSetp }: WizardPageProps) {
                 {data && (
                     <div>
                         <Form
-                            onSubmit={async (values: SubmitAttendanceValue) => {
+                            onSubmit={async (values: any) => {
                                 await submit({
                                     values,
                                     dataStoreValues: data.dataStoreValues,
                                     dataStoreConfigs: data.dataStoreConfigs,
                                     goToNext: () => {
-                                        setWizardSetp(4)
+                                        setWizardSetp(3)
                                     }
                                 })
+                            }}
+                            initialValues={{
+                                programStage: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.programStage,
+                                absenceReason: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.absenceReason,
+                                status: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.status,
+                                absentCode: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.statusOptions?.find((x: any) => x.key === 'absent')?.code,
+                                presentCode: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.statusOptions?.find((x: any) => x.key === 'present')?.code,
+                                lateCode: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.statusOptions?.find((x: any) => x.key === 'late')?.code,
+                                leaveCode: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'attendance',
+                                    key: 'staff'
+                                })?.statusOptions?.find((x: any) => x.key === 'leave')?.code
                             }}
                             render={({ handleSubmit }: any) => {
                                 return (
@@ -98,95 +129,9 @@ export default function WizardAttendance({ setWizardSetp }: WizardPageProps) {
                                                 name="Attendance"
                                                 fields={getFormFields({
                                                     dataStoreConfigs: data.dataStoreConfigs,
-                                                    programStages: programStagesDatas.programStages,
+                                                    programStages: programStagesDatas?.programStages || [],
                                                     getDataElements,
-                                                    dataElements:
-                                                        dataElementsDatas?.dataElements !== undefined &&
-                                                        dataElementsDatas?.dataElements !== null &&
-                                                        dataElementsDatas?.dataElements?.length > 0
-                                                            ? dataElementsDatas?.dataElements
-                                                            : []
-                                                }).map((p) => {
-                                                    if (p.name === 'programStage') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.programStage
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'absenceReason') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.absenceReason
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'status') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.status
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'absentCode') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.statusOptions?.find((x: any) => x.key === 'absent')
-                                                                ?.code
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'presentCode') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.statusOptions?.find((x: any) => x.key === 'present')
-                                                                ?.code
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'lateCode') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.statusOptions?.find((x: any) => x.key === 'late')?.code
-                                                        }
-                                                    }
-
-                                                    if (p.name === 'leaveCode') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'attendance',
-                                                                key: 'student'
-                                                            })?.statusOptions?.find((x: any) => x.key === 'leave')?.code
-                                                        }
-                                                    }
-
-                                                    return p
+                                                    dataElements: dataElementsDatas?.dataElements || []
                                                 })}
                                             />
                                             <div className={style.flexBetween}>
@@ -205,43 +150,23 @@ export default function WizardAttendance({ setWizardSetp }: WizardPageProps) {
                                                 {getDataStoreElement({
                                                     dataStores: data.dataStoreValues,
                                                     elementKey: 'attendance',
-                                                    key: 'student'
+                                                    key: 'staff'
                                                 })?.programStage &&
                                                     getDataStoreElement({
                                                         dataStores: data.dataStoreValues,
                                                         elementKey: 'attendance',
-                                                        key: 'student'
+                                                        key: 'staff'
                                                     })?.absenceReason &&
                                                     getDataStoreElement({
                                                         dataStores: data.dataStoreValues,
                                                         elementKey: 'attendance',
-                                                        key: 'student'
-                                                    })?.status &&
-                                                    getDataStoreElement({
-                                                        dataStores: data.dataStoreValues,
-                                                        elementKey: 'attendance',
-                                                        key: 'student'
-                                                    })?.statusOptions?.find((x: any) => x.key === 'absent')?.code &&
-                                                    getDataStoreElement({
-                                                        dataStores: data.dataStoreValues,
-                                                        elementKey: 'attendance',
-                                                        key: 'student'
-                                                    })?.statusOptions?.find((x: any) => x.key === 'present')?.code &&
-                                                    getDataStoreElement({
-                                                        dataStores: data.dataStoreValues,
-                                                        elementKey: 'attendance',
-                                                        key: 'student'
-                                                    })?.statusOptions?.find((x: any) => x.key === 'late')?.code &&
-                                                    getDataStoreElement({
-                                                        dataStores: data.dataStoreValues,
-                                                        elementKey: 'attendance',
-                                                        key: 'student'
-                                                    })?.statusOptions?.find((x: any) => x.key === 'leave')?.code && (
+                                                        key: 'staff'
+                                                    })?.status && (
                                                         <div>
                                                             <Button
                                                                 primary
                                                                 onClick={() => {
-                                                                    setWizardSetp(4)
+                                                                    setWizardSetp(3)
                                                                 }}
                                                             >
                                                                 <IoIosArrowRoundForward style={{ fontSize: '20px' }} />

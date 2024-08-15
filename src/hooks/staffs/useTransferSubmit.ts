@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
-import {type SubmitTransferValue } from "../../types/students";
+import { type SubmitTransferValue } from "../../types/students";
 import useUpdateConfigValues from '../commons/useUpdateConfigValues';
 import useShowAlerts from '../commons/useShowAlert';
 
@@ -10,7 +10,7 @@ export default function useTransferSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async (values: SubmitTransferValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
+    const submit = async (values: SubmitTransferValue, dataStoreValues: any[], dataStoreConfigs: any[], goToNext: any) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
@@ -39,16 +39,16 @@ export default function useTransferSubmit() {
 
             const statusValues = [
                 {
-                    "code": values.penddingCode,
-                    "key": "pending"
+                    code: values.penddingCode,
+                    key: "pending"
                 },
                 {
-                    "code": values.approvedCode,
-                    "key": "approved"
+                    code: values.approvedCode,
+                    key: "approved"
                 },
                 {
-                    "code": values.reprovedCode,
-                    "key": "reproved"
+                    code: values.reprovedCode,
+                    key: "reproved"
                 }
             ]
 
@@ -91,6 +91,9 @@ export default function useTransferSubmit() {
             }
 
             await mutate({ data: payload })
+            if (goToNext) {
+                goToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

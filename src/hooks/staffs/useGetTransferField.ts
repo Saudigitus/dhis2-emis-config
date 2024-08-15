@@ -8,9 +8,7 @@ interface FormFieldProps {
     getDataElements: (programStageId: string) => void
 }
 
-
 export default function useGetTransferField() {
-
     const onProgramStageSelected = (value: any, getDataElements: (programStageId: string) => void) => {
         if (getDataElements !== undefined && getDataElements !== null) {
             getDataElements(value.value)
@@ -27,6 +25,10 @@ export default function useGetTransferField() {
         const penddingCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.penddingCode
         const approvedCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.approvedCode
         const reprovedCode = getDataStoreElement({ dataStores: dataStoreConfigs, key: "staff", elementKey: "transfer" })?.reprovedCode
+
+        console.log("dataElements: ", dataElements)
+        console.log("programStages: ", programStages)
+        console.log("foundProgramStage: ", foundProgramStage)
 
         if (foundProgramStage !== undefined && foundProgramStage !== null) {
             formFieldsList.push(
@@ -152,7 +154,6 @@ export default function useGetTransferField() {
             )
         }
 
-        
         if (penddingCode !== undefined && penddingCode !== null) {
             formFieldsList.push(
                 {
@@ -170,8 +171,8 @@ export default function useGetTransferField() {
                         optionSet: {
                             id: 'penddingCode',
                             options: dataElements
-                            .filter((dx: any) => dx.optionSetValue === penddingCode.optionSetValue && dx.valueType === penddingCode.valueType)
-                            .flatMap((x: any) => x?.optionSet?.options) || []
+                                .filter((dx: any) => dx.optionSetValue === penddingCode.optionSetValue && dx.valueType === penddingCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
                         }
                     }
                 }
@@ -195,8 +196,8 @@ export default function useGetTransferField() {
                         optionSet: {
                             id: 'approvedCode',
                             options: dataElements
-                            .filter((dx: any) => dx.optionSetValue === approvedCode.optionSetValue && dx.valueType === approvedCode.valueType)
-                            .flatMap((x: any) => x?.optionSet?.options) || []
+                                .filter((dx: any) => dx.optionSetValue === approvedCode.optionSetValue && dx.valueType === approvedCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
                         }
                     }
                 }
@@ -220,8 +221,8 @@ export default function useGetTransferField() {
                         optionSet: {
                             id: 'reprovedCode',
                             options: dataElements
-                            .filter((dx: any) => dx.optionSetValue === reprovedCode.optionSetValue && dx.valueType === reprovedCode.valueType)
-                            .flatMap((x: any) => x?.optionSet?.options) || []
+                                .filter((dx: any) => dx.optionSetValue === reprovedCode.optionSetValue && dx.valueType === reprovedCode.valueType)
+                                .flatMap((x: any) => x?.optionSet?.options) || []
                         }
                     }
                 }
@@ -230,7 +231,5 @@ export default function useGetTransferField() {
 
         return formFieldsList
     }
-
     return { getFormFields }
-
 }
