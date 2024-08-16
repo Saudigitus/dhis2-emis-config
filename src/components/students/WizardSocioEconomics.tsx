@@ -65,6 +65,13 @@ export default function WizardSocioEconomics({ setWizardSetp }: WizardPageProps)
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
+                            initialValues={{
+                                programStage: getDataStoreElement({
+                                    dataStores: data?.dataStoreValues,
+                                    elementKey: 'socio-economics',
+                                    key: 'student'
+                                })?.programStage
+                            }}
                             onSubmit={async (values: { programStage: string }) => {
                                 await submit(
                                     { programStage: values?.programStage },
@@ -82,21 +89,7 @@ export default function WizardSocioEconomics({ setWizardSetp }: WizardPageProps)
                                             <GroupForm
                                                 disabled={false}
                                                 name="socio-economics"
-                                                fields={getFormFields(data, programStagesDatas.programStages).map(
-                                                    (p) => {
-                                                        if (p.name === 'programStage') {
-                                                            return {
-                                                                ...p,
-                                                                defaultValue: getDataStoreElement({
-                                                                    dataStores: data?.dataStoreValues,
-                                                                    elementKey: 'socio-economics',
-                                                                    key: 'student'
-                                                                })?.programStage
-                                                            }
-                                                        }
-                                                        return p
-                                                    }
-                                                )}
+                                                fields={getFormFields(data, programStagesDatas.programStages)}
                                             />
                                             <div className={style.flexBetween}>
                                                 <div className={style.flex}>

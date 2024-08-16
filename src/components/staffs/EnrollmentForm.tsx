@@ -23,14 +23,14 @@ export default function EnrollmentForm(): React.JSX.Element {
             setNoProgramErrorMessage(null)
             const programId = getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "program", key: "staff" })
             const programStageId = getDataStoreElement({ dataStores: data?.dataStoreValues, elementKey: "registration", key: "staff" })?.programStage
-            const studentProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "registration", key: "staff" })?.programStage?.filter
+            const staffProgramFilterConfig = getDataStoreElement({ dataStores: data?.dataStoreConfigs, elementKey: "registration", key: "staff" })?.programStage?.filter
 
             if (programId === undefined) {
                 setNoProgramErrorMessage("No programs have been configured. Please configure it before continuing !")
             }
 
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId,studentProgramFilterConfig)
+                getProgramStages(programId,staffProgramFilterConfig)
             }
             if (programStageId !== null && programStageId !== undefined) {
                 getDataElements(programStageId)

@@ -30,7 +30,7 @@ export default function TransferForm(): React.JSX.Element {
                 elementKey: 'transfer',
                 key: 'staff'
             })?.programStage
-            const studentProgramFilterConfig = getDataStoreElement({
+            const staffProgramFilterConfig = getDataStoreElement({
                 dataStores: data?.dataStoreConfigs,
                 elementKey: 'transfer',
                 key: 'staff'
@@ -41,7 +41,7 @@ export default function TransferForm(): React.JSX.Element {
             }
 
             if (programId !== null && programId !== undefined) {
-                getProgramStages(programId, studentProgramFilterConfig)
+                getProgramStages(programId, staffProgramFilterConfig)
             }
             if (programStageId !== null && programStageId !== undefined) {
                 getDataElements(programStageId)

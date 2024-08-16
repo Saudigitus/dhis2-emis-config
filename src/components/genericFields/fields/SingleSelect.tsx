@@ -19,7 +19,7 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
 
     const options =
         props?.options?.optionSet?.options != null
-            ? props?.options.optionSet?.options.map((option: { value: string; label: string }) => ({
+            ? props?.options.optionSet?.options.map((option: { value: string, label: string }) => ({
                   value: option?.value,
                   label: option?.label
               }))
@@ -59,7 +59,6 @@ const OptionSetAutocomplete = (props: AutoCompleteProps) => {
                 />
             )}
             onChange={(_, value: any) => {
-                console.log('onchange value: ', value)
                 input.onChange(
                     props.multiple !== undefined && props.multiple !== null && Boolean(props.multiple)
                         ? value?.length > 0

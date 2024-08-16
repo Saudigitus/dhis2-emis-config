@@ -12,6 +12,7 @@ import style from './index.module.css'
 import { Form } from 'react-final-form'
 import { GroupForm } from '..'
 import { type SubmitTransferValue } from '../../types/students'
+import { IoIosArrowRoundForward } from 'react-icons/io'
 
 interface WizardPageProps {
     setWizardSetp: React.Dispatch<React.SetStateAction<number>>
@@ -114,13 +115,6 @@ export default function WizardTransfer({ setWizardSetp }: WizardPageProps) {
                                 })?.reason
                             }}
                             render={({ handleSubmit, form }: any) => {
-                                const handleCancel = () => {
-                                    // form.change("programStage", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.programStage)
-                                    // form.change("destinySchool", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.destinySchool)
-                                    // form.change("originSchool", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.originSchool)
-                                    // form.change("status", getDataStoreElement({ dataStores: data.dataStoreValues, elementKey: "transfer", key: "student" })?.status)
-                                }
-
                                 return (
                                     programStagesDatas?.programStages?.length > 0 && (
                                         <div>
@@ -135,17 +129,58 @@ export default function WizardTransfer({ setWizardSetp }: WizardPageProps) {
                                                         dataElements: dataElementsDatas?.dataElements || []
                                                     })}
                                                 />
-                                                <div className={style.btnContainer}>
-                                                    <div>
-                                                        <Button type="submit" primary loading={loadingProcessing}>
-                                                            Save
-                                                        </Button>
+                                                <div className={style.flexBetween}>
+                                                    <div className={style.flex}>
+                                                        <div>
+                                                            <Button type="submit" primary loading={loadingProcessing}>
+                                                                Save
+                                                            </Button>
+                                                        </div>
+                                                        <div className={style.btnCancel}>
+                                                            <Button disabled type="button">
+                                                                Cancel
+                                                            </Button>
+                                                        </div>
                                                     </div>
-                                                    <div className={style.btnCancel}>
-                                                        <Button disabled onClick={handleCancel} type="button">
-                                                            Cancel
-                                                        </Button>
-                                                    </div>
+                                                    {getDataStoreElement({
+                                                        dataStores: data.dataStoreValues,
+                                                        elementKey: 'transfer',
+                                                        key: 'student'
+                                                    })?.programStage &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'student'
+                                                        })?.originSchool &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'student'
+                                                        })?.destinySchool &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'student'
+                                                        })?.status &&
+                                                        getDataStoreElement({
+                                                            dataStores: data.dataStoreValues,
+                                                            elementKey: 'transfer',
+                                                            key: 'student'
+                                                        })?.reason && (
+                                                            <div>
+                                                                <Button
+                                                                    primary
+                                                                    onClick={() => {
+                                                                        setWizardSetp(7)
+                                                                    }}
+                                                                >
+                                                                    <IoIosArrowRoundForward
+                                                                        style={{ fontSize: '20px' }}
+                                                                    />
+                                                                    Next
+                                                                </Button>
+                                                            </div>
+                                                        )}
                                                 </div>
                                             </form>
                                         </div>

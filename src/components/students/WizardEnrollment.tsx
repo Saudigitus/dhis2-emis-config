@@ -76,6 +76,28 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
+                            initialValues={{
+                                programStage: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'registration',
+                                    key: 'student'
+                                })?.programStage,
+                                grade: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'registration',
+                                    key: 'student'
+                                })?.grade,
+                                section: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'registration',
+                                    key: 'student'
+                                })?.section,
+                                academicYear: getDataStoreElement({
+                                    dataStores: data.dataStoreValues,
+                                    elementKey: 'registration',
+                                    key: 'student'
+                                })?.academicYear
+                            }}
                             onSubmit={async (value: SubmitEnrollmentValue) => {
                                 await submit(value, data.dataStoreValues, data.dataStoreConfigs, () => {
                                     setWizardSetp(2)
@@ -97,48 +119,6 @@ export default function WizardEnrollment({ setWizardSetp }: WizardPageProps) {
                                                         dataElementsDatas?.dataElements !== null
                                                             ? dataElementsDatas?.dataElements
                                                             : []
-                                                }).map((p) => {
-                                                    if (p.name === 'programStage') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'registration',
-                                                                key: 'student'
-                                                            })?.programStage
-                                                        }
-                                                    }
-                                                    if (p.name === 'grade') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'registration',
-                                                                key: 'student'
-                                                            })?.grade
-                                                        }
-                                                    }
-                                                    if (p.name === 'section') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'registration',
-                                                                key: 'student'
-                                                            })?.section
-                                                        }
-                                                    }
-                                                    if (p.name === 'academicYear') {
-                                                        return {
-                                                            ...p,
-                                                            defaultValue: getDataStoreElement({
-                                                                dataStores: data.dataStoreValues,
-                                                                elementKey: 'registration',
-                                                                key: 'student'
-                                                            })?.academicYear
-                                                        }
-                                                    }
-                                                    return p
                                                 })}
                                             />
                                             <div className={style.flexBetween}>

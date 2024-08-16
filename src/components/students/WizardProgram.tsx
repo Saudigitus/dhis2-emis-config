@@ -31,6 +31,13 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                 {data !== undefined && data !== null && (
                     <div>
                         <Form
+                            initialValues={{
+                                program: getDataStoreElement({
+                                    dataStores: data?.dataStoreValues,
+                                    elementKey: 'program',
+                                    key: 'student'
+                                })
+                            }}
                             onSubmit={async (values: { program: string }) => {
                                 await submit({
                                     data,
@@ -50,15 +57,6 @@ export default function WizardProgram({ setWizardSetp }: WizardPageProps) {
                                                 fields={getFormFields({
                                                     programs: data.programs,
                                                     data
-                                                }).map((p) => {
-                                                    return {
-                                                        ...p,
-                                                        defaultValue: getDataStoreElement({
-                                                            dataStores: data?.dataStoreValues,
-                                                            elementKey: 'program',
-                                                            key: 'student'
-                                                        })
-                                                    }
                                                 })}
                                             />
                                             <div className={style.flexBetween}>

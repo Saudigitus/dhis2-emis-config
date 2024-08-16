@@ -12,6 +12,7 @@ import useFinalResultSubmit from '../../hooks/students/useFinalResultSubmit'
 import style from './index.module.css'
 import { Form } from 'react-final-form'
 import { GroupForm } from '..'
+import { IoIosArrowRoundForward } from 'react-icons/io'
 
 interface WizardPageProps {
     setWizardSetp: React.Dispatch<React.SetStateAction<number>>
@@ -98,8 +99,6 @@ export default function WizardFinalResult({ setWizardSetp }: WizardPageProps) {
                                 })?.status
                             }}
                             render={({ handleSubmit, form }: any) => {
-                                const cancelBtn = () => {}
-
                                 return (
                                     programStagesDatas?.programStages?.length > 0 && (
                                         <form onSubmit={handleSubmit}>
@@ -113,17 +112,41 @@ export default function WizardFinalResult({ setWizardSetp }: WizardPageProps) {
                                                     dataElements: dataElementsDatas?.dataElements || []
                                                 })}
                                             />
-                                            <div className={style.btnContainer}>
-                                                <div>
-                                                    <Button type="submit" primary loading={loadingProcessing}>
-                                                        Save
-                                                    </Button>
+                                            <div className={style.flexBetween}>
+                                                <div className={style.flex}>
+                                                    <div>
+                                                        <Button type="submit" primary loading={loadingProcessing}>
+                                                            Save
+                                                        </Button>
+                                                    </div>
+                                                    <div className={style.btnCancel}>
+                                                        <Button disabled type="button">
+                                                            Cancel
+                                                        </Button>
+                                                    </div>
                                                 </div>
-                                                <div className={style.btnCancel}>
-                                                    <Button type="button" disabled onClick={cancelBtn}>
-                                                        Cancel
-                                                    </Button>
-                                                </div>
+                                                {getDataStoreElement({
+                                                    dataStores: data.dataStoreValues,
+                                                    elementKey: 'final-result',
+                                                    key: 'student'
+                                                })?.programStage &&
+                                                    getDataStoreElement({
+                                                        dataStores: data.dataStoreValues,
+                                                        elementKey: 'final-result',
+                                                        key: 'student'
+                                                    })?.status && (
+                                                        <div>
+                                                            <Button
+                                                                primary
+                                                                onClick={() => {
+                                                                    setWizardSetp(6)
+                                                                }}
+                                                            >
+                                                                <IoIosArrowRoundForward style={{ fontSize: '20px' }} />
+                                                                Next
+                                                            </Button>
+                                                        </div>
+                                                    )}
                                             </div>
                                         </form>
                                     )
