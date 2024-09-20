@@ -10,6 +10,7 @@ interface SubmitFuctionProps {
     values: SubmitAttendanceValue
     dataStoreValues: any[]
     dataStoreConfigs: any[]
+    goToNext?: () => void
 }
 
 export default function useAttendanceSubmit() {
@@ -17,15 +18,15 @@ export default function useAttendanceSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async ({ dataStoreConfigs, dataStoreValues, values }: SubmitFuctionProps) => {
+    const submit = async ({ dataStoreConfigs, dataStoreValues, values, goToNext }: SubmitFuctionProps) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
-
+            console.log("values : ", values)
+            
             if (values.absenceReason === null || values.absenceReason === undefined) {
                 throw new Error("Absence Reason is required !")
             }
-
             if (values.programStage === null || values.programStage === undefined) {
                 throw new Error("Program stage is required !")
             }
@@ -35,7 +36,7 @@ export default function useAttendanceSubmit() {
             }
 
             const foundElement: any = dataStoreValues?.find((dt: any) => dt.key === "student")
-            const attendance = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })
+            // const attendance = getDataStoreElement({ dataStores: dataStoreConfigs, key: "student", elementKey: "attendance" })
 
             const statusValues = [
                 {
@@ -99,6 +100,9 @@ export default function useAttendanceSubmit() {
             }
 
             await mutate({ data: payload })
+            if (goToNext !== undefined) {
+                goToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

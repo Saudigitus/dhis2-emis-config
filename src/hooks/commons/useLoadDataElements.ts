@@ -55,7 +55,7 @@ export default function useLoadDataElements() {
 
     return {
         error,
-        dataElementsDatas: (data !== undefined && data !== null)
+        dataElementsDatas: data
             ? {
                 ...data,
                 dataElements: extractDataElements(data.programStages.programStages)

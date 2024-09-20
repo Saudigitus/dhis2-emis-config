@@ -35,6 +35,7 @@ interface SubmitAttendanceValue {
     presentCode: string
     lateCode: string
     leaveCode: string
+    goToNext?: () => void
 }
 
 interface SubmitFinalResultValue {

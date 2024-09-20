@@ -11,7 +11,7 @@ export default function useSubmitProgramDatas() {
     const { show, hide } = useShowAlerts()
     const { mutate } = useUpdateConfigValues()
 
-    const submit = async ({ data, program }: ProgramSubmitValueProps) => {
+    const submit = async ({ data, program, goToNext }: ProgramSubmitValueProps) => {
         try {
             if (program !== undefined) {
                 setLoadingProcessing(true)
@@ -45,6 +45,9 @@ export default function useSubmitProgramDatas() {
                 }
 
                 await mutate({ data: payload })
+                if (goToNext) {
+                    goToNext()
+                }
                 setLoadingProcessing(false)
                 show({
                     message: 'Operation Successfull !',

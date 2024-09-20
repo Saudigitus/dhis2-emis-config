@@ -3,12 +3,13 @@ import dayjs from "dayjs";
 import { getDataStoreElement } from "../../utils/functions";
 import useUpdateConfigValues from '../commons/useUpdateConfigValues';
 import useShowAlerts from '../commons/useShowAlert';
-import { SubmitFinalResultValue } from '../../types/students';
+import { type SubmitFinalResultValue } from '../../types/students';
 
 interface SubmitFuctionProps {
     values: SubmitFinalResultValue
     dataStoreValues: any[]
     dataStoreConfigs: any[]
+    goToNext?: () => void
 }
 
 export default function useFinalResultSubmit() {
@@ -16,11 +17,11 @@ export default function useFinalResultSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async ({ dataStoreConfigs, dataStoreValues, values }: SubmitFuctionProps) => {
+    const submit = async ({ dataStoreConfigs, dataStoreValues, values, goToNext }: SubmitFuctionProps) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
-            
+
             if (values.programStage === null || values.programStage === undefined) {
                 throw new Error("Program stage is required !")
             }
@@ -64,6 +65,9 @@ export default function useFinalResultSubmit() {
             }
 
             await mutate({ data: payload })
+            if (goToNext) {
+                goToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

@@ -10,7 +10,7 @@ export default function useTransferSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async (values: SubmitTransferValue, dataStoreValues: any[], dataStoreConfigs: any[]) => {
+    const submit = async (values: SubmitTransferValue, dataStoreValues: any[], dataStoreConfigs: any[], goToNext?: () => void) => {
         try {
             setLoadingProcessing(true)
             let payload: any[] = []
@@ -91,6 +91,9 @@ export default function useTransferSubmit() {
             }
 
             await mutate({ data: payload })
+            if (goToNext) {
+                goToNext()
+            }
             setLoadingProcessing(false)
             show({
                 message: `Operation success !`,

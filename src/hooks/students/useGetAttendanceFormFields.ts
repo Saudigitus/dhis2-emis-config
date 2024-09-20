@@ -4,7 +4,7 @@ import { getDataStoreElement } from "../../utils/functions"
 interface FormFieldProps {
     programStages: any[]
     dataStoreConfigs: any[]
-    dataElements: any[]
+    dataElements: any[] 
     getDataElements: (programStageId: string) => void
 }
 

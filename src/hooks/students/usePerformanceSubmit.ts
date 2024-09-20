@@ -10,6 +10,7 @@ interface FormFieldProps {
     values: { programStages: any }
     dataStoreValues: any[]
     dataStoreConfigs: any[]
+    goToNext?: () => void
 }
 
 export default function usePerformanceSubmit() {
@@ -17,7 +18,7 @@ export default function usePerformanceSubmit() {
     const { mutate } = useUpdateConfigValues()
     const { show, hide } = useShowAlerts()
 
-    const submit = async ({ dataStoreConfigs, values, dataStoreValues }: FormFieldProps) => {
+    const submit = async ({ dataStoreConfigs, values, dataStoreValues, goToNext }: FormFieldProps) => {
         try {
             if (values.programStages !== undefined) {
                 setLoadingProcessing(true)
@@ -56,7 +57,9 @@ export default function usePerformanceSubmit() {
                 }
 
                 await mutate({ data: payload })
-                // refetch()
+                if (goToNext !== undefined) {
+                    goToNext()
+                }
                 setLoadingProcessing(false)
                 show({
                     message: `Operation success !`,

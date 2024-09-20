@@ -2,7 +2,7 @@ import { type ProgramFormFieldProps } from "../../types/moduleConfigurations"
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns"
 
 export default function useGetProgramFormField() {
-    const getFormFields = ({ data, programs }: ProgramFormFieldProps) => {
+    const getFormFields = ({ data, programs}: ProgramFormFieldProps) => {
         const foundProgram: any = data.dataStoreConfigs?.find((dt: any) => dt.key === "student")?.program?.program
         if (foundProgram !== undefined) {
             const list: CustomAttributeProps[] = [
@@ -25,6 +25,7 @@ export default function useGetProgramFormField() {
                     }
                 }
             ]
+
             return list
         } else {
             return []

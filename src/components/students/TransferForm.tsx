@@ -1,5 +1,3 @@
-/* eslint-disable*/
-
 import React, { useState, useEffect } from "react";
 import { NoticeBox } from '@dhis2/ui'
 import { getDataStoreElement } from "../../utils/functions";

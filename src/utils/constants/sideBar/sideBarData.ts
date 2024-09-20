@@ -32,6 +32,12 @@ function sideBarData(): SideBarItemProps[] {
             subItems: [
                 {
                     icon: settings,
+                    label: "Wizard",
+                    showBadge: false,
+                    route: "/students/wizard"
+                },
+                {
+                    icon: settings,
                     label: "Program",
                     showBadge: false,
                     route: "/students/program"
@@ -65,7 +71,7 @@ function sideBarData(): SideBarItemProps[] {
                     label: "Final result",
                     showBadge: false,
                     route: "/students/final-result"
-                },    
+                },
                 {
                     icon: transfer,
                     label: "Transfer",
@@ -77,6 +83,12 @@ function sideBarData(): SideBarItemProps[] {
         {
             title: "Staff",
             subItems: [
+                {
+                    icon: settings,
+                    label: "Wizard",
+                    showBadge: false,
+                    route: "/staffs/wizard"
+                },
                 {
                     icon: settings,
                     label: "Program",
