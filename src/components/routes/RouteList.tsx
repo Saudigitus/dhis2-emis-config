@@ -13,78 +13,78 @@ export default function RouteList() {
         {
             path: '/',
             layout: SimpleLayout,
-            component: () => <Navigate to="/students/program" replace />
+            component: () => <Navigate to="/students/wizard" replace />
         },
         {
             path: '/students/wizard',
             layout: SideBarLayout,
             component: () => <StudentWizard />
         },
-        {
-            path: '/students/program',
-            layout: SideBarLayout,
-            component: () => <StudentsProgram />
-        },
-        {
-            path: '/students/enrollment',
-            layout: SideBarLayout,
-            component: () => <StudentsEnrollment />
-        },
-        {
-            path: '/students/socio-economics',
-            layout: SideBarLayout,
-            component: () => <StudentsSocioEconomics />
-        },
-        {
-            path: '/students/attendance',
-            layout: SideBarLayout,
-            component: () => <StudentsAttendance />
-        },
-        {
-            path: '/students/performance',
-            layout: SideBarLayout,
-            component: () => <StudentsPerformance />
-        },
-        {
-            path: '/students/final-result',
-            layout: SideBarLayout,
-            component: () => <StudentsFinalResults />
-        },
-        {
-            path: '/students/transfer',
-            layout: SideBarLayout,
-            component: () => <StudentsTransfer />
-        },
-        {
-            path: '/apps/default-settings',
-            layout: SideBarLayout,
-            component: () => <DefaultSettings />
-        },
+        // {
+        //     path: '/students/program',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsProgram />
+        // },
+        // {
+        //     path: '/students/enrollment',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsEnrollment />
+        // },
+        // {
+        //     path: '/students/socio-economics',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsSocioEconomics />
+        // },
+        // {
+        //     path: '/students/attendance',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsAttendance />
+        // },
+        // {
+        //     path: '/students/performance',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsPerformance />
+        // },
+        // {
+        //     path: '/students/final-result',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsFinalResults />
+        // },
+        // {
+        //     path: '/students/transfer',
+        //     layout: SideBarLayout,
+        //     component: () => <StudentsTransfer />
+        // },
+        // {
+        //     path: '/apps/default-settings',
+        //     layout: SideBarLayout,
+        //     component: () => <DefaultSettings />
+        // },
         {
             path: '/staffs/wizard',
             layout: SideBarLayout,
             component: () => <StaffWizard />
         },
-        {
-            path: '/staffs/program',
-            layout: SideBarLayout,
-            component: () => <StaffProgram />
-        },
-        {
-            path: '/staffs/enrollment',
-            layout: SideBarLayout,
-            component: () => <StaffEnrollment />
-        },
-        {
-            path: '/staffs/attendance',
-            layout: SideBarLayout,
-            component: () => <StaffAttendance />
-        },
-        {
-            path: '/staffs/transfer',
-            layout: SideBarLayout,
-            component: () => <StaffTransfer />
-        },
+        // {
+        //     path: '/staffs/program',
+        //     layout: SideBarLayout,
+        //     component: () => <StaffProgram />
+        // },
+        // {
+        //     path: '/staffs/enrollment',
+        //     layout: SideBarLayout,
+        //     component: () => <StaffEnrollment />
+        // },
+        // {
+        //     path: '/staffs/attendance',
+        //     layout: SideBarLayout,
+        //     component: () => <StaffAttendance />
+        // },
+        // {
+        //     path: '/staffs/transfer',
+        //     layout: SideBarLayout,
+        //     component: () => <StaffTransfer />
+        // },
         {
             path: '/apps/installation',
             layout: SideBarLayout,
@@ -95,10 +95,10 @@ export default function RouteList() {
             layout: SideBarLayout,
             component: () => <AppsConfiguration />
         },
-        {
-            path: '/form',
-            layout: SideBarLayout,
-            component: GenericForm
-        }
+        // {
+        //     path: '/form',
+        //     layout: SideBarLayout,
+        //     component: GenericForm
+        // }
     ]
 }

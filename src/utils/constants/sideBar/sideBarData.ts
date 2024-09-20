@@ -36,48 +36,48 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     route: "/students/wizard"
                 },
-                {
-                    icon: settings,
-                    label: "Program",
-                    showBadge: false,
-                    route: "/students/program"
-                },
-                {
-                    icon: listAdd,
-                    label: "Enrollment",
-                    showBadge: false,
-                    route: "/students/enrollment"
-                },
-                {
-                    icon: fileDocument,
-                    label: "Socio - economics",
-                    showBadge: false,
-                    route: "/students/socio-economics"
-                },
-                {
-                    icon: glyph,
-                    label: "Attendance",
-                    showBadge: false,
-                    route: "/students/attendance"
-                },
-                {
-                    icon: performance,
-                    label: "Performance",
-                    showBadge: false,
-                    route: "/students/performance"
-                },
-                {
-                    icon: finalresult,
-                    label: "Final result",
-                    showBadge: false,
-                    route: "/students/final-result"
-                },
-                {
-                    icon: transfer,
-                    label: "Transfer",
-                    showBadge: false,
-                    route: "/students/transfer"
-                }
+                // {
+                //     icon: settings,
+                //     label: "Program",
+                //     showBadge: false,
+                //     route: "/students/program"
+                // },
+                // {
+                //     icon: listAdd,
+                //     label: "Enrollment",
+                //     showBadge: false,
+                //     route: "/students/enrollment"
+                // },
+                // {
+                //     icon: fileDocument,
+                //     label: "Socio - economics",
+                //     showBadge: false,
+                //     route: "/students/socio-economics"
+                // },
+                // {
+                //     icon: glyph,
+                //     label: "Attendance",
+                //     showBadge: false,
+                //     route: "/students/attendance"
+                // },
+                // {
+                //     icon: performance,
+                //     label: "Performance",
+                //     showBadge: false,
+                //     route: "/students/performance"
+                // },
+                // {
+                //     icon: finalresult,
+                //     label: "Final result",
+                //     showBadge: false,
+                //     route: "/students/final-result"
+                // },
+                // {
+                //     icon: transfer,
+                //     label: "Transfer",
+                //     showBadge: false,
+                //     route: "/students/transfer"
+                // }
             ]
         },
         {
@@ -89,30 +89,30 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     route: "/staffs/wizard"
                 },
-                {
-                    icon: settings,
-                    label: "Program",
-                    showBadge: false,
-                    route: "/staffs/program"
-                },
-                {
-                    icon: listAdd,
-                    label: "Staff registry",
-                    showBadge: false,
-                    route: "/staffs/enrollment"
-                },
-                {
-                    icon: glyph,
-                    label: "Attendance",
-                    showBadge: false,
-                    route: "/staffs/attendance"
-                },
-                {
-                    icon: transfer,
-                    label: "Transfer",
-                    showBadge: false,
-                    route: "/staffs/transfer"
-                }
+                // {
+                //     icon: settings,
+                //     label: "Program",
+                //     showBadge: false,
+                //     route: "/staffs/program"
+                // },
+                // {
+                //     icon: listAdd,
+                //     label: "Staff registry",
+                //     showBadge: false,
+                //     route: "/staffs/enrollment"
+                // },
+                // {
+                //     icon: glyph,
+                //     label: "Attendance",
+                //     showBadge: false,
+                //     route: "/staffs/attendance"
+                // },
+                // {
+                //     icon: transfer,
+                //     label: "Transfer",
+                //     showBadge: false,
+                //     route: "/staffs/transfer"
+                // }
             ]
         }
     ]
