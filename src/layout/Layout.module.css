@@ -14,5 +14,5 @@
 .MainContentContainer {
     flex: 1;
     overflow-y: auto;
-    padding: 30px 45px;
+    /* padding: 30px 45px; */
 }
