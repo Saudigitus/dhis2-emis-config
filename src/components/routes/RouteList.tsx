@@ -8,7 +8,7 @@ export default function RouteList() {
         {
             path: '/',
             layout: SimpleLayout,
-            component: () => <Navigate to="/semis/configuration?sectionType=student" replace />
+            component: () => <Navigate to="/semis/configuration" replace />
         },
         {
             path: '/semis/configuration',

@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 div.jsx-1673646934 {
     box-shadow: none !important;
     background-color: transparent !important;

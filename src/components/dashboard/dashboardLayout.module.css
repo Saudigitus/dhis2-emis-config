@@ -1,0 +1,23 @@
+.containerCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    align-items: center;
+    gap: 17px;
+    flex: auto;
+    box-sizing: border-box !important;
+    margin: 0px 0px 20px 0px;
+}
+
+.title {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.87);
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin-bottom: 20px !important;
+}
