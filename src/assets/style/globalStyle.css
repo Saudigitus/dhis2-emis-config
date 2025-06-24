@@ -14,3 +14,12 @@ ul li .jsx-2002348738:hover {
     color: inherit !important;
     text-decoration: none !important;
 }
+
+.custom-switch-config .icon{
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.custom-switch-config{
+    margin-bottom: 0 !important;
+}
