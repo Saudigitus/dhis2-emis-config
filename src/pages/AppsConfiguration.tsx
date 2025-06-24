@@ -12,6 +12,7 @@ import { dashboardData } from '../utils/constants/dashboard/dashboardData';
 const AppsConfiguration = () => {
   const { add } = useUrlParams();
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState<any>({})
 
   const handleConfiguration = (path: string, title: string) => {
     add("module", path)
@@ -21,20 +22,21 @@ const AppsConfiguration = () => {
 
   const makeAction = (path: string, title: string) => ([
     {
-      label: `Enable ${path.replace("-", " ")}`,
-      icon: <Switch
-        checked
-        name="exampleName"
-        onChange={function zA() { }}
-        value="checked"
-      />
-    },
-    {
       label: `Configure ${path.replace("-", " ")}`,
       icon: <Settings />,
       onAction: () => {
         handleConfiguration(path, title.toLocaleLowerCase())
       },
+    },
+    {
+      label: `${visible[`${title}-${path}`] ? "Disable" : "Enable"} ${path.replace("-", " ")}`,
+      icon: <Switch
+        className="custom-switch-config"
+        name={`${title}-${path}`}
+        checked={visible[`${title}-${path}`] || false}
+        onChange={(e: any) => setVisible((prevState: any) => ({ ...prevState, [`${title}-${path}`]: e?.checked }))}
+        value="checked"
+      />
     }
   ]);
 
