@@ -36,6 +36,7 @@
     "date-fns": "2.29.3",
     "dayjs": "^1.11.9",
     "dhis2-semis-functions": "^0.0.6-alpha.27",
+    "dhis2-semis-components": "^0.6.5-alpha.68",
     "prop-types": "^15.8.1",
     "react-addons-update": "^15.6.3",
     "react-bootstrap": "^2.8.0",

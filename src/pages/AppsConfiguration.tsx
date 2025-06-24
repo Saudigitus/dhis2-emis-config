@@ -1,15 +1,23 @@
-import React from 'react'
-import Settings from '@mui/icons-material/Settings';
-import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
-import { DashboardCard, WithPadding } from 'dhis2-semis-components';
-import { dashboardData } from '../utils/constants/dashboard/dashboardData';
-import DashboardLayout from '../components/dashboard/dashboardLayout';
 import { Switch } from '@dhis2/ui';
+import { Box } from '@mui/material';
+import React, { useState } from 'react';
+import Settings from '@mui/icons-material/Settings';
+import { useUrlParams } from 'dhis2-semis-functions';
+import { DashboardCard, WithPadding } from 'dhis2-semis-components';
+import DashboardLayout from '../components/dashboard/dashboardLayout';
+import ModalManager from '../components/saveConfiguration/ModalManager';
+import { dashboardData } from '../utils/constants/dashboard/dashboardData';
 
 
 const AppsConfiguration = () => {
-  const navigate = useNavigate();
+  const { add } = useUrlParams();
+  const [open, setOpen] = useState(false);
+
+  const handleConfiguration = (path: string, title: string) => {
+    add("module", path)
+    add("section", title)
+    setOpen(true)
+  }
 
   const makeAction = (path: string, title: string) => ([
     {
@@ -24,7 +32,9 @@ const AppsConfiguration = () => {
     {
       label: `Configure ${path.replace("-", " ")}`,
       icon: <Settings />,
-      onAction: () => navigate(`/semis/${path}?sectionType=${title.toLocaleLowerCase()}`),
+      onAction: () => {
+        handleConfiguration(path, title.toLocaleLowerCase())
+      },
     }
   ]);
 
@@ -49,6 +59,8 @@ const AppsConfiguration = () => {
             )
           })
         }
+
+        {open && <ModalManager open={open} setOpen={setOpen} />}
       </WithPadding >
     </Box>
   )
