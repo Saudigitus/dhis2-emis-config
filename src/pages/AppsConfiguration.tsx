@@ -19,7 +19,7 @@ const AppsConfiguration = () => {
       onAction: () => navigate(`/semis/${path}?sectionType=${title.toLocaleLowerCase()}`),
     },
     {
-      label: `Enable ${path.replace("-", " ")}`,
+      label: `${visible[`${title}-${path}`] ? "Disable" : "Enable"} ${path.replace("-", " ")}`,
       icon: <Switch
         className="custom-switch-config"
         name={`${title}-${path}`}
