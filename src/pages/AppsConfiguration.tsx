@@ -7,12 +7,14 @@ import { DashboardCard, WithPadding } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
 import { dashboardData } from '../utils/constants/dashboard/dashboardData';
+import { useNavigate } from 'react-router-dom';
 
 
 const AppsConfiguration = () => {
   const { add } = useUrlParams();
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState<any>({})
+  const navigate = useNavigate()
 
   const handleConfiguration = (path: string, title: string) => {
     add("module", path)
@@ -24,9 +26,7 @@ const AppsConfiguration = () => {
     {
       label: `Configure ${path.replace("-", " ")}`,
       icon: <Settings />,
-      onAction: () => {
-        handleConfiguration(path, title.toLocaleLowerCase())
-      },
+      onAction: () => navigate(`/semis/configuration/${path}?sectionType=${title.toLocaleLowerCase()}`),
     },
     {
       label: `${visible[`${title}-${path}`] ? "Disable" : "Enable"} ${path.replace("-", " ")}`,
