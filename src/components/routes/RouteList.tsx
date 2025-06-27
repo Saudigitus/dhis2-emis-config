@@ -1,6 +1,6 @@
-import { Navigate } from "react-router-dom";
 import React from "react";
-import {SimpleLayout } from "../../layout"
+import { Navigate } from "react-router-dom";
+import { SimpleLayout } from "dhis2-semis-components";
 import AppsConfiguration from "../../pages/AppsConfiguration";
 
 export default function RouteList() {

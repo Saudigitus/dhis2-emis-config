@@ -1,3 +1,7 @@
+.container {
+    width: 100vw;
+}
+
 .containerCards {
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);

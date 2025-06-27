@@ -1,0 +1,23 @@
+import { useShowAlerts } from "dhis2-semis-functions"
+import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
+
+const query = {
+    dataStoreValues: {
+        resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`
+    }
+}
+
+export default function useGetDataStore() {
+    const { show, hide } = useShowAlerts()
+    const { data, error, loading, refetch } = useDataQuery<any>(query, {
+        onError: (error: FetchError) => {
+            show({
+                message: `Can't load resources : ${error.message}`,
+                type: { critical: true }
+            })
+            setTimeout(hide, 5000)
+        }
+    })
+
+    return { refetch, loading, data, error }
+}

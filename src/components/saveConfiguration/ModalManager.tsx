@@ -1,24 +1,22 @@
-import { format } from "date-fns";
 import ModalContent from "./ModalContent";
+import { useBuildForm } from "../../hooks/form";
 import React, { useEffect, useState } from "react";
 import { ModalComponent, } from "dhis2-semis-components";
-import form from "../../utils/constants/form/configFormFields.json"
 import { ModalManagerInterface } from "../../types/modal/ModalProps";
-import { useUrlParams, useGetSectionTypeLabel } from "dhis2-semis-functions";
+import { useUrlParams, capitalizeString } from "dhis2-semis-functions";
 
 function ModalManager(props: ModalManagerInterface) {
-    const { urlParameters, useQuery } = useUrlParams();
-    const { school, schoolName } = urlParameters();
-    const module = useQuery().get("module");
+    const { open, setOpen } = props;
+    const { useQuery } = useUrlParams();
+    const name = useQuery().get("name");
     const section = useQuery().get("section");
-    const { sectionName } = useGetSectionTypeLabel();
-    const { open, setOpen, initialValues: initialValuesFromSearch } = props;
-    const [initialValues] = useState<object>({ registerschoolstaticform: schoolName, enrollment_date: format(new Date(), "yyyy-MM-dd"), ...initialValuesFromSearch });
-    const allInitialValues = {
-        ...initialValues,
-    }
-    const [values, setValues] = useState<{ [key: string]: any }>({ orgUnit: school, ...allInitialValues });
+    const [initialValues] = useState<object>({});
+    const allInitialValues = { ...initialValues }
+    const { buildForm } = useBuildForm()
+    const formVariables = buildForm()
 
+
+    console.log(formVariables, buildForm())
 
     // useEffect(() => {
     //     setValues(prev => ({
@@ -35,7 +33,6 @@ function ModalManager(props: ModalManagerInterface) {
         //     void getInitialValues(trackedEntity, enrollment);
     }, [open]);
 
-    const formVariables = form[section as keyof typeof form][module as keyof typeof form["staff"]]
 
     const handleCloseModal = () => setOpen(false);
 
@@ -54,16 +51,16 @@ function ModalManager(props: ModalManagerInterface) {
     return (
         <ModalComponent
             open={open}
-            handleClose={handleCloseModal}
             loading={false}
-            title={``}
+            handleClose={handleCloseModal}
+            title={`${capitalizeString(name!)} - ${capitalizeString(section!)} Configuration`}
         >
             <ModalContent
                 loading={false}
                 onSubmit={onSubmit}
                 onChange={handleChange}
+                formFields={formVariables!}
                 onCancel={handleCloseModal}
-                formFields={[]}
                 initialValues={allInitialValues}
             />
         </ModalComponent>

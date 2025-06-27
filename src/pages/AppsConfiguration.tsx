@@ -1,6 +1,7 @@
 import { Switch } from '@dhis2/ui';
 import { Box } from '@mui/material';
 import React, { useState } from 'react';
+import styles from "./pages.module.css"
 import Settings from '@mui/icons-material/Settings';
 import { useUrlParams } from 'dhis2-semis-functions';
 import { DashboardCard, WithPadding } from 'dhis2-semis-components';
@@ -14,27 +15,29 @@ const AppsConfiguration = () => {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState<any>({})
 
-  const handleConfiguration = (path: string, title: string) => {
-    add("module", path)
-    add("section", title)
+  const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
+    add("name", label)
+    add("module", key)
+    add("section", section.toLocaleLowerCase())
     setOpen(true)
   }
 
-  const makeAction = (path: string, title: string) => ([
+  const makeAction = ({ key, section, label }: { key: string, section: string, label: string }) => ([
     {
-      label: `Configure ${path.replace("-", " ")}`,
+      label: `Configure ${label.replace("-", " ")}`,
       icon: <Settings />,
       onAction: () => {
-        handleConfiguration(path, title.toLocaleLowerCase())
+        handleConfiguration({ key, section, label })
       },
     },
     {
-      label: `${visible[`${title}-${path}`] ? "Disable" : "Enable"} ${path.replace("-", " ")}`,
+      label: `${visible[`${section}-${label}`] ? "Disable" : "Enable"} ${label.replace("-", " ")}`,
       icon: <Switch
-        className="custom-switch-config"
-        name={`${title}-${path}`}
-        checked={visible[`${title}-${path}`] || false}
-        onChange={(e: any) => setVisible((prevState: any) => ({ ...prevState, [`${title}-${path}`]: e?.checked }))}
+        // className="custom-switch-config"
+        className={styles.switch}
+        name={`${section}-${label}`}
+        checked={visible[`${section}-${label}`] || false}
+        onChange={(e: any) => setVisible((prevState: any) => ({ ...prevState, [`${section}-${label}`]: e?.checked }))}
         value="checked"
       />
     }
@@ -44,16 +47,16 @@ const AppsConfiguration = () => {
     <Box height={"93vh"}>
       <WithPadding p="2rem">
         {
-          dashboardData?.map(({ title, cards }) => {
+          dashboardData?.map(({ title: section, cards }) => {
             return (
-              <DashboardLayout title={title} >
+              <DashboardLayout title={section} >
                 {
-                  cards.map(({ label, icon, path }) => (
+                  cards.map(({ key, label, icon }) => (
                     <DashboardCard
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction(path, title)]}
+                      actions={[...makeAction({ key, section, label })]}
                     />
                   ))
                 }
