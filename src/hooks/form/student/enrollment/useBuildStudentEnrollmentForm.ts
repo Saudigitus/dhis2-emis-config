@@ -1,8 +1,7 @@
 import { useUrlParams } from "dhis2-semis-functions"
-import { CustomAttributeProps } from "dhis2-semis-types"
-import { SectionType } from "../../../../types/variables/Variables"
 import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfigType"
 import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
+import { ConfigCustomAttributeProps, SectionType } from "../../../../types/variables/Variables"
 
 function useBuildStudentEnrollmentForm() {
     const { useQuery } = useUrlParams()
@@ -16,7 +15,7 @@ function useBuildStudentEnrollmentForm() {
     // }
 
     const buildStudentEnrollmentForm = ({ dataStoreConfig, programStages, dataElements }: any) => {
-        const formFieldsList: CustomAttributeProps[] = []
+        const formFieldsList: ConfigCustomAttributeProps[] = []
         const registration: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "registration" })
 
         for (const element in registration) {
@@ -32,6 +31,7 @@ function useBuildStudentEnrollmentForm() {
                         visible: true,
                         required: true,
                         disabled: false,
+                        order: configuratioKey?.order,
                         type: configuratioKey?.inputType,
                         labelName: configuratioKey?.label,
                         description: configuratioKey?.hint,
@@ -39,15 +39,15 @@ function useBuildStudentEnrollmentForm() {
                         valueType: configuratioKey?.inputType,
                         displayName: configuratioKey?.label,
                         header: configuratioKey?.label,
-                        // onChange: (value: any) => { },
+                        onChange: (value: any) => { },
                         options: {
                             optionSet: {
                                 id: element,
-                                options: []
-                                // configuratioKey?.resource == "programStages" ? programStages.map((prog: any) => ({ value: prog.id, label: prog.displayName }))
-                                //     : dataElements
-                                //         .filter((dx: any) => dx.optionSetValue === foundStatus.optionSetValue && dx.valueType === foundStatus.valueType)
-                                //         .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                                options: 
+                                configuratioKey?.resource == "programStages" ? programStages?.map((prog: any) => ({ value: prog.id, label: prog.displayName }))
+                                    : dataElements
+                                        // .filter((dx: any) => dx.optionSetValue === foundStatus.optionSetValue && dx.valueType === foundStatus.valueType)
+                                        ?.map((dx: any) => ({ value: dx.id, label: dx.displayName }))
                             }
                         }
                     }
@@ -175,7 +175,9 @@ function useBuildStudentEnrollmentForm() {
         //     )
         // }
 
-        return formFieldsList
+        const sortedFields = formFieldsList?.sort((a, b)=> a.order - b.order)
+
+        return sortedFields
     }
 
     return { buildStudentEnrollmentForm }

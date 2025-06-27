@@ -9,7 +9,7 @@ type buildStudentProgramFormType = {
 }
 
 function useBuildStudentProgramForm() {
-    const { useQuery } = useUrlParams()
+    const { useQuery, add } = useUrlParams()
     const section = useQuery().get("section") as SectionType
 
 
@@ -35,6 +35,7 @@ function useBuildStudentProgramForm() {
                         visible: true,
                         required: true,
                         disabled: false,
+                        order: configuratioKey?.order,
                         type: configuratioKey?.inputType,
                         labelName: configuratioKey?.label,
                         description: configuratioKey?.hint,
@@ -42,7 +43,7 @@ function useBuildStudentProgramForm() {
                         valueType: configuratioKey?.inputType,
                         displayName: configuratioKey?.label,
                         header: configuratioKey?.label,
-                        onChange: (value: any) => { console.log(value) },
+                        onChange: (value: any) => { add("program",value?.value) },
                         options: {
                             optionSet: {
                                 id: element,

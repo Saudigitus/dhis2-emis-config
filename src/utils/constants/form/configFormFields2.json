@@ -118,18 +118,8 @@
         "inputType": "LIST",
         "label": "Academic Year",
         "optionSetValue": true,
-        "order": 2,
+        "order": 1,
         "resource": "dataElements",
-        "valueType": "TEXT"
-      },
-      "activeAcademicYear": {
-        "filter": "valueType:eq:TEXT",
-        "hint": "Data optionally with Option Sets",
-        "inputType": "LIST",
-        "label": "Active Academic Year",
-        "optionSetValue": true,
-        "order": 2,
-        "resource": "optionSets",
         "valueType": "TEXT"
       },
       "grade": {
@@ -147,7 +137,7 @@
         "hint": "Non-repeatable ProgramStage",
         "inputType": "LIST",
         "label": "Registration Program Stage",
-        "order": 2,
+        "order": 0,
         "resource": "programStages"
       },
       "section": {
@@ -156,7 +146,7 @@
         "inputType": "LIST",
         "label": "Class/Section",
         "optionSetValue": true,
-        "order": 2,
+        "order": 3,
         "resource": "dataElements",
         "valueType": "TEXT"
       }
