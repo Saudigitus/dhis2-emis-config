@@ -228,6 +228,38 @@
         "resource": "dataElements",
         "valueType": "TEXT"
       }
+    },
+    "defaults": {
+      "allowSearching": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Allow Searching",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "BOOLEAN"
+      },
+      "currentAcademicYear": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Current Academic Year",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "TEXT"
+      },
+      "defaultOrder": {
+        "filter": "valueType:eq:TEXT",
+        "hint": "option sets",
+        "inputType": "LIST",
+        "label": "Default order",
+        "optionSetValue": true,
+        "order": 1,
+        "resource": "optionSets",
+        "valueType": "BOOLEAN"
+      }
     }
   },
   {

@@ -9,7 +9,9 @@ import { useBuildStudentGeneralForm } from "./student/general/useBuildStudentGen
 import { useBuildStudentAttendanceForm } from "./student/attendance/useBuildStudentAttendanceForm";
 import { useBuildStudentFinalResultForm } from "./student/final-result/useBuildStudentFinalResultForm";
 import { useBuildStudentSocioForm } from "./student/socio/useBuildStudentSocioForm";
+import { useBuildStudentProgramForm } from "./student/program/useBuildStudentProgramForm";
 
 export {
-    useBuildForm, useBuildStaffAttendanceForm, useBuildStudentEnrollmentForm
+    useBuildForm, useBuildStaffAttendanceForm, useBuildStudentEnrollmentForm, useBuildStudentProgramForm,
+    useBuildStudentGeneralForm,
 }

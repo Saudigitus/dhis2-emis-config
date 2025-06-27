@@ -14,6 +14,7 @@ const query = {
 
 export default function useGetPrograms() {
     const { show, hide } = useShowAlerts()
+
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
         onError: (error: FetchError) => {
             show({
@@ -24,5 +25,5 @@ export default function useGetPrograms() {
         }
     })
 
-    return { refetch, loading, data, error }
+    return { refetch, loading, error, programs: data?.programs?.programs }
 }

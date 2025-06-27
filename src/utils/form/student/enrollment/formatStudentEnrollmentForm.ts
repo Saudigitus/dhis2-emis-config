@@ -17,7 +17,7 @@ function formStudentEnrollmentForm({ programFields, registrationFields, defaultF
         {
             visible: true,
             description: "",
-            name: `Registration Details`,
+            name: "Registration Details",
             fields: [...registrationFields]
         },
         {

@@ -44,7 +44,7 @@ const AppsConfiguration = () => {
   ]);
 
   return (
-    <Box height={"93vh"}>
+    <Box height={"93vh"} style={{overflowY: "scroll"}}>
       <WithPadding p="2rem">
         {
           dashboardData?.map(({ title: section, cards }) => {

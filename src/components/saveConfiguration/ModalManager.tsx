@@ -12,11 +12,9 @@ function ModalManager(props: ModalManagerInterface) {
     const section = useQuery().get("section");
     const [initialValues] = useState<object>({});
     const allInitialValues = { ...initialValues }
-    const { buildForm } = useBuildForm()
+    const { buildForm, loading } = useBuildForm()
     const formVariables = buildForm()
 
-
-    console.log(formVariables, buildForm())
 
     // useEffect(() => {
     //     setValues(prev => ({
@@ -46,17 +44,18 @@ function ModalManager(props: ModalManagerInterface) {
     };
 
     function onSubmit(e: Record<string, any>): void {
+        console.log(e)
     }
 
     return (
         <ModalComponent
             open={open}
-            loading={false}
+            loading={loading}
             handleClose={handleCloseModal}
             title={`${capitalizeString(name!)} - ${capitalizeString(section!)} Configuration`}
         >
             <ModalContent
-                loading={false}
+                loading={loading}
                 onSubmit={onSubmit}
                 onChange={handleChange}
                 formFields={formVariables!}
