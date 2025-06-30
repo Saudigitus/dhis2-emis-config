@@ -33,8 +33,7 @@ const AppsConfiguration = () => {
     {
       label: `${visible[`${section}-${label}`] ? "Disable" : "Enable"} ${label.replace("-", " ")}`,
       icon: <Switch
-        // className="custom-switch-config"
-        className={styles.switch}
+        className="custom-switch-config"
         name={`${section}-${label}`}
         checked={visible[`${section}-${label}`] || false}
         onChange={(e: any) => setVisible((prevState: any) => ({ ...prevState, [`${section}-${label}`]: e?.checked }))}
