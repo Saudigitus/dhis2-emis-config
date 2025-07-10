@@ -23,3 +23,7 @@ ul li .jsx-2002348738:hover {
 .custom-switch-config{
     margin-bottom: 0 !important;
 }
+
+.disabled {
+    opacity: unset !important;
+}

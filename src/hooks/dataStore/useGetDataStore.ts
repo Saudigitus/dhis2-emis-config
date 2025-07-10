@@ -1,23 +1,29 @@
 import { useShowAlerts } from "dhis2-semis-functions"
 import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
+import { useSetRecoilState } from "recoil"
+import { DataStoreDataState } from "../../atoms/DataStoreDataSchema"
 
 const query = {
     dataStoreValues: {
-        resource: `dataStore/${process.env.REACT_APP_DATA_STORE_NAME}/${process.env.REACT_APP_DATA_STORE_SEMIS_VALUES_KEY}`
+        resource: `dataStore/edson/values`
     }
 }
 
 export default function useGetDataStore() {
+    const setDataStoreDataState = useSetRecoilState(DataStoreDataState)
+
     const { show, hide } = useShowAlerts()
     const { data, error, loading, refetch } = useDataQuery<any>(query, {
+        onComplete: (response: any) => {
+            setDataStoreDataState(response?.dataStoreValues)
+        },
         onError: (error: FetchError) => {
             show({
-                message: `Can't load resources : ${error.message}`,
+                message: `Can't load resources data store`,
                 type: { critical: true }
             })
             setTimeout(hide, 5000)
         }
     })
-
     return { refetch, loading, data, error }
 }

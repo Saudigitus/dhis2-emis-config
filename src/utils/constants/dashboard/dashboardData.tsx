@@ -6,10 +6,10 @@ import performanceImage from "../../../assets/images/home/performance.png";
 
 const studentCards = [
     { key: "registration", label: "Enrollment", icon: enrollmentImage, path: "enrollments" },
-    { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
-    { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
-    { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
-    { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
+    // { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
+    // { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
+    // { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
+    // { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
 ];
 
 const staffCards = [
@@ -21,7 +21,7 @@ const staffCards = [
 
 const dashboardData = [
     { key: 0, title: "Student", cards: studentCards },
-    { key: 1, title: "Staff", cards: staffCards }
+    // { key: 1, title: "Staff", cards: staffCards }
 ]
 
 export { staffCards, studentCards, dashboardData }

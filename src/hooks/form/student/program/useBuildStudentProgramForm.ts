@@ -5,19 +5,12 @@ import { ConfigCustomAttributeProps, SectionType } from "../../../../types/varia
 
 type buildStudentProgramFormType = {
     programs: any[]
-    dataStoreConfig: DataStoreConfigType[]
+    dataStoreConfig: DataStoreConfigType[] | any
 }
 
 function useBuildStudentProgramForm() {
-    const { useQuery, add } = useUrlParams()
+    const { useQuery } = useUrlParams()
     const section = useQuery().get("section") as SectionType
-
-
-    // const onProgramStageSelected = (value: any, getDataElements: (programStageId: string) => void) => {
-    //     if (getDataElements !== undefined && getDataElements !== null) {
-    //         getDataElements(value.value)
-    //     }
-    // }
 
     const buildStudentProgramForm = ({ dataStoreConfig, programs = [] }: buildStudentProgramFormType) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
@@ -43,7 +36,6 @@ function useBuildStudentProgramForm() {
                         valueType: configuratioKey?.inputType,
                         displayName: configuratioKey?.label,
                         header: configuratioKey?.label,
-                        onChange: (value: any) => { add("program",value?.value) },
                         options: {
                             optionSet: {
                                 id: element,
@@ -55,12 +47,8 @@ function useBuildStudentProgramForm() {
             }
 
         }
-
-
         return formFieldsList
     }
-
     return { buildStudentProgramForm }
 }
-
 export { useBuildStudentProgramForm }

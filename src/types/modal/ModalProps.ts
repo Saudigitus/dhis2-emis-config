@@ -3,8 +3,8 @@ interface ModalContentInterface {
     loading: boolean
     onCancel: () => void
     onSubmit: (arg: any) => void
-    onChange: (arg: any) => void
     initialValues?: Record<string, any>
+    setTrackedValues?: (value: any) => void
 }
 
 interface ModalManagerInterface {

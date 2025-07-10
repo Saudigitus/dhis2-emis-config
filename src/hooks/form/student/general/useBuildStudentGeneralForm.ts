@@ -8,14 +8,11 @@ function useBuildStudentGeneralForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery().get("section") as SectionType
 
-
-
-    const buildStudentGeneralForm = ({ dataStoreConfig, programStages, dataElements }: any) => {
+    const buildStudentGeneralForm = ({ dataStoreConfig }: any, options: any, attributes: any) => {
         const formFieldsList: CustomAttributeProps[] = []
         const defaults: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "defaults" })
 
         for (const element in defaults) {
-
             const configuratioKey: any = defaults?.[element as keyof DataStoreConfigType["defaults"]]
 
 
@@ -34,15 +31,15 @@ function useBuildStudentGeneralForm() {
                         valueType: configuratioKey?.inputType,
                         displayName: configuratioKey?.label,
                         header: configuratioKey?.label,
-                        // onChange: (value: any) => { },
                         options: {
                             optionSet: {
                                 id: element,
-                                options: []
-                                // configuratioKey?.resource == "programStages" ? programStages.map((prog: any) => ({ value: prog.id, label: prog.displayName }))
-                                //     : dataElements
-                                //         .filter((dx: any) => dx.optionSetValue === foundStatus.optionSetValue && dx.valueType === foundStatus.valueType)
-                                //         .map((dx: any) => ({ value: dx.id, label: dx.displayName }))
+                                options: configuratioKey?.resource == "attributes" ? [
+                                    ...(attributes?.map((attr: any) => ({
+                                        value: attr.trackedEntityAttribute.id,
+                                        label: attr.trackedEntityAttribute.displayName
+                                    })) || []),
+                                ] : configuratioKey?.resource == "custom" ? [...configuratioKey?.options || []] : [...options || []]
                             }
                         }
                     }

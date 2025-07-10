@@ -7,7 +7,6 @@ export type { SectionType }
 interface ConfigCustomAttributeProps
     extends CustomAttributeProps {
     order: number
-    onChange: (arg: any) => void
 }
 
 export type { ConfigCustomAttributeProps }

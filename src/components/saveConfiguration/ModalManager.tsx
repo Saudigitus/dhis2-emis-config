@@ -1,50 +1,64 @@
 import ModalContent from "./ModalContent";
 import { useBuildForm } from "../../hooks/form";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ModalComponent, } from "dhis2-semis-components";
 import { ModalManagerInterface } from "../../types/modal/ModalProps";
 import { useUrlParams, capitalizeString } from "dhis2-semis-functions";
+import usePostDataStore from "../../hooks/dataStore/usePostDataStore";
+import { useRecoilValue } from "recoil";
+import { ProgramDataState } from "../../atoms/ProgramDataSchema";
 
 function ModalManager(props: ModalManagerInterface) {
-    const { open, setOpen } = props;
-    const { useQuery } = useUrlParams();
+    const { open, setOpen, initialValues } = props;
+    const [trackeValues, setTrackedValues] = React.useState<any>({});
+    const { useQuery, remove } = useUrlParams();
+    const programData = useRecoilValue<any>(ProgramDataState)
     const name = useQuery().get("name");
+    const { createDataStore, loading: loadCreateConfig } = usePostDataStore()
     const section = useQuery().get("section");
-    const [initialValues] = useState<object>({});
-    const allInitialValues = { ...initialValues }
-    const { buildForm, loading } = useBuildForm()
+    const allInitialValues = {
+        ...initialValues,
+        trackedEntityType: programData?.trackedEntityType?.id
+    }
+    const { buildForm, loading } = useBuildForm({ trackeValues })
     const formVariables = buildForm()
 
-
-    // useEffect(() => {
-    //     setValues(prev => ({
-    //         ...prev,
-    //         ...allInitialValues,
-    //     }));
-    // }, [updateInitialValues, generatedVariables])
-
-    useEffect(() => {
-        // if (saveMode == "CREATE" && !Object.keys(initialValuesFromSearch!).length)
-        //     void returnPattern(attributes);
-
-        // if (saveMode == "UPDATE")
-        //     void getInitialValues(trackedEntity, enrollment);
-    }, [open]);
-
-
-    const handleCloseModal = () => setOpen(false);
-
-    const handleChange = (e: { field: any; value: string; name: string }) => {
-        // const { name, value } = e;
-        // setValues(prev => ({
-        //     ...allInitialValues,
-        //     ...prev,
-        //     [name]: value,
-        // }));
-    };
+    const handleCloseModal = () => {
+        remove("name")
+        remove("module")
+        remove("section")
+        setOpen(false);
+    }
 
     function onSubmit(e: Record<string, any>): void {
-        console.log(e)
+        var formData: any = {}
+        switch (e.module) {
+            case "registration":
+                formData = {
+                    "registration": {
+                        "enabled": false,
+                        "academicYear": e.academicYear,
+                        "grade": e.grade,
+                        "lastUpdate": new Date().toISOString(),
+                        "programStage": e.programStage,
+                        "section": e.section,
+                    },
+                    "program": e.program,
+                    "key": e.key?.toLowerCase(),
+                    "trackedEntityType": e.trackedEntityType,
+                    "defaults": {
+                        "allowSearching": e.allowSearching === "true",
+                        "currentAcademicYear": e.currentAcademicYear,
+                        "defaultOrder": `${e.defaultOrder}:${e.orderType}`,
+                    },
+                }
+                break;
+        }
+        createDataStore({
+            data: [formData]
+        }).then(() => {
+            setOpen(false);
+        })
     }
 
     return (
@@ -55,9 +69,9 @@ function ModalManager(props: ModalManagerInterface) {
             title={`${capitalizeString(name!)} - ${capitalizeString(section!)} Configuration`}
         >
             <ModalContent
-                loading={loading}
+                setTrackedValues={setTrackedValues}
+                loading={loading || loadCreateConfig}
                 onSubmit={onSubmit}
-                onChange={handleChange}
                 formFields={formVariables!}
                 onCancel={handleCloseModal}
                 initialValues={allInitialValues}
