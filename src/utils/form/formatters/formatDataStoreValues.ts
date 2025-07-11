@@ -1,7 +1,7 @@
 const registrationPostBody = (formValues: any, program: any) => {
     return {
         [formValues?.module]: {
-            "enabled": false,
+            "enabled": formValues?.enabled,
             "academicYear": formValues.academicYear,
             "grade": formValues.grade,
             "lastUpdate": new Date().toISOString(),
@@ -28,8 +28,10 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
     return {
         "module": module,
         "program": dataStoreValues?.program,
+        "programStageRegistration": dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
         "orderType": dataStoreValues?.defaults?.defaultOrder.split(":")?.[1],
+        "programStageSocioEconomic": dataStoreValues?.["socio-economics"]?.programStage,
         "defaultOrder": dataStoreValues?.defaults?.defaultOrder.split(":")?.[0],
         "allowSearching": JSON.stringify(dataStoreValues?.defaults?.allowSearching),
         "currentAcademicYear": dataStoreValues?.defaults?.currentAcademicYear,
