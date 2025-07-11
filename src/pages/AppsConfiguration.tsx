@@ -99,7 +99,7 @@ const AppsConfiguration = () => {
                       />
                       {open && <ModalManager open={open} setOpen={setOpen} initialValues={
                         {
-                          module: key, key: section,
+                          module: key, key: section.toLocaleLowerCase(),
                           ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
                         }} />}
                     </>

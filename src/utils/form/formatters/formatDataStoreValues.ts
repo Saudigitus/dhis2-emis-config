@@ -5,11 +5,16 @@ const registrationPostBody = (formValues: any, program: any) => {
             "academicYear": formValues.academicYear,
             "grade": formValues.grade,
             "lastUpdate": new Date().toISOString(),
-            "programStage": formValues.programStage,
+            "programStage": formValues.programStageRegistration,
             "section": formValues.section,
         },
+        ...(formValues.programStageSocioEconomic ? {
+            "socio-economics": {
+                "programStage": formValues.programStageSocioEconomic,
+            }
+        } : {}),
         "program": formValues.program,
-        "key": formValues.key?.toLowerCase(),
+        "key": formValues.key,
         "trackedEntityType": program?.trackedEntityType?.id,
         "defaults": {
             "allowSearching": formValues.allowSearching === "true",
@@ -20,12 +25,10 @@ const registrationPostBody = (formValues: any, program: any) => {
 }
 
 const registrationBodyToForm = (dataStoreValues: any, module: string) => {
-    console.log(dataStoreValues, "sdfsdf");
     return {
         "module": module,
-        "key": dataStoreValues?.key,
         "program": dataStoreValues?.program,
-        ...dataStoreValues[module],
+        ...dataStoreValues?.[module],
         "orderType": dataStoreValues?.defaults?.defaultOrder.split(":")?.[1],
         "defaultOrder": dataStoreValues?.defaults?.defaultOrder.split(":")?.[0],
         "allowSearching": JSON.stringify(dataStoreValues?.defaults?.allowSearching),

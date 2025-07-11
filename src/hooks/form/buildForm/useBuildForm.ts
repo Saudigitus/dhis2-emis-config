@@ -7,6 +7,7 @@ import useProgramConfig from "../../../hooks/program/useGetProgram"
 import { useBuildStudentEnrollmentForm, useBuildStudentGeneralForm, useBuildStudentProgramForm } from "../index"
 import { useEffect } from "react"
 import { getDataElements, getOptions } from "../../../utils/dataStore/common"
+import { useBuildStudentSocioForm } from "../student/socio/useBuildStudentSocioForm"
 
 const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { useQuery } = useUrlParams();
@@ -15,6 +16,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { buildStudentProgramForm } = useBuildStudentProgramForm()
     const { buildStudentGeneralForm } = useBuildStudentGeneralForm()
     const { buildStudentEnrollmentForm } = useBuildStudentEnrollmentForm()
+    const { buildStudentSocioForm } = useBuildStudentSocioForm()
     const { getProgram, data, loading } = useProgramConfig()
 
     useEffect(() => {
@@ -34,16 +36,19 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
                     },
-                    getDataElements(data?.programStages, trackeValues?.programStage)) : []
+                    getDataElements(data?.programStages, trackeValues?.programStageRegistration)) : []
                 const defaultFields = (trackeValues?.academicYear && data) ? buildStudentGeneralForm(
                     {
                         dataStoreConfig: dataStoreConfig,
                         programStages: data?.programStages ?? []
                     },
-                    getOptions(getDataElements(data?.programStages, trackeValues?.programStage), trackeValues?.academicYear),
+                    getOptions(getDataElements(data?.programStages, trackeValues?.programStageRegistration), trackeValues?.academicYear),
                     data?.programTrackedEntityAttributes ?? []
                 ) : []
-                const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data } })
+                const socioFields = data ? buildStudentSocioForm({
+                    dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
+                }) : []
+                const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, socioFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data } })
                 return sectionFormEnrollment;
 
             // case "attendance":

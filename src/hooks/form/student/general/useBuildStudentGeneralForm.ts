@@ -47,8 +47,6 @@ function useBuildStudentGeneralForm() {
             }
 
         }
-
-
         return formFieldsList
     }
 
