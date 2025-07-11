@@ -1,6 +1,6 @@
 import {atom} from "recoil"
 
 export const ProgramDataState = atom<any>({
-    default: false,
+    default: null,
     key: "program-data-state"
 })

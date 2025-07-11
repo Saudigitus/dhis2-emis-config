@@ -8,6 +8,7 @@ type formStudentEnrollmentFormType = {
 }
 
 function formStudentEnrollmentForm({ programFields, registrationFields, defaultFields, requiredData }: formStudentEnrollmentFormType) {
+    console.log(requiredData,"dsd");
     return [
         {
             visible: true,
@@ -23,7 +24,7 @@ function formStudentEnrollmentForm({ programFields, registrationFields, defaultF
         },
         {
             visible: true,
-            description: requiredData?.academicYear ? "" : "Select an academic year to follow and config the default details",
+            description: (!requiredData?.academicYear || !requiredData.data) ? "Select an academic year to follow and config the default details" : "",
             name: "Default Configurations",
             fields: [...defaultFields]
         }

@@ -6,18 +6,7 @@ import { DataStoreConfigState } from "../../../atoms/DataStoreSchema"
 import useProgramConfig from "../../../hooks/program/useGetProgram"
 import { useBuildStudentEnrollmentForm, useBuildStudentGeneralForm, useBuildStudentProgramForm } from "../index"
 import { useEffect } from "react"
-
-const getDataElements = (programStages: any[], programStage: string) => {
-    const dataElements = programStages?.filter((programStag) => {
-        return programStag.id === programStage
-    })?.[0]?.programStageDataElements
-    return dataElements
-}
-
-export const getOptions = (dataElemnts: any[], dataElement: string) => {
-    const found = dataElemnts?.find((item: any) => item.dataElement.id === dataElement);
-    return found?.dataElement?.optionSet?.options || [];
-}
+import { getDataElements, getOptions } from "../../../utils/dataStore/common"
 
 const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { useQuery } = useUrlParams();
@@ -26,7 +15,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { buildStudentProgramForm } = useBuildStudentProgramForm()
     const { buildStudentGeneralForm } = useBuildStudentGeneralForm()
     const { buildStudentEnrollmentForm } = useBuildStudentEnrollmentForm()
-    const { getProgram, data } = useProgramConfig()
+    const { getProgram, data, loading } = useProgramConfig()
 
     useEffect(() => {
         //FETCH PROGRAM DATA BASED ON SELECTED ONE ON THE FORM
@@ -40,13 +29,13 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const buildForm = () => {
         switch (module) {
             case "registration":
-                const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs })
+                const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
                 const fieldsEnrollment = data ? buildStudentEnrollmentForm(
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
                     },
                     getDataElements(data?.programStages, trackeValues?.programStage)) : []
-                const defaultFields = trackeValues?.academicYear ? buildStudentGeneralForm(
+                const defaultFields = (trackeValues?.academicYear && data) ? buildStudentGeneralForm(
                     {
                         dataStoreConfig: dataStoreConfig,
                         programStages: data?.programStages ?? []
@@ -54,7 +43,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     getOptions(getDataElements(data?.programStages, trackeValues?.programStage), trackeValues?.academicYear),
                     data?.programTrackedEntityAttributes ?? []
                 ) : []
-                const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data: data ?? null } })
+                const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data } })
                 return sectionFormEnrollment;
 
             // case "attendance":

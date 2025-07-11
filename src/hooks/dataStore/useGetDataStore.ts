@@ -9,7 +9,7 @@ const query = {
     }
 }
 
-export default function useGetDataStore() {
+export default function useGetDataStore(lazy: boolean = false) {
     const setDataStoreDataState = useSetRecoilState(DataStoreDataState)
 
     const { show, hide } = useShowAlerts()
@@ -23,7 +23,8 @@ export default function useGetDataStore() {
                 type: { critical: true }
             })
             setTimeout(hide, 5000)
-        }
+        },
+        lazy,
     })
     return { refetch, loading, data, error }
 }

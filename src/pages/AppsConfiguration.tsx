@@ -11,30 +11,17 @@ import InfoIcon from '@mui/icons-material/Info';
 import { DataStoreDataState } from '../atoms/DataStoreDataSchema';
 import { useRecoilValue } from 'recoil';
 import usePostDataStore from '../hooks/dataStore/usePostDataStore';
-
-const isModuleConfigured = (section: string, dataStore: any[]): boolean => {
-  // Check if the section exists in the dataStore and if the module is configured
-  if (!dataStore || !Array.isArray(dataStore)) return false;
-  const sectionData = dataStore.find((item: any) => item?.key === section?.toLowerCase());
-  return sectionData;
-}
-
-const isModuleEnabled = (section: string, label: string, dataStore: any[]): boolean => {
-  if (isModuleConfigured(section, dataStore)) {
-    const sectionData = dataStore.find((item: any) => item?.key === section?.toLowerCase());
-    return sectionData?.[label]?.enabled || false;
-  } else {
-    return false;
-  }
-}
+import useGetDataStore from '../hooks/dataStore/useGetDataStore';
+import { moduleBodyToForm } from '../utils/form/formatters/formatDataStoreValues';
+import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../utils/dataStore/common';
 
 const AppsConfiguration = () => {
-  const { add } = useUrlParams();
+  const { add, useQuery } = useUrlParams();
   const [open, setOpen] = useState(false);
-  const { createDataStore, loading } = usePostDataStore()
-
-  const [visible, setVisible] = useState<any>({})
+  const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreDataState)
+  const { refetch } = useGetDataStore(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
 
   const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
@@ -56,19 +43,22 @@ const AppsConfiguration = () => {
         }
         : itemSection
     )
-
+    setLoading(true)
     createDataStore({
       data: updated,
       message: `${key} ${e?.checked ? "enabled" : "disabled"} successfully`
+    }).then(() => {
+      refetch().then(() => {
+        setLoading(false)
+      })
     })
-    setVisible((prevState: any) => ({ ...prevState, [`${section}-${label}`]: e?.checked }))
   }
 
   const makeAction = ({ key, section, label }: { key: string, section: string, label: string }) => ([
-    {
+    ...(key == "registration" ? [{
       label: "This module contain general configuration and it's required for semis to work properly",
       icon: <InfoIcon style={{ color: "orange" }} />,
-    },
+    }] : [{}]),
     {
       label: `Configure ${label.replace("-", " ")}`,
       icon: <Settings />,
@@ -77,17 +67,19 @@ const AppsConfiguration = () => {
       },
     },
     {
-      label: isModuleConfigured(section, dataStore) ? `${visible[`${section}-${label}`] ? "Disable" : "Enable"} ${label.replace("-", " ")}` : `You must configure the module first to enable it`,
-      icon: loading ? <CircularProgress size={20} /> : <Switch
-        disabled={!isModuleConfigured(section, dataStore)}
-        className="custom-switch-config"
-        name={`${section}-${label}`}
-        checked={visible[`${section}-${label}`] || false}
-        onChange={(e: any) => onModuleEnable(e, section, label, key)}
-        value="checked"
-      />
+      label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure the module first to enable it`,
+      icon: (loading) ? <CircularProgress size={20} /> :
+        <Switch
+          disabled={!isModuleConfigured(section, dataStore, key)}
+          className="custom-switch-config"
+          name={`${section}-${label}`}
+          checked={isModuleEnabled(section, key, dataStore)}
+          onChange={(e: any) => onModuleEnable(e, section, label, key)}
+        />
     }
   ]);
+
+  console.log(dataStore)
 
   return (
     <Box height={"93vh"} style={{ overflowY: "scroll" }}>
@@ -105,8 +97,11 @@ const AppsConfiguration = () => {
                         contents={[{ label }]}
                         actions={[...makeAction({ key, section, label })]}
                       />
-                      {open && <ModalManager open={open} setOpen={setOpen} initialValues={{ module: key, key: section }} />}
-
+                      {open && <ModalManager open={open} setOpen={setOpen} initialValues={
+                        {
+                          module: key, key: section,
+                          ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
+                        }} />}
                     </>
                   ))
 
