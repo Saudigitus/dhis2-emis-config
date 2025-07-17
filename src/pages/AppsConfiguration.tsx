@@ -16,7 +16,7 @@ import { moduleBodyToForm } from '../utils/form/formatters/formatDataStoreValues
 import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../utils/dataStore/common';
 
 const AppsConfiguration = () => {
-  const { add, useQuery } = useUrlParams();
+  const { add } = useUrlParams();
   const [open, setOpen] = useState(false);
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreDataState)
@@ -67,7 +67,7 @@ const AppsConfiguration = () => {
       },
     },
     {
-      label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure the module first to enable it`,
+      label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
       icon: (loading) ? <CircularProgress size={20} /> :
         <Switch
           disabled={!isModuleConfigured(section, dataStore, key)}
@@ -78,8 +78,6 @@ const AppsConfiguration = () => {
         />
     }
   ]);
-
-  console.log(dataStore)
 
   return (
     <Box height={"93vh"} style={{ overflowY: "scroll" }}>

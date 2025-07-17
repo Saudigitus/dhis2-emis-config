@@ -8,6 +8,8 @@ import { useBuildStudentEnrollmentForm, useBuildStudentGeneralForm, useBuildStud
 import { useEffect } from "react"
 import { getDataElements, getOptions } from "../../../utils/dataStore/common"
 import { useBuildStudentSocioForm } from "../student/socio/useBuildStudentSocioForm"
+import { useBuildStudentFinalResultForm } from "../student/final-result/useBuildStudentFinalResultForm"
+import { formStudentFinalResultForm } from "../../../utils/form/student/final-result/useBuildStudentFinalResultForm"
 
 const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { useQuery } = useUrlParams();
@@ -17,6 +19,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { buildStudentGeneralForm } = useBuildStudentGeneralForm()
     const { buildStudentEnrollmentForm } = useBuildStudentEnrollmentForm()
     const { buildStudentSocioForm } = useBuildStudentSocioForm()
+    const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { getProgram, data, loading } = useProgramConfig()
 
     useEffect(() => {
@@ -50,11 +53,15 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 }) : []
                 const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, socioFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data } })
                 return sectionFormEnrollment;
-
-            // case "attendance":
-            //     const fields = buildStudentEnrollmentForm({ dataStoreConfig: dataStoreConfig2, programStages: data?.programStages ?? [], dataElemnts: [] })
-            //     const sectionForm = formStudentEnrollmentForm({ programFields: [], registrationFields: fields, defaultFields: [] })
-            //     return sectionForm;
+            case "final-result":
+                const programField = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
+                const fields = data ? buildStudentFinalResultForm(
+                    {
+                        dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
+                    },
+                    getDataElements(data?.programStages, trackeValues?.programStageFinalResult)) : []
+                const sectionForm = formStudentFinalResultForm({ finalResultFields: fields,programFields: programField })
+                return sectionForm;
 
             default: break;
         }

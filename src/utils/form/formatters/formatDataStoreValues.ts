@@ -38,6 +38,15 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
     }
 }
 
+const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
+    return {
+        "module": module,
+        "program": dataStoreValues?.program,
+        "programStageFinalResult": dataStoreValues?.[module]?.programStage,
+        ...dataStoreValues?.[module],
+    }
+}
+
 const modulePostBody = (formValues: any, program: any) => {
     switch (formValues?.module) {
         case "registration":
@@ -51,6 +60,8 @@ const moduleBodyToForm = (dataStoreValues: any, module: string) => {
     switch (module) {
         case "registration":
             return registrationBodyToForm(dataStoreValues, module);
+        case "final-result":
+            return finalResultBodyToForm(dataStoreValues, module);
         default:
             return {};
     }
