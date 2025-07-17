@@ -18,11 +18,11 @@ import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../uti
 const AppsConfiguration = () => {
   const { add } = useUrlParams();
   const [open, setOpen] = useState(false);
+  const [initialValues, setInitialValues] = useState({});
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreDataState)
   const { refetch } = useGetDataStore(true)
   const [loading, setLoading] = useState<boolean>(false)
-
 
   const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
     add("name", label)
@@ -64,6 +64,11 @@ const AppsConfiguration = () => {
       icon: <Settings />,
       onAction: () => {
         handleConfiguration({ key, section, label })
+        const initialValues = {
+          module: key, key: section.toLocaleLowerCase(),
+          ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
+        }
+        setInitialValues(initialValues)
       },
     },
     {
@@ -95,19 +100,14 @@ const AppsConfiguration = () => {
                         contents={[{ label }]}
                         actions={[...makeAction({ key, section, label })]}
                       />
-                      {open && <ModalManager open={open} setOpen={setOpen} initialValues={
-                        {
-                          module: key, key: section.toLocaleLowerCase(),
-                          ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
-                        }} />}
                     </>
                   ))
-
                 }
               </DashboardLayout>
             )
           })
         }
+        {open && <ModalManager open={open} setOpen={setOpen} initialValues={initialValues} />}
       </WithPadding >
     </Box>
   )

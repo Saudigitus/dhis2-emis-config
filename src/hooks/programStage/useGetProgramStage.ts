@@ -34,7 +34,6 @@ export default function useGetProgramStages() {
     })
 
     const getProgramStages = async (program: string, filter = undefined) => {
-        console.log(program)
         try {
             await refetch({ program, filter })
         } catch (err: any) {

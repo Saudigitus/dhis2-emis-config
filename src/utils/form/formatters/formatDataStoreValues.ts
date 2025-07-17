@@ -1,3 +1,5 @@
+import { DataStoreProps } from "dhis2-semis-types"
+
 const registrationPostBody = (formValues: any, program: any) => {
     return {
         [formValues?.module]: {
@@ -47,21 +49,40 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
     }
 }
 
-const modulePostBody = (formValues: any, program: any) => {
+const finalResultPostBody = (formValues: any) => {
+    return {
+        [formValues?.module]: {
+            programStage: formValues.programStageFinalResult,
+            status: formValues.status
+        }
+    }
+}
+
+const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
+
     switch (formValues?.module) {
         case "registration":
             return registrationPostBody(formValues, program);
+
+        case "final-result":
+            const prevDataStore = prevData?.find(x => x.program == program.id)
+            return { ...finalResultPostBody(formValues), ...prevDataStore }
+
         default:
             return {};
     }
 }
 
 const moduleBodyToForm = (dataStoreValues: any, module: string) => {
+    console.log(dataStoreValues, module)
+
     switch (module) {
         case "registration":
             return registrationBodyToForm(dataStoreValues, module);
+
         case "final-result":
             return finalResultBodyToForm(dataStoreValues, module);
+
         default:
             return {};
     }

@@ -1,9 +1,8 @@
 const isModuleConfigured = (section: string, dataStore: any[], key: string): boolean => {
-  console.log(key, section, dataStore,"dsds");
     // Check if the section exists in the dataStore and if the module is configured
     if (!dataStore || !Array.isArray(dataStore)) return false;
     const sectionData = dataStore?.find((item: any) => item?.key === section?.toLowerCase());
-    return sectionData[key];
+    return sectionData?.[key];
   }
   
   const isModuleEnabled = (section: string, key: string, dataStore: any[]): boolean => {

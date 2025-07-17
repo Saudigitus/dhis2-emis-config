@@ -17,7 +17,7 @@ function ModalManager(props: ModalManagerInterface) {
     const programData = useRecoilValue<any>(ProgramDataState)
     const name = useQuery().get("name");
     const [loadCreateConfig, setLoading] = useState<boolean>(false)
-    const { refetch } = useGetDataStore(true)
+    const { refetch, data } = useGetDataStore(true)
     const { createDataStore } = usePostDataStore()
     const section = useQuery().get("section");
     const allInitialValues = { ...initialValues }
@@ -33,8 +33,9 @@ function ModalManager(props: ModalManagerInterface) {
 
     function onSubmit(e: Record<string, any>): void {
         setLoading(true)
+
         createDataStore({
-            data: [modulePostBody(e,programData)],
+            data: [modulePostBody(e, programData, data?.dataStoreValues)],
         }).then(() => {
             refetch().then(() => {
                 setLoading(false);

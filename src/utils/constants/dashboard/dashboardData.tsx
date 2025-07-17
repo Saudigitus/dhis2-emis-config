@@ -9,7 +9,7 @@ const studentCards = [
     // { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
     // { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
     // { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
-    // { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
+    { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
 ];
 
 const staffCards = [
