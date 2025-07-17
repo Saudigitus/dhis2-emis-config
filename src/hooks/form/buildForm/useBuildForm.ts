@@ -32,9 +32,11 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { programs, loading: loadingPrograms } = useGetPrograms()
 
     const buildForm = () => {
+        const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
+
+
         switch (module) {
             case "registration":
-                const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
                 const fieldsEnrollment = data ? buildStudentEnrollmentForm(
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
@@ -53,15 +55,25 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 }) : []
                 const sectionFormEnrollment = formStudentEnrollmentForm({ programFields, socioFields, registrationFields: fieldsEnrollment, defaultFields, requiredData: { ...trackeValues, data } })
                 return sectionFormEnrollment;
+
             case "final-result":
-                const programField = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
                 const fields = data ? buildStudentFinalResultForm(
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
                     },
                     getDataElements(data?.programStages, trackeValues?.programStageFinalResult)) : []
-                const sectionForm = formStudentFinalResultForm({ finalResultFields: fields,programFields: programField })
+                const sectionForm = formStudentFinalResultForm({ finalResultFields: fields, programFields })
                 return sectionForm;
+
+
+            case "attendance":
+                return {}
+
+            case "transfer":
+                return {}
+
+            case "performance":
+                return {}
 
             default: break;
         }
