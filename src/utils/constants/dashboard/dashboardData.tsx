@@ -8,7 +8,7 @@ const studentCards = [
     { key: "registration", label: "Enrollment", icon: enrollmentImage, path: "enrollments" },
     { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
     { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
-    // { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
+    { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
     { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
 ];
 
@@ -16,12 +16,12 @@ const staffCards = [
     { key: "registration", label: "Staff registry", icon: enrollmentImage, path: "enrollments" },
     { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
     { key: "tranfer", label: "Transfer", icon: transferImage, path: "transfer" },
-    // { key: "", label: "Re-enroll", icon: resultImage, path: "re-enroll" },
+    { key: "", label: "Re-enroll", icon: resultImage, path: "re-enroll" },
 ];
 
 const dashboardData = [
     { key: 0, title: "Student", cards: studentCards },
-    // { key: 1, title: "Staff", cards: staffCards }
+    { key: 1, title: "Staff", cards: staffCards }
 ]
 
 export { staffCards, studentCards, dashboardData }

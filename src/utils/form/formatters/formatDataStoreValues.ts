@@ -117,6 +117,22 @@ const attendancePostBody = (formValues: any) => {
     }
 }
 
+const transferBodyToForm = (dataStoreValues: any, module: string) => {
+    return {}
+}
+
+const transferPostBody = (formValues: any) => {
+    return {}
+}
+
+const performanceBodyToForm = (dataStoreValues: any, module: string) => {
+    return {}
+}
+
+const performancePostBody = (formValues: any) => {
+    return {}
+}
+
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
     const prevDataStore = prevData?.find(x => x.program == program.id)
 
@@ -129,6 +145,15 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
 
         case "attendance":
             return { ...prevDataStore, ...attendancePostBody(formValues) }
+
+        case "attendance":
+            return {};
+
+        case "transfer":
+            return {};
+
+        case "performance":
+            return {};
 
         default:
             return {};
@@ -146,6 +171,12 @@ const moduleBodyToForm = (dataStoreValues: any, module: string) => {
 
         case "attendance":
             return attendance(dataStoreValues, module);
+
+        case "transfer":
+            return {};
+
+        case "performance":
+            return {};
 
         default:
             return {};
