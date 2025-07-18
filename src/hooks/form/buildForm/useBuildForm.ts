@@ -10,10 +10,15 @@ import { getDataElements, getOptions } from "../../../utils/dataStore/common"
 import { useBuildStudentSocioForm } from "../student/socio/useBuildStudentSocioForm"
 import { useBuildStudentFinalResultForm } from "../student/final-result/useBuildStudentFinalResultForm"
 import { formStudentFinalResultForm } from "../../../utils/form/student/final-result/useBuildStudentFinalResultForm"
+import { useBuildStudentTransferForm } from "../student/transfer/useBuildStudentTransferForm"
+import { formStudentTransferForm } from "../../../utils/form/student/transfer/useBuildStudentTransferForm"
+import { getDataStoreConfigKeys } from "../../../utils/dataStore/dataStoreConfigKeys"
+import { SectionType } from "../../../types/variables/Variables"
 
 const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { useQuery } = useUrlParams();
     const module = useQuery().get("module");
+    const section = useQuery().get("section") as SectionType;
     const dataStoreConfig = useRecoilValue(DataStoreConfigState)
     const { buildStudentProgramForm } = useBuildStudentProgramForm()
     const { buildStudentGeneralForm } = useBuildStudentGeneralForm()
@@ -21,6 +26,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { buildStudentSocioForm } = useBuildStudentSocioForm()
     const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { getProgram, data, loading } = useProgramConfig()
+    const { buildStudentTransferForm } = useBuildStudentTransferForm()
 
     useEffect(() => {
         //FETCH PROGRAM DATA BASED ON SELECTED ONE ON THE FORM
@@ -37,18 +43,20 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
 
         switch (module) {
             case "registration":
+                const defaults: any = getDataStoreConfigKeys({
+                    dataStoreConfig: dataStoreConfig,
+                    sectionType: section,
+                    element: "defaults"
+                })
                 const fieldsEnrollment = data ? buildStudentEnrollmentForm(
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
                     },
                     getDataElements(data?.programStages, trackeValues?.programStageRegistration)) : []
                 const defaultFields = (trackeValues?.academicYear && data) ? buildStudentGeneralForm(
-                    {
-                        dataStoreConfig: dataStoreConfig,
-                        programStages: data?.programStages ?? []
-                    },
-                    getOptions(getDataElements(data?.programStages, trackeValues?.programStageRegistration), trackeValues?.academicYear),
-                    data?.programTrackedEntityAttributes ?? []
+                    getOptions(getDataElements(data?.programStages, trackeValues?.programStageAttendance), trackeValues?.academicYear),
+                    data?.programTrackedEntityAttributes ?? [],
+                    defaults
                 ) : []
                 const socioFields = data ? buildStudentSocioForm({
                     dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
@@ -70,7 +78,25 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 return {}
 
             case "transfer":
-                return {}
+                const transfer: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "transfer" })
+                const { transferStatus: transferStatusFieldsConfig } = transfer
+
+                const transferStatusFields = (trackeValues?.status && data) ?
+                    buildStudentGeneralForm(
+                        getOptions(getDataElements(data?.programStages, trackeValues?.programStageTransfer), trackeValues?.status),
+                        data?.programTrackedEntityAttributes ?? [],
+                        transferStatusFieldsConfig
+                    ) : []
+
+                const transferFields = data
+                    ? buildStudentTransferForm({
+                        formValues: trackeValues,
+                        dataStoreConfig: dataStoreConfig,
+                        programStages: data?.programStages ?? [],
+                    })
+                    : []
+                const sectionFormTransfer = formStudentTransferForm({ transferFields, programFields, transferStatusFields })
+                return sectionFormTransfer;
 
             case "performance":
                 return {}

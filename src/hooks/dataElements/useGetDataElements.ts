@@ -6,7 +6,7 @@ const query: any = {
         resource: "programStages",
         params: ({ programStageId }: { programStageId: string }) => (
             {
-                fields: ['id', 'displayName', 'programStageDataElements[dataElement[id,displayName,valueType,optionSetValue,optionSet[options[code~rename(value),displayName~rename(label)]]]]'],
+                fields: ['id', 'displayName', 'programStageDataElements[dataElement[id,displayName,valueType,optionSetValue,optionSetValue,optionSet[options[code~rename(value),displayName~rename(label)]]]]'],
                 paging: false,
                 filter: `id:eq:${programStageId}`
             }

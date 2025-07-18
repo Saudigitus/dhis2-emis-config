@@ -66,12 +66,28 @@ const attendancePostBody = (formValues: any) => {
     return {}
 }
 
-const transferBodyToForm = (dataStoreValues: any, module: string) => {
-    return {}
+const transferBodyToForm = (dataStoreValues: any, module: string,) => {
+    return {
+        "module": module,
+        "program": dataStoreValues?.program,
+        "programStageTransfer": dataStoreValues?.[module]?.programStage,
+        ...dataStoreValues?.[module],
+    }
 }
 
-const transferPostBody = (formValues: any) => {
-    return {}
+const transferPostBody = (formValues: any, prevDataStore: any) => {
+    return {
+        ...prevDataStore,
+        [formValues?.module]: {
+            status: formValues.status,
+            approvedCode: formValues?.approvedCode,
+            penddingCode: formValues?.penddingCode,
+            reprovedCode: formValues?.reprovedCode,
+            originSchool: formValues.destinySchool,
+            destinySchool: formValues.destinySchool,
+            programStage: formValues.programStageTransfer,
+        }
+    }
 }
 
 const performanceBodyToForm = (dataStoreValues: any, module: string) => {
@@ -83,20 +99,20 @@ const performancePostBody = (formValues: any) => {
 }
 
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
+    const prevDataStore = prevData?.find(x => x.program == program.id)
 
     switch (formValues?.module) {
         case "registration":
             return registrationPostBody(formValues, program);
 
         case "final-result":
-            const prevDataStore = prevData?.find(x => x.program == program.id)
             return { ...finalResultPostBody(formValues), ...prevDataStore }
 
         case "attendance":
             return {};
 
         case "transfer":
-            return {};
+            return transferPostBody(formValues, prevDataStore);
 
         case "performance":
             return {};
@@ -107,8 +123,6 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
 }
 
 const moduleBodyToForm = (dataStoreValues: any, module: string) => {
-    console.log(dataStoreValues, module)
-
     switch (module) {
         case "registration":
             return registrationBodyToForm(dataStoreValues, module);
@@ -120,7 +134,7 @@ const moduleBodyToForm = (dataStoreValues: any, module: string) => {
             return {};
 
         case "transfer":
-            return {};
+            return transferBodyToForm(dataStoreValues, module);
 
         case "performance":
             return {};

@@ -1,30 +1,21 @@
-import { CustomAttributeProps } from "dhis2-semis-types"
-import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
 import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfigType"
-import { SectionType } from "../../../../types/variables/Variables"
-import { useUrlParams } from "dhis2-semis-functions"
+import { ConfigCustomAttributeProps } from "../../../../types/variables/Variables"
 
 function useBuildStudentGeneralForm() {
-    const { useQuery } = useUrlParams()
-    const section = useQuery().get("section") as SectionType
-
-    const buildStudentGeneralForm = ({ dataStoreConfig }: any, options: any, attributes: any) => {
-        const formFieldsList: CustomAttributeProps[] = []
-        const defaults: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "defaults" })
-
-        for (const element in defaults) {
-            const configuratioKey: any = defaults?.[element as keyof DataStoreConfigType["defaults"]]
-
-
+    const buildStudentGeneralForm = (options: any, attributes: any, dataElements: any) => {
+        const formFieldsList: ConfigCustomAttributeProps[] = []
+        for (const element in dataElements) {
+            const configuratioKey: any = dataElements?.[element as keyof DataStoreConfigType["defaults"]]
             if (configuratioKey) {
                 formFieldsList.push(
                     {
                         id: element,
                         name: element,
                         visible: true,
-                        required: true,
+                        required: configuratioKey?.required != null ? configuratioKey.required : true,
                         disabled: false,
                         type: configuratioKey?.inputType,
+                        order: configuratioKey?.order,
                         labelName: configuratioKey?.label,
                         description: configuratioKey?.hint,
                         content: configuratioKey?.hint,
@@ -36,8 +27,8 @@ function useBuildStudentGeneralForm() {
                                 id: element,
                                 options: configuratioKey?.resource == "attributes" ? [
                                     ...(attributes?.map((attr: any) => ({
-                                        value: attr.trackedEntityAttribute.id,
-                                        label: attr.trackedEntityAttribute.displayName
+                                        value: attr?.trackedEntityAttribute?.id,
+                                        label: attr?.trackedEntityAttribute?.displayName
                                     })) || []),
                                 ] : configuratioKey?.resource == "custom" ? [...configuratioKey?.options || []] : [...options || []]
                             }
@@ -45,11 +36,10 @@ function useBuildStudentGeneralForm() {
                     }
                 )
             }
-
         }
-        return formFieldsList
+        const sortedFields = formFieldsList?.sort((a, b) => a.order - b.order)
+        return sortedFields
     }
-
     return { buildStudentGeneralForm }
 }
 
