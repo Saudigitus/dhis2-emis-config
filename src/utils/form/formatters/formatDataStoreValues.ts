@@ -49,24 +49,86 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
     }
 }
 
+const attendance = (dataStoreValues: any, module: string) => {
+    let data = {}
+    dataStoreValues?.[module]?.statusOptions?.map((x: any) => {
+        data = { ...data, [`${x.ConfigKey}`]: x.code }
+    })
+
+    return {
+        "module": module,
+        "program": dataStoreValues?.program,
+        "programStageAttendance": dataStoreValues?.[module]?.programStage,
+        ...dataStoreValues?.[module],
+        ...data
+    }
+}
+
 const finalResultPostBody = (formValues: any) => {
     return {
         [formValues?.module]: {
             programStage: formValues.programStageFinalResult,
-            status: formValues.status
+            status: formValues.status,
+            lastUpdate: new Date().toISOString(),
+        }
+    }
+}
+
+const attendancePostBody = (formValues: any) => {
+    const { absentCode, lateCode, leaveCode, presentCode } = formValues
+
+    return {
+        [formValues?.module]: {
+            absenceReason: formValues?.absenceReason,
+            lastUpdate: new Date().toISOString(),
+            programStage: formValues?.programStageAttendance,
+            status: formValues?.status,
+            statusOptions: [
+                ...(presentCode ? [{
+                    code: presentCode,
+                    color: '#81C784',
+                    icon: 'correct_blue_fill',
+                    key: presentCode,
+                    ConfigKey: `presentCode`,
+                }] : []),
+                ...(absentCode ? [{
+                    code: absentCode,
+                    color: '#E57373',
+                    icon: 'wrong_red_fill',
+                    key: absentCode,
+                    ConfigKey: `absentCode`
+                }] : []),
+                ...(lateCode ? [{
+                    code: lateCode,
+                    color: '#f4fb71ff',
+                    icon: 'correct_blue_fill',
+                    key: lateCode,
+                    ConfigKey: `lateCode`
+                }] : []),
+                ...(leaveCode ? [{
+                    code: leaveCode,
+                    color: '#a6d652ff',
+                    icon: 'wrong_red_fill',
+                    key: leaveCode,
+                    ConfigKey: `leaveCode`
+                }] : [])
+            ]
         }
     }
 }
 
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
+    const prevDataStore = prevData?.find(x => x.program == program.id)
 
     switch (formValues?.module) {
         case "registration":
             return registrationPostBody(formValues, program);
 
         case "final-result":
-            const prevDataStore = prevData?.find(x => x.program == program.id)
-            return { ...finalResultPostBody(formValues), ...prevDataStore }
+            return { ...prevDataStore, ...finalResultPostBody(formValues) }
+
+        case "attendance":
+            return { ...prevDataStore, ...attendancePostBody(formValues) }
 
         default:
             return {};
@@ -74,7 +136,6 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
 }
 
 const moduleBodyToForm = (dataStoreValues: any, module: string) => {
-    console.log(dataStoreValues, module)
 
     switch (module) {
         case "registration":
@@ -82,6 +143,9 @@ const moduleBodyToForm = (dataStoreValues: any, module: string) => {
 
         case "final-result":
             return finalResultBodyToForm(dataStoreValues, module);
+
+        case "attendance":
+            return attendance(dataStoreValues, module);
 
         default:
             return {};

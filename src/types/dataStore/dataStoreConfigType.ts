@@ -13,10 +13,12 @@ type ProgramStageField = Omit<ConfigField, 'valueType' | 'optionSetValue'>;
 
 type FieldGroup = Record<string, ConfigField | ProgramStageField>;
 
+type attendance = FieldGroup & { attendanceStatus: FieldGroup };
+
 type DataStoreConfigType = {
     key: string;
     lastUpdate: string;
-    attendance?: FieldGroup;
+    attendance?: attendance;
     "final-result"?: FieldGroup;
     performance?: FieldGroup;
     program?: FieldGroup;

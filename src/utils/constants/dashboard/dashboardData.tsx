@@ -6,8 +6,8 @@ import performanceImage from "../../../assets/images/home/performance.png";
 
 const studentCards = [
     { key: "registration", label: "Enrollment", icon: enrollmentImage, path: "enrollments" },
-    // { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
-    // { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
+    { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
+    { key: "performance", label: "Performance", icon: performanceImage, path: "performance" },
     // { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
     { key: "final-result", label: "Final Result", icon: resultImage, path: "final-result" },
 ];
