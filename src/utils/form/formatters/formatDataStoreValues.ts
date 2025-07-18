@@ -119,9 +119,9 @@ const attendancePostBody = (formValues: any) => {
 
 const transferBodyToForm = (dataStoreValues: any, module: string,) => {
     return {
-        "module": module,
-        "program": dataStoreValues?.program,
-        "programStageTransfer": dataStoreValues?.[module]?.programStage,
+        module: module,
+        program: dataStoreValues?.program,
+        programStageTransfer: dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
     }
 }
@@ -137,24 +137,35 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
             originSchool: formValues.destinySchool,
             destinySchool: formValues.destinySchool,
             programStage: formValues.programStageTransfer,
+            lastUpdate: new Date().toISOString(),
         }
     }
 }
 
 const performanceBodyToForm = (dataStoreValues: any, module: string) => {
-    return {}
+    return {
+        module: module,
+        program: dataStoreValues?.program,
+        programStages: dataStoreValues?.[module]?.programStages?.map((x: any) => x.programStage)
+    }
 }
 
 const performancePostBody = (formValues: any) => {
-    return {}
+
+    return {
+        [formValues?.module]: {
+            lastUpdate: new Date().toISOString(),
+            programStages: formValues?.programStages?.map((e: string) => { return { programStage: e } })
+        }
+    }
 }
 
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
-    const prevDataStore = prevData?.find(x => x.program == program.id)
+    const prevDataStore = prevData?.find(x => x.program == program.id) ?? {}
 
     switch (formValues?.module) {
         case "registration":
-            return registrationPostBody(formValues, program);
+            return { ...prevDataStore, ...registrationPostBody(formValues, program) };
 
         case "final-result":
             return { ...prevDataStore, ...finalResultPostBody(formValues) }
@@ -163,10 +174,10 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
             return { ...prevDataStore, ...attendancePostBody(formValues) }
 
         case "transfer":
-            return transferPostBody(formValues, prevDataStore);
+            return transferPostBody(formValues, prevDataStore)
 
         case "performance":
-            return {};
+            return { ...prevDataStore, ...performancePostBody(formValues) };
 
         default:
             return {};
@@ -188,7 +199,7 @@ const moduleBodyToForm = (dataStoreValues: any, module: string) => {
             return transferBodyToForm(dataStoreValues, module);
 
         case "performance":
-            return {};
+            return performanceBodyToForm(dataStoreValues, module)
 
         default:
             return {};

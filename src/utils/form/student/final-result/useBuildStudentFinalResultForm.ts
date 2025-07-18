@@ -14,12 +14,11 @@ function formStudentFinalResultForm({ finalResultFields, programFields }: formSt
             name: "Program Details",
             fields: [...programFields]
         },
-        {
+        ...(finalResultFields.length > 0 ? [{
             visible: true,
-            // description: requiredData.data ? "" : "Select a program to follow and config the registration details",
             name: "Final Result Details",
             fields: [...finalResultFields]
-        }
+        }] : [])
     ];
 }
 

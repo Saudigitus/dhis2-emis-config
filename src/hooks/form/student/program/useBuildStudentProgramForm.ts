@@ -11,7 +11,7 @@ type buildStudentProgramFormType = {
 
 function useBuildStudentProgramForm() {
     const { useQuery } = useUrlParams()
-    const section = useQuery().get("section") as SectionType
+    const section = useQuery.get("section") as SectionType
 
     const buildStudentProgramForm = ({ dataStoreConfig, programs = [], loading = false }: buildStudentProgramFormType) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []

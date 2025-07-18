@@ -22,7 +22,7 @@ const AppsConfiguration = () => {
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreDataState)
   const { refetch } = useGetDataStore(true)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<any>({})
 
   const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
     add("name", label)
@@ -43,13 +43,13 @@ const AppsConfiguration = () => {
         }
         : itemSection
     )
-    setLoading(true)
+    setLoading({ [key]: true })
     createDataStore({
       data: updated,
       message: `${key} ${e?.checked ? "enabled" : "disabled"} successfully`
     }).then(() => {
       refetch().then(() => {
-        setLoading(false)
+        setLoading({ [key]: false })
       })
     })
   }
@@ -73,7 +73,7 @@ const AppsConfiguration = () => {
     },
     {
       label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
-      icon: (loading) ? <CircularProgress size={20} /> :
+      icon: (loading?.[key]) ? <CircularProgress size={20} /> :
         <Switch
           disabled={!isModuleConfigured(section, dataStore, key)}
           className="custom-switch-config"
@@ -93,14 +93,12 @@ const AppsConfiguration = () => {
               <DashboardLayout title={section} >
                 {
                   cards.map(({ key, label, icon }) => (
-                    <>
-                      <DashboardCard
-                        key={label}
-                        icon={icon}
-                        contents={[{ label }]}
-                        actions={[...makeAction({ key, section, label })]}
-                      />
-                    </>
+                    <DashboardCard
+                      key={label}
+                      icon={icon}
+                      contents={[{ label }]}
+                      actions={[...makeAction({ key, section, label })]}
+                    />
                   ))
                 }
               </DashboardLayout>
