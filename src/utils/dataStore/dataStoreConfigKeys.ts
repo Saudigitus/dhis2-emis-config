@@ -9,7 +9,6 @@ interface DataStoreElementProps {
 const getDataStoreConfigKeys = (props: DataStoreElementProps) => {
     const { sectionType, element, dataStoreConfig } = props;
     const foundElement = dataStoreConfig?.find((value: DataStoreConfigType) => value.key === sectionType)
-  
     if (foundElement === undefined || foundElement === null) {
         return undefined
     }

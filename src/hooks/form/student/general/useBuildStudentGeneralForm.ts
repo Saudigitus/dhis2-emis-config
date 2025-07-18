@@ -2,10 +2,13 @@ import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfig
 import { ConfigCustomAttributeProps } from "../../../../types/variables/Variables"
 
 function useBuildStudentGeneralForm() {
+
     const buildStudentGeneralForm = (options: any, attributes: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
+
         for (const element in dataElements) {
             const configuratioKey: any = dataElements?.[element as keyof DataStoreConfigType["defaults"]]
+
             if (configuratioKey) {
                 formFieldsList.push(
                     {
