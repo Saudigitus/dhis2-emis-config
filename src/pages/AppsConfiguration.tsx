@@ -54,12 +54,12 @@ const AppsConfiguration = () => {
     })
   }
 
-  const makeAction = ({ key, section, label, registrationLabel }: { key: string, section: string, label: string, registrationLabel: string }) => ([
+  const makeAction = ({ key, section, label, registrationLabel, configurable }: { configurable: boolean, key: string, section: string, label: string, registrationLabel: string }) => ([
     ...(key == "registration" ? [{
       label: "This module contain general configuration and it's required for semis to work properly",
       icon: <InfoIcon style={{ color: "orange" }} />,
     }] : [{}]),
-    {
+    ...(configurable ? [{
       label: (key == "registration" || isModuleConfigured(section, dataStore, "registration"))
         ? `Configure ${label.replace("-", " ")}`
         : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
@@ -73,7 +73,7 @@ const AppsConfiguration = () => {
         }
         setInitialValues(initialValues)
       },
-    },
+    }] : []),
     {
       label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
       icon: (loading?.[key]) ? <CircularProgress size={20} /> :
@@ -95,12 +95,12 @@ const AppsConfiguration = () => {
             return (
               <DashboardLayout title={section} >
                 {
-                  cards.map(({ key, label, icon }) => (
+                  cards.map(({ key, label, icon, configurable }) => (
                     <DashboardCard
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction({ key, section, label, registrationLabel: cards[0]?.label })]}
+                      actions={[...makeAction({ key, section, label, registrationLabel: cards[0]?.label, configurable })]}
                     />
                   ))
                 }

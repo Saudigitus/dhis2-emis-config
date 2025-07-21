@@ -1,4 +1,4 @@
-import { DataStoreProps } from "dhis2-semis-types"
+import { DataStoreConfigType } from "../../../types/dataStore/dataStoreConfigType";
 
 const registrationPostBody = (formValues: any, program: any, config: any) => {
     const keys = Object.keys(config?.registration ?? {})
@@ -191,10 +191,10 @@ const performancePostBody = (formValues: any) => {
     }
 }
 
-const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps, config: any) => {
+const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any) => {
     const prevDataStore = prevData
-    const selectedDataStoreKey = prevData?.find(x => x.program == program.id)
-    const selectedDataStoreKeyIndex = prevData?.findIndex(x => x.program == program.id)
+    const selectedDataStoreKey = prevData?.find((x: any) => x.program == program.id)
+    const selectedDataStoreKeyIndex = prevData?.findIndex((x: any) => x.program == program.id)
 
     const returnBody = (data: any) => {
         if (selectedDataStoreKeyIndex >= 0) {
@@ -208,7 +208,11 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps,
 
     switch (formValues?.module) {
         case "registration":
-            return returnBody(registrationPostBody(formValues, program, config));
+            let data = returnBody(registrationPostBody(formValues, program, config))
+            if (selectedDataStoreKey?.key == 'staff' && !selectedDataStoreKey?.reenroll)
+                data[selectedDataStoreKeyIndex] = { ...data[selectedDataStoreKeyIndex], reenroll: { enabled: false } }
+
+            return data;
 
         case "final-result":
             return returnBody(finalResultPostBody(formValues))
