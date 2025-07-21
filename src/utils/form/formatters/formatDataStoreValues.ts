@@ -1,14 +1,31 @@
 import { DataStoreProps } from "dhis2-semis-types"
 
-const registrationPostBody = (formValues: any, program: any) => {
+const registrationPostBody = (formValues: any, program: any, config: any) => {
+    const keys = Object.keys(config?.registration ?? {})
+    let filters = []
+
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+
+        if (config?.registration?.[key]?.dataFilter) {
+            filters.push({
+                code: config.registration[key].filterCode,
+                dataElement: formValues?.[key],
+                label: key,
+                order: i,
+                ulrParam: config.registration[key].filterCode
+            });
+        }
+    }
+
     return {
         [formValues?.module]: {
-            "enabled": formValues?.enabled,
+            "enabled": formValues?.enabled ?? true,
             "academicYear": formValues.academicYear,
-            "grade": formValues.grade,
+            grade: formValues?.grade ? formValues?.grade : formValues.typeOfStaff ?? null,
+            section: formValues?.section ? formValues?.section : formValues.employmentType ?? null,
             "lastUpdate": new Date().toISOString(),
             "programStage": formValues.programStageRegistration,
-            "section": formValues.section,
         },
         ...(formValues.programStageSocioEconomic ? {
             "socio-economics": {
@@ -23,6 +40,9 @@ const registrationPostBody = (formValues: any, program: any) => {
             "currentAcademicYear": formValues.currentAcademicYear,
             "defaultOrder": `${formValues.defaultOrder}:${formValues.orderType}`,
         },
+        filters: {
+            dataElements: filters
+        }
     }
 }
 
@@ -32,6 +52,10 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
         "program": dataStoreValues?.program,
         "programStageRegistration": dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
+        ...(dataStoreValues?.key == 'staff' ? {
+            typeOfStaff: dataStoreValues?.[module]?.grade,
+            employmentType: dataStoreValues?.[module]?.section
+        } : []),
         "orderType": dataStoreValues?.defaults?.defaultOrder.split(":")?.[1],
         "programStageSocioEconomic": dataStoreValues?.["socio-economics"]?.programStage,
         "defaultOrder": dataStoreValues?.defaults?.defaultOrder.split(":")?.[0],
@@ -67,6 +91,7 @@ const attendance = (dataStoreValues: any, module: string) => {
 const finalResultPostBody = (formValues: any) => {
     return {
         [formValues?.module]: {
+            enabled: true,
             programStage: formValues.programStageFinalResult,
             status: formValues.status,
             lastUpdate: new Date().toISOString(),
@@ -78,7 +103,11 @@ const attendancePostBody = (formValues: any) => {
     const { absentCode, lateCode, leaveCode, presentCode } = formValues
 
     return {
+        absenteeism: {
+            enabled: true,
+        },
         [formValues?.module]: {
+            enabled: true,
             absenceReason: formValues?.absenceReason,
             lastUpdate: new Date().toISOString(),
             programStage: formValues?.programStageAttendance,
@@ -130,6 +159,7 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
     return {
         ...prevDataStore,
         [formValues?.module]: {
+            enabled: true,
             status: formValues.status,
             approvedCode: formValues?.approvedCode,
             penddingCode: formValues?.penddingCode,
@@ -154,19 +184,20 @@ const performancePostBody = (formValues: any) => {
 
     return {
         [formValues?.module]: {
+            enabled: true,
             lastUpdate: new Date().toISOString(),
             programStages: formValues?.programStages?.map((e: string) => { return { programStage: e } })
         }
     }
 }
 
-const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
+const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps, config: any) => {
     const prevDataStore = prevData
     const selectedDataStoreKey = prevData?.find(x => x.program == program.id)
     const selectedDataStoreKeyIndex = prevData?.findIndex(x => x.program == program.id)
 
     const returnBody = (data: any) => {
-        if (!selectedDataStoreKeyIndex) {
+        if (selectedDataStoreKeyIndex >= 0) {
             const updated = [...prevDataStore];
             updated[selectedDataStoreKeyIndex] = { ...selectedDataStoreKey, ...data };
             return updated;
@@ -177,20 +208,20 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
 
     switch (formValues?.module) {
         case "registration":
-            return returnBody({ ...selectedDataStoreKey, ...registrationPostBody(formValues, program) });
+            return returnBody(registrationPostBody(formValues, program, config));
 
         case "final-result":
-            return returnBody({ ...selectedDataStoreKey, ...finalResultPostBody(formValues) })
+            return returnBody(finalResultPostBody(formValues))
 
 
         case "attendance":
-            return returnBody({ ...selectedDataStoreKey, ...attendancePostBody(formValues) })
+            return returnBody(attendancePostBody(formValues))
 
         case "transfer":
             return returnBody(transferPostBody(formValues, selectedDataStoreKey))
 
         case "performance":
-            return { ...selectedDataStoreKey, ...performancePostBody(formValues) };
+            return returnBody(performancePostBody(formValues));
 
         default:
             return {};
@@ -198,6 +229,7 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps)
 }
 
 const moduleBodyToForm = (dataStoreValues: any, module: string) => {
+
     switch (module) {
         case "registration":
             return registrationBodyToForm(dataStoreValues, module);

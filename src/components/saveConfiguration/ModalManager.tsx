@@ -9,6 +9,7 @@ import { useRecoilValue } from "recoil";
 import { ProgramDataState } from "../../atoms/ProgramDataSchema";
 import useGetDataStore from "../../hooks/dataStore/useGetDataStore";
 import { modulePostBody } from "../../utils/form/formatters/formatDataStoreValues";
+import { DataStoreConfigState } from "../../atoms/DataStoreSchema";
 
 function ModalManager(props: ModalManagerInterface) {
     const { open, setOpen, initialValues } = props;
@@ -23,8 +24,7 @@ function ModalManager(props: ModalManagerInterface) {
     const allInitialValues = { ...initialValues }
     const { buildForm, loading } = useBuildForm({ trackeValues })
     const formVariables = buildForm()
-
-    console.log("formVariables", formVariables)
+    const config = useRecoilValue(DataStoreConfigState)
 
     const handleCloseModal = () => {
         remove("name")
@@ -35,9 +35,10 @@ function ModalManager(props: ModalManagerInterface) {
 
     function onSubmit(e: Record<string, any>): void {
         setLoading(true)
+        const configKey = config?.find(x => x.key == section)
 
         createDataStore({
-            data: modulePostBody(e, programData, data?.dataStoreValues),
+            data: modulePostBody(e, programData, data?.dataStoreValues, configKey),
         }).then(() => {
             refetch().then(() => {
                 setLoading(false);
