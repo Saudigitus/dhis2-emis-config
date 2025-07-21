@@ -150,20 +150,33 @@ const performancePostBody = (formValues: any) => {
 }
 
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreProps) => {
-    const prevDataStore = prevData?.find(x => x.program == program.id)
+    const prevDataStore = prevData
+    const selectedDataStoreKey = prevData?.find(x => x.program == program.id)
+    const selectedDataStoreKeyIndex = prevData?.findIndex(x => x.program == program.id)
+
+    const returnBody = (data: any) => {
+        if (!selectedDataStoreKeyIndex) {
+            const updated = [...prevDataStore];
+            updated[selectedDataStoreKeyIndex] = { ...selectedDataStoreKey, ...data };
+            return updated;
+        } else {
+            return prevDataStore?.concat(data)
+        }
+    }
 
     switch (formValues?.module) {
         case "registration":
-            return registrationPostBody(formValues, program);
+            return returnBody(registrationPostBody(formValues, program));
 
         case "final-result":
-            return { ...prevDataStore, ...finalResultPostBody(formValues) }
+            return returnBody({ ...selectedDataStoreKey, ...finalResultPostBody(formValues) })
+
 
         case "attendance":
-            return { ...prevDataStore, ...attendancePostBody(formValues) }
+            return returnBody({ ...selectedDataStoreKey, ...attendancePostBody(formValues) })
 
         case "transfer":
-            return transferPostBody(formValues, prevDataStore);
+            return returnBody(transferPostBody(formValues, selectedDataStoreKey))
 
         case "performance":
             return {};

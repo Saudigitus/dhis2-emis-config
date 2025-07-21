@@ -24,6 +24,8 @@ function ModalManager(props: ModalManagerInterface) {
     const { buildForm, loading } = useBuildForm({ trackeValues })
     const formVariables = buildForm()
 
+    console.log("formVariables", formVariables)
+
     const handleCloseModal = () => {
         remove("name")
         remove("module")
@@ -35,7 +37,7 @@ function ModalManager(props: ModalManagerInterface) {
         setLoading(true)
 
         createDataStore({
-            data: [modulePostBody(e, programData, data?.dataStoreValues)],
+            data: modulePostBody(e, programData, data?.dataStoreValues),
         }).then(() => {
             refetch().then(() => {
                 setLoading(false);

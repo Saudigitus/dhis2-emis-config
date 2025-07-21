@@ -15,8 +15,8 @@ const studentCards = [
 const staffCards = [
     { key: "registration", label: "Staff registry", icon: enrollmentImage, path: "enrollments" },
     { key: "attendance", label: "Attendance", icon: attendanceImage, path: "attendance" },
-    { key: "tranfer", label: "Transfer", icon: transferImage, path: "transfer" },
-    { key: "", label: "Re-enroll", icon: resultImage, path: "re-enroll" },
+    { key: "transfer", label: "Transfer", icon: transferImage, path: "transfer" },
+    { key: "reenroll", label: "Re-enroll", icon: resultImage, path: "re-enroll" },
 ];
 
 const dashboardData = [
