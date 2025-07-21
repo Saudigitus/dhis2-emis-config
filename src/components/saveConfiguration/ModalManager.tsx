@@ -15,11 +15,11 @@ function ModalManager(props: ModalManagerInterface) {
     const [trackeValues, setTrackedValues] = React.useState<any>({});
     const { useQuery, remove } = useUrlParams();
     const programData = useRecoilValue<any>(ProgramDataState)
-    const name = useQuery().get("name");
+    const name = useQuery.get("name");
     const [loadCreateConfig, setLoading] = useState<boolean>(false)
     const { refetch, data } = useGetDataStore(true)
     const { createDataStore } = usePostDataStore()
-    const section = useQuery().get("section");
+    const section = useQuery.get("section");
     const allInitialValues = { ...initialValues }
     const { buildForm, loading } = useBuildForm({ trackeValues })
     const formVariables = buildForm()

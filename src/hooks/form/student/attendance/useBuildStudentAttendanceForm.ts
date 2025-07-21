@@ -5,7 +5,7 @@ import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfig
 
 function useBuildStudentAttendanceForm() {
     const { useQuery } = useUrlParams()
-    const section = useQuery().get("section") as SectionType
+    const section = useQuery.get("section") as SectionType
 
     const buildStudentAttendanceForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []

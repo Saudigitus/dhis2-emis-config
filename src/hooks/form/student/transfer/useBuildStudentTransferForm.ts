@@ -6,7 +6,7 @@ import { getDataElements } from "../../../../utils/dataStore/common"
 
 function useBuildStudentTransferForm() {
     const { useQuery } = useUrlParams()
-    const section = useQuery().get("section") as SectionType
+    const section = useQuery.get("section") as SectionType
 
     const buildStudentTransferForm = ({ dataStoreConfig, programStages, formValues }: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []

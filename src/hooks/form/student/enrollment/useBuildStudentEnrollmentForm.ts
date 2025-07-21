@@ -5,7 +5,7 @@ import { ConfigCustomAttributeProps, SectionType } from "../../../../types/varia
 
 function useBuildStudentEnrollmentForm() {
     const { useQuery } = useUrlParams()
-    const section = useQuery().get("section") as SectionType
+    const section = useQuery.get("section") as SectionType
 
     const buildStudentEnrollmentForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []

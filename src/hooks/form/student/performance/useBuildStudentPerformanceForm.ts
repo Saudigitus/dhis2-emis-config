@@ -3,23 +3,25 @@ import { ConfigCustomAttributeProps, SectionType } from "../../../../types/varia
 import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
 import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfigType"
 
-function useBuildStudentSocioForm() {
+function useBuildStudentPerformanceForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
 
-
-    const buildStudentSocioForm = ({ dataStoreConfig, programStages }: any) => {
+    const buildStudentPerformanceForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
-        const socioEconomic: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "socio-economics" })
-        for (const element in socioEconomic) {
-            const configuratioKey: any = socioEconomic?.[element as keyof DataStoreConfigType["socio-economics"]]
+        const attendace: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "performance" })
+        const { attendanceStatus, ...rest } = attendace
+
+        for (const element in rest) {
+            const configuratioKey: any = attendace?.[element as keyof DataStoreConfigType["performance"]]
             if (configuratioKey) {
+
                 formFieldsList.push(
                     {
                         id: element,
                         name: element,
                         visible: true,
-                        required: false,
+                        required: configuratioKey.required,
                         disabled: false,
                         order: configuratioKey?.order,
                         type: configuratioKey?.inputType,
@@ -34,7 +36,8 @@ function useBuildStudentSocioForm() {
                                 id: element,
                                 options: configuratioKey?.resource == "programStages" ?
                                     programStages?.map((prog: any) =>
-                                        ({ value: prog.id, label: prog.displayName })) : []
+                                        ({ value: prog.id, label: prog.displayName })) : dataElements
+                                            ?.map((dx: any) => ({ value: dx?.dataElement?.id, label: dx?.dataElement?.displayName }))
                             }
                         }
                     }
@@ -46,7 +49,7 @@ function useBuildStudentSocioForm() {
         return sortedFields
     }
 
-    return { buildStudentSocioForm }
+    return { buildStudentPerformanceForm }
 }
 
-export { useBuildStudentSocioForm }
+export { useBuildStudentPerformanceForm }

@@ -16,11 +16,13 @@ import { getDataStoreConfigKeys } from "../../../utils/dataStore/dataStoreConfig
 import { SectionType } from "../../../types/variables/Variables"
 import { useBuildStudentAttendanceForm } from "../student/attendance/useBuildStudentAttendanceForm"
 import { formStudentAttendance } from "../../../utils/form/student/attendance/useBuildStudentAttendanceForm"
+import { useBuildStudentPerformanceForm } from "../student/performance/useBuildStudentPerformanceForm"
+import { formmStudentPerformance } from "../../../utils/form/student/performance/useBuildStudentAttendanceForm"
 
 const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { useQuery } = useUrlParams();
-    const module = useQuery().get("module");
-    const section = useQuery().get("section") as SectionType;
+    const module = useQuery.get("module");
+    const section = useQuery.get("section") as SectionType;
     const dataStoreConfig = useRecoilValue(DataStoreConfigState)
     const { buildStudentProgramForm } = useBuildStudentProgramForm()
     const { buildStudentGeneralForm } = useBuildStudentGeneralForm()
@@ -30,6 +32,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
     const { buildStudentAttendanceForm } = useBuildStudentAttendanceForm()
     const { getProgram, data, loading } = useProgramConfig()
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
+    const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
 
     useEffect(() => {
         //FETCH PROGRAM DATA BASED ON SELECTED ONE ON THE FORM
@@ -124,6 +127,16 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 const sectionFormTransfer = formStudentTransferForm({ transferFields, programFields, transferStatusFields })
                 return sectionFormTransfer;
 
+            case "performance":
+                const performanceFields = data ? buildStudentPerformanceForm(
+                    {
+                        dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
+                    },
+                    getDataElements(data?.programStages, trackeValues?.programStagePerformance)) : []
+
+                const performanceForm = formmStudentPerformance({ performanceFields, programFields })
+
+                return performanceForm
             default: break;
         }
     }
