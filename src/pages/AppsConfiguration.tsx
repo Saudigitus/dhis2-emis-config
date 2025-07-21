@@ -54,14 +54,17 @@ const AppsConfiguration = () => {
     })
   }
 
-  const makeAction = ({ key, section, label }: { key: string, section: string, label: string }) => ([
+  const makeAction = ({ key, section, label, registrationLabel }: { key: string, section: string, label: string, registrationLabel: string }) => ([
     ...(key == "registration" ? [{
       label: "This module contain general configuration and it's required for semis to work properly",
       icon: <InfoIcon style={{ color: "orange" }} />,
     }] : [{}]),
     {
-      label: `Configure ${label.replace("-", " ")}`,
+      label: (key == "registration" || isModuleConfigured(section, dataStore, "registration"))
+        ? `Configure ${label.replace("-", " ")}`
+        : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
       icon: <Settings />,
+      disabled: key == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
       onAction: () => {
         handleConfiguration({ key, section, label })
         const initialValues = {
@@ -97,7 +100,7 @@ const AppsConfiguration = () => {
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction({ key, section, label })]}
+                      actions={[...makeAction({ key, section, label, registrationLabel: cards[0]?.label })]}
                     />
                   ))
                 }
