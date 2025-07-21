@@ -3,7 +3,7 @@ import { DataStoreConfigType } from "../../types/dataStore/dataStoreConfigType";
 interface DataStoreElementProps {
     sectionType: "student" | "staff"
     element: keyof DataStoreConfigType
-    dataStoreConfig: DataStoreConfigType[]
+    dataStoreConfig: DataStoreConfigType[] | any
 }
 
 const getDataStoreConfigKeys = (props: DataStoreElementProps) => {

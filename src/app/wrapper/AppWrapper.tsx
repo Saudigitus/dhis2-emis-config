@@ -2,13 +2,11 @@ import { ReactElement } from "react"
 import { Center, CircularLoader } from "@dhis2/ui"
 import { WithPadding } from "dhis2-semis-components"
 import useGetDataStoreConfig from "../../hooks/dataStore/useGetDataStoreConfig"
-import useGetDataStore from "../../hooks/dataStore/useGetDataStore"
 
-const AppWrapper = ({ children }: { children: ReactElement }) => {
+const CustomAppWrapper = ({ children }: { children: ReactElement }) => {
     const { loading } = useGetDataStoreConfig()
-    const { loading: loadingData } = useGetDataStore()
 
-    if (loading || loadingData) {
+    if (loading) {
         return (
             <Center>
                 <CircularLoader />
@@ -23,4 +21,4 @@ const AppWrapper = ({ children }: { children: ReactElement }) => {
     )
 }
 
-export default AppWrapper
+export default CustomAppWrapper
