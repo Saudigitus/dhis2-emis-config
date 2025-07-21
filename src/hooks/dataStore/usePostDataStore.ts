@@ -14,7 +14,6 @@ const QUERY: any = {
 export default function usePostDataStore() {
     const engine = useDataEngine()
     const [error, setError] = useState<boolean>()
-    const [data, setData] = useState<any>()
     const [loading, setLoading] = useState<boolean>(false)
     const { show, hide } = useShowAlerts()
 
@@ -39,5 +38,5 @@ export default function usePostDataStore() {
             }
         })
     }
-    return { createDataStore, loading, data, error }
+    return { createDataStore, loading, error }
 }

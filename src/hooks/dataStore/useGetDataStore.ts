@@ -1,7 +1,7 @@
 import { useShowAlerts } from "dhis2-semis-functions"
 import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
 import { useSetRecoilState } from "recoil"
-import { DataStoreDataState } from "../../atoms/DataStoreDataSchema"
+import { DataStoreState } from "dhis2-semis-components"
 
 const query = {
     dataStoreValues: {
@@ -10,10 +10,10 @@ const query = {
 }
 
 export default function useGetDataStore(lazy: boolean = false) {
-    const setDataStoreDataState = useSetRecoilState(DataStoreDataState)
+    const setDataStoreDataState = useSetRecoilState(DataStoreState)
 
     const { show, hide } = useShowAlerts()
-    const { data, error, loading, refetch } = useDataQuery<any>(query, {
+    const { error, loading, refetch } = useDataQuery<any>(query, {
         onComplete: (response: any) => {
             setDataStoreDataState(response?.dataStoreValues)
         },
@@ -26,5 +26,5 @@ export default function useGetDataStore(lazy: boolean = false) {
         },
         lazy,
     })
-    return { refetch, loading, data, error }
+    return { refetch, loading, error }
 }

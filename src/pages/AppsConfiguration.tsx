@@ -3,12 +3,11 @@ import { Box, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
 import { useUrlParams } from 'dhis2-semis-functions';
-import { DashboardCard, WithPadding } from 'dhis2-semis-components';
+import { DashboardCard, DataStoreState, WithPadding } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
 import { dashboardData } from '../utils/constants/dashboard/dashboardData';
 import InfoIcon from '@mui/icons-material/Info';
-import { DataStoreDataState } from '../atoms/DataStoreDataSchema';
 import { useRecoilValue } from 'recoil';
 import usePostDataStore from '../hooks/dataStore/usePostDataStore';
 import useGetDataStore from '../hooks/dataStore/useGetDataStore';
@@ -20,7 +19,7 @@ const AppsConfiguration = () => {
   const [open, setOpen] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const { createDataStore } = usePostDataStore()
-  const dataStore = useRecoilValue(DataStoreDataState)
+  const dataStore = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
   const [loading, setLoading] = useState<any>({})
 

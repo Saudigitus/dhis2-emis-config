@@ -1,19 +1,28 @@
 import React from 'react'
 import "./App.module.css"
 import "../assets/style/globalStyle.css"
-import { RecoilRoot } from 'recoil';
 import { Router } from "../components/routes"
-import AppWrapper from './wrapper/AppWrapper';
+import { AppWrapper } from 'dhis2-semis-components';
+import { HashRouter } from 'react-router-dom';
+import { useConfig } from '@dhis2/app-runtime'
+import CustomAppWrapper from './wrapper/AppWrapper';
 
-function App() {
+function ConfigirationsPage() {
+    const { baseUrl } = useConfig()
 
     return (
-        <RecoilRoot>
-            <AppWrapper>
-                <Router />
-            </AppWrapper>
-        </RecoilRoot>
+
+        <AppWrapper
+            baseUrl={baseUrl}
+            dataStoreKey="dataStore/edson/values"
+        >
+            <HashRouter>
+                <CustomAppWrapper>
+                    <Router />
+                </CustomAppWrapper>
+            </HashRouter >
+        </AppWrapper>
     )
 }
 
-export default App
+export default ConfigirationsPage
