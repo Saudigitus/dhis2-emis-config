@@ -108,8 +108,6 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 const transfer: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "transfer" })
                 const { transferStatus: transferStatusFieldsConfig } = transfer
 
-                console.log(transfer)
-
                 const transferStatusFields = (trackeValues?.status && data) ?
                     buildStudentGeneralForm(
                         getOptions(getDataElements(data?.programStages, trackeValues?.programStageTransfer), trackeValues?.status),
