@@ -3,7 +3,7 @@ import { useDataEngine } from "@dhis2/app-runtime"
 import { useState } from "react"
 
 const QUERY: any = {
-    resource: `dataStore/edson/values`,
+    resource: `dataStore/semis/values`,
     type: "update",
     data: ({ data }: any) => data,
     params: {

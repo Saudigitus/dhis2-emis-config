@@ -3,7 +3,7 @@ import { Box, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
 import { useUrlParams } from 'dhis2-semis-functions';
-import { DashboardCard, DataStoreState, WithPadding } from 'dhis2-semis-components';
+import { DashboardCard, DataStoreState, WithPadding, useDataStore } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
 import { dashboardData } from '../utils/constants/dashboard/dashboardData';
@@ -22,6 +22,7 @@ const AppsConfiguration = () => {
   const dataStore = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
   const [loading, setLoading] = useState<any>({})
+  const { getDataStore } = useDataStore('dataStore/semis/values')
 
   const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
     add("name", label)
@@ -47,7 +48,8 @@ const AppsConfiguration = () => {
       data: updated,
       message: `${key} ${e?.checked ? "enabled" : "disabled"} successfully`
     }).then(() => {
-      refetch().then(() => {
+      refetch().then(async () => {
+        await getDataStore(true)
         setLoading({ [key]: false })
       })
     })

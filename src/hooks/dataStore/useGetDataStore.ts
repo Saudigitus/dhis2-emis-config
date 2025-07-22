@@ -5,7 +5,7 @@ import { DataStoreState } from "dhis2-semis-components"
 
 const query = {
     dataStoreValues: {
-        resource: `dataStore/edson/values`
+        resource: `dataStore/semis/values`
     }
 }
 

@@ -5,7 +5,7 @@ import { DataStoreConfigState } from "../../atoms/DataStoreSchema"
 
 const query = {
     dataStoreConfig: {
-        resource: `dataStore/edson/config`
+        resource: `dataStore/semis/config`
     }
 }
 
