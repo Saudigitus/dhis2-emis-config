@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil"
 import { useShowAlerts } from "dhis2-semis-functions"
-import { type FetchError, useDataQuery } from "@dhis2/app-runtime"
+import { useDataEngine } from "@dhis2/app-runtime"
 import { DataStoreConfigState } from "../../atoms/DataStoreSchema"
 
 const query = {
@@ -9,22 +9,27 @@ const query = {
     }
 }
 
-export default function useGetDataStoreConfig() {
+export default function useGetDataStoreConfig({ setLoading }: { setLoading: (args: boolean) => void }) {
     const { show, hide } = useShowAlerts()
     const setDataStoreConfigState = useSetRecoilState(DataStoreConfigState)
+    const engine = useDataEngine()
 
-    const { data, error, loading, refetch } = useDataQuery<any>(query, {
-        onComplete: (response: any) => {
-            setDataStoreConfigState(response?.dataStoreConfig)
-        },
-        onError: (error: FetchError) => {
-            show({
-                message: `Can't load resources : ${error.message}`,
-                type: { critical: true }
-            })
-            setTimeout(hide, 5000)
-        }
-    })
+    const getDataStore = async () => {
+        await engine.query(query, {
+            onError(error) {
+                setLoading(false)
+                show({
+                    message: `Could not get data: ${error.message}`,
+                    type: { critical: true }
+                });
+                setTimeout(hide, 5000);
+            },
+            onComplete(data) {
+                console.log(data,'got the data')
+                setDataStoreConfigState(data?.dataStoreConfig)
+            }
+        })
+    }
 
-    return { refetch, loading, data, error }
+    return { getDataStore }
 }
