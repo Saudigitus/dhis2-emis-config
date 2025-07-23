@@ -56,10 +56,10 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
             typeOfStaff: dataStoreValues?.[module]?.grade,
             employmentType: dataStoreValues?.[module]?.section
         } : []),
-        "orderType": dataStoreValues?.defaults?.defaultOrder.split(":")?.[1],
+        "orderType": dataStoreValues?.defaults?.defaultOrder?.split(":")?.[1],
         "programStageSocioEconomic": dataStoreValues?.["socio-economics"]?.programStage,
-        "defaultOrder": dataStoreValues?.defaults?.defaultOrder.split(":")?.[0],
-        "allowSearching": JSON.stringify(dataStoreValues?.defaults?.allowSearching),
+        "defaultOrder": dataStoreValues?.defaults?.defaultOrder?.split(":")?.[0],
+        "allowSearching": JSON?.stringify(dataStoreValues?.defaults?.allowSearching),
         "currentAcademicYear": dataStoreValues?.defaults?.currentAcademicYear,
     }
 }
@@ -205,10 +205,11 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfig
             return prevDataStore?.concat(data)
         }
     }
-
+console.log(formValues)
     switch (formValues?.module) {
         case "registration":
             let data = returnBody(registrationPostBody(formValues, program, config))
+            console.log(selectedDataStoreKey?.reenroll, selectedDataStoreKey?.key == 'staff')
             if (selectedDataStoreKey?.key == 'staff' && !selectedDataStoreKey?.reenroll)
                 data[selectedDataStoreKeyIndex] = { ...data[selectedDataStoreKeyIndex], reenroll: { enabled: false } }
 

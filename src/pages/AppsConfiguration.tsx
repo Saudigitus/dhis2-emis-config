@@ -44,7 +44,7 @@ const AppsConfiguration = () => {
         : itemSection
     )
 
-    setLoading({ [key+section]: true })
+    setLoading({ [key + section]: true })
     createDataStore({
       data: updated,
       message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`
@@ -68,17 +68,17 @@ const AppsConfiguration = () => {
       icon: <Settings />,
       disabled: key == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
       onAction: () => {
-        handleConfiguration({ key, section, label })
         const initialValues = {
           module: key, key: section.toLocaleLowerCase(),
           ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
         }
-        setInitialValues(initialValues)
+        setInitialValues(() => initialValues)
+        handleConfiguration({ key, section, label })
       },
     }] : []),
     {
       label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
-      icon: (loading?.[key+section]) ? <CircularProgress size={20} /> :
+      icon: (loading?.[key + section]) ? <CircularProgress size={20} /> :
         <Switch
           disabled={!isModuleConfigured(section, dataStore, key)}
           className="custom-switch-config"
