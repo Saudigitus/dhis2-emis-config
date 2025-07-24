@@ -1,26 +1,26 @@
-import { ReactElement, useEffect } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { Center, CircularLoader } from "@dhis2/ui"
 import { WithPadding } from "dhis2-semis-components"
-import useGetDataStoreConfig from "../../hooks/dataStore/useGetDataStoreConfig"
 import { useRecoilValue } from "recoil"
 import { DataStoreConfigState } from "../../atoms/DataStoreSchema"
 import { config } from "../../utils/constants/config/config"
-import { updateObject } from "../../utils/valuesFormatter/valuesFormatter"
+import { areObjectsEqual } from "../../utils/valuesFormatter/valuesFormatter"
 import { useCheckDataStore } from "../../hooks/dataStore/useCheckDataStore"
+import { useCreateDsDir } from "src/hooks/dataStore/useCreateDsDir"
 
 const CustomAppWrapper = ({ children }: { children: ReactElement }) => {
     const configState = useRecoilValue(DataStoreConfigState)
-    const { hasSameStructure } = updateObject(config, configState)
-    const { createError, loading, startCheck } = useCheckDataStore('dataStore/semis/config')
+    const [loadingUpdate, setLoading] = useState<boolean>(false)
+    const { loading, startCheck } = useCheckDataStore('dataStore/semis/config')
+    const { createDir } = useCreateDsDir({ keySpace: 'dataStore/semis/config', setLoading })
 
     useEffect(() => {
         void startCheck()
-        if (!hasSameStructure) {
-
-        }
+        if (!areObjectsEqual(config, configState))
+            void createDir()
     }, [])
 
-    if (loading) {
+    if (loading || loadingUpdate) {
         return (
             <Center>
                 <CircularLoader />

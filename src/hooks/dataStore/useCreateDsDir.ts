@@ -12,6 +12,7 @@ export function useCreateDsDir({ keySpace, setLoading }: { keySpace: string, set
     },
         {
             onError(error) {
+                setLoading(false)
                 show({
                     message: `Could not get data: ${error.message}`,
                     type: { critical: true }
