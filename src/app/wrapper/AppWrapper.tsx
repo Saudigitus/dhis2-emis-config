@@ -6,13 +6,13 @@ import { DataStoreConfigState } from "../../atoms/DataStoreSchema"
 import { config } from "../../utils/constants/config/config"
 import { areObjectsEqual } from "../../utils/valuesFormatter/valuesFormatter"
 import { useCheckDataStore } from "../../hooks/dataStore/useCheckDataStore"
-import { useCreateDsDir } from "src/hooks/dataStore/useCreateDsDir"
+import { useCreateDsDir } from "../../hooks/dataStore/useCreateDsDir"
 
 const CustomAppWrapper = ({ children }: { children: ReactElement }) => {
     const configState = useRecoilValue(DataStoreConfigState)
     const [loadingUpdate, setLoading] = useState<boolean>(false)
     const { loading, startCheck } = useCheckDataStore('dataStore/semis/config')
-    const { createDir } = useCreateDsDir({ keySpace: 'dataStore/semis/config', setLoading })
+    const { createDir } = useCreateDsDir({ keySpace: 'dataStore/semis/config', setLoading, type: 'update' })
 
     useEffect(() => {
         void startCheck()

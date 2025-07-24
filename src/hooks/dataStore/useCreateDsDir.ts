@@ -2,13 +2,13 @@ import { useDataMutation } from '@dhis2/app-runtime'
 import { useShowAlerts } from 'dhis2-semis-functions';
 import { config } from '../../utils/constants/config/config';
 
-export function useCreateDsDir({ keySpace, setLoading }: { keySpace: string, setLoading: (args: boolean) => void }) {
+export function useCreateDsDir({ keySpace, setLoading, type }: { type: any, keySpace: string, setLoading: (args: boolean) => void }) {
     const { hide, show } = useShowAlerts()
 
     const [mutate, { error }] = useDataMutation({
         resource: `${keySpace}`,
         data: () => config,
-        type: 'create'
+        type: type
     },
         {
             onError(error) {

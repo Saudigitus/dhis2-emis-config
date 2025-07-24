@@ -19,7 +19,7 @@ export function useCheckDataStore(keySpace: string) {
     const { hide, show } = useShowAlerts()
     const engine = useDataEngine()
     const [loading, setLoading] = useState<boolean>(true)
-    const { createDir, error: createError } = useCreateDsDir({ keySpace, setLoading })
+    const { createDir, error: createError } = useCreateDsDir({ keySpace, setLoading, type: 'create' })
     const nameSpace = keySpace.substring(0, keySpace.lastIndexOf("/"))
     const { getDataStore } = useGetDataStoreConfig({ setLoading })
 
