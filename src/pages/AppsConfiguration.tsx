@@ -1,6 +1,6 @@
 import { Switch } from '@dhis2/ui';
 import { Box, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
 import { useUrlParams } from 'dhis2-semis-functions';
 import { DashboardCard, DataStoreState, WithPadding, useDataStore } from 'dhis2-semis-components';
@@ -15,18 +15,32 @@ import { moduleBodyToForm } from '../utils/form/formatters/formatDataStoreValues
 import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../utils/dataStore/common';
 
 const AppsConfiguration = () => {
-  const { add } = useUrlParams();
-  const [open, setOpen] = useState(false);
+  const { add, useQuery } = useUrlParams();
+  const name = useQuery.get("name")
+  const module = useQuery.get("module")
+  const section = useQuery.get("section")
   const [initialValues, setInitialValues] = useState({});
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
   const [loading, setLoading] = useState<any>({})
   const { getDataStore } = useDataStore('dataStore/semis/values')
+  const [open, setOpen] = useState(Boolean(name && module && section));
 
-  const handleConfiguration = ({ key, section, label }: { key: string, section: string, label: string }) => {
+  useEffect(() => {
+    if (open) {
+      const initialValues = {
+        module: module, key: section!.toLocaleLowerCase(),
+        ...moduleBodyToForm(getDataStoreSection(section!, dataStore), module ?? "")
+      }
+      setInitialValues(() => initialValues)
+      handleConfiguration({ module: module!, section: section!, label: name! })
+    }
+  }, [])
+
+  const handleConfiguration = ({ module, section, label }: { module: string, section: string, label: string }) => {
     add("name", label)
-    add("module", key)
+    add("module", module)
     add("section", section.toLocaleLowerCase())
     setOpen(true)
   }
@@ -56,35 +70,35 @@ const AppsConfiguration = () => {
     })
   }
 
-  const makeAction = ({ key, section, label, registrationLabel, configurable }: { configurable: boolean, key: string, section: string, label: string, registrationLabel: string }) => ([
-    ...(key == "registration" ? [{
+  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => ([
+    ...(module == "registration" ? [{
       label: "This module contain general configuration and it's required for semis to work properly",
       icon: <InfoIcon style={{ color: "orange" }} />,
     }] : [{}]),
     ...(configurable ? [{
-      label: (key == "registration" || isModuleConfigured(section, dataStore, "registration"))
+      label: (module == "registration" || isModuleConfigured(section, dataStore, "registration"))
         ? `Configure ${label.replace("-", " ")}`
         : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
       icon: <Settings />,
-      disabled: key == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
+      disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
       onAction: () => {
         const initialValues = {
-          module: key, key: section.toLocaleLowerCase(),
-          ...moduleBodyToForm(getDataStoreSection(section, dataStore), key ?? "")
+          module: module, key: section.toLocaleLowerCase(),
+          ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
         }
         setInitialValues(() => initialValues)
-        handleConfiguration({ key, section, label })
+        handleConfiguration({ module, section, label })
       },
     }] : []),
     {
-      label: isModuleConfigured(section, dataStore, key) ? `${isModuleEnabled(section, key, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
-      icon: (loading?.[key + section]) ? <CircularProgress size={20} /> :
+      label: isModuleConfigured(section, dataStore, module) ? `${isModuleEnabled(section, module, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
+      icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
         <Switch
-          disabled={!isModuleConfigured(section, dataStore, key)}
+          disabled={!isModuleConfigured(section, dataStore, module)}
           className="custom-switch-config"
           name={`${section}-${label}`}
-          checked={isModuleEnabled(section, key, dataStore)}
-          onChange={(e: any) => onModuleEnable(e, section, label, key)}
+          checked={isModuleEnabled(section, module, dataStore)}
+          onChange={(e: any) => onModuleEnable(e, section, label, module)}
         />
     }
   ]);
@@ -97,12 +111,12 @@ const AppsConfiguration = () => {
             return (
               <DashboardLayout title={section} >
                 {
-                  cards.map(({ key, label, icon, configurable }) => (
+                  cards.map(({ key: module, label, icon, configurable }) => (
                     <DashboardCard
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction({ key, section, label, registrationLabel: cards[0]?.label, configurable })]}
+                      actions={[...makeAction({ module, section, label, registrationLabel: cards[0]?.label, configurable })]}
                     />
                   ))
                 }
