@@ -1,16 +1,15 @@
 .container {
-    width: 100vw;
     overflow: scroll;
 }
 
 .containerCards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-columns: repeat(auto-fit, 180px);
     align-items: center;
-    gap: 17px;
+    gap: 25px;
     flex: auto;
     box-sizing: border-box !important;
-    margin: 0px 1px 20px 1px;
+    margin: 0px 1px 5px 1px;
 }
 
 .title {
