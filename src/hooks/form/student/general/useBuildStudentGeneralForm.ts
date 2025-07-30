@@ -6,6 +6,7 @@ function useBuildStudentGeneralForm() {
     const buildStudentGeneralForm = (options: any, attributes: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
 
+        // console.log(options, attributes, dataElements)
         for (const element in dataElements) {
             const configuratioKey: any = dataElements?.[element as keyof DataStoreConfigType["defaults"]]
 

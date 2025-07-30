@@ -11,6 +11,7 @@ import useGetDataStore from "../../hooks/dataStore/useGetDataStore";
 import { modulePostBody } from "../../utils/form/formatters/formatDataStoreValues";
 import { DataStoreConfigState } from "../../atoms/DataStoreSchema";
 import { DataStoreConfigType } from "../../types/dataStore/dataStoreConfigType";
+import { SchoolCalendarState } from "../../atoms/schoolCalendar";
 
 function ModalManager(props: ModalManagerInterface) {
     const { open, setOpen, initialValues } = props;
@@ -27,6 +28,7 @@ function ModalManager(props: ModalManagerInterface) {
     const formVariables = buildForm()
     const config = useRecoilValue(DataStoreConfigState)
     const prevDataStore = useRecoilValue(DataStoreState)
+    const calendar = useRecoilValue(SchoolCalendarState)
 
     const handleCloseModal = () => {
         remove("name")
@@ -38,10 +40,22 @@ function ModalManager(props: ModalManagerInterface) {
     function onSubmit(e: Record<string, any>): void {
         setLoading(true)
         const configKey = config?.find(x => x.key == section)
+        const postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
+        const keyIndex = postData?.findIndex((x: any) => x.key == section)
+        const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
+
+        if (keyIndex > -1) postData[keyIndex][e?.module] = rest
 
         createDataStore({
-            data: modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey),
-        }).then(() => {
+            data: postData,
+            key: 'dataStore/semis/values',
+        }).then(async () => {
+            if (academicYear) {
+                await createDataStore({
+                    key: "dataStore/semis/schoolCalendar",
+                    data: { ...calendar, academicYear: academicYear }
+                })
+            }
             refetch().then(() => {
                 setLoading(false);
                 setOpen(false);

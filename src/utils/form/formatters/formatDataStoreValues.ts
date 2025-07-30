@@ -27,6 +27,7 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
             "lastUpdate": new Date().toISOString(),
             "programStage": formValues.programStageRegistration,
         },
+        "currentAcademicYear": formValues?.currentAcademicYear,
         ...(formValues.programStageSocioEconomic ? {
             "socio-economics": {
                 "programStage": formValues.programStageSocioEconomic,
@@ -37,7 +38,6 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
         "trackedEntityType": program?.trackedEntityType?.id,
         "defaults": {
             "allowSearching": formValues.allowSearching === "true",
-            "currentAcademicYear": formValues.currentAcademicYear,
             "defaultOrder": `${formValues.defaultOrder}:${formValues.orderType}`,
         },
         filters: {
@@ -191,7 +191,7 @@ const performancePostBody = (formValues: any) => {
     }
 }
 
-const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any) => {
+const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any): any => {
     const prevDataStore = prevData
     const selectedDataStoreKey = prevData?.find((x: any) => x.program == program.id)
     const selectedDataStoreKeyIndex = prevData?.findIndex((x: any) => x.program == program.id)
@@ -205,11 +205,10 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfig
             return prevDataStore?.concat(data)
         }
     }
-console.log(formValues)
+
     switch (formValues?.module) {
         case "registration":
             let data = returnBody(registrationPostBody(formValues, program, config))
-            console.log(selectedDataStoreKey?.reenroll, selectedDataStoreKey?.key == 'staff')
             if (selectedDataStoreKey?.key == 'staff' && !selectedDataStoreKey?.reenroll)
                 data[selectedDataStoreKeyIndex] = { ...data[selectedDataStoreKeyIndex], reenroll: { enabled: false } }
 

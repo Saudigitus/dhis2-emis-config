@@ -3,6 +3,8 @@ import { useDataEngine } from "@dhis2/app-runtime"
 import { useShowAlerts } from "dhis2-semis-functions";
 import { useState } from 'react'
 import useGetDataStoreConfig from "./useGetDataStoreConfig";
+import { DataStoreConfigState } from "../../atoms/DataStoreSchema";
+import { useSetRecoilState } from "recoil";
 
 const DATASTORE_QUERY = (keySpace: string) => {
     return {
@@ -22,6 +24,7 @@ export function useCheckDataStore(keySpace: string) {
     const { createDir, error: createError } = useCreateDsDir({ keySpace, setLoading, type: 'create' })
     const nameSpace = keySpace.substring(0, keySpace.lastIndexOf("/"))
     const { getDataStore } = useGetDataStoreConfig({ setLoading })
+    const setDataStoreConfigState = useSetRecoilState(DataStoreConfigState)
 
     const startCheck = async () => {
         await engine.query(DATASTORE_QUERY(nameSpace), {
@@ -44,7 +47,9 @@ export function useCheckDataStore(keySpace: string) {
         if (!(data?.entries?.length && hasTemplatesKey)) {
             await createDir()
         } else {
-            await getDataStore()
+            await getDataStore(`dataStore/semis/config`).then((data: any) => {
+                setDataStoreConfigState(data?.dataStoreConfig)
+            })
         }
     }
 

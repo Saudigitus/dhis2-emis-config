@@ -90,16 +90,6 @@ export const config = [
                 "resource": "optionSets",
                 "valueType": "BOOLEAN"
             },
-            "currentAcademicYear": {
-                "filter": "valueType:eq:TEXT",
-                "hint": "option sets",
-                "inputType": "LIST",
-                "label": "Current Academic Year",
-                "optionSetValue": true,
-                "order": 2,
-                "resource": "optionSets",
-                "valueType": "TEXT"
-            },
             "defaultOrder": {
                 "filter": "valueType:eq:TEXT",
                 "hint": "option sets",

@@ -52,7 +52,6 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     sectionType: section,
                     element: "defaults"
                 })
-
                 const fieldsEnrollment = data ? buildStudentEnrollmentForm(
                     {
                         dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []
@@ -60,7 +59,7 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     getDataElements(data?.programStages, trackeValues?.programStageRegistration)) : []
 
                 const defaultFields = (trackeValues?.academicYear && data) ? buildStudentGeneralForm(
-                    getOptions(getDataElements(data?.programStages, trackeValues?.programStageAttendance), trackeValues?.academicYear),
+                    getOptions(getDataElements(data?.programStages, trackeValues?.programStageRegistration), trackeValues?.academicYear),
                     data?.programTrackedEntityAttributes ?? [],
                     defaults
                 ) : []
