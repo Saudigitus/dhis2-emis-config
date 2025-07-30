@@ -61,6 +61,7 @@ const AppsConfiguration = () => {
     setLoading({ [key + section]: true })
     createDataStore({
       data: updated,
+      key: 'dataStore/semis/values',
       message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`
     }).then(() => {
       refetch().then(async () => {
