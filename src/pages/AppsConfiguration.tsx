@@ -65,8 +65,8 @@ const AppsConfiguration = () => {
     }).then(() => {
       refetch().then(async () => {
         await getDataStore(true)
-        setLoading({ [key]: false })
       })
+      setLoading({ [key + section]: false })
     })
   }
 
@@ -104,7 +104,7 @@ const AppsConfiguration = () => {
   ]);
 
   return (
-    <Box height={"93vh"} style={{ overflowY: "scroll" }}>
+    <Box style={{ overflowY: "scroll" }}>
       <WithPadding p="2rem">
         {
           dashboardData?.map(({ title: section, cards }) => {
