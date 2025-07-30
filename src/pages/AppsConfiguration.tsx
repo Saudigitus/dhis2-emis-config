@@ -106,7 +106,7 @@ const AppsConfiguration = () => {
 
   return (
     <Box>
-      <WithPadding p="2rem">
+      <WithPadding p="1rem">
         {
           dashboardData?.map(({ title: section, cards }) => {
             return (
