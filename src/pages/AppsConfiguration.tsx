@@ -3,7 +3,7 @@ import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
 import { useUrlParams } from 'dhis2-semis-functions';
-import { DashboardCard, DataStoreState, WithPadding, useDataStore } from 'dhis2-semis-components';
+import { DashboardCard, DataStoreState, WithPadding, useDataStore, useSchoolCalendar } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
 import { dashboardData } from '../utils/constants/dashboard/dashboardData';
@@ -23,12 +23,14 @@ const AppsConfiguration = () => {
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
+  const { academicYear } = useSchoolCalendar();
   const [loading, setLoading] = useState<any>({})
-  const { getDataStore } = useDataStore('dataStore/semis/values')
+  const { getDataStore } = useDataStore({ keySpace: 'dataStore/semis/values' })
   const [open, setOpen] = useState(Boolean(name && module && section));
 
   useEffect(() => {
     if (open) {
+      console.log(getDataStoreSection(section!, dataStore), "getDataStoreSection")
       const initialValues = {
         module: module, key: section!.toLocaleLowerCase(),
         ...moduleBodyToForm(getDataStoreSection(section!, dataStore), module ?? "")
@@ -125,7 +127,7 @@ const AppsConfiguration = () => {
             )
           })
         }
-        {open && <ModalManager open={open} setOpen={setOpen} initialValues={initialValues} />}
+        {open && <ModalManager open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: academicYear }} />}
       </WithPadding >
     </Box>
   )
