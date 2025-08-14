@@ -67,7 +67,7 @@ const AppsConfiguration = () => {
       message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`
     }).then(() => {
       refetch().then(async () => {
-        await getDataStore(true)
+        await getDataStore()
       })
       setLoading({ [key + section]: false })
     })

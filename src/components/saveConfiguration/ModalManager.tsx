@@ -44,13 +44,18 @@ function ModalManager(props: ModalManagerInterface) {
         const keyIndex = postData?.findIndex((x: any) => x.key == section)
         const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
 
-        if (keyIndex > -1) postData[keyIndex][e?.module] = rest
+        // Since postData is read-only, create a shallow copy before modifying
+        const copyDataStore = [...postData]
+
+        if (keyIndex > -1) {
+            copyDataStore[keyIndex] = { ...copyDataStore[keyIndex], [e?.module]: rest }
+        }
 
         createDataStore({
-            data: postData,
+            data: copyDataStore,
             key: 'dataStore/semis/values',
         }).then(async () => {
-            if (academicYear) {
+            if (academicYear && section === "student") {
                 await createDataStore({
                     key: "dataStore/semis/schoolCalendar",
                     data: { ...calendar, academicYear: academicYear }

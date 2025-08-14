@@ -12,16 +12,17 @@ function ConfigirationsPage() {
 
     return (
 
-        // <AppWrapper
-        //     baseUrl={baseUrl}
-        //     dataStoreKey="dataStore/edson/values"
-        // >
-        //     <HashRouter>
-        <CustomAppWrapper>
-            <Router />
-        </CustomAppWrapper>
-        //     </HashRouter >
-        // </AppWrapper>
+        <AppWrapper
+            baseUrl={baseUrl}
+            dataStoreKey="dataStore/semis/values"
+            schoolCalendarKey='dataStore/semis/schoolCalendar'
+        >
+            <HashRouter>
+                <CustomAppWrapper>
+                    <Router />
+                </CustomAppWrapper>
+            </HashRouter >
+        </AppWrapper>
     )
 }
 

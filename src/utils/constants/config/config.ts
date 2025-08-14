@@ -364,6 +364,48 @@ export const config = [
                 "valueType": "TEXT"
             }
         },
+        "defaults": {
+            "allowSearching": {
+                "filter": "valueType:eq:TEXT",
+                "hint": "option sets",
+                "inputType": "BOOLEAN",
+                "label": "Allow Searching",
+                "optionSetValue": true,
+                "order": 3,
+                "resource": "optionSets",
+                "valueType": "BOOLEAN"
+            },
+            "defaultOrder": {
+                "filter": "valueType:eq:TEXT",
+                "hint": "option sets",
+                "inputType": "LIST",
+                "label": "Default order by",
+                "optionSetValue": true,
+                "order": 0,
+                "resource": "attributes",
+                "valueType": "BOOLEAN"
+            },
+            "orderType": {
+                "filter": "valueType:eq:TEXT",
+                "hint": "option sets",
+                "inputType": "LIST",
+                "label": "Order as",
+                "optionSetValue": true,
+                "options": [
+                    {
+                        "label": "asc",
+                        "value": "asc"
+                    },
+                    {
+                        "label": "desc",
+                        "value": "desc"
+                    }
+                ],
+                "order": 1,
+                "resource": "custom",
+                "valueType": "BOOLEAN"
+            }
+        },
         "key": "staff",
         "lastUpdate": "2022-01-01",
         "program": {
