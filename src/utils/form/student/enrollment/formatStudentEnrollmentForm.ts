@@ -24,7 +24,7 @@ function formStudentEnrollmentForm({ programFields, registrationFields, defaultF
         }] : []),
         ...(socioFields.length > 0 ? [{
             visible: true,
-            description: requiredData.data ? "If you don't use socio-economic module, please leave this field blanc" : "Select a program to follow and config the socio economic details",
+            description: requiredData.data ? "If you don't use socio-economic module, please leave this field blanck" : "Select a program to follow and config the socio economic details",
             name: "Socio Economic Details",
             fields: [...socioFields]
         }] : []),

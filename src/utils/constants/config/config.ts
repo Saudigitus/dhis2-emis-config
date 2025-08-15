@@ -461,6 +461,16 @@ export const config = [
                 "valueType": "TEXT"
             }
         },
+        "socio-economics": {
+            "programStageSocioEconomic": {
+                "filter": "repeatable:eq:false",
+                "hint": "Non-repeateable ProgramStage",
+                "inputType": "LIST",
+                "label": "Socio-economics Program Stage",
+                "order": 2,
+                "resource": "programStages"
+            }
+        },
         "transfer": {
             "destinySchool": {
                 "filter": "valueType:eq:ORGANISATION_UNIT",
