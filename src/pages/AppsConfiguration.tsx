@@ -2,8 +2,8 @@ import { Switch } from '@dhis2/ui';
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
-import { useUrlParams } from 'dhis2-semis-functions';
-import { DashboardCard, DataStoreState, WithPadding, useDataStore, useSchoolCalendar } from 'dhis2-semis-components';
+import { useShowAlerts, useUrlParams } from 'dhis2-semis-functions';
+import { DashboardCard, DataStoreState, WithPadding, useGetDataStore as useDataStore, useSchoolCalendarKey } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
 import { dashboardData } from '../utils/constants/dashboard/dashboardData';
@@ -19,14 +19,16 @@ const AppsConfiguration = () => {
   const name = useQuery.get("name")
   const module = useQuery.get("module")
   const section = useQuery.get("section")
+  const schoolCalendarKeys = useSchoolCalendarKey()
   const [initialValues, setInitialValues] = useState({});
   const { createDataStore } = usePostDataStore()
   const dataStore = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
-  const { academicYear } = useSchoolCalendar();
   const [loading, setLoading] = useState<any>({})
-  const { getDataStore } = useDataStore({ keySpace: 'dataStore/semis/values' })
+  const { getDataStore } = useDataStore()
   const [open, setOpen] = useState(Boolean(name && module && section));
+  const { show } = useShowAlerts()
+
 
   useEffect(() => {
     if (open) {
@@ -64,10 +66,10 @@ const AppsConfiguration = () => {
     createDataStore({
       data: updated,
       key: 'dataStore/semis/values',
-      message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`
     }).then(() => {
+      show({ message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`, type: { success: true } })
       refetch().then(async () => {
-        await getDataStore()
+        await getDataStore('dataStore/semis/values')
       })
       setLoading({ [key + section]: false })
     })
@@ -127,7 +129,7 @@ const AppsConfiguration = () => {
             )
           })
         }
-        {open && <ModalManager open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: academicYear }} />}
+        {open && <ModalManager open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }} />}
       </WithPadding >
     </Box>
   )

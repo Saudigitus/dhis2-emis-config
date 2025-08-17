@@ -59,12 +59,18 @@ function ModalManager(props: ModalManagerInterface) {
                 await createDataStore({
                     key: "dataStore/semis/schoolCalendar",
                     data: { ...calendar, academicYear: academicYear }
+                }).then(() => {
+                    refetch().then(() => {
+                        setLoading(false);
+                        setOpen(false);
+                    })
+                })
+            } else {
+                refetch().then(() => {
+                    setLoading(false);
+                    setOpen(false);
                 })
             }
-            refetch().then(() => {
-                setLoading(false);
-                setOpen(false);
-            })
         })
     }
 

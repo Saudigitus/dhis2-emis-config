@@ -28,9 +28,9 @@ function formStudentEnrollmentForm({ programFields, registrationFields, defaultF
             name: "Socio Economic Details",
             fields: [...socioFields]
         }] : []),
-        ...(defaultFields.length > 0 ? [{
+        ...(registrationFields.length > 0 ? [{
             visible: true,
-            description: (!requiredData?.academicYear || !requiredData.data) ? "Select an academic year to follow and config the default details" : "",
+            description: requiredData.data ? "" : "Select a program to follow and config the registration details",
             name: "Default Configurations",
             fields: [...defaultFields]
         }] : [])
