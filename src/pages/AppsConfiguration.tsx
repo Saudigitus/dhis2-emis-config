@@ -30,15 +30,15 @@ const AppsConfiguration = () => {
 
   useEffect(() => {
     if (open) {
-      console.log(getDataStoreSection(section!, dataStore), "getDataStoreSection")
+      const moduleInitialValues = moduleBodyToForm(getDataStoreSection(section!, dataStore), module ?? "")
       const initialValues = {
         module: module, key: section!.toLocaleLowerCase(),
-        ...moduleBodyToForm(getDataStoreSection(section!, dataStore), module ?? "")
+        ...moduleInitialValues
       }
       setInitialValues(() => initialValues)
       handleConfiguration({ module: module!, section: section!, label: name! })
     }
-  }, [])
+  }, [open])
 
   const handleConfiguration = ({ module, section, label }: { module: string, section: string, label: string }) => {
     add("name", label)

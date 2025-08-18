@@ -19,10 +19,10 @@ function ModalManager(props: ModalManagerInterface) {
     const { useQuery, remove } = useUrlParams();
     const programData = useRecoilValue<any>(ProgramDataState)
     const name = useQuery.get("name");
+    const section = useQuery.get("section");
     const [loadCreateConfig, setLoading] = useState<boolean>(false)
     const { refetch } = useGetDataStore(true)
     const { createDataStore } = usePostDataStore()
-    const section = useQuery.get("section");
     const allInitialValues = { ...initialValues }
     const { buildForm, loading } = useBuildForm({ trackeValues })
     const formVariables = buildForm()
@@ -30,6 +30,7 @@ function ModalManager(props: ModalManagerInterface) {
     const prevDataStore = useRecoilValue(DataStoreState)
     const calendar = useRecoilValue(SchoolCalendarState)
 
+    console.log(allInitialValues,'jahsjasd')
     const handleCloseModal = () => {
         remove("name")
         remove("module")
@@ -40,19 +41,16 @@ function ModalManager(props: ModalManagerInterface) {
     function onSubmit(e: Record<string, any>): void {
         setLoading(true)
         const configKey = config?.find(x => x.key == section)
-        const postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
+        let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
         const keyIndex = postData?.findIndex((x: any) => x.key == section)
         const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
 
-        // Since postData is read-only, create a shallow copy before modifying
-        const copyDataStore = [...postData]
-
         if (keyIndex > -1) {
-            copyDataStore[keyIndex] = { ...copyDataStore[keyIndex], [e?.module]: rest }
+            postData[keyIndex] = { ...postData[keyIndex], [e?.module]: rest }
         }
 
         createDataStore({
-            data: copyDataStore,
+            data: postData,
             key: 'dataStore/semis/values',
         }).then(async () => {
             if (academicYear && section === "student") {
