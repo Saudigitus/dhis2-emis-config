@@ -32,7 +32,6 @@ const AppsConfiguration = () => {
 
   useEffect(() => {
     if (open) {
-      console.log(getDataStoreSection(section!, dataStore), "getDataStoreSection")
       const initialValues = {
         module: module, key: section!.toLocaleLowerCase(),
         ...moduleBodyToForm(getDataStoreSection(section!, dataStore), module ?? "")
