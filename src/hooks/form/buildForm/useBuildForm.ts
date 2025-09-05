@@ -58,11 +58,11 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     },
                     getDataElements(data?.programStages, trackeValues?.programStageRegistration)) : []
 
-                const defaultFields = (trackeValues?.academicYear && data) ? buildStudentGeneralForm(
+                const defaultFields =  buildStudentGeneralForm(
                     getOptions(getDataElements(data?.programStages, trackeValues?.programStageRegistration), trackeValues?.academicYear),
                     data?.programTrackedEntityAttributes ?? [],
                     defaults
-                ) : []
+                ) 
 
                 const socioFields = data ? buildStudentSocioForm({
                     dataStoreConfig: dataStoreConfig, programStages: data?.programStages ?? []

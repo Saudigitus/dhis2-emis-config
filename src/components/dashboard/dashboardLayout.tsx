@@ -3,7 +3,7 @@ import style from "./dashboardLayout.module.css";
 import { WithPadding } from "dhis2-semis-components";
 
 interface DashboardLayoutProps {
-    title: string,
+    title: string | ReactNode,
     children: ReactNode
 }
 

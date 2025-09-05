@@ -1,38 +1,33 @@
-import { useShowAlerts } from "dhis2-semis-functions"
 import { useDataEngine } from "@dhis2/app-runtime"
 import { useState } from "react"
 
 export default function usePostDataStore() {
     const engine = useDataEngine()
-    const [error, setError] = useState<boolean>()
+    const [error, setError] = useState<any>()
     const [loading, setLoading] = useState<boolean>(false)
-    const { show, hide } = useShowAlerts()
 
-    const createDataStore = async ({ data, message, key }: { data: any, message?: string, key: string }) => {
-        setLoading(true)
-        const type: any = 'update'
-        await engine.mutate({
+    const DATASTORE_MUTATE = ({ key, data }: { key: string, data: any }): any => {
+        return {
             resource: key,
-            type: type,
+            type: "update",
             data: data,
             params: {
                 importStrategy: 'CREATE_AND_UPDATE'
             }
-        }, {
-            onComplete: (response) => {
-                setLoading(false)
-                show({ message: message ?? "Configuration created", type: { success: true } })
-            },
-            onError: (error) => {
-                setError(true)
-                setLoading(false)
-                show({
-                    message: `Cannot create configuration`,
-                    type: { critical: true }
-                });
-                setTimeout(hide, 5000);
-            }
-        })
+        }
+    }
+
+    const createDataStore = async ({ data, key }: { data: any, key: string }) => {
+        setLoading(true)
+        try {
+            const response = await engine.mutate(DATASTORE_MUTATE({ key, data }))
+            return response;
+        } catch (error) {
+            setError(error)
+            throw error;
+        } finally {
+            setLoading(false)
+        }
     }
     return { createDataStore, loading, error }
 }
