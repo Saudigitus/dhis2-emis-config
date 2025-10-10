@@ -208,11 +208,7 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfig
 
     switch (formValues?.module) {
         case "registration":
-            let data = returnBody(registrationPostBody(formValues, program, config))
-            if (selectedDataStoreKey?.key == 'staff' && !selectedDataStoreKey?.reenroll)
-                data[selectedDataStoreKeyIndex] = { ...data[selectedDataStoreKeyIndex], reenroll: { enabled: false } }
-
-            return data;
+            return returnBody(registrationPostBody(formValues, program, config));
 
         case "final-result":
             return returnBody(finalResultPostBody(formValues))

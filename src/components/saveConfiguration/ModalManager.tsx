@@ -30,7 +30,6 @@ function ModalManager(props: ModalManagerInterface) {
     const prevDataStore = useRecoilValue(DataStoreState)
     const calendar = useRecoilValue(SchoolCalendarState)
 
-    console.log(allInitialValues,'jahsjasd')
     const handleCloseModal = () => {
         remove("name")
         remove("module")

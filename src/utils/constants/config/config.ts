@@ -406,6 +406,26 @@ export const config = [
                 "valueType": "BOOLEAN"
             }
         },
+        "final-result": {
+            "programStageFinalResult": {
+                "filter": "repeatable:eq:false",
+                "hint": "Non-Repeatable Program Stage",
+                "inputType": "LIST",
+                "label": "Final Result Program Stage",
+                "order": 0,
+                "resource": "programStages"
+            },
+            "status": {
+                "filter": "valueType:eq:TEXT",
+                "hint": "Data Element",
+                "inputType": "LIST",
+                "label": "Final result status",
+                "optionSetValue": false,
+                "order": 1,
+                "resource": "dataElements",
+                "valueType": "TEXT"
+            }
+        },
         "key": "staff",
         "lastUpdate": "2022-01-01",
         "program": {
