@@ -26,7 +26,6 @@ type DataStoreConfigType = {
     "socio-economics"?: FieldGroup;
     transfer?: FieldGroup;
     defaults?: FieldGroup;
-    reenroll?: { enabled: boolean }
 };
 
 
