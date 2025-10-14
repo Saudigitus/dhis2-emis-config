@@ -184,6 +184,15 @@ export const config = [
                 "resource": "dataElements",
                 "valueType": "TEXT"
             },
+            "gradeName": {
+                "required": false,
+                "hint": "The name that should appear in the global filters",
+                "inputType": "TEXT",
+                "label": "Grade filter name",
+                "optionSetValue": true,
+                "order": 2,
+                "valueType": "TEXT"
+            },
             "programStageRegistration": {
                 "filter": "repeatable:eq:false",
                 "hint": "Non-repeatable ProgramStage",
@@ -202,6 +211,15 @@ export const config = [
                 "optionSetValue": true,
                 "order": 3,
                 "resource": "dataElements",
+                "valueType": "TEXT"
+            },
+            "sectionName": {
+                "required": false,
+                "hint": "The name that should appear in the global filters",
+                "inputType": "TEXT",
+                "label": "Section filter name",
+                "optionSetValue": true,
+                "order": 4,
                 "valueType": "TEXT"
             }
         },
@@ -456,8 +474,17 @@ export const config = [
                 "inputType": "LIST",
                 "label": "Employment type",
                 "optionSetValue": true,
-                "order": 3,
+                "order": 4,
                 "resource": "dataElements",
+                "valueType": "TEXT"
+            },
+            "employmentTypeName": {
+                "required": false,
+                "hint": "The name that should appear in the global filters",
+                "inputType": "TEXT",
+                "label": "Employment type filter name",
+                "optionSetValue": true,
+                "order": 5,
                 "valueType": "TEXT"
             },
             "programStageRegistration": {
@@ -479,7 +506,16 @@ export const config = [
                 "order": 2,
                 "resource": "dataElements",
                 "valueType": "TEXT"
-            }
+            },
+            "typeOfStaffName": {
+                "required": false,
+                "hint": "The name that should appear in the global filters",
+                "inputType": "TEXT",
+                "label": "Type of staff filter name",
+                "optionSetValue": true,
+                "order": 3,
+                "valueType": "TEXT"
+            },
         },
         "socio-economics": {
             "programStageSocioEconomic": {
