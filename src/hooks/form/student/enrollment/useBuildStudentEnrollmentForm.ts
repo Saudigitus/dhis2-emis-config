@@ -20,7 +20,7 @@ function useBuildStudentEnrollmentForm() {
                         id: element,
                         name: element,
                         visible: true,
-                        required: true,
+                        required: configuratioKey?.required ?? true,
                         disabled: false,
                         order: configuratioKey?.order,
                         type: configuratioKey?.inputType,

@@ -3,7 +3,6 @@ import { DataStoreConfigType } from "../../../types/dataStore/dataStoreConfigTyp
 const registrationPostBody = (formValues: any, program: any, config: any) => {
     const keys = Object.keys(config?.registration ?? {})
     let filters = []
-
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
 
@@ -11,7 +10,7 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
             filters.push({
                 code: config.registration[key].filterCode,
                 dataElement: formValues?.[key],
-                label: key,
+                label: formValues[`${key}Name`] ?? key,
                 order: i,
                 ulrParam: config.registration[key].filterCode
             });
@@ -55,7 +54,13 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
         ...(dataStoreValues?.key == 'staff' ? {
             typeOfStaff: dataStoreValues?.[module]?.grade,
             employmentType: dataStoreValues?.[module]?.section
-        } : []),
+        } : {}),
+        [dataStoreValues?.key == 'student' ? 'gradeName' : 'typeOfStaffName']: dataStoreValues?.filters?.dataElements?.
+            find((x: any) => x.dataElement == dataStoreValues?.[module]?.grade)?.label,
+
+        [dataStoreValues?.key == 'student' ? 'sectionName' : 'employmentTypeName']: dataStoreValues?.filters?.dataElements?.
+            find((x: any) => x.dataElement == dataStoreValues?.[module]?.section)?.label,
+            
         "orderType": dataStoreValues?.defaults?.defaultOrder?.split(":")?.[1],
         "programStageSocioEconomic": dataStoreValues?.["socio-economics"]?.programStage,
         "defaultOrder": dataStoreValues?.defaults?.defaultOrder?.split(":")?.[0],
