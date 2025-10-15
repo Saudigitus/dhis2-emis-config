@@ -3,7 +3,7 @@ import { useBuildForm } from "../../hooks/form";
 import React, { useState } from "react";
 import { DataStoreState, ModalComponent, } from "dhis2-semis-components";
 import { ModalManagerInterface } from "../../types/modal/ModalProps";
-import { useUrlParams, capitalizeString } from "dhis2-semis-functions";
+import { useUrlParams, capitalizeString, useShowAlerts } from "dhis2-semis-functions";
 import usePostDataStore from "../../hooks/dataStore/usePostDataStore";
 import { useRecoilValue } from "recoil";
 import { ProgramDataState } from "../../atoms/ProgramDataSchema";
@@ -29,6 +29,7 @@ function ModalManager(props: ModalManagerInterface) {
     const config = useRecoilValue(DataStoreConfigState)
     const prevDataStore = useRecoilValue(DataStoreState)
     const calendar = useRecoilValue(SchoolCalendarState)
+    const { show, hide } = useShowAlerts()
 
     const handleCloseModal = () => {
         remove("name")
@@ -75,7 +76,20 @@ function ModalManager(props: ModalManagerInterface) {
                     })
                 }
             })
-        } catch (error) {
+        } catch (error: any) {
+            show({
+                message: `Unable to save data: ${error.message}`,
+                type: { critical: true }
+            });
+            setTimeout(hide, 5000);
+        }
+        finally {
+            handleCloseModal()
+            show({
+                message: `Configurations saved successfuly`,
+                type: { success: true }
+            })
+            setTimeout(hide, 5000)
         }
     }
 
