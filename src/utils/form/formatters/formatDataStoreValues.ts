@@ -85,7 +85,7 @@ const attendance = (dataStoreValues: any, module: string) => {
         "programStageAttendance": dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
         ...dataStoreValues?.[module]?.statusOptions?.reduce(
-            (acc: any, x: any) => ({ ...acc, [x?.ConfigKey]: x?.code }),
+            (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
             {}
         )
     }
