@@ -121,28 +121,28 @@ const attendancePostBody = (formValues: any) => {
                     color: '#81C784',
                     icon: 'correct_blue_fill',
                     key: presentCode,
-                    ConfigKey: `presentCode`,
+                    configKey: `presentCode`,
                 }] : []),
                 ...(absentCode ? [{
                     code: absentCode,
                     color: '#E57373',
                     icon: 'wrong_red_fill',
                     key: absentCode,
-                    ConfigKey: `absentCode`
+                    configKey: `absentCode`
                 }] : []),
                 ...(lateCode ? [{
                     code: lateCode,
                     color: '#f4fb71ff',
                     icon: 'correct_blue_fill',
                     key: lateCode,
-                    ConfigKey: `lateCode`
+                    configKey: `lateCode`
                 }] : []),
                 ...(leaveCode ? [{
                     code: leaveCode,
                     color: '#a6d652ff',
                     icon: 'wrong_red_fill',
                     key: leaveCode,
-                    ConfigKey: `leaveCode`
+                    configKey: `leaveCode`
                 }] : [])
             ]
         }
