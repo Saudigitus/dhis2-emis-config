@@ -14,20 +14,18 @@ function formStudentTransferForm({ transferFields, programFields, transferStatus
             name: "Program Details",
             fields: [...programFields]
         },
-        {
+        ...(transferFields?.length > 0 ? [{
             visible: true,
             description: "",
             name: "Transfer Details",
             fields: [...transferFields]
-        },
-        ...(Boolean(transferStatusFields?.length) ? [
-            {
-                visible: Boolean(transferStatusFields?.length),
-                description: "",
-                name: "Transfer Status Details",
-                fields: [...transferStatusFields]
-            }
-        ] : [])
+        }] : []),
+        ...(transferStatusFields?.length > 0 ? [{
+            visible: Boolean(transferStatusFields?.length),
+            description: "",
+            name: "Transfer Status Details",
+            fields: [...transferStatusFields]
+        }] : []),
     ];
 }
 
