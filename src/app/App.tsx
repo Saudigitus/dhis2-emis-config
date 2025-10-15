@@ -1,22 +1,28 @@
 import React from 'react'
 import "./App.module.css"
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "react-select/dist/react-select.css";
-import { Router } from "../components/routes"
 import "../assets/style/globalStyle.css"
-import getInitDataStore from '../hooks/commons/useInitDataStore';
+import { Router } from "../components/routes"
+import { useConfig } from '@dhis2/app-runtime'
+import CustomAppWrapper from './wrapper/AppWrapper';
+import { AppWrapper } from 'dhis2-semis-components'
+import { HashRouter } from 'react-router-dom'
 
-function App() {
-    const { isInitialized } = getInitDataStore()
-
-    if (!isInitialized) {
-        return <></>
-    }
+function ConfigirationsPage() {
+    const { baseUrl } = useConfig()
 
     return (
-        <>
-            <Router />
-        </>
+        // <AppWrapper
+        //     baseUrl={baseUrl}
+        //     dataStoreKey="dataStore/semis/values"
+        //     schoolCalendarKey='dataStore/semis/schoolCalendar'
+        // >
+        //     <HashRouter>
+                <CustomAppWrapper>
+                    <Router />
+                </CustomAppWrapper>
+            {/* </HashRouter >
+        </AppWrapper> */}
     )
 }
-export default App
+
+export default ConfigirationsPage

@@ -5,20 +5,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-26T09:46:14.972Z\n"
-"PO-Revision-Date: 2024-01-26T09:46:14.972Z\n"
+"POT-Creation-Date: 2025-06-23T13:28:14.676Z\n"
+"PO-Revision-Date: 2025-06-23T13:28:14.677Z\n"
 
-msgid "Column"
-msgstr "Column"
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "SEMIS Configuration"
 
-msgid "Select columns"
-msgstr "Select columns"
-
-msgid "Columns to show in the table"
-msgstr "Columns to show in the table"
-
-msgid "Save"
-msgstr "Save"
-
-msgid "No data to display"
-msgstr "No data to display"
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""

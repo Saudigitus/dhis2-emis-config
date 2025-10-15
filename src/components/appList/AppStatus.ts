@@ -1,5 +1,0 @@
-export enum Status {
-    INSTALLED = "INSTALLED",
-    NOT_INSTALLED = "NOT_INSTALLED",
-    DISABLED = "DISABLED",
-}
