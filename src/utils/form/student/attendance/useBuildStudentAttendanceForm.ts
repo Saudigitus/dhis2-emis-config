@@ -14,12 +14,12 @@ function formStudentAttendance({ attendanceDetails, programFields, attendanceSta
             name: "Program Details",
             fields: [...programFields]
         },
-        {
+        ...(attendanceDetails?.length > 0 ? [{
             visible: true,
             name: 'Attendance General Details',
             fields: [...attendanceDetails]
-        },
-        ...(attendanceStatusDetails.length > 0 ? [{
+        }] : []),
+        ...(attendanceStatusDetails?.length > 0 ? [{
             visible: true,
             name: 'Attendance Statuses Details',
             fields: [...attendanceStatusDetails]

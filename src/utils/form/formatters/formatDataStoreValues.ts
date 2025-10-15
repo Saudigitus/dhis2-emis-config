@@ -80,7 +80,7 @@ const attendance = (dataStoreValues: any, module: string) => {
         "programStageAttendance": dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
         ...dataStoreValues?.[module]?.statusOptions?.reduce(
-            (acc: any, x: any) => ({ ...acc, [x.ConfigKey]: x.code }),
+            (acc: any, x: any) => ({ ...acc, [x?.ConfigKey]: x?.code }),
             {}
         )
     }
@@ -151,13 +151,15 @@ const transferBodyToForm = (dataStoreValues: any, module: string,) => {
         programStageTransfer: dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
         ...dataStoreValues?.[module]?.statusOptions?.reduce(
-            (acc: any, x: any) => ({ ...acc, [x.configKey]: x.code }),
+            (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
             {}
         )
     }
 }
 
 const transferPostBody = (formValues: any, prevDataStore: any) => {
+    const { approvedCode, penddingCode, reprovedCode } = formValues
+
     return {
         ...prevDataStore,
         [formValues?.module]: {
@@ -168,21 +170,21 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
             programStage: formValues.programStageTransfer,
             lastUpdate: new Date().toISOString(),
             statusOptions: [
-                {
+                ...(approvedCode ? [{
+                    code: approvedCode,
                     configKey: 'approvedCode',
-                    key: formValues?.approvedCode?.toLowerCase(),
-                    code: formValues?.approvedCode,
-                },
-                {
+                    key: approvedCode?.toLowerCase(),
+                }] : []),
+                ...(penddingCode ? [{
+                    code: penddingCode,
                     configKey: 'penddingCode',
-                    key: formValues?.penddingCode?.toLowerCase(),
-                    code: formValues?.penddingCode,
-                },
-                {
+                    key: penddingCode?.toLowerCase(),
+                }] : []),
+                ...(reprovedCode ? [{
+                    code: reprovedCode,
                     configKey: 'reprovedCode',
-                    key: formValues?.reprovedCode?.toLowerCase(),
-                    code: formValues?.reprovedCode,
-                },
+                    key: reprovedCode?.toLowerCase(),
+                }] : []),
             ]
         }
     }
