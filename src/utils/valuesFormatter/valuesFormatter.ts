@@ -27,3 +27,27 @@ export function areObjectsEqual(obj1: any, obj2: any): boolean {
 
     return areEqual(obj1, obj2);
 }
+
+export function hasNullOrUndefined(obj: any): boolean {
+    const whiteList = ['key', 'lastUpdate', 'label']
+
+    function check(value: any): boolean {
+        if (value === null || value === undefined || value?.length === 0) return true;
+
+        if (Array.isArray(value)) {
+            return value.some(item => check(item));
+        }
+
+        if (typeof value === 'object') {
+
+            return Object.keys(value).some(key => {
+                if (whiteList.includes(key)) return false
+                return check(value[key])
+            });
+        }
+
+        return false;
+    }
+
+    return check(obj);
+}
