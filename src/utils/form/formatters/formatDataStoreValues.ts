@@ -79,17 +79,15 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
 }
 
 const attendance = (dataStoreValues: any, module: string) => {
-    let data = {}
-    dataStoreValues?.[module]?.statusOptions?.map((x: any) => {
-        data = { ...data, [`${x.ConfigKey}`]: x.code }
-    })
-
     return {
         "module": module,
         "program": dataStoreValues?.program,
         "programStageAttendance": dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
-        ...data
+        ...dataStoreValues?.[module]?.statusOptions?.reduce(
+            (acc: any, x: any) => ({ ...acc, [x?.ConfigKey]: x?.code }),
+            {}
+        )
     }
 }
 
@@ -157,22 +155,42 @@ const transferBodyToForm = (dataStoreValues: any, module: string,) => {
         program: dataStoreValues?.program,
         programStageTransfer: dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
+        ...dataStoreValues?.[module]?.statusOptions?.reduce(
+            (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
+            {}
+        )
     }
 }
 
 const transferPostBody = (formValues: any, prevDataStore: any) => {
+    const { approvedCode, penddingCode, reprovedCode } = formValues
+
     return {
         ...prevDataStore,
         [formValues?.module]: {
             enabled: true,
             status: formValues.status,
-            approvedCode: formValues?.approvedCode,
-            penddingCode: formValues?.penddingCode,
-            reprovedCode: formValues?.reprovedCode,
             originSchool: formValues.destinySchool,
             destinySchool: formValues.destinySchool,
             programStage: formValues.programStageTransfer,
             lastUpdate: new Date().toISOString(),
+            statusOptions: [
+                ...(approvedCode ? [{
+                    code: approvedCode,
+                    configKey: 'approvedCode',
+                    key: approvedCode?.toLowerCase(),
+                }] : []),
+                ...(penddingCode ? [{
+                    code: penddingCode,
+                    configKey: 'penddingCode',
+                    key: penddingCode?.toLowerCase(),
+                }] : []),
+                ...(reprovedCode ? [{
+                    code: reprovedCode,
+                    configKey: 'reprovedCode',
+                    key: reprovedCode?.toLowerCase(),
+                }] : []),
+            ]
         }
     }
 }

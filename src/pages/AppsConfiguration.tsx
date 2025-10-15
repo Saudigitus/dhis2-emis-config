@@ -13,6 +13,7 @@ import usePostDataStore from '../hooks/dataStore/usePostDataStore';
 import useGetDataStore from '../hooks/dataStore/useGetDataStore';
 import { moduleBodyToForm } from '../utils/form/formatters/formatDataStoreValues';
 import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../utils/dataStore/common';
+import { hasNullOrUndefined } from '../utils/valuesFormatter/valuesFormatter';
 
 const AppsConfiguration = () => {
   const { add, useQuery } = useUrlParams();
@@ -75,38 +76,41 @@ const AppsConfiguration = () => {
     })
   }
 
-  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => ([
-    ...(module == "registration" ? [{
-      label: "This module contain general configuration and it's required for semis to work properly",
-      icon: <InfoIcon style={{ color: "orange" }} />,
-    }] : [{}]),
-    ...(configurable ? [{
-      label: (module == "registration" || isModuleConfigured(section, dataStore, "registration"))
-        ? `Configure ${label.replace("-", " ")}`
-        : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
-      icon: <Settings />,
-      disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
-      onAction: () => {
-        const initialValues = {
-          module: module, key: section.toLocaleLowerCase(),
-          ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
-        }
-        setInitialValues(() => initialValues)
-        handleConfiguration({ module, section, label })
-      },
-    }] : []),
-    {
-      label: isModuleConfigured(section, dataStore, module) ? `${isModuleEnabled(section, module, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
-      icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
-        <Switch
-          disabled={!isModuleConfigured(section, dataStore, module)}
-          className="custom-switch-config"
-          name={`${section}-${label}`}
-          checked={isModuleEnabled(section, module, dataStore)}
-          onChange={(e: any) => onModuleEnable(e, section, label, module)}
-        />
-    }
-  ]);
+  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
+
+    return ([
+      ...(module == "registration" ? [{
+        label: "This module contain general configuration and it's required for semis to work properly",
+        icon: <InfoIcon style={{ color: "orange" }} />,
+      }] : [{}]),
+      ...(configurable ? [{
+        label: (module == "registration" || isModuleConfigured(section, dataStore, "registration"))
+          ? `Configure ${label.replace("-", " ")}`
+          : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
+        icon: <Settings />,
+        disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
+        onAction: () => {
+          const initialValues = {
+            module: module, key: section.toLocaleLowerCase(),
+            ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
+          }
+          setInitialValues(() => initialValues)
+          handleConfiguration({ module, section, label })
+        },
+      }] : []),
+      {
+        label: !hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) ? `${isModuleEnabled(section, module, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
+        icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
+          <Switch
+            disabled={hasNullOrUndefined(isModuleConfigured(section, dataStore, module))}
+            className="custom-switch-config"
+            name={`${section}-${label}`}
+            checked={isModuleEnabled(section, module, dataStore)}
+            onChange={(e: any) => onModuleEnable(e, section, label, module)}
+          />
+      }
+    ])
+  };
 
   return (
     <Box>

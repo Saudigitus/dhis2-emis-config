@@ -38,26 +38,38 @@ function ModalManager(props: ModalManagerInterface) {
         setOpen(false);
     }
 
+
     function onSubmit(e: Record<string, any>): void {
-        setLoading(true)
-        const configKey = config?.find(x => x.key == section)
-        let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
-        const keyIndex = postData?.findIndex((x: any) => x.key == section)
-        const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
+        if (!formVariables?.flatMap((x: any) => x.fields).flat()?.every((field: any) =>
+            (!field?.required) || (field?.required && e[field.name])
+        )) return
 
-        if (keyIndex > -1) {
-            postData[keyIndex] = { ...postData[keyIndex], [e?.module]: rest }
-        }
+        try {
+            setLoading(true)
+            const configKey = config?.find(x => x.key == section)
+            let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
+            const keyIndex = postData?.findIndex((x: any) => x.key == section)
+            const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
 
-        createDataStore({
-            data: postData,
-            key: 'dataStore/semis/values',
-        }).then(async () => {
-            if (academicYear && section === "student") {
-                await createDataStore({
-                    key: "dataStore/semis/schoolCalendar",
-                    data: { ...calendar, academicYear: academicYear }
-                }).then(() => {
+            if (keyIndex > -1) {
+                postData[keyIndex] = { ...postData[keyIndex], [e?.module]: rest }
+            }
+
+            createDataStore({
+                data: postData,
+                key: 'dataStore/semis/values',
+            }).then(async () => {
+                if (academicYear && section === "student") {
+                    await createDataStore({
+                        key: "dataStore/semis/schoolCalendar",
+                        data: { ...calendar, academicYear: academicYear }
+                    }).then(() => {
+                        refetch().then(() => {
+                            setLoading(false);
+                            setOpen(false);
+                        })
+                    })
+                } else {
                     refetch().then(() => {
                         setLoading(false);
                         setOpen(false);
@@ -82,6 +94,8 @@ function ModalManager(props: ModalManagerInterface) {
                 })
             }
         })
+        } catch (error) {
+        }
     }
 
     return (
