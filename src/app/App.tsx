@@ -17,11 +17,11 @@ function ConfigirationsPage() {
         //     schoolCalendarKey='dataStore/semis/schoolCalendar'
         // >
         //     <HashRouter>
-                <CustomAppWrapper>
-                    <Router />
-                </CustomAppWrapper>
-            {/* </HashRouter >
-        </AppWrapper> */}
+        <CustomAppWrapper>
+            <Router />
+        </CustomAppWrapper>
+        //     </HashRouter >
+        //</AppWrapper> 
     )
 }
 
