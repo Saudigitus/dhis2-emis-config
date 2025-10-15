@@ -20,8 +20,8 @@ function ConfigirationsPage() {
                 <CustomAppWrapper>
                     <Router />
                 </CustomAppWrapper>
-        //     </HashRouter >
-        // </AppWrapper>
+            {/* </HashRouter >
+        </AppWrapper> */}
     )
 }
 
