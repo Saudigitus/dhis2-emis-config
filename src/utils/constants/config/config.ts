@@ -536,6 +536,14 @@ export const config = [
                 "order": 1,
                 "resource": "dataElements"
             },
+             "originSchool": {
+                "filter": "valueType:eq:ORGANISATION_UNIT",
+                "hint": "Organisation Unit  Data Element",
+                "inputType": "LIST",
+                "label": "Origin School",
+                "order": 1,
+                "resource": "dataElements"
+            },
             "programStageTransfer": {
                 "filter": "repeatable:eq:true",
                 "hint": "Repeatable Program Stage",
