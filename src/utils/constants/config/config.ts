@@ -266,7 +266,7 @@ export const config = [
                 "optionSetValue": true,
                 "order": 3,
                 "resource": "dataElements",
-                "valueType": "TEXT"
+                "valueType": "TEXT" 
             },
             "transferStatus": {
                 "approvedCode": {
