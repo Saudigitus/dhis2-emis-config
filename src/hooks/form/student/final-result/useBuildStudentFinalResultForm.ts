@@ -10,8 +10,9 @@ function useBuildStudentFinalResultForm() {
     const buildStudentFinalResultForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
         const finalResult: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "final-result" })
+        const { finalResultStatus, ...rest } = finalResult
 
-        for (const element in finalResult) {
+        for (const element in rest) {
             const configuratioKey: any = finalResult?.[element as keyof DataStoreConfigType["final-result"]]
             if (configuratioKey) {
                 formFieldsList.push(
