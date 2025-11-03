@@ -1,28 +1,30 @@
-import { GroupFormProps } from 'dhis2-semis-types'
+import { D2I18n, GroupFormProps } from 'dhis2-semis-types'
 
 type formStudentFinalResultFormType = {
     programFields: GroupFormProps['fields']
     finalResultFields: GroupFormProps['fields']
     finalResultStatusDetails: GroupFormProps['fields']
+    i18n: D2I18n
 }
 
 function formStudentFinalResultForm({
     finalResultFields,
     programFields,
-    finalResultStatusDetails
+    finalResultStatusDetails,
+    i18n
 }: formStudentFinalResultFormType) {
     return [
         {
             visible: true,
             description: '',
-            name: 'Program Details',
+            name: i18n.t('Program Details'),
             fields: [...programFields]
         },
         ...(finalResultFields.length > 0
             ? [
                   {
                       visible: true,
-                      name: 'Final Result Details',
+                      name: i18n.t('Final Result Details'),
                       fields: [...finalResultFields]
                   }
               ]
@@ -31,7 +33,7 @@ function formStudentFinalResultForm({
             ? [
                   {
                       visible: true,
-                      name: 'Promotion Criteria',
+                      name: i18n.t('Promotion Criteria'),
                       fields: [...finalResultStatusDetails]
                   }
               ]

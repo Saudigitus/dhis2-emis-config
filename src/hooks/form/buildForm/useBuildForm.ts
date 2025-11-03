@@ -18,8 +18,9 @@ import { useBuildStudentAttendanceForm } from '../student/attendance/useBuildStu
 import { formStudentAttendance } from '../../../utils/form/student/attendance/useBuildStudentAttendanceForm'
 import { useBuildStudentPerformanceForm } from '../student/performance/useBuildStudentPerformanceForm'
 import { formmStudentPerformance } from '../../../utils/form/student/performance/useBuildStudentAttendanceForm'
+import { D2I18n } from 'dhis2-semis-types'
 
-const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
+const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
     const module = useQuery.get('module')
     const section = useQuery.get('section') as SectionType
@@ -54,12 +55,12 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 })
                 const fieldsEnrollment = data
                     ? buildStudentEnrollmentForm(
-                          {
-                              dataStoreConfig: dataStoreConfig,
-                              programStages: data?.programStages ?? []
-                          },
-                          getDataElements(data?.programStages, trackeValues?.programStageRegistration)
-                      )
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: data?.programStages ?? []
+                        },
+                        getDataElements(data?.programStages, trackeValues?.programStageRegistration)
+                    )
                     : []
 
                 const defaultFields = buildStudentGeneralForm(
@@ -73,9 +74,9 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
 
                 const socioFields = data
                     ? buildStudentSocioForm({
-                          dataStoreConfig: dataStoreConfig,
-                          programStages: data?.programStages ?? []
-                      })
+                        dataStoreConfig: dataStoreConfig,
+                        programStages: data?.programStages ?? []
+                    })
                     : []
 
                 const sectionFormEnrollment = formStudentEnrollmentForm({
@@ -83,7 +84,8 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                     socioFields,
                     registrationFields: fieldsEnrollment,
                     defaultFields,
-                    requiredData: { ...trackeValues, data }
+                    requiredData: { ...trackeValues, data },
+                    i18n
                 })
                 return sectionFormEnrollment
 
@@ -91,12 +93,12 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 const frStageDataElements = getDataElements(data?.programStages, trackeValues?.programStageFinalResult)
                 const fields = data
                     ? buildStudentFinalResultForm(
-                          {
-                              dataStoreConfig: dataStoreConfig,
-                              programStages: data?.programStages ?? []
-                          },
-                          frStageDataElements
-                      )
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: data?.programStages ?? []
+                        },
+                        frStageDataElements
+                    )
                     : []
 
                 const { finalResultStatus }: any = getDataStoreConfigKeys({
@@ -108,17 +110,18 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 const finalResultStatusDetails =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(
-                              getOptions(frStageDataElements, trackeValues?.status),
-                              frStageDataElements ?? [],
-                              finalResultStatus
-                          )
+                            getOptions(frStageDataElements, trackeValues?.status),
+                            frStageDataElements ?? [],
+                            finalResultStatus
+                        )
                         : []
 
 
                 const sectionForm = formStudentFinalResultForm({
                     finalResultFields: fields,
                     programFields: programFields,
-                    finalResultStatusDetails
+                    finalResultStatusDetails,
+                    i18n
                 })
                 return sectionForm
 
@@ -132,27 +135,28 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
 
                 const attendace = data
                     ? buildStudentAttendanceForm(
-                          {
-                              dataStoreConfig: dataStoreConfig,
-                              programStages: data?.programStages ?? []
-                          },
-                          stageDataElements
-                      )
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: data?.programStages ?? []
+                        },
+                        stageDataElements
+                    )
                     : []
 
                 const attendanceStatusDetails =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(
-                              getOptions(stageDataElements, trackeValues?.status),
-                              stageDataElements ?? [],
-                              attendanceStatus
-                          )
+                            getOptions(stageDataElements, trackeValues?.status),
+                            stageDataElements ?? [],
+                            attendanceStatus
+                        )
                         : []
 
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,
                     programFields: programFields,
-                    attendanceStatusDetails
+                    attendanceStatusDetails,
+                    i18n
                 })
                 return theForm
 
@@ -167,41 +171,42 @@ const useBuildForm = ({ trackeValues }: { trackeValues?: any }) => {
                 const transferStatusFields =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(
-                              getOptions(
-                                  getDataElements(data?.programStages, trackeValues?.programStageTransfer),
-                                  trackeValues?.status
-                              ),
-                              data?.programTrackedEntityAttributes ?? [],
-                              transferStatusFieldsConfig
-                          )
+                            getOptions(
+                                getDataElements(data?.programStages, trackeValues?.programStageTransfer),
+                                trackeValues?.status
+                            ),
+                            data?.programTrackedEntityAttributes ?? [],
+                            transferStatusFieldsConfig
+                        )
                         : []
 
                 const transferFields = data
                     ? buildStudentTransferForm({
-                          formValues: trackeValues,
-                          dataStoreConfig: dataStoreConfig,
-                          programStages: data?.programStages ?? []
-                      })
+                        formValues: trackeValues,
+                        dataStoreConfig: dataStoreConfig,
+                        programStages: data?.programStages ?? []
+                    })
                     : []
                 const sectionFormTransfer = formStudentTransferForm({
                     transferFields,
                     programFields,
-                    transferStatusFields
+                    transferStatusFields,
+                    i18n
                 })
                 return sectionFormTransfer
 
             case 'performance':
                 const performanceFields = data
                     ? buildStudentPerformanceForm(
-                          {
-                              dataStoreConfig: dataStoreConfig,
-                              programStages: data?.programStages ?? []
-                          },
-                          getDataElements(data?.programStages, trackeValues?.programStagePerformance)
-                      )
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: data?.programStages ?? []
+                        },
+                        getDataElements(data?.programStages, trackeValues?.programStagePerformance)
+                    )
                     : []
 
-                const performanceForm = formmStudentPerformance({ performanceFields, programFields })
+                const performanceForm = formmStudentPerformance({ performanceFields, programFields, i18n })
                 return performanceForm
             default:
                 break

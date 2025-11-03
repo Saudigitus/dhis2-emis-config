@@ -9,107 +9,107 @@ msgstr ""
 "PO-Revision-Date: 2025-11-03T10:09:18.330Z\n"
 
 msgid "Configurations saved successfuly"
-msgstr "Configurations saved successfuly"
+msgstr "Configurações guardadas com sucesso"
 
 msgid "Unable to save data"
-msgstr "Unable to save data"
+msgstr "Não foi possível guardar os dados"
 
 msgid "{{name}}"
 msgstr "{{name}}"
 
 msgid "{{section}} Configuration"
-msgstr "{{section}} Configuration"
+msgstr "Configuração de {{section}}"
 
 msgid "{{section}} {{key}} enabled successfully"
-msgstr "{{section}} {{key}} enabled successfully"
+msgstr "{{section}} {{key}} ativado com sucesso"
 
 msgid "{{section}} {{key}} disabled successfully"
-msgstr "{{section}} {{key}} disabled successfully"
+msgstr "{{section}} {{key}} desativado com sucesso"
 
 msgid ""
 "This module contain general configuration and it's required for semis to "
 "work properly"
 msgstr ""
-"This module contain general configuration and it's required for semis to "
-"work properly"
+"Este módulo contém configurações gerais e é necessário para que o SEMIS "
+"funcione corretamente"
 
 msgid "Configure {{label}}"
-msgstr "Configure {{label}}"
+msgstr "Configurar {{label}}"
 
 msgid "Cannot configure {{label}} before configuring {{registrationLabel}}"
-msgstr "Cannot configure {{label}} before configuring {{registrationLabel}}"
+msgstr "Não é possível configurar {{label}} antes de configurar {{registrationLabel}}"
 
 msgid "Disable"
-msgstr "Disable"
+msgstr "Desativar"
 
 msgid "Enable"
-msgstr "Enable"
+msgstr "Ativar"
 
 msgid "You must configure this module first to enable it"
-msgstr "You must configure this module first to enable it"
+msgstr "Deve configurar este módulo primeiro para o poder ativá-lo"
 
 msgid "{{section}}"
 msgstr "{{section}}"
 
 msgid "Enrollment"
-msgstr "Enrollment"
+msgstr "Matrícula"
 
 msgid "Attendance"
-msgstr "Attendance"
+msgstr "Assiduidade"
 
 msgid "Performance"
-msgstr "Performance"
+msgstr "Desempenho"
 
 msgid "Transfer"
-msgstr "Transfer"
+msgstr "Transferência"
 
 msgid "Final Result"
-msgstr "Final Result"
+msgstr "Resultado Final"
 
 msgid "Staff registry"
-msgstr "Staff registry"
+msgstr "Registo de pessoal"
 
 msgid "Re-enroll"
-msgstr "Re-enroll"
+msgstr "Reinscrever"
 
 msgid "Program Details"
-msgstr "Program Details"
+msgstr "Detalhes do Programa"
 
 msgid "Attendance General Details"
-msgstr "Attendance General Details"
+msgstr "Detalhes Gerais de Assiduidade"
 
 msgid "Attendance Statuses Details"
-msgstr "Attendance Statuses Details"
+msgstr "Detalhes dos Estados de Assiduidade"
 
 msgid "Registration Details"
-msgstr "Registration Details"
+msgstr "Detalhes de Registo"
 
 msgid "If you don't use socio-economic module, please leave this field blanck"
-msgstr "If you don't use socio-economic module, please leave this field blanck"
+msgstr "Se não utilizar o módulo socioeconómico, deixe este campo em branco"
 
 msgid "Select a program to follow and config the socio economic details"
-msgstr "Select a program to follow and config the socio economic details"
+msgstr "Selecione um programa para configurar os detalhes socioeconómicos"
 
 msgid "Socio Economic Details"
-msgstr "Socio Economic Details"
+msgstr "Detalhes Socioeconómicos"
 
 msgid "Select a program to follow and config the registration details"
-msgstr "Select a program to follow and config the registration details"
+msgstr "Selecione um programa para configurar os detalhes de registo"
 
 msgid "Default Configurations"
-msgstr "Default Configurations"
+msgstr "Configurações Padrão"
 
 msgid "Final Result Details"
-msgstr "Final Result Details"
+msgstr "Detalhes do Resultado Final"
 
 msgid "Promotion Criteria"
-msgstr "Promotion Criteria"
+msgstr "Critérios de Promoção"
 
 msgid "Performance details"
-msgstr "Performance details"
+msgstr "Detalhes do Desempenho"
 
 msgid "Transfer Details"
-msgstr "Transfer Details"
+msgstr "Detalhes de Transferência"
 
 msgid "Transfer Status Details"
-msgstr "Transfer Status Details"
+msgstr "Detalhes do Estado da Transferência"

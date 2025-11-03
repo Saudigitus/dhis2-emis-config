@@ -5,11 +5,12 @@ import { useCheckDataStore } from "../../hooks/dataStore/useCheckDataStore"
 import useGetDataStoreConfig from "../../hooks/dataStore/useGetDataStoreConfig"
 import { SchoolCalendarState } from "../../atoms/schoolCalendar"
 import ConfigLoader from "../../components/skeleton/ConfigLoader"
+import { D2I18n } from "dhis2-semis-types"
 
 const configKey = 'dataStore/semis/config'
 const schoolCalendar = 'dataStore/semis/schoolCalendar'
 
-const CustomAppWrapper = ({ children }: { children: ReactElement }) => {
+const CustomAppWrapper = ({ children, i18n }: { children: ReactElement, i18n: D2I18n }) => {
     const [loadingUpdate, setLoading] = useState<boolean>(false)
     const { loading, startCheck } = useCheckDataStore(configKey)
     const { getDataStore } = useGetDataStoreConfig({ setLoading })
@@ -24,7 +25,7 @@ const CustomAppWrapper = ({ children }: { children: ReactElement }) => {
 
     if (loading || loadingUpdate) {
         return (
-            <ConfigLoader />
+            <ConfigLoader i18n={i18n}/>
         )
     }
 
