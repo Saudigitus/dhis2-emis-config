@@ -12,7 +12,7 @@ const schoolCalendar = 'dataStore/semis/schoolCalendar'
 
 const CustomAppWrapper = ({ children, i18n }: { children: ReactElement, i18n: D2I18n }) => {
     const [loadingUpdate, setLoading] = useState<boolean>(false)
-    const { loading, startCheck } = useCheckDataStore(configKey)
+    const { loading, startCheck } = useCheckDataStore(configKey, i18n)
     const { getDataStore } = useGetDataStoreConfig({ setLoading })
     const setSchoolCalendar = useSetRecoilState(SchoolCalendarState)
 
@@ -25,7 +25,7 @@ const CustomAppWrapper = ({ children, i18n }: { children: ReactElement, i18n: D2
 
     if (loading || loadingUpdate) {
         return (
-            <ConfigLoader i18n={i18n}/>
+            <ConfigLoader i18n={i18n} />
         )
     }
 

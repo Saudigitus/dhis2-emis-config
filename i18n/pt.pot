@@ -5,14 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-11-03T10:09:18.330Z\n"
-"PO-Revision-Date: 2025-11-03T10:09:18.330Z\n"
+"POT-Creation-Date: 2025-11-04T07:21:08.916Z\n"
+"PO-Revision-Date: 2025-11-04T07:21:08.916Z\n"
 
 msgid "Configurations saved successfuly"
-msgstr "Configurações guardadas com sucesso"
+msgstr "Configurações salvas com sucesso"
 
 msgid "Unable to save data"
-msgstr "Não foi possível guardar os dados"
+msgstr "Não foi possível salvar os dados"
 
 msgid "{{name}}"
 msgstr "{{name}}"
@@ -46,16 +46,172 @@ msgid "Enable"
 msgstr "Ativar"
 
 msgid "You must configure this module first to enable it"
-msgstr "Deve configurar este módulo primeiro para o poder ativá-lo"
+msgstr "Você deve configurar este módulo primeiro para ativá-lo"
 
 msgid "{{section}}"
 msgstr "{{section}}"
+
+msgid "Data Element with option sets"
+msgstr "Elemento de dados com conjunto de opções"
+
+msgid "Reason of absence"
+msgstr "Motivo da ausência"
+
+msgid "option sets"
+msgstr "conjuntos de opções"
+
+msgid "Absent Code"
+msgstr "Código de Ausente"
+
+msgid "Late Code"
+msgstr "Código de Atraso"
+
+msgid "Leave Code"
+msgstr "Código de Licença"
+
+msgid "Present Code"
+msgstr "Código de Presente"
+
+msgid "Repeatable Program Stage"
+msgstr "Estágio de Programa Repetível"
+
+msgid "Attendance Program Stage"
+msgstr "Estágio de Programa de Presença"
+
+msgid "Attendance Status"
+msgstr "Estado de Presença"
+
+msgid "Allow Searching"
+msgstr "Permitir Pesquisa"
+
+msgid "Default order by"
+msgstr "Ordenar por padrão"
+
+msgid "Order as"
+msgstr "Ordenar como"
+
+msgid "asc"
+msgstr "crescente"
+
+msgid "desc"
+msgstr "decrescente"
+
+msgid "Non-Repeatable Program Stage"
+msgstr "Estágio de Programa Não Repetível"
+
+msgid "Final Result Program Stage"
+msgstr "Estágio de Programa de Resultado Final"
+
+msgid "Data Element"
+msgstr "Elemento de Dados"
+
+msgid "Final result status"
+msgstr "Estado do resultado final"
+
+msgid "List of final result status that allows student promotion"
+msgstr "Lista de estados de resultado final que permitem promoção do aluno"
+
+msgid "Promotable Status"
+msgstr "Estado Promovível"
+
+msgid "Allow multi selection of program stage"
+msgstr "Permitir seleção múltipla de estágio de programa"
+
+msgid "Performance/marks Program Stages"
+msgstr "Estágios de Programa de Desempenho/Notas"
+
+msgid "Tracker Program"
+msgstr "Programa de Rastreamento"
+
+msgid "Student Program"
+msgstr "Programa de Aluno"
+
+msgid "Data Element with Option Sets"
+msgstr "Elemento de Dados com Conjuntos de Opções"
+
+msgid "Academic Year"
+msgstr "Ano Letivo"
+
+msgid "Grade"
+msgstr "Série/Ano"
+
+msgid "The name that should appear in the global filters"
+msgstr "O nome que deve aparecer nos filtros globais"
+
+msgid "Grade filter name"
+msgstr "Nome do filtro de série"
+
+msgid "Non-repeatable ProgramStage"
+msgstr "Estágio de Programa Não Repetível"
+
+msgid "Registration Program Stage"
+msgstr "Estágio de Programa de Matrícula"
+
+msgid "Data optionally with Option Sets"
+msgstr "Dados opcionalmente com Conjuntos de Opções"
+
+msgid "Class/Section"
+msgstr "Turma/Seção"
+
+msgid "Section filter name"
+msgstr "Nome do filtro de turma"
+
+msgid "Non-repeateable ProgramStage"
+msgstr "Estágio de Programa Não Repetível"
+
+msgid "Socio-economics Program Stage"
+msgstr "Estágio de Programa Socioeconômico"
+
+msgid "Organisation Unit Data Element"
+msgstr "Elemento de Dados de Unidade Organizacional"
+
+msgid "Destiny School"
+msgstr "Escola de Destino"
+
+msgid "Origin School"
+msgstr "Escola de Origem"
+
+msgid "Program Stage"
+msgstr "Estágio de Programa"
+
+msgid "Transfer Status"
+msgstr "Estado da Transferência"
+
+msgid "Approved Code"
+msgstr "Código de Aprovado"
+
+msgid "Pedding Code"
+msgstr "Código de Pendente"
+
+msgid "Reproved Code"
+msgstr "Código de Reprovado"
+
+msgid "List of final result status that allows staff promotion"
+msgstr "Lista de estados de resultado final que permitem promoção do funcionário"
+
+msgid "Staff Program"
+msgstr "Programa de Funcionário"
+
+msgid "Employment type"
+msgstr "Tipo de vínculo empregatício"
+
+msgid "Employment type filter name"
+msgstr "Nome do filtro de tipo de vínculo"
+
+msgid "Repeatable ProgramStage"
+msgstr "Estágio de Programa Repetível"
+
+msgid "Type of staff"
+msgstr "Tipo de funcionário"
+
+msgid "Type of staff filter name"
+msgstr "Nome do filtro de tipo de funcionário"
 
 msgid "Enrollment"
 msgstr "Matrícula"
 
 msgid "Attendance"
-msgstr "Assiduidade"
+msgstr "Presença"
 
 msgid "Performance"
 msgstr "Desempenho"
@@ -67,34 +223,34 @@ msgid "Final Result"
 msgstr "Resultado Final"
 
 msgid "Staff registry"
-msgstr "Registo de pessoal"
+msgstr "Registro de Funcionário"
 
 msgid "Re-enroll"
-msgstr "Reinscrever"
+msgstr "Rematrícula"
 
 msgid "Program Details"
 msgstr "Detalhes do Programa"
 
 msgid "Attendance General Details"
-msgstr "Detalhes Gerais de Assiduidade"
+msgstr "Detalhes Gerais de Presença"
 
 msgid "Attendance Statuses Details"
-msgstr "Detalhes dos Estados de Assiduidade"
+msgstr "Detalhes dos Estados de Presença"
 
 msgid "Registration Details"
-msgstr "Detalhes de Registo"
+msgstr "Detalhes da Matrícula"
 
 msgid "If you don't use socio-economic module, please leave this field blanck"
-msgstr "Se não utilizar o módulo socioeconómico, deixe este campo em branco"
+msgstr "Se você não utiliza o módulo socioeconômico, deixe este campo em branco"
 
 msgid "Select a program to follow and config the socio economic details"
-msgstr "Selecione um programa para configurar os detalhes socioeconómicos"
+msgstr "Selecione um programa para acompanhar e configurar os detalhes socioeconômicos"
 
 msgid "Socio Economic Details"
-msgstr "Detalhes Socioeconómicos"
+msgstr "Detalhes Socioeconômicos"
 
 msgid "Select a program to follow and config the registration details"
-msgstr "Selecione um programa para configurar os detalhes de registo"
+msgstr "Selecione um programa para acompanhar e configurar os detalhes de matrícula"
 
 msgid "Default Configurations"
 msgstr "Configurações Padrão"
@@ -106,10 +262,10 @@ msgid "Promotion Criteria"
 msgstr "Critérios de Promoção"
 
 msgid "Performance details"
-msgstr "Detalhes do Desempenho"
+msgstr "Detalhes de Desempenho"
 
 msgid "Transfer Details"
-msgstr "Detalhes de Transferência"
+msgstr "Detalhes da Transferência"
 
 msgid "Transfer Status Details"
 msgstr "Detalhes do Estado da Transferência"
