@@ -1,4 +1,4 @@
-import { GroupFormProps } from "dhis2-semis-types";
+import { D2I18n, GroupFormProps } from "dhis2-semis-types";
 
 type formStudentEnrollmentFormType = {
     programFields: GroupFormProps["fields"],
@@ -6,32 +6,33 @@ type formStudentEnrollmentFormType = {
     registrationFields: GroupFormProps["fields"],
     socioFields: GroupFormProps["fields"],
     requiredData?: any
+    i18n: D2I18n
 }
 
-function formStudentEnrollmentForm({ programFields, registrationFields, defaultFields, requiredData, socioFields }: formStudentEnrollmentFormType) {
+function formStudentEnrollmentForm({ programFields, registrationFields, defaultFields, requiredData, socioFields,i18n }: formStudentEnrollmentFormType) {
     return [
         {
             visible: true,
             description: "",
-            name: "Program Details",
+            name: i18n.t("Program Details"),
             fields: [...programFields]
         },
         ...(registrationFields.length > 0 ? [{
             visible: true,
             description: requiredData.data ? "" : "Select a program to follow and config the registration details",
-            name: "Registration Details",
+            name: i18n.t("Registration Details"),
             fields: [...registrationFields]
         }] : []),
         ...(socioFields.length > 0 ? [{
             visible: true,
-            description: requiredData.data ? "If you don't use socio-economic module, please leave this field blanck" : "Select a program to follow and config the socio economic details",
-            name: "Socio Economic Details",
+            description: requiredData.data ? i18n.t("If you don't use socio-economic module, please leave this field blanck") : i18n.t("Select a program to follow and config the socio economic details"),
+            name: i18n.t("Socio Economic Details"),
             fields: [...socioFields]
         }] : []),
         ...(registrationFields.length > 0 ? [{
             visible: true,
-            description: requiredData.data ? "" : "Select a program to follow and config the registration details",
-            name: "Default Configurations",
+            description: requiredData.data ? "" : i18n.t("Select a program to follow and config the registration details"),
+            name: i18n.t("Default Configurations"),
             fields: [...defaultFields]
         }] : [])
     ];

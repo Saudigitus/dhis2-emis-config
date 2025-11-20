@@ -1,11 +1,13 @@
-export const config = [
+import { D2I18n } from "dhis2-semis-types";
+
+export const config = (i18n: D2I18n) => [
     {
         attendance: {
             absenceReason: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with option sets',
+                hint: i18n.t('Data Element with option sets'),
                 inputType: 'LIST',
-                label: 'Reason of absence',
+                label: i18n.t('Reason of absence'),
                 optionSetValue: true,
                 order: 3,
                 required: false,
@@ -15,9 +17,9 @@ export const config = [
             attendanceStatus: {
                 absentCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Absent Code',
+                    label: i18n.t('Absent Code'),
                     optionSetValue: true,
                     order: 2,
                     required: true,
@@ -26,9 +28,9 @@ export const config = [
                 },
                 lateCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Late Code',
+                    label: i18n.t('Late Code'),
                     optionSetValue: true,
                     order: 3,
                     required: false,
@@ -37,9 +39,9 @@ export const config = [
                 },
                 leaveCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Leave Code',
+                    label: i18n.t('Leave Code'),
                     optionSetValue: true,
                     order: 4,
                     required: false,
@@ -48,9 +50,9 @@ export const config = [
                 },
                 presentCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Present Code',
+                    label: i18n.t('Present Code'),
                     optionSetValue: true,
                     order: 1,
                     required: true,
@@ -60,18 +62,18 @@ export const config = [
             },
             programStageAttendance: {
                 filter: 'repeatable:eq:true',
-                hint: 'Repeatable Program Stage',
+                hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Attendance Program Stage',
+                label: i18n.t('Attendance Program Stage'),
                 order: 1,
                 required: true,
                 resource: 'programStages'
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with option sets',
+                hint: i18n.t('Data Element with option sets'),
                 inputType: 'LIST',
-                label: 'Attendance Status',
+                label: i18n.t('Attendance Status'),
                 optionSetValue: true,
                 order: 2,
                 required: true,
@@ -82,9 +84,9 @@ export const config = [
         defaults: {
             allowSearching: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'BOOLEAN',
-                label: 'Allow Searching',
+                label: i18n.t('Allow Searching'),
                 optionSetValue: true,
                 order: 3,
                 resource: 'optionSets',
@@ -92,9 +94,9 @@ export const config = [
             },
             defaultOrder: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'LIST',
-                label: 'Default order by',
+                label: i18n.t('Default order by'),
                 optionSetValue: true,
                 order: 0,
                 resource: 'attributes',
@@ -102,17 +104,17 @@ export const config = [
             },
             orderType: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'LIST',
-                label: 'Order as',
+                label: i18n.t('Order as'),
                 optionSetValue: true,
                 options: [
                     {
-                        label: 'asc',
+                        label: i18n.t('asc'),
                         value: 'asc'
                     },
                     {
-                        label: 'desc',
+                        label: i18n.t('desc'),
                         value: 'desc'
                     }
                 ],
@@ -124,17 +126,17 @@ export const config = [
         'final-result': {
             programStageFinalResult: {
                 filter: 'repeatable:eq:false',
-                hint: 'Non-Repeatable Program Stage',
+                hint: i18n.t('Non-Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Final Result Program Stage',
+                label: i18n.t('Final Result Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element',
+                hint: i18n.t('Data Element'),
                 inputType: 'LIST',
-                label: 'Final result status',
+                label: i18n.t('Final result status'),
                 optionSetValue: false,
                 order: 1,
                 resource: 'dataElements',
@@ -143,9 +145,9 @@ export const config = [
             finalResultStatus: {
                 programStages: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'List of final result status that allows student promotion',
+                    hint: i18n.t('List of final result status that allows student promotion'),
                     inputType: 'MULTI_SELECT',
-                    label: 'Promotable Status',
+                    label: i18n.t('Promotable Status'),
                     resource: 'optionSets'
                 }
             }
@@ -155,27 +157,27 @@ export const config = [
         performance: {
             programStages: {
                 filter: 'repeatable:eq:false',
-                hint: 'Allow multi selection of program stage',
+                hint: i18n.t('Allow multi selection of program stage'),
                 inputType: 'MULTI_SELECT',
-                label: 'Performance/marks Program Stages',
+                label: i18n.t('Performance/marks Program Stages'),
                 resource: 'programStages'
             }
         },
         program: {
             program: {
                 filter: '',
-                hint: 'Tracker Program',
+                hint: i18n.t('Tracker Program'),
                 inputType: 'LIST',
-                label: 'Student Program',
+                label: i18n.t('Student Program'),
                 resource: 'programs'
             }
         },
         registration: {
             academicYear: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with Option Sets',
+                hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
-                label: 'Academic Year',
+                label: i18n.t('Academic Year'),
                 optionSetValue: true,
                 order: 1,
                 resource: 'dataElements',
@@ -185,9 +187,9 @@ export const config = [
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'grade',
-                hint: 'Data Element with Option Sets',
+                hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
-                label: 'Grade',
+                label: i18n.t('Grade'),
                 optionSetValue: true,
                 order: 2,
                 resource: 'dataElements',
@@ -195,18 +197,18 @@ export const config = [
             },
             gradeName: {
                 required: false,
-                hint: 'The name that should appear in the global filters',
+                hint: i18n.t('The name that should appear in the global filters'),
                 inputType: 'TEXT',
-                label: 'Grade filter name',
+                label: i18n.t('Grade filter name'),
                 optionSetValue: true,
                 order: 2,
                 valueType: 'TEXT'
             },
             programStageRegistration: {
                 filter: 'repeatable:eq:false',
-                hint: 'Non-repeatable ProgramStage',
+                hint: i18n.t('Non-repeatable ProgramStage'),
                 inputType: 'LIST',
-                label: 'Registration Program Stage',
+                label: i18n.t('Registration Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
@@ -214,9 +216,9 @@ export const config = [
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'class',
-                hint: 'Data optionally with Option Sets',
+                hint: i18n.t('Data optionally with Option Sets'),
                 inputType: 'LIST',
-                label: 'Class/Section',
+                label: i18n.t('Class/Section'),
                 optionSetValue: true,
                 order: 3,
                 resource: 'dataElements',
@@ -224,9 +226,9 @@ export const config = [
             },
             sectionName: {
                 required: false,
-                hint: 'The name that should appear in the global filters',
+                hint: i18n.t('The name that should appear in the global filters'),
                 inputType: 'TEXT',
-                label: 'Section filter name',
+                label: i18n.t('Section filter name'),
                 optionSetValue: true,
                 order: 4,
                 valueType: 'TEXT'
@@ -235,9 +237,9 @@ export const config = [
         'socio-economics': {
             programStageSocioEconomic: {
                 filter: 'repeatable:eq:false',
-                hint: 'Non-repeateable ProgramStage',
+                hint: i18n.t('Non-repeateable ProgramStage'),
                 inputType: 'LIST',
-                label: 'Socio-economics Program Stage',
+                label: i18n.t('Socio-economics Program Stage'),
                 order: 2,
                 resource: 'programStages'
             }
@@ -245,33 +247,33 @@ export const config = [
         transfer: {
             destinySchool: {
                 filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: 'Organisation Unit  Data Element',
+                hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
-                label: 'Destiny School',
+                label: i18n.t('Destiny School'),
                 order: 2,
                 resource: 'dataElements'
             },
             originSchool: {
                 filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: 'Organisation Unit  Data Element',
+                hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
-                label: 'Origin School',
+                label: i18n.t('Origin School'),
                 order: 1,
                 resource: 'dataElements'
             },
             programStageTransfer: {
                 filter: 'repeatable:eq:true',
-                hint: 'Repeatable Program Stage',
+                hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Program Stage',
+                label: i18n.t('Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element',
+                hint: i18n.t('Data Element'),
                 inputType: 'LIST',
-                label: 'Transfer Status',
+                label: i18n.t('Transfer Status'),
                 optionSetValue: true,
                 order: 3,
                 resource: 'dataElements',
@@ -280,9 +282,9 @@ export const config = [
             transferStatus: {
                 approvedCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Approved Code',
+                    label: i18n.t('Approved Code'),
                     optionSetValue: true,
                     order: 5,
                     resource: 'optionSets',
@@ -290,9 +292,9 @@ export const config = [
                 },
                 penddingCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Pedding Code',
+                    label: i18n.t('Pedding Code'),
                     optionSetValue: true,
                     order: 4,
                     resource: 'optionSets',
@@ -300,9 +302,9 @@ export const config = [
                 },
                 reprovedCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Reproved Code',
+                    label: i18n.t('Reproved Code'),
                     optionSetValue: true,
                     order: 6,
                     resource: 'optionSets',
@@ -315,9 +317,9 @@ export const config = [
         attendance: {
             absenceReason: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with option sets',
+                hint: i18n.t('Data Element with option sets'),
                 inputType: 'LIST',
-                label: 'Reason of absence',
+                label: i18n.t('Reason of absence'),
                 optionSetValue: true,
                 order: 3,
                 required: false,
@@ -327,9 +329,9 @@ export const config = [
             attendanceStatus: {
                 absentCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Absent Code',
+                    label: i18n.t('Absent Code'),
                     optionSetValue: true,
                     order: 2,
                     required: true,
@@ -338,9 +340,9 @@ export const config = [
                 },
                 lateCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Late Code',
+                    label: i18n.t('Late Code'),
                     optionSetValue: true,
                     order: 3,
                     required: false,
@@ -349,9 +351,9 @@ export const config = [
                 },
                 leaveCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Leave Code',
+                    label: i18n.t('Leave Code'),
                     optionSetValue: true,
                     order: 4,
                     required: false,
@@ -360,9 +362,9 @@ export const config = [
                 },
                 presentCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Present Code',
+                    label: i18n.t('Present Code'),
                     optionSetValue: true,
                     order: 1,
                     required: true,
@@ -372,18 +374,18 @@ export const config = [
             },
             programStageAttendance: {
                 filter: 'repeatable:eq:true',
-                hint: 'Repeatable Program Stage',
+                hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Attendance Program Stage',
+                label: i18n.t('Attendance Program Stage'),
                 order: 1,
                 required: true,
                 resource: 'programStages'
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with option sets',
+                hint: i18n.t('Data Element with option sets'),
                 inputType: 'LIST',
-                label: 'Attendance Status',
+                label: i18n.t('Attendance Status'),
                 optionSetValue: true,
                 order: 2,
                 required: true,
@@ -394,9 +396,9 @@ export const config = [
         defaults: {
             allowSearching: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'BOOLEAN',
-                label: 'Allow Searching',
+                label: i18n.t('Allow Searching'),
                 optionSetValue: true,
                 order: 3,
                 resource: 'optionSets',
@@ -404,9 +406,9 @@ export const config = [
             },
             defaultOrder: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'LIST',
-                label: 'Default order by',
+                label: i18n.t('Default order by'),
                 optionSetValue: true,
                 order: 0,
                 resource: 'attributes',
@@ -414,17 +416,17 @@ export const config = [
             },
             orderType: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'option sets',
+                hint: i18n.t('option sets'),
                 inputType: 'LIST',
-                label: 'Order as',
+                label: i18n.t('Order as'),
                 optionSetValue: true,
                 options: [
                     {
-                        label: 'asc',
+                        label: i18n.t('asc'),
                         value: 'asc'
                     },
                     {
-                        label: 'desc',
+                        label: i18n.t('desc'),
                         value: 'desc'
                     }
                 ],
@@ -436,26 +438,26 @@ export const config = [
         'final-result': {
             programStageFinalResult: {
                 filter: 'repeatable:eq:false',
-                hint: 'Non-Repeatable Program Stage',
+                hint: i18n.t('Non-Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Final Result Program Stage',
+                label: i18n.t('Final Result Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
             finalResultStatus: {
                 programStages: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'List of final result status that allows staff promotion',
+                    hint: i18n.t('List of final result status that allows staff promotion'),
                     inputType: 'MULTI_SELECT',
-                    label: 'Promotable Status',
+                    label: i18n.t('Promotable Status'),
                     resource: 'optionSets'
                 }
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element',
+                hint: i18n.t('Data Element'),
                 inputType: 'LIST',
-                label: 'Final result status',
+                label: i18n.t('Final result status'),
                 optionSetValue: false,
                 order: 1,
                 resource: 'dataElements',
@@ -467,18 +469,18 @@ export const config = [
         program: {
             program: {
                 filter: '',
-                hint: 'Tracker Program',
+                hint: i18n.t('Tracker Program'),
                 inputType: 'LIST',
-                label: 'Staff Program',
+                label: i18n.t('Staff Program'),
                 resource: 'programs'
             }
         },
         registration: {
             academicYear: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element with Option Sets',
+                hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
-                label: 'Academic Year',
+                label: i18n.t('Academic Year'),
                 optionSetValue: true,
                 order: 1,
                 resource: 'dataElements',
@@ -488,9 +490,9 @@ export const config = [
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'grade',
-                hint: 'Data optionally with Option Sets',
+                hint: i18n.t('Data optionally with Option Sets'),
                 inputType: 'LIST',
-                label: 'Employment type',
+                label: i18n.t('Employment type'),
                 optionSetValue: true,
                 order: 4,
                 resource: 'dataElements',
@@ -498,18 +500,18 @@ export const config = [
             },
             employmentTypeName: {
                 required: false,
-                hint: 'The name that should appear in the global filters',
+                hint: i18n.t('The name that should appear in the global filters'),
                 inputType: 'TEXT',
-                label: 'Employment type filter name',
+                label: i18n.t('Employment type filter name'),
                 optionSetValue: true,
                 order: 5,
                 valueType: 'TEXT'
             },
             programStageRegistration: {
                 filter: 'repeatable:eq:true',
-                hint: 'Repeatable ProgramStage',
+                hint: i18n.t('Repeatable ProgramStage'),
                 inputType: 'LIST',
-                label: 'Registration Program Stage',
+                label: i18n.t('Registration Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
@@ -517,9 +519,9 @@ export const config = [
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'class',
-                hint: 'Data Element with Option Sets',
+                hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
-                label: 'Type of staff',
+                label: i18n.t('Type of staff'),
                 optionSetValue: true,
                 order: 2,
                 resource: 'dataElements',
@@ -527,9 +529,9 @@ export const config = [
             },
             typeOfStaffName: {
                 required: false,
-                hint: 'The name that should appear in the global filters',
+                hint: i18n.t('The name that should appear in the global filters'),
                 inputType: 'TEXT',
-                label: 'Type of staff filter name',
+                label: i18n.t('Type of staff filter name'),
                 optionSetValue: true,
                 order: 3,
                 valueType: 'TEXT'
@@ -538,9 +540,9 @@ export const config = [
         'socio-economics': {
             programStageSocioEconomic: {
                 filter: 'repeatable:eq:false',
-                hint: 'Non-repeateable ProgramStage',
+                hint: i18n.t('Non-repeateable ProgramStage'),
                 inputType: 'LIST',
-                label: 'Socio-economics Program Stage',
+                label: i18n.t('Socio-economics Program Stage'),
                 order: 2,
                 resource: 'programStages'
             }
@@ -548,33 +550,33 @@ export const config = [
         transfer: {
             destinySchool: {
                 filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: 'Organisation Unit  Data Element',
+                hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
-                label: 'Destiny School',
+                label: i18n.t('Destiny School'),
                 order: 1,
                 resource: 'dataElements'
             },
             originSchool: {
                 filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: 'Organisation Unit  Data Element',
+                hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
-                label: 'Origin School',
+                label: i18n.t('Origin School'),
                 order: 1,
                 resource: 'dataElements'
             },
             programStageTransfer: {
                 filter: 'repeatable:eq:true',
-                hint: 'Repeatable Program Stage',
+                hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
-                label: 'Program Stage',
+                label: i18n.t('Program Stage'),
                 order: 0,
                 resource: 'programStages'
             },
             status: {
                 filter: 'valueType:eq:TEXT',
-                hint: 'Data Element',
+                hint: i18n.t('Data Element'),
                 inputType: 'LIST',
-                label: 'Transfer Status',
+                label: i18n.t('Transfer Status'),
                 optionSetValue: true,
                 order: 2,
                 resource: 'dataElements',
@@ -583,9 +585,9 @@ export const config = [
             transferStatus: {
                 approvedCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Approved Code',
+                    label: i18n.t('Approved Code'),
                     optionSetValue: true,
                     order: 1,
                     resource: 'optionSets',
@@ -593,9 +595,9 @@ export const config = [
                 },
                 penddingCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Pedding Code',
+                    label: i18n.t('Pedding Code'),
                     optionSetValue: true,
                     order: 1,
                     resource: 'optionSets',
@@ -603,9 +605,9 @@ export const config = [
                 },
                 reprovedCode: {
                     filter: 'valueType:eq:TEXT',
-                    hint: 'option sets',
+                    hint: i18n.t('option sets'),
                     inputType: 'LIST',
-                    label: 'Reproved Code',
+                    label: i18n.t('Reproved Code'),
                     optionSetValue: true,
                     order: 1,
                     resource: 'optionSets',
@@ -614,4 +616,4 @@ export const config = [
             }
         }
     }
-]
+];

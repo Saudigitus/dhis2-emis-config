@@ -2,7 +2,7 @@ import { Switch } from '@dhis2/ui';
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Settings from '@mui/icons-material/Settings';
-import { useShowAlerts, useUrlParams } from 'dhis2-semis-functions';
+import { useUrlParams } from 'dhis2-semis-functions';
 import { DashboardCard, DataStoreState, WithPadding, useGetDataStore as useDataStore, useSchoolCalendarKey } from 'dhis2-semis-components';
 import DashboardLayout from '../components/dashboard/dashboardLayout';
 import ModalManager from '../components/saveConfiguration/ModalManager';
@@ -14,8 +14,10 @@ import useGetDataStore from '../hooks/dataStore/useGetDataStore';
 import { moduleBodyToForm } from '../utils/form/formatters/formatDataStoreValues';
 import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../utils/dataStore/common';
 import { hasNullOrUndefined } from '../utils/valuesFormatter/valuesFormatter';
+import { D2I18n } from 'dhis2-semis-types';
+import useShowAlerts from '../hooks/alert/useShowAlert';
 
-const AppsConfiguration = () => {
+const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { add, useQuery } = useUrlParams();
   const name = useQuery.get("name")
   const module = useQuery.get("module")
@@ -29,7 +31,6 @@ const AppsConfiguration = () => {
   const { getDataStore } = useDataStore()
   const [open, setOpen] = useState(Boolean(name && module && section));
   const { show } = useShowAlerts()
-
 
   useEffect(() => {
     if (open) {
@@ -68,25 +69,46 @@ const AppsConfiguration = () => {
       data: updated,
       key: 'dataStore/semis/values',
     }).then(() => {
-      show({ message: `${section} ${key} ${e?.checked ? "enabled" : "disabled"} successfully`, type: { success: true } })
       refetch().then(async () => {
-        await getDataStore('dataStore/semis/values')
+        await getDataStore('dataStore/semis/values').then(() => {
+          setLoading({ [key + section]: false })
+          if (e?.checked) {
+            show({
+              message: i18n.t('{{section}} {{key}} enabled successfully', {
+                section: i18n.t(section),
+                key: i18n.t(key)
+              }), type: { success: true }
+            })
+          } else {
+            show({
+              message: i18n.t('{{section}} {{key}} disabled successfully', {
+                section: i18n.t(section),
+                key: i18n.t(key)
+              }), type: { success: true }
+            })
+          }
+        })
       })
-      setLoading({ [key + section]: false })
     })
   }
 
-  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
 
+  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
+    const formatedLabel = label.replace("-", " ")
     return ([
       ...(module == "registration" ? [{
-        label: "This module contain general configuration and it's required for semis to work properly",
+        label: i18n.t("This module contain general configuration and it's required for semis to work properly"),
         icon: <InfoIcon style={{ color: "orange" }} />,
       }] : [{}]),
       ...(configurable ? [{
         label: (module == "registration" || isModuleConfigured(section, dataStore, "registration"))
-          ? `Configure ${label.replace("-", " ")}`
-          : `Cannot configure ${label.replace("-", " ")} before configuring ${registrationLabel}`,
+          ? i18n.t('Configure {{label}}', {
+            label: i18n.t(formatedLabel),
+          })
+          : i18n.t('Cannot configure {{label}} before configuring {{registrationLabel}}', {
+            label: i18n.t(formatedLabel),
+            registrationLabel: i18n.t(registrationLabel)
+          }),
         icon: <Settings />,
         disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
         onAction: () => {
@@ -99,7 +121,7 @@ const AppsConfiguration = () => {
         },
       }] : []),
       {
-        label: !hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) ? `${isModuleEnabled(section, module, dataStore) ? 'Disable' : 'Enable'} ${label.replace("-", " ")}` : `You must configure this module first to enable it`,
+        label: !hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) ? `${isModuleEnabled(section, module, dataStore) ? i18n.t('Disable') : i18n.t('Enable')} ${label.replace("-", " ")}` : i18n.t(`You must configure this module first to enable it`),
         icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
           <Switch
             disabled={hasNullOrUndefined(isModuleConfigured(section, dataStore, module))}
@@ -116,9 +138,9 @@ const AppsConfiguration = () => {
     <Box>
       <WithPadding p="1rem">
         {
-          dashboardData?.map(({ title: section, cards }) => {
+          dashboardData(i18n)?.map(({ title: section, cards }) => {
             return (
-              <DashboardLayout title={section} >
+              <DashboardLayout title={i18n.t('{{section}}', { section: i18n.t(section) })} >
                 {
                   cards.map(({ key: module, label, icon, configurable }) => (
                     <DashboardCard
@@ -133,7 +155,7 @@ const AppsConfiguration = () => {
             )
           })
         }
-        {open && <ModalManager open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }} />}
+        {open && <ModalManager i18n={i18n} open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }} />}
       </WithPadding >
     </Box>
   )

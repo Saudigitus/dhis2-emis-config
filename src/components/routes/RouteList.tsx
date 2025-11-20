@@ -2,8 +2,9 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { SimpleLayout } from "dhis2-semis-components";
 import AppsConfiguration from "../../pages/AppsConfiguration";
+import { D2I18n } from "dhis2-semis-types";
 
-export default function RouteList() {
+export default function RouteList({ i18n }: { i18n: D2I18n }) {
     return [
         {
             path: '/',
@@ -13,7 +14,7 @@ export default function RouteList() {
         {
             path: '/semis/configuration',
             layout: SimpleLayout,
-            component: () => <AppsConfiguration />
+            component: () => <AppsConfiguration i18n={i18n} />
         }
     ]
 }
