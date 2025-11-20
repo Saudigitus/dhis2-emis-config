@@ -30,7 +30,7 @@ function ModalManager(props: ModalManagerInterface) {
     const config = useRecoilValue(DataStoreConfigState)
     const prevDataStore = useRecoilValue(DataStoreState)
     const calendar = useRecoilValue(SchoolCalendarState)
-    const { show, hide } = useShowAlerts()
+    const { show } = useShowAlerts()
 
     const handleCloseModal = () => {
         remove("name")
@@ -70,7 +70,7 @@ function ModalManager(props: ModalManagerInterface) {
                                 message: i18n.t(`Configurations saved successfuly`),
                                 type: { success: true }
                             })
-                            setOpen(false);
+                            handleCloseModal()
                         })
                     })
                 } else {
@@ -80,7 +80,7 @@ function ModalManager(props: ModalManagerInterface) {
                             message: i18n.t(`Configurations saved successfuly`),
                             type: { success: true }
                         })
-                        setOpen(false);
+                        handleCloseModal()
                     })
                 }
             })
