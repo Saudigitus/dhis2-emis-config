@@ -29,10 +29,10 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
         currentAcademicYear: formValues?.currentAcademicYear,
         ...(formValues.programStageSocioEconomic
             ? {
-                  'socio-economics': {
-                      programStage: formValues.programStageSocioEconomic
-                  }
-              }
+                'socio-economics': {
+                    programStage: formValues.programStageSocioEconomic
+                }
+            }
             : {}),
         program: formValues.program,
         key: formValues.key,
@@ -55,9 +55,9 @@ const registrationBodyToForm = (dataStoreValues: any, module: string) => {
         ...dataStoreValues?.[module],
         ...(dataStoreValues?.key == 'staff'
             ? {
-                  typeOfStaff: dataStoreValues?.[module]?.grade,
-                  employmentType: dataStoreValues?.[module]?.section
-              }
+                typeOfStaff: dataStoreValues?.[module]?.grade,
+                employmentType: dataStoreValues?.[module]?.section
+            }
             : {}),
         [dataStoreValues?.key == 'student' ? 'gradeName' : 'typeOfStaffName']:
             dataStoreValues?.filters?.dataElements?.find((x: any) => x.dataElement == dataStoreValues?.[module]?.grade)
@@ -82,7 +82,8 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
         program: dataStoreValues?.program,
         programStageFinalResult: dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
-        programStages: dataStoreValues?.[module]?.validStatusValue?.map((x: any) => x) ?? []
+        programStages: dataStoreValues?.[module]?.validStatusValue?.map((x: any) => x) ?? [],
+        dropout: dataStoreValues?.[module]?.dropoutStatusValues?.map((x: any) => x) ?? []
     }
 }
 
@@ -100,11 +101,13 @@ const attendance = (dataStoreValues: any, module: string) => {
 }
 
 const finalResultPostBody = (formValues: any) => {
+
     return {
         [formValues?.module]: {
             enabled: true,
             programStage: formValues.programStageFinalResult,
             validStatusValue: formValues?.programStages,
+            dropoutStatusValues: formValues?.dropout,
             status: formValues.status,
             lastUpdate: new Date().toISOString()
         }
@@ -127,47 +130,47 @@ const attendancePostBody = (formValues: any) => {
             statusOptions: [
                 ...(presentCode
                     ? [
-                          {
-                              code: presentCode,
-                              color: '#81C784',
-                              icon: 'correct_blue_fill',
-                              key: presentCode,
-                              configKey: `presentCode`
-                          }
-                      ]
+                        {
+                            code: presentCode,
+                            color: '#81C784',
+                            icon: 'correct_blue_fill',
+                            key: presentCode,
+                            configKey: `presentCode`
+                        }
+                    ]
                     : []),
                 ...(absentCode
                     ? [
-                          {
-                              code: absentCode,
-                              color: '#E57373',
-                              icon: 'wrong_red_fill',
-                              key: absentCode,
-                              configKey: `absentCode`
-                          }
-                      ]
+                        {
+                            code: absentCode,
+                            color: '#E57373',
+                            icon: 'wrong_red_fill',
+                            key: absentCode,
+                            configKey: `absentCode`
+                        }
+                    ]
                     : []),
                 ...(lateCode
                     ? [
-                          {
-                              code: lateCode,
-                              color: '#f4fb71ff',
-                              icon: 'correct_blue_fill',
-                              key: lateCode,
-                              configKey: `lateCode`
-                          }
-                      ]
+                        {
+                            code: lateCode,
+                            color: '#f4fb71ff',
+                            icon: 'correct_blue_fill',
+                            key: lateCode,
+                            configKey: `lateCode`
+                        }
+                    ]
                     : []),
                 ...(leaveCode
                     ? [
-                          {
-                              code: leaveCode,
-                              color: '#a6d652ff',
-                              icon: 'wrong_red_fill',
-                              key: leaveCode,
-                              configKey: `leaveCode`
-                          }
-                      ]
+                        {
+                            code: leaveCode,
+                            color: '#a6d652ff',
+                            icon: 'wrong_red_fill',
+                            key: leaveCode,
+                            configKey: `leaveCode`
+                        }
+                    ]
                     : [])
             ]
         }
@@ -202,30 +205,30 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
             statusOptions: [
                 ...(approvedCode
                     ? [
-                          {
-                              code: approvedCode,
-                              configKey: 'approvedCode',
-                              key: approvedCode?.toLowerCase()
-                          }
-                      ]
+                        {
+                            code: approvedCode,
+                            configKey: 'approvedCode',
+                            key: approvedCode?.toLowerCase()
+                        }
+                    ]
                     : []),
                 ...(penddingCode
                     ? [
-                          {
-                              code: penddingCode,
-                              configKey: 'penddingCode',
-                              key: penddingCode?.toLowerCase()
-                          }
-                      ]
+                        {
+                            code: penddingCode,
+                            configKey: 'penddingCode',
+                            key: penddingCode?.toLowerCase()
+                        }
+                    ]
                     : []),
                 ...(reprovedCode
                     ? [
-                          {
-                              code: reprovedCode,
-                              configKey: 'reprovedCode',
-                              key: reprovedCode?.toLowerCase()
-                          }
-                      ]
+                        {
+                            code: reprovedCode,
+                            configKey: 'reprovedCode',
+                            key: reprovedCode?.toLowerCase()
+                        }
+                    ]
                     : [])
             ]
         }

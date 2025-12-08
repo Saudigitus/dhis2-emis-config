@@ -107,6 +107,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                     element: 'final-result'
                 })
 
+                console.log(finalResultStatus)
                 const finalResultStatusDetails =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(

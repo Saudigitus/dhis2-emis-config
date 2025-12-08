@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-11-04T07:21:08.916Z\n"
-"PO-Revision-Date: 2025-11-04T07:21:08.916Z\n"
+"POT-Creation-Date: 2025-12-02T07:02:32.653Z\n"
+"PO-Revision-Date: 2025-12-02T07:02:32.655Z\n"
 
 msgid "Configurations saved successfuly"
 msgstr "Configurations saved successfuly"
@@ -113,6 +113,12 @@ msgstr "List of final result status that allows student promotion"
 
 msgid "Promotable Status"
 msgstr "Promotable Status"
+
+msgid "List of final result status that allows student dropout"
+msgstr "List of final result status that allows student dropout"
+
+msgid "Dropout Status"
+msgstr "Dropout Status"
 
 msgid "Allow multi selection of program stage"
 msgstr "Allow multi selection of program stage"
