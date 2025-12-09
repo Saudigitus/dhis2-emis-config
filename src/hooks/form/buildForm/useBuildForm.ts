@@ -19,6 +19,7 @@ import { formStudentAttendance } from '../../../utils/form/student/attendance/us
 import { useBuildStudentPerformanceForm } from '../student/performance/useBuildStudentPerformanceForm'
 import { formmStudentPerformance } from '../../../utils/form/student/performance/useBuildStudentAttendanceForm'
 import { D2I18n } from 'dhis2-semis-types'
+import { useBuildAttendanceClassConfigForm } from '../student/attendance/useBuildAttendanceClassConfigForm'
 
 const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
@@ -31,6 +32,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { buildStudentSocioForm } = useBuildStudentSocioForm()
     const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { buildStudentAttendanceForm } = useBuildStudentAttendanceForm()
+    const { buildAttendanceClassConfigForm } = useBuildAttendanceClassConfigForm()
     const { getProgram, data, loading } = useProgramConfig()
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
     const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
@@ -107,7 +109,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                     element: 'final-result'
                 })
 
-                console.log(finalResultStatus)
                 const finalResultStatusDetails =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(
@@ -128,6 +129,8 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
 
             case 'attendance':
                 const stageDataElements = getDataElements(data?.programStages, trackeValues?.programStageAttendance)
+                const attendaceClassConfigStageDataElements = getDataElements(data?.programStages, trackeValues?.programStageAttendanceClassConfig)
+
                 const { attendanceStatus }: any = getDataStoreConfigKeys({
                     dataStoreConfig: dataStoreConfig,
                     sectionType: section,
@@ -153,10 +156,22 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         )
                         : []
 
+                const attendanceClassConfigDetails = data
+                    ? buildAttendanceClassConfigForm(
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: data?.programStages ?? [],
+                            programs
+                        },
+                        attendaceClassConfigStageDataElements
+                    )
+                    : []
+
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,
                     programFields: programFields,
                     attendanceStatusDetails,
+                    attendanceClassConfig: attendanceClassConfigDetails,
                     i18n
                 })
                 return theForm

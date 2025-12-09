@@ -8,7 +8,6 @@ function useBuildStudentGeneralForm() {
 
         for (const element in dataElements) {
             const configuratioKey: any = dataElements?.[element as keyof DataStoreConfigType["defaults"]]
-
             if (configuratioKey) {
                 formFieldsList.push(
                     {

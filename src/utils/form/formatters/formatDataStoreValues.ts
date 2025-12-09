@@ -88,12 +88,17 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
 }
 
 const attendance = (dataStoreValues: any, module: string) => {
+    const { attendanceStatus, ...rest } = dataStoreValues
     return {
         module: module,
         program: dataStoreValues?.program,
         programStageAttendance: dataStoreValues?.[module]?.programStage,
-        ...dataStoreValues?.[module],
-        ...dataStoreValues?.[module]?.statusOptions?.reduce(
+        allowClassAttendanceConfig: dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus,
+        programAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.program,
+        attendaceClassConfigStatus: dataStoreValues?.[module]?.attendanceStatus?.status,
+        programStageAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.programStage,
+        ...rest?.[module],
+        ...rest?.[module]?.statusOptions?.reduce(
             (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
             {}
         )
@@ -115,7 +120,9 @@ const finalResultPostBody = (formValues: any) => {
 }
 
 const attendancePostBody = (formValues: any) => {
-    const { absentCode, lateCode, leaveCode, presentCode } = formValues
+    const { absentCode, lateCode, leaveCode, presentCode, allowClassAttendanceConfig,
+        programAttendanceClassConfig, attendaceClassConfigStatus, programStageAttendanceClassConfig
+    } = formValues
 
     return {
         absenteeism: {
@@ -127,6 +134,12 @@ const attendancePostBody = (formValues: any) => {
             lastUpdate: new Date().toISOString(),
             programStage: formValues?.programStageAttendance,
             status: formValues?.status,
+            attendanceStatus: {
+                allowAttendanceStatus: allowClassAttendanceConfig ? Boolean(allowClassAttendanceConfig) : false,
+                program: programAttendanceClassConfig ?? null,
+                status: attendaceClassConfigStatus ?? null,
+                programStage: programStageAttendanceClassConfig ?? null
+            },
             statusOptions: [
                 ...(presentCode
                     ? [
