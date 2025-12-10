@@ -93,7 +93,7 @@ const attendance = (dataStoreValues: any, module: string) => {
         module: module,
         program: dataStoreValues?.program,
         programStageAttendance: dataStoreValues?.[module]?.programStage,
-        allowClassAttendanceConfig: dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus,
+        allowClassAttendanceConfig: JSON?.stringify(dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus),
         programAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.program,
         attendaceClassConfigStatus: dataStoreValues?.[module]?.attendanceStatus?.status,
         programStageAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.programStage,
@@ -102,20 +102,6 @@ const attendance = (dataStoreValues: any, module: string) => {
             (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
             {}
         )
-    }
-}
-
-const finalResultPostBody = (formValues: any) => {
-
-    return {
-        [formValues?.module]: {
-            enabled: true,
-            programStage: formValues.programStageFinalResult,
-            validStatusValue: formValues?.programStages,
-            dropoutStatusValues: formValues?.dropout,
-            status: formValues.status,
-            lastUpdate: new Date().toISOString()
-        }
     }
 }
 
@@ -134,12 +120,17 @@ const attendancePostBody = (formValues: any) => {
             lastUpdate: new Date().toISOString(),
             programStage: formValues?.programStageAttendance,
             status: formValues?.status,
-            attendanceStatus: {
-                allowAttendanceStatus: allowClassAttendanceConfig ? Boolean(allowClassAttendanceConfig) : false,
-                program: programAttendanceClassConfig ?? null,
-                status: attendaceClassConfigStatus ?? null,
-                programStage: programStageAttendanceClassConfig ?? null
-            },
+            ...((allowClassAttendanceConfig != undefined && programAttendanceClassConfig
+                && attendaceClassConfigStatus && programStageAttendanceClassConfig
+            ) ? {
+                attendanceStatus: {
+                    allowAttendanceStatus: allowClassAttendanceConfig === 'true',
+                    program: programAttendanceClassConfig,
+                    status: attendaceClassConfigStatus,
+                    programStage: programStageAttendanceClassConfig
+                }
+            } : {}
+            ),
             statusOptions: [
                 ...(presentCode
                     ? [
@@ -189,6 +180,21 @@ const attendancePostBody = (formValues: any) => {
         }
     }
 }
+
+const finalResultPostBody = (formValues: any) => {
+
+    return {
+        [formValues?.module]: {
+            enabled: true,
+            programStage: formValues.programStageFinalResult,
+            validStatusValue: formValues?.programStages,
+            dropoutStatusValues: formValues?.dropout,
+            status: formValues.status,
+            lastUpdate: new Date().toISOString()
+        }
+    }
+}
+
 
 const transferBodyToForm = (dataStoreValues: any, module: string) => {
     return {

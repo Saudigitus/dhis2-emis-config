@@ -39,8 +39,6 @@ function ModalManager(props: ModalManagerInterface) {
         setOpen(false);
     }
 
-    console.log(trackeValues,"trackeValues")
-
     function onSubmit(e: Record<string, any>): void {
         if (!formVariables?.flatMap((x: any) => x.fields).flat()?.every((field: any) =>
             (!field?.required) || (field?.required && e[field.name])

@@ -75,15 +75,15 @@ export const config = (i18n: D2I18n) => [
                     inputType: 'LIST',
                     label: i18n.t('Attendance Class Config Program'),
                     order: 1,
-                    required: true,
+                    required: false,
                     resource: 'programs'
                 },
                 programStageAttendanceClassConfig: {
                     hint: i18n.t('Non Repeatable Program Stage'),
                     inputType: 'LIST',
                     label: i18n.t('Attendance Class Config Program Stage'),
-                    order: 1,
-                    required: true,
+                    order: 2,
+                    required: false,
                     resource: 'programStages'
                 },
                 attendaceClassConfigStatus: {
@@ -92,8 +92,8 @@ export const config = (i18n: D2I18n) => [
                     inputType: 'LIST',
                     label: i18n.t('Attendance Status'),
                     optionSetValue: true,
-                    order: 2,
-                    required: true,
+                    order: 3,
+                    required: false,
                     resource: 'dataElements',
                     valueType: 'TEXT'
                 }

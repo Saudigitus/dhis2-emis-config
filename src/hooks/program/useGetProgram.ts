@@ -21,7 +21,6 @@ const PROGRAMQUERY: any = (id: string) => ({
 })
 
 const useProgramConfig = () => {
-  const [data, setData] = useRecoilState<any>(ProgramDataState)
   const [loading, setLoading] = useRecoilState<boolean>(ProgramLoaderState)
   const [error, setError] = useState<unknown>(null)
   const engine = useDataEngine()
@@ -30,7 +29,6 @@ const useProgramConfig = () => {
     setLoading(true)
     try {
       const response = await engine.query(PROGRAMQUERY(program));
-      setData(response?.results)
       return response?.results
     } catch (error) {
       setError(error)
@@ -38,6 +36,6 @@ const useProgramConfig = () => {
       setLoading(false)
     }
   }
-  return { data, loading, error, getProgram }
+  return {loading, error, getProgram }
 }
 export default useProgramConfig
