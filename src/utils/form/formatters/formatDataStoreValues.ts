@@ -88,34 +88,27 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
 }
 
 const attendance = (dataStoreValues: any, module: string) => {
+    const { attendanceStatus, ...rest } = dataStoreValues
     return {
         module: module,
         program: dataStoreValues?.program,
         programStageAttendance: dataStoreValues?.[module]?.programStage,
-        ...dataStoreValues?.[module],
-        ...dataStoreValues?.[module]?.statusOptions?.reduce(
+        allowClassAttendanceConfig: JSON?.stringify(dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus),
+        programAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.program,
+        attendaceClassConfigStatus: dataStoreValues?.[module]?.attendanceStatus?.status,
+        programStageAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.programStage,
+        ...rest?.[module],
+        ...rest?.[module]?.statusOptions?.reduce(
             (acc: any, x: any) => ({ ...acc, [x?.configKey]: x?.code }),
             {}
         )
     }
 }
 
-const finalResultPostBody = (formValues: any) => {
-
-    return {
-        [formValues?.module]: {
-            enabled: true,
-            programStage: formValues.programStageFinalResult,
-            validStatusValue: formValues?.programStages,
-            dropoutStatusValues: formValues?.dropout,
-            status: formValues.status,
-            lastUpdate: new Date().toISOString()
-        }
-    }
-}
-
 const attendancePostBody = (formValues: any) => {
-    const { absentCode, lateCode, leaveCode, presentCode } = formValues
+    const { absentCode, lateCode, leaveCode, presentCode, allowClassAttendanceConfig,
+        programAttendanceClassConfig, attendaceClassConfigStatus, programStageAttendanceClassConfig
+    } = formValues
 
     return {
         absenteeism: {
@@ -127,6 +120,17 @@ const attendancePostBody = (formValues: any) => {
             lastUpdate: new Date().toISOString(),
             programStage: formValues?.programStageAttendance,
             status: formValues?.status,
+            ...((allowClassAttendanceConfig != undefined && programAttendanceClassConfig
+                && attendaceClassConfigStatus && programStageAttendanceClassConfig
+            ) ? {
+                attendanceStatus: {
+                    allowAttendanceStatus: allowClassAttendanceConfig === 'true',
+                    program: programAttendanceClassConfig,
+                    status: attendaceClassConfigStatus,
+                    programStage: programStageAttendanceClassConfig
+                }
+            } : {}
+            ),
             statusOptions: [
                 ...(presentCode
                     ? [
@@ -176,6 +180,21 @@ const attendancePostBody = (formValues: any) => {
         }
     }
 }
+
+const finalResultPostBody = (formValues: any) => {
+
+    return {
+        [formValues?.module]: {
+            enabled: true,
+            programStage: formValues.programStageFinalResult,
+            validStatusValue: formValues?.programStages,
+            dropoutStatusValues: formValues?.dropout,
+            status: formValues.status,
+            lastUpdate: new Date().toISOString()
+        }
+    }
+}
+
 
 const transferBodyToForm = (dataStoreValues: any, module: string) => {
     return {

@@ -55,8 +55,46 @@ export const config = (i18n: D2I18n) => [
                     label: i18n.t('Present Code'),
                     optionSetValue: true,
                     order: 1,
-                    required: true,
+                    required: false,
                     resource: 'optionSets',
+                    valueType: 'TEXT'
+                }
+            },
+            attendanceClassConfig: {
+                allowClassAttendanceConfig: {
+                    filter: 'valueType:eq:TEXT',
+                    inputType: 'BOOLEAN',
+                    label: i18n.t('Allow Attendance Status'),
+                    optionSetValue: true,
+                    order: 0,
+                    resource: 'optionSets',
+                    valueType: 'BOOLEAN'
+                },
+                programAttendanceClassConfig: {
+                    hint: i18n.t('Event Program'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Class Config Program'),
+                    order: 1,
+                    required: false,
+                    resource: 'programs'
+                },
+                programStageAttendanceClassConfig: {
+                    hint: i18n.t('Non Repeatable Program Stage'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Class Config Program Stage'),
+                    order: 2,
+                    required: false,
+                    resource: 'programStages'
+                },
+                attendaceClassConfigStatus: {
+                    filter: 'valueType:eq:TEXT',
+                    hint: i18n.t('Data Element with option sets'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Status'),
+                    optionSetValue: true,
+                    order: 3,
+                    required: false,
+                    resource: 'dataElements',
                     valueType: 'TEXT'
                 }
             },
@@ -378,6 +416,44 @@ export const config = (i18n: D2I18n) => [
                     order: 1,
                     required: true,
                     resource: 'optionSets',
+                    valueType: 'TEXT'
+                }
+            },
+            attendanceClassConfig: {
+                allowClassAttendanceConfig: {
+                    filter: 'valueType:eq:TEXT',
+                    inputType: 'BOOLEAN',
+                    label: i18n.t('Allow Attendance Status'),
+                    optionSetValue: true,
+                    order: 0,
+                    resource: 'optionSets',
+                    valueType: 'BOOLEAN'
+                },
+                programAttendanceClassConfig: {
+                    hint: i18n.t('Event Program'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Class Config Program'),
+                    order: 1,
+                    required: true,
+                    resource: 'programs'
+                },
+                programStageAttendanceClassConfig: {
+                    hint: i18n.t('Non Repeatable Program Stage'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Class Config Program Stage'),
+                    order: 1,
+                    required: true,
+                    resource: 'programStages'
+                },
+                attendaceClassConfigStatus: {
+                    filter: 'valueType:eq:TEXT',
+                    hint: i18n.t('Data Element with option sets'),
+                    inputType: 'LIST',
+                    label: i18n.t('Attendance Status'),
+                    optionSetValue: true,
+                    order: 2,
+                    required: true,
+                    resource: 'dataElements',
                     valueType: 'TEXT'
                 }
             },

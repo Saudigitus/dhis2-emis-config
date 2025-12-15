@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-12-02T07:02:32.653Z\n"
-"PO-Revision-Date: 2025-12-02T07:02:32.655Z\n"
+"POT-Creation-Date: 2025-12-09T09:14:18.336Z\n"
+"PO-Revision-Date: 2025-12-09T09:14:18.336Z\n"
 
 msgid "Configurations saved successfuly"
 msgstr "Configurations saved successfuly"
@@ -72,14 +72,29 @@ msgstr "Leave Code"
 msgid "Present Code"
 msgstr "Present Code"
 
+msgid "Allow Attendance Status"
+msgstr "Allow Attendance Status"
+
+msgid "Event Program"
+msgstr "Event Program"
+
+msgid "Attendance Class Config Program"
+msgstr "Attendance Class Config Program"
+
+msgid "Non Repeatable Program Stage"
+msgstr "Non Repeatable Program Stage"
+
+msgid "Attendance Class Config Program Stage"
+msgstr "Attendance Class Config Program Stage"
+
+msgid "Attendance Status"
+msgstr "Attendance Status"
+
 msgid "Repeatable Program Stage"
 msgstr "Repeatable Program Stage"
 
 msgid "Attendance Program Stage"
 msgstr "Attendance Program Stage"
-
-msgid "Attendance Status"
-msgstr "Attendance Status"
 
 msgid "Allow Searching"
 msgstr "Allow Searching"
@@ -243,6 +258,9 @@ msgstr "Attendance General Details"
 msgid "Attendance Statuses Details"
 msgstr "Attendance Statuses Details"
 
+msgid "Class Attendance Configuration"
+msgstr "Class Attendance Configuration"
+
 msgid "Registration Details"
 msgstr "Registration Details"
 
@@ -264,8 +282,8 @@ msgstr "Default Configurations"
 msgid "Final Result Details"
 msgstr "Final Result Details"
 
-msgid "Promotion Criteria"
-msgstr "Promotion Criteria"
+msgid "Promotion & Dropout Criteria"
+msgstr "Promotion & Dropout Criteria"
 
 msgid "Performance details"
 msgstr "Performance details"

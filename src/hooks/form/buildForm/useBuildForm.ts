@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useUrlParams } from 'dhis2-semis-functions'
 import useGetPrograms from '../../program/useGetPrograms'
 import { formStudentEnrollmentForm } from '../../../utils/form'
 import { DataStoreConfigState } from '../../../atoms/DataStoreSchema'
 import useProgramConfig from '../../../hooks/program/useGetProgram'
 import { useBuildStudentEnrollmentForm, useBuildStudentGeneralForm, useBuildStudentProgramForm } from '../index'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getDataElements, getOptions } from '../../../utils/dataStore/common'
 import { useBuildStudentSocioForm } from '../student/socio/useBuildStudentSocioForm'
 import { useBuildStudentFinalResultForm } from '../student/final-result/useBuildStudentFinalResultForm'
@@ -19,9 +19,15 @@ import { formStudentAttendance } from '../../../utils/form/student/attendance/us
 import { useBuildStudentPerformanceForm } from '../student/performance/useBuildStudentPerformanceForm'
 import { formmStudentPerformance } from '../../../utils/form/student/performance/useBuildStudentAttendanceForm'
 import { D2I18n } from 'dhis2-semis-types'
+import { useBuildAttendanceClassConfigForm } from '../student/attendance/useBuildAttendanceClassConfigForm'
+import { ProgramDataState } from '../../../atoms/ProgramDataSchema'
 
 const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
+    const [loading, setLoading] = useState<boolean>(true)
+    const [data, setData] = useState<any>(null)
+    const [load, setLoad] = useState<boolean>(false)
+    const [attendanceStatusProgram, setAttendanceStatusProgram] = useState<any>(null)
     const module = useQuery.get('module')
     const section = useQuery.get('section') as SectionType
     const dataStoreConfig = useRecoilValue(DataStoreConfigState)
@@ -31,16 +37,35 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { buildStudentSocioForm } = useBuildStudentSocioForm()
     const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { buildStudentAttendanceForm } = useBuildStudentAttendanceForm()
-    const { getProgram, data, loading } = useProgramConfig()
+    const { buildAttendanceClassConfigForm } = useBuildAttendanceClassConfigForm()
+    const { getProgram } = useProgramConfig()
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
     const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
+    const setMainProgram = useSetRecoilState<any>(ProgramDataState)
+
 
     useEffect(() => {
-        //FETCH PROGRAM DATA BASED ON SELECTED ONE ON THE FORM
+        //FETCH PROGRAM (STUDENT/STAFF) DATA BASED ON SELECTED ONE ON THE FORM
         if (trackeValues?.program) {
             getProgram(trackeValues.program)
+                .then((response: any) => {
+                    setData(response)
+                    setMainProgram(response)
+                    setLoading(false)
+                })
         }
     }, [trackeValues?.program])
+
+    //LISTEN TO ATTENDANCE STATUS PROGRAM AND FETCH IT DETAILS TO FILL THE FORM
+    useEffect(() => {
+        if (trackeValues?.programAttendanceClassConfig) {
+            getProgram(trackeValues?.programAttendanceClassConfig)
+                .then((response: any) => {
+                    setAttendanceStatusProgram(response)
+                    setLoad(false)
+                })
+        }
+    }, [trackeValues?.programAttendanceClassConfig])
 
     const { programs, loading: loadingPrograms } = useGetPrograms()
 
@@ -107,7 +132,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                     element: 'final-result'
                 })
 
-                console.log(finalResultStatus)
                 const finalResultStatusDetails =
                     trackeValues?.status && data
                         ? buildStudentGeneralForm(
@@ -128,6 +152,8 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
 
             case 'attendance':
                 const stageDataElements = getDataElements(data?.programStages, trackeValues?.programStageAttendance)
+                const attendaceClassConfigStageDataElements = getDataElements(attendanceStatusProgram?.programStages, trackeValues?.programStageAttendanceClassConfig)
+
                 const { attendanceStatus }: any = getDataStoreConfigKeys({
                     dataStoreConfig: dataStoreConfig,
                     sectionType: section,
@@ -153,10 +179,22 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         )
                         : []
 
+                const attendanceClassConfigDetails = data ?
+                    buildAttendanceClassConfigForm(
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                            programStages: attendanceStatusProgram?.programStages ?? [],
+                            programs
+                        },
+                        attendaceClassConfigStageDataElements
+                    ) : []
+
+
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,
                     programFields: programFields,
                     attendanceStatusDetails,
+                    attendanceClassConfig: attendanceClassConfigDetails,
                     i18n
                 })
                 return theForm

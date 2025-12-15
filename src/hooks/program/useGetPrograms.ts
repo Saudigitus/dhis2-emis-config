@@ -7,7 +7,7 @@ const query = {
         params: {
             paging: false,
             fields: ['id', 'displayName', 'programType'],
-            filter: "programType:eq:WITH_REGISTRATION"
+            // filter: "programType:eq:WITH_REGISTRATION"
         }
     }
 }
