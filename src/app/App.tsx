@@ -14,18 +14,18 @@ function ConfigirationsPage({ i18n }: { i18n: D2I18n }) {
     const i18nLocal = i18n ? i18n : i18next
 
     return (
-        <AppWrapper
-            i18n={i18nLocal}
-            baseUrl={baseUrl}
-            dataStoreKey="dataStore/semis/values"
-            schoolCalendarKey='dataStore/semis/schoolCalendar'
-        >
-            <HashRouter>
+        // <AppWrapper
+        //     i18n={i18nLocal}
+        //     baseUrl={baseUrl}
+        //     dataStoreKey="dataStore/semis/values"
+        //     schoolCalendarKey='dataStore/semis/schoolCalendar'
+        // >
+        //     <HashRouter>
                 <CustomAppWrapper i18n={i18nLocal} >
                     <Router i18n={i18nLocal} />
                 </CustomAppWrapper>
-             </HashRouter >
-        </AppWrapper>
+        //      </HashRouter >
+        // </AppWrapper>
     )
 }
 
