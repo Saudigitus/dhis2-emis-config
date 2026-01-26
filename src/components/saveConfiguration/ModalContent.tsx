@@ -23,8 +23,8 @@ function ModalContent(props: ModalContentInterface) {
                         setTrackedValues={setTrackedValues}
                         initialValues={initialValues}
                         onCancel={() => { onCancel() }}
-                        onFormSubtmit={(e) => { onSubmit(e) }}
                         trackedEntity={initialValues?.trackedEntity}
+                        onFormSubtmit={(e: Record<string, any>) => { onSubmit(e) }}
                     />
                 </WithPadding>
             </WithBorder>
