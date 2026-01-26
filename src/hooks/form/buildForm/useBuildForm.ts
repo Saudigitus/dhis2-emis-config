@@ -24,7 +24,7 @@ import { ProgramDataState } from '../../../atoms/ProgramDataSchema'
 
 const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(trackeValues?.program)
     const [data, setData] = useState<any>(null)
     const [load, setLoad] = useState<boolean>(false)
     const [attendanceStatusProgram, setAttendanceStatusProgram] = useState<any>(null)
@@ -189,6 +189,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         attendaceClassConfigStageDataElements
                     ) : []
 
+                console.log(attendace, "attendace")
 
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,

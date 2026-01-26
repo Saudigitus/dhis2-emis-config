@@ -24,7 +24,7 @@ function ConfigirationsPage({ i18n }: { i18n: D2I18n }) {
                 <CustomAppWrapper i18n={i18nLocal} >
                     <Router i18n={i18nLocal} />
                 </CustomAppWrapper>
-        //     </HashRouter >
+        //      </HashRouter >
         // </AppWrapper>
     )
 }
