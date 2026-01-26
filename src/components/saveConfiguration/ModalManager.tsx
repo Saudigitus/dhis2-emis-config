@@ -59,7 +59,7 @@ function ModalManager(props: ModalManagerInterface) {
                 data: postData,
                 key: 'dataStore/semis/values',
             }).then(async () => {
-                if (academicYear && section === "student") {
+                if (academicYear) {
                     await createDataStore({
                         key: "dataStore/semis/schoolCalendar",
                         data: { ...calendar, academicYear: academicYear }
