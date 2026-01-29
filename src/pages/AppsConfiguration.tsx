@@ -25,7 +25,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const schoolCalendarKeys = useSchoolCalendarKey()
   const [initialValues, setInitialValues] = useState({});
   const { createDataStore } = usePostDataStore()
-  const dataStore = useRecoilValue(DataStoreState)
+  const dataStore: any = useRecoilValue(DataStoreState)
   const { refetch } = useGetDataStore(true)
   const [loading, setLoading] = useState<any>({})
   const { getDataStore } = useDataStore()
