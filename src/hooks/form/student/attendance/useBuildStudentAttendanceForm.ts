@@ -10,7 +10,7 @@ function useBuildStudentAttendanceForm() {
     const buildStudentAttendanceForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
         const attendace: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "attendance" })
-        const { attendanceStatus, attendaceClassConfigStatus, ...rest } = attendace
+        const { attendanceStatus, attendanceClassConfig, attendaceClassConfigStatus, ...rest } = attendace
 
         for (const element in rest) {
             const configuratioKey: any = attendace?.[element as keyof DataStoreConfigType["attendance"]]

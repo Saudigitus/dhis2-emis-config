@@ -189,7 +189,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         attendaceClassConfigStageDataElements
                     ) : []
 
-                console.log(attendace, "attendace")
 
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,
