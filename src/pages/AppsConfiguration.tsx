@@ -95,6 +95,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
 
   const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
+
     return ([
       ...(module == "registration" ? [{
         label: i18n.t("This module contain general configuration and it's required for semis to work properly"),
@@ -124,7 +125,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
         label: !hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) ? `${isModuleEnabled(section, module, dataStore) ? i18n.t('Disable') : i18n.t('Enable')} ${label.replace("-", " ")}` : i18n.t(`You must configure this module first to enable it`),
         icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
           <Switch
-            disabled={hasNullOrUndefined(isModuleConfigured(section, dataStore, module))}
+            disabled={hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) || !isModuleConfigured(section, dataStore, module)}
             className="custom-switch-config"
             name={`${section}-${label}`}
             checked={isModuleEnabled(section, module, dataStore)}
