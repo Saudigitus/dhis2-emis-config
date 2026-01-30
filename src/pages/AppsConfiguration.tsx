@@ -95,7 +95,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
 
   const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
-    console.log(isModuleConfigured(section, dataStore, module))
+
     return ([
       ...(module == "registration" ? [{
         label: i18n.t("This module contain general configuration and it's required for semis to work properly"),
