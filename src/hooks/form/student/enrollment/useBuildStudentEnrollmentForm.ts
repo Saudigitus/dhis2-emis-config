@@ -7,7 +7,7 @@ function useBuildStudentEnrollmentForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
 
-    const buildStudentEnrollmentForm = ({ dataStoreConfig, programStages }: any, dataElements: any) => {
+    const buildStudentEnrollmentForm = ({ dataStoreConfig, programStages, dataElements, formValues }: any) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
         const registration: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "registration" })
 
@@ -21,7 +21,11 @@ function useBuildStudentEnrollmentForm() {
                         name: element,
                         visible: true,
                         required: configuratioKey?.required,
-                        disabled: false,
+                        disabled: element == "gradeName" ? !Boolean(formValues["grade"]) :
+                            element == "sectionName" ? !Boolean(formValues["section"]) :
+                                element == "employmentTypeName" ? !Boolean(formValues["employmentType"]) :
+                                    element == "typeOfStaffName" ? !Boolean(formValues["typeOfStaff"]) :
+                                        configuratioKey?.disabled || false,
                         order: configuratioKey?.order,
                         type: configuratioKey?.inputType,
                         labelName: configuratioKey?.label,

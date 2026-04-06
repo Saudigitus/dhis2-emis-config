@@ -70,7 +70,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { programs, loading: loadingPrograms } = useGetPrograms()
 
     const buildForm = () => {
-        const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading })
+        const programFields = buildStudentProgramForm({ dataStoreConfig: dataStoreConfig, programs, loading, disabled: module !== 'registration' })
         switch (module) {
             case 'registration':
                 const defaults: any = getDataStoreConfigKeys({
@@ -81,10 +81,11 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                 const fieldsEnrollment = data
                     ? buildStudentEnrollmentForm(
                         {
+                            formValues: trackeValues,
                             dataStoreConfig: dataStoreConfig,
-                            programStages: data?.programStages ?? []
+                            programStages: data?.programStages ?? [],
+                            dataElements: getDataElements(data?.programStages, trackeValues?.programStageRegistration)
                         },
-                        getDataElements(data?.programStages, trackeValues?.programStageRegistration)
                     )
                     : []
 

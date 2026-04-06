@@ -7,13 +7,14 @@ type buildStudentProgramFormType = {
     programs: any[]
     dataStoreConfig: DataStoreConfigType[] | any
     loading?: boolean
+    disabled?: boolean
 }
 
 function useBuildStudentProgramForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
 
-    const buildStudentProgramForm = ({ dataStoreConfig, programs = [], loading = false }: buildStudentProgramFormType) => {
+    const buildStudentProgramForm = ({ dataStoreConfig, programs = [], loading = false, disabled }: buildStudentProgramFormType) => {
         const formFieldsList: ConfigCustomAttributeProps[] = []
         const program: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "program" })
 
@@ -28,7 +29,7 @@ function useBuildStudentProgramForm() {
                         name: element,
                         visible: true,
                         required: true,
-                        disabled: loading,
+                        disabled: disabled || loading,
                         order: configuratioKey?.order,
                         type: configuratioKey?.inputType,
                         labelName: configuratioKey?.label,
