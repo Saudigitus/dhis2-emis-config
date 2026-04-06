@@ -121,6 +121,7 @@ export const config = (i18n: D2I18n) => [
         },
         defaults: {
             allowSearching: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'BOOLEAN',
@@ -131,6 +132,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'BOOLEAN'
             },
             defaultOrder: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'LIST',
@@ -141,6 +143,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'BOOLEAN'
             },
             orderType: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'LIST',
@@ -163,6 +166,7 @@ export const config = (i18n: D2I18n) => [
         },
         'final-result': {
             programStageFinalResult: {
+                required: true,
                 filter: 'repeatable:eq:false',
                 hint: i18n.t('Non-Repeatable Program Stage'),
                 inputType: 'LIST',
@@ -171,6 +175,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'programStages'
             },
             status: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element'),
                 inputType: 'LIST',
@@ -182,6 +187,7 @@ export const config = (i18n: D2I18n) => [
             },
             finalResultStatus: {
                 programStages: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('List of final result status that allows student promotion'),
                     inputType: 'MULTI_SELECT',
@@ -190,6 +196,7 @@ export const config = (i18n: D2I18n) => [
                     resource: 'optionSets'
                 },
                 dropout: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('List of final result status that allows student dropout'),
                     inputType: 'MULTI_SELECT',
@@ -200,7 +207,7 @@ export const config = (i18n: D2I18n) => [
             }
         },
         key: 'student',
-        lastUpdate: '2022-01-01',
+        lastUpdate: '2026-04-06',
         performance: {
             programStages: {
                 filter: 'repeatable:eq:false',
@@ -221,6 +228,7 @@ export const config = (i18n: D2I18n) => [
         },
         registration: {
             academicYear: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
@@ -231,6 +239,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'TEXT'
             },
             grade: {
+                required: false,
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'grade',
@@ -252,6 +261,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'TEXT'
             },
             programStageRegistration: {
+                required: true,
                 filter: 'repeatable:eq:false',
                 hint: i18n.t('Non-repeatable ProgramStage'),
                 inputType: 'LIST',
@@ -260,6 +270,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'programStages'
             },
             section: {
+                required: false,
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'class',
@@ -293,6 +304,7 @@ export const config = (i18n: D2I18n) => [
         },
         transfer: {
             destinySchool: {
+                required: true,
                 filter: 'valueType:eq:ORGANISATION_UNIT',
                 hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
@@ -301,6 +313,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'dataElements'
             },
             originSchool: {
+                required: true,
                 filter: 'valueType:eq:ORGANISATION_UNIT',
                 hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
@@ -309,6 +322,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'dataElements'
             },
             programStageTransfer: {
+                required: true,
                 filter: 'repeatable:eq:true',
                 hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
@@ -317,6 +331,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'programStages'
             },
             status: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element'),
                 inputType: 'LIST',
@@ -328,6 +343,7 @@ export const config = (i18n: D2I18n) => [
             },
             transferStatus: {
                 approvedCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
@@ -338,6 +354,7 @@ export const config = (i18n: D2I18n) => [
                     valueType: 'TEXT'
                 },
                 penddingCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
@@ -348,6 +365,7 @@ export const config = (i18n: D2I18n) => [
                     valueType: 'TEXT'
                 },
                 reprovedCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
@@ -414,7 +432,7 @@ export const config = (i18n: D2I18n) => [
                     label: i18n.t('Present Code'),
                     optionSetValue: true,
                     order: 1,
-                    required: true,
+                    required: false,
                     resource: 'optionSets',
                     valueType: 'TEXT'
                 }
@@ -480,6 +498,7 @@ export const config = (i18n: D2I18n) => [
         },
         defaults: {
             allowSearching: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'BOOLEAN',
@@ -490,6 +509,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'BOOLEAN'
             },
             defaultOrder: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'LIST',
@@ -500,6 +520,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'BOOLEAN'
             },
             orderType: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('option sets'),
                 inputType: 'LIST',
@@ -522,6 +543,7 @@ export const config = (i18n: D2I18n) => [
         },
         'final-result': {
             programStageFinalResult: {
+                required: true,
                 filter: 'repeatable:eq:false',
                 hint: i18n.t('Non-Repeatable Program Stage'),
                 inputType: 'LIST',
@@ -531,6 +553,7 @@ export const config = (i18n: D2I18n) => [
             },
             finalResultStatus: {
                 programStages: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('List of final result status that allows staff promotion'),
                     inputType: 'MULTI_SELECT',
@@ -539,6 +562,7 @@ export const config = (i18n: D2I18n) => [
                 }
             },
             status: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element'),
                 inputType: 'LIST',
@@ -550,7 +574,7 @@ export const config = (i18n: D2I18n) => [
             }
         },
         key: 'staff',
-        lastUpdate: '2022-01-01',
+        lastUpdate: '2026-04-06',
         program: {
             program: {
                 filter: '',
@@ -562,6 +586,7 @@ export const config = (i18n: D2I18n) => [
         },
         registration: {
             academicYear: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element with Option Sets'),
                 inputType: 'LIST',
@@ -572,6 +597,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'TEXT'
             },
             employmentType: {
+                required: false,
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'grade',
@@ -593,6 +619,7 @@ export const config = (i18n: D2I18n) => [
                 valueType: 'TEXT'
             },
             programStageRegistration: {
+                required: true,
                 filter: 'repeatable:eq:true',
                 hint: i18n.t('Repeatable ProgramStage'),
                 inputType: 'LIST',
@@ -601,6 +628,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'programStages'
             },
             typeOfStaff: {
+                required: false,
                 dataFilter: true,
                 filter: 'valueType:eq:TEXT',
                 filterCode: 'class',
@@ -634,6 +662,7 @@ export const config = (i18n: D2I18n) => [
         },
         transfer: {
             destinySchool: {
+                required: true,
                 filter: 'valueType:eq:ORGANISATION_UNIT',
                 hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
@@ -642,6 +671,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'dataElements'
             },
             originSchool: {
+                required: true,
                 filter: 'valueType:eq:ORGANISATION_UNIT',
                 hint: i18n.t('Organisation Unit  Data Element'),
                 inputType: 'LIST',
@@ -650,6 +680,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'dataElements'
             },
             programStageTransfer: {
+                required: true,
                 filter: 'repeatable:eq:true',
                 hint: i18n.t('Repeatable Program Stage'),
                 inputType: 'LIST',
@@ -658,6 +689,7 @@ export const config = (i18n: D2I18n) => [
                 resource: 'programStages'
             },
             status: {
+                required: true,
                 filter: 'valueType:eq:TEXT',
                 hint: i18n.t('Data Element'),
                 inputType: 'LIST',
@@ -669,6 +701,7 @@ export const config = (i18n: D2I18n) => [
             },
             transferStatus: {
                 approvedCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
@@ -679,6 +712,7 @@ export const config = (i18n: D2I18n) => [
                     valueType: 'TEXT'
                 },
                 penddingCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
@@ -689,6 +723,7 @@ export const config = (i18n: D2I18n) => [
                     valueType: 'TEXT'
                 },
                 reprovedCode: {
+                    required: true,
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('option sets'),
                     inputType: 'LIST',
