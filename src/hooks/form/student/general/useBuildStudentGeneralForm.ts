@@ -14,7 +14,7 @@ function useBuildStudentGeneralForm() {
                         id: element,
                         name: element,
                         visible: true,
-                        required: configuratioKey?.required != null ? configuratioKey.required : true,
+                        required: configuratioKey.required,
                         disabled: false,
                         type: configuratioKey?.inputType,
                         order: configuratioKey?.order,

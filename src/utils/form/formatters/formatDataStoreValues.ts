@@ -6,7 +6,7 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i]
 
-        if (config?.registration?.[key]?.dataFilter) {
+        if (config?.registration?.[key]?.dataFilter && formValues?.[key]) {
             filters.push({
                 code: config.registration[key].filterCode,
                 dataElement: formValues?.[key],
