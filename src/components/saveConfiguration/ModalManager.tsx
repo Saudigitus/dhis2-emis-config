@@ -100,6 +100,7 @@ function ModalManager(props: ModalManagerInterface) {
             open={open}
             loading={loading}
             handleClose={handleCloseModal}
+            dataTest={`config-${section}-${name}-modal`}
             title={
                 `${i18n.t('{{name}}', {
                     name: i18n.t(formatedName),

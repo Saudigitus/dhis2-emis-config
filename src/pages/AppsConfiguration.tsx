@@ -99,7 +99,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
     return ([
       ...(module == "registration" ? [{
         label: i18n.t("This module contain general configuration and it's required for semis to work properly"),
-        icon: <InfoIcon style={{ color: "orange" }} />,
+        icon: <InfoIcon data-test={`${module}-info-action`} style={{ color: "orange" }} />,
       }] : [{}]),
       ...(configurable ? [{
         label: (module == "registration" || isModuleConfigured(section, dataStore, "registration"))
@@ -110,7 +110,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
             label: i18n.t(formatedLabel),
             registrationLabel: i18n.t(registrationLabel)
           }),
-        icon: <Settings />,
+        icon: <Settings data-test={`${module}-setting-action`} />,
         disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
         onAction: () => {
           const initialValues = {
@@ -125,6 +125,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
         label: !hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) ? `${isModuleEnabled(section, module, dataStore) ? i18n.t('Disable') : i18n.t('Enable')} ${label.replace("-", " ")}` : i18n.t(`You must configure this module first to enable it`),
         icon: (loading?.[module + section]) ? <CircularProgress size={20} /> :
           <Switch
+          data-test={`${module}-switch-action`}
             disabled={hasNullOrUndefined(isModuleConfigured(section, dataStore, module)) || !isModuleConfigured(section, dataStore, module)}
             className="custom-switch-config"
             name={`${section}-${label}`}
@@ -148,6 +149,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
+                      dataTest={`${module}-${section}-config-card`}
                       actions={[...makeAction({ module, section, label, registrationLabel: cards[0]?.label, configurable })]}
                     />
                   ))
