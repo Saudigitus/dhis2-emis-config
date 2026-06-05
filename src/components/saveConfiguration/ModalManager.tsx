@@ -47,7 +47,7 @@ function ModalManager(props: ModalManagerInterface) {
         try {
             setLoading(true)
             const configKey = config?.find(x => x.key == section)
-            let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
+            let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey, section!)
             const keyIndex = postData?.findIndex((x: any) => x.key == section)
             const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
 

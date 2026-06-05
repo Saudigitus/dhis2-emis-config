@@ -274,10 +274,10 @@ const performancePostBody = (formValues: any) => {
     }
 }
 
-const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any): any => {
+const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any, section: string): any => {
     const prevDataStore = prevData
-    const selectedDataStoreKey = prevData?.find((x: any) => x.program == program.id)
-    const selectedDataStoreKeyIndex = prevData?.findIndex((x: any) => x.program == program.id)
+    const selectedDataStoreKey = prevData?.find((x: any) => x.key == section)
+    const selectedDataStoreKeyIndex = prevData?.findIndex((x: any) => x.key == section)
 
     const returnBody = (data: any) => {
         if (selectedDataStoreKeyIndex >= 0) {
