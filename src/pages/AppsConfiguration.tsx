@@ -92,7 +92,6 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
     })
   }
 
-
   const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
 
@@ -156,7 +155,12 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
             )
           })
         }
-        {open && <ModalManager i18n={i18n} open={open} setOpen={setOpen} initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }} />}
+        {open && <ModalManager
+          i18n={i18n}
+          open={open}
+          setOpen={setOpen}
+          initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }}
+        />}
       </WithPadding >
     </Box>
   )
