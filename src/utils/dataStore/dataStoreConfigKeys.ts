@@ -14,8 +14,6 @@ const getDataStoreConfigKeys = (props: DataStoreElementProps) => {
         return undefined
     }
 
-    console.log(foundElement[element])
-
     return foundElement[element] ?? {}
 }
 

@@ -2,6 +2,72 @@ import { D2I18n } from "dhis2-semis-types";
 
 export const config = (i18n: D2I18n) => [
     {
+        profile: {
+            prifileView: {
+                profileFields: {
+                    filter: '',
+                    hint: i18n.t('Attributes'),
+                    inputType: 'LIST',
+                    label: i18n.t('Student profile attributes'),
+                    optionSetValue: true,
+                    order: 1,
+                    required: true,
+                    resource: 'attributes',
+                    valueType: 'TEXT'
+                },
+                summaryIndicators: {
+                    filter: '',
+                    hint: i18n.t('Program indicator'),
+                    inputType: 'LIST',
+                    label: i18n.t('Summary indicators'),
+                    optionSetValue: false,
+                    order: 2,
+                    required: false,
+                    resource: 'programIndicator',
+                    valueType: 'TEXT'
+                },
+                tabs: {
+                    filter: '',
+                    inputType: 'component',
+                    componentType: 'tabCreator',
+                    label: i18n.t('Tabs'),
+                    order: 3,
+                }
+            },
+            other: {
+                dropoutOption: {
+                    filter: '',
+                    hint: i18n.t('Option sets'),
+                    inputType: 'LIST',
+                    label: i18n.t('Dropout option'),
+                    optionSetValue: false,
+                    order: 1,
+                    required: false,
+                    resource: 'optionSets',
+                    valueType: 'TEXT'
+                },
+                enableDelete: {
+                    required: true,
+                    filter: 'valueType:eq:TEXT',
+                    inputType: 'BOOLEAN',
+                    label: i18n.t('Enable delete option'),
+                    optionSetValue: true,
+                    order: 2,
+                    resource: 'attributes',
+                    valueType: 'BOOLEAN'
+                },
+                listdefaultPageSize: {
+                    required: true,
+                    filter: 'valueType:eq:TEXT',
+                    inputType: 'TEXT',
+                    label: i18n.t('Default page size'),
+                    optionSetValue: true,
+                    order: 3,
+                    resource: 'attributes',
+                    valueType: 'TEXT'
+                },
+            }
+        },
         attendance: {
             absenceReason: {
                 filter: 'valueType:eq:TEXT',

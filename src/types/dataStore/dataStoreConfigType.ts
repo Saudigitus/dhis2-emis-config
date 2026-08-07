@@ -21,6 +21,7 @@ type DataStoreConfigType = {
     attendance?: attendance;
     "final-result"?: FieldGroup;
     performance?: FieldGroup;
+    profile?: FieldGroup;
     program?: FieldGroup;
     registration?: FieldGroup;
     "socio-economics"?: FieldGroup;

@@ -21,12 +21,13 @@ import { formmStudentPerformance } from '../../../utils/form/student/performance
 import { D2I18n } from 'dhis2-semis-types'
 import { useBuildAttendanceClassConfigForm } from '../student/attendance/useBuildAttendanceClassConfigForm'
 import { ProgramDataState } from '../../../atoms/ProgramDataSchema'
+import { useBuildStudentProfileForm } from '../student/profile/useBuildStudentPerformanceForm'
+import { formStudentProfile } from '../../../utils/form/student/profile/useBuildStudentProfile'
 
 const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
     const [loading, setLoading] = useState<boolean>(trackeValues?.program)
     const [data, setData] = useState<any>(null)
-    const [load, setLoad] = useState<boolean>(false)
     const [attendanceStatusProgram, setAttendanceStatusProgram] = useState<any>(null)
     const module = useQuery.get('module')
     const section = useQuery.get('section') as SectionType
@@ -38,11 +39,11 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { buildStudentAttendanceForm } = useBuildStudentAttendanceForm()
     const { buildAttendanceClassConfigForm } = useBuildAttendanceClassConfigForm()
+    const { buildStudentProfileForm } = useBuildStudentProfileForm()
     const { getProgram } = useProgramConfig()
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
     const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
     const setMainProgram = useSetRecoilState<any>(ProgramDataState)
-
 
     useEffect(() => {
         //FETCH PROGRAM (STUDENT/STAFF) DATA BASED ON SELECTED ONE ON THE FORM
@@ -62,7 +63,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
             getProgram(trackeValues?.programAttendanceClassConfig)
                 .then((response: any) => {
                     setAttendanceStatusProgram(response)
-                    setLoad(false)
                 })
         }
     }, [trackeValues?.programAttendanceClassConfig])
@@ -190,7 +190,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         attendaceClassConfigStageDataElements
                     ) : []
 
-
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,
                     programFields: programFields,
@@ -199,7 +198,6 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                     i18n
                 })
                 return theForm
-
             case 'transfer':
                 const transfer: any = getDataStoreConfigKeys({
                     dataStoreConfig,
@@ -234,6 +232,19 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                     i18n
                 })
                 return sectionFormTransfer
+
+            case 'profile':
+                const { prifileView }: any = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "profile" })
+
+                const profileFields = data ?
+                    buildStudentProfileForm(
+                        {
+                            dataStoreConfig: dataStoreConfig,
+                        }
+                    ) : []
+
+                const profileForm = formStudentProfile({ profileFields, programFields, i18n })
+                return profileForm
 
             case 'performance':
                 const performanceFields = data
