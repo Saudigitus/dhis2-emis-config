@@ -1,53 +1,68 @@
 import { useUrlParams } from "dhis2-semis-functions"
 import { ConfigCustomAttributeProps, SectionType } from "../../../../types/variables/Variables"
 import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
-import { DataStoreConfigType } from "../../../../types/dataStore/dataStoreConfigType"
+import { useDataStoreKey, useProgramsKeys } from "dhis2-semis-components"
 
 function useBuildStudentProfileForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
+    const programs = useProgramsKeys()
+    const { program } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
 
-    const buildStudentProfileForm = ({ dataStoreConfig }: any) => {
-        const formFieldsList: ConfigCustomAttributeProps[] = []
-
-        const { other } = getDataStoreConfigKeys({ dataStoreConfig, sectionType: section, element: "profile" })
-
-        for (const element in other) {
-            const configuratioKey: any = other?.[element as keyof DataStoreConfigType["profile"]]
-            console.log(configuratioKey)
-            if (configuratioKey) {
-
-                formFieldsList.push(
-                    {
+    const buildFields = (config: Record<string, any>, program?: any): ConfigCustomAttributeProps[] => {
+        return Object.entries(config)
+            .filter(([, configuration]) => configuration)
+            .map(([element, configuration]) => ({
+                id: element,
+                name: element,
+                visible: true,
+                required: configuration.required,
+                disabled: false,
+                order: configuration.order,
+                type: configuration.inputType,
+                labelName: configuration.label,
+                description: configuration.hint,
+                content: configuration.hint,
+                valueType: configuration.inputType,
+                displayName: configuration.label,
+                header: configuration.label,
+                options: {
+                    optionSet: {
                         id: element,
-                        name: element,
-                        visible: true,
-                        required: configuratioKey.required,
-                        disabled: false,
-                        order: configuratioKey?.order,
-                        type: configuratioKey?.inputType,
-                        labelName: configuratioKey?.label,
-                        description: configuratioKey?.hint,
-                        content: configuratioKey?.hint,
-                        valueType: configuratioKey?.inputType,
-                        displayName: configuratioKey?.label,
-                        header: configuratioKey?.label,
-                        options: {
-                            optionSet: {
-                                id: element,
-                                options: []
-                            }
-                        }
+                        options: configuration?.resource == "programIndicator" ?
+                            program?.programIndicators?.map((prog: any) => ({ value: prog.id, label: prog.displayName })) : []
                     }
-                )
-            }
-        }
-
-        const sortedFields = formFieldsList?.sort((a, b) => a.order - b.order)
-        return sortedFields
+                }
+            }))
+            .sort((a, b) => a.order - b.order)
     }
 
-    return { buildStudentProfileForm }
-}
+    const buildStudentProfileForm = ({ dataStoreConfig }: any) => {
+        const { other } = getDataStoreConfigKeys({
+            dataStoreConfig,
+            sectionType: section,
+            element: "profile",
+        })
 
+        return buildFields(other)
+    }
+
+    const buildStudentProfileIndicators = ({ dataStoreConfig }: any) => {
+
+        const { prifileView } = getDataStoreConfigKeys({
+            dataStoreConfig,
+            sectionType: section,
+            element: "profile",
+        })
+
+        const sectionProgram = programs?.find(x => x.id == program)
+
+        return buildFields(prifileView, sectionProgram)
+    }
+
+    return {
+        buildStudentProfileForm,
+        buildStudentProfileIndicators,
+    }
+}
 export { useBuildStudentProfileForm }

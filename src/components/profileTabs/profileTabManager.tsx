@@ -26,16 +26,9 @@ export const LabelManager = () => {
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
     const [formData, setFormData] = useState<any>({
-        studentProgram: 'Student',
-        dropoutOption: 'Standard Dropout Rules',
-        enableDeleteOption: 'No',
         defaultPageSize: '10',
         maxLabelsAllowed: 6,
-        labels: [
-            { id: 'l1', text: 'Honor Roll Student', color: 'bg-emerald-100 text-emerald-800 border-emerald-200', createdAt: 1 },
-            { id: 'l2', text: 'Scholarship Recipient', color: 'bg-blue-100 text-blue-800 border-blue-200', createdAt: 2 },
-            { id: 'l3', text: 'Special Accommodations', color: 'bg-purple-100 text-purple-800 border-purple-200', createdAt: 3 },
-        ],
+        labels: [],
     });
 
     const inputRef = useRef<HTMLInputElement>(null);

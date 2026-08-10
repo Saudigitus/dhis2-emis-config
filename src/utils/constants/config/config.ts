@@ -18,21 +18,12 @@ export const config = (i18n: D2I18n) => [
                 summaryIndicators: {
                     filter: '',
                     hint: i18n.t('Program indicator'),
-                    inputType: 'LIST',
+                    inputType: 'MULTI_SELECT',
                     label: i18n.t('Summary indicators'),
                     optionSetValue: false,
                     order: 2,
-                    required: false,
                     resource: 'programIndicator',
-                    valueType: 'TEXT'
                 },
-                tabs: {
-                    filter: '',
-                    inputType: 'component',
-                    componentType: 'tabCreator',
-                    label: i18n.t('Tabs'),
-                    order: 3,
-                }
             },
             other: {
                 dropoutOption: {

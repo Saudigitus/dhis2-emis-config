@@ -1,7 +1,7 @@
 import ModalContent from "./ModalContent";
 import { useBuildForm } from "../../hooks/form";
 import React, { useState } from "react";
-import { DataStoreState, ModalComponent, } from "dhis2-semis-components";
+import { DataStoreState, ModalComponent } from "dhis2-semis-components";
 import { ModalManagerInterface } from "../../types/modal/ModalProps";
 import { useUrlParams, capitalizeString } from "dhis2-semis-functions";
 import usePostDataStore from "../../hooks/dataStore/usePostDataStore";

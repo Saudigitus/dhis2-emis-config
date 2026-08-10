@@ -26,11 +26,15 @@ function ModalContent(props: ModalContentInterface) {
                         onCancel={() => { onCancel() }}
                         trackedEntity={initialValues?.trackedEntity}
                         onFormSubtmit={(e: Record<string, any>) => { onSubmit(e) }}
+                        customComponent={
+                            <>
+                                <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Profile tabs configuration </h6>
+                                <WithPadding p='1px 18px'>
+                                    <LabelManager />
+                                </WithPadding>
+                            </>
+                        }
                     />
-
-                    <WithPadding p='18px'>
-                        <LabelManager />
-                    </WithPadding>
 
                 </WithPadding>
             </WithBorder>
