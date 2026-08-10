@@ -5,6 +5,7 @@ import { CustomForm, WithBorder, WithPadding } from 'dhis2-semis-components';
 import { LinearProgress } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { ProgramLoaderState } from '../../atoms/getProgramLoaderSchema';
+import { LabelManager } from '../profileTabs/profileTabManager';
 
 function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
@@ -26,6 +27,11 @@ function ModalContent(props: ModalContentInterface) {
                         trackedEntity={initialValues?.trackedEntity}
                         onFormSubtmit={(e: Record<string, any>) => { onSubmit(e) }}
                     />
+
+                    <WithPadding p='18px'>
+                        <LabelManager />
+                    </WithPadding>
+
                 </WithPadding>
             </WithBorder>
         </WithPadding>
