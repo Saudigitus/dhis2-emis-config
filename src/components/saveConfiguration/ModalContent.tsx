@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form } from 'react-final-form';
 import { ModalContentInterface } from '../../types/modal/ModalProps';
 import { CustomForm, WithBorder, WithPadding } from 'dhis2-semis-components';
@@ -7,10 +7,18 @@ import { useRecoilValue } from 'recoil';
 import { ProgramLoaderState } from '../../atoms/getProgramLoaderSchema';
 import { LabelManager } from '../profileTabs/profileTabManager';
 import { CardLayoutConfigurator } from '../profileFieldsConfig/CardLayoutConfigurator';
+import { CardLayoutItem } from '../profileFieldsConfig/types';
+import { LabelItem } from '../../types/profileTypes/profileTypes';
 
 function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
     const loadingProgram = useRecoilValue<boolean>(ProgramLoaderState)
+    const [cardLayoutItems, setCardLayoutItems] = useState<CardLayoutItem[]>([])
+    const [labels, setLabels] = useState<LabelItem[]>([])
+
+    const onSave = (e: any) => {
+        console.log(cardLayoutItems, labels, e)
+    }
 
     return (
         <WithPadding>
@@ -26,17 +34,18 @@ function ModalContent(props: ModalContentInterface) {
                         initialValues={initialValues}
                         onCancel={() => { onCancel() }}
                         trackedEntity={initialValues?.trackedEntity}
-                        onFormSubtmit={(e: Record<string, any>) => { onSubmit(e) }}
+                        onFormSubtmit={(e: Record<string, any>) => { onSave(e) }}
+                        hasChangedExternaly={true}
                         customComponent={
                             <>
                                 <hr />
                                 <WithPadding p='1px 18px'>
-                                    <CardLayoutConfigurator initialItems={[]} />
+                                    <CardLayoutConfigurator items={cardLayoutItems} setItems={setCardLayoutItems} />
                                 </WithPadding>
                                 <hr />
                                 <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Tabs configuration </h6>
                                 <WithPadding p='1px 18px'>
-                                    <LabelManager />
+                                    <LabelManager labels={labels} setLabels={setLabels} />
                                 </WithPadding>
                             </>
                         }

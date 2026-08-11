@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { IconCheckmarkCircle16, IconLink24, IconArrowLeft16, IconArrowRight16 } from '@dhis2/ui';
 import { AnimatePresence } from 'framer-motion';
 import { LabelItem, SortMode } from '../../types/profileTypes/profileTypes';
 import { DEFAULT_LABEL_COLORS } from '../../utils/constants/colors/colors';
-
-import { LabelHeader } from './LabelHeader';
 import { LabelInputForm } from './LabelInputForm';
 import { LabelCard } from './LabelCard';
 import { LabelEmptySlot } from './LabelEmptySlot';
@@ -13,7 +11,7 @@ import './LabelManager.css';
 
 const FIXED_MAX = 6;
 
-export const LabelManager = () => {
+export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLabels: (labels: LabelItem[]) => void }) => {
     const [inputText, setInputText] = useState('');
     const [selectedColor, setSelectedColor] = useState(DEFAULT_LABEL_COLORS[0]);
     const [editingId, setEditingId] = useState<string | null>(null);
@@ -24,26 +22,10 @@ export const LabelManager = () => {
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
-    const [formData, setFormData] = useState<any>({
-        defaultPageSize: '10',
-        maxLabelsAllowed: 6,
-        labels: [],
-    });
-
     const inputRef = useRef<HTMLInputElement>(null);
-    const isMaxReached = formData?.labels?.length >= FIXED_MAX;
+    const isMaxReached = labels?.length >= FIXED_MAX;
 
-    const onMaxLabelsChange = (newMax: number) => setFormData((prev: any) => ({ ...prev, maxLabelsAllowed: newMax }))
-
-
-    useEffect(() => {
-        if (formData?.maxLabelsAllowed !== FIXED_MAX) {
-            onMaxLabelsChange(FIXED_MAX);
-        }
-    }, [formData?.maxLabelsAllowed, onMaxLabelsChange]);
-
-    const onLabelsChange = (newLabels: LabelItem[]) => setFormData((prev: any) => ({ ...prev, labels: newLabels }))
-    const labels = (formData?.labels || []) as any;
+    const onLabelsChange = (newLabels: LabelItem[]) => setLabels(newLabels);
 
     const handleAddLabel = () => {
         setErrorMsg(null);

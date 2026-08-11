@@ -20,14 +20,11 @@ export const config = (i18n: D2I18n) => [
                     hint: i18n.t('Option sets'),
                     inputType: 'LIST',
                     label: i18n.t('Dropout option'),
-                    optionSetValue: false,
                     order: 1,
-                    required: false,
                     resource: 'optionSets',
                     valueType: 'TEXT'
                 },
                 enableDelete: {
-                    required: true,
                     filter: 'valueType:eq:TEXT',
                     inputType: 'BOOLEAN',
                     label: i18n.t('Enable delete option'),
@@ -37,7 +34,6 @@ export const config = (i18n: D2I18n) => [
                     valueType: 'BOOLEAN'
                 },
                 listdefaultPageSize: {
-                    required: true,
                     filter: 'valueType:eq:TEXT',
                     inputType: 'TEXT',
                     label: i18n.t('Default page size'),
