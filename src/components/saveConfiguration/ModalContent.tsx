@@ -6,6 +6,7 @@ import { LinearProgress } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { ProgramLoaderState } from '../../atoms/getProgramLoaderSchema';
 import { LabelManager } from '../profileTabs/profileTabManager';
+import { CardLayoutConfigurator } from '../profileFieldsConfig/CardLayoutConfigurator';
 
 function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
@@ -28,7 +29,12 @@ function ModalContent(props: ModalContentInterface) {
                         onFormSubtmit={(e: Record<string, any>) => { onSubmit(e) }}
                         customComponent={
                             <>
-                                <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Profile tabs configuration </h6>
+                                <hr />
+                                <WithPadding p='1px 18px'>
+                                    <CardLayoutConfigurator initialItems={[]} />
+                                </WithPadding>
+                                <hr />
+                                <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Tabs configuration </h6>
                                 <WithPadding p='1px 18px'>
                                     <LabelManager />
                                 </WithPadding>

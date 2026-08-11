@@ -37,7 +37,7 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
 
     return (
         <div className="lm-input-section-content">
-            <label className="lm-input-label">Add Profile Tab</label>
+            <label className="lm-input-label">Add a Tab</label>
 
             <div className="lm-input-row">
                 <div className="lm-input-wrapper">

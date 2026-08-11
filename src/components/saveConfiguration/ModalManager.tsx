@@ -40,56 +40,57 @@ function ModalManager(props: ModalManagerInterface) {
     }
 
     function onSubmit(e: Record<string, any>): void {
-        if (!formVariables?.flatMap((x: any) => x.fields).flat()?.every((field: any) =>
-            (!field?.required) || (field?.required && e[field.name])
-        )) return
+        console.log(e,'aaaaaaa')
+        // if (!formVariables?.flatMap((x: any) => x.fields).flat()?.every((field: any) =>
+        //     (!field?.required) || (field?.required && e[field.name])
+        // )) return
 
-        try {
-            setLoading(true)
-            const configKey = config?.find(x => x.key == section)
-            let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
-            const keyIndex = postData?.findIndex((x: any) => x.key == section)
-            const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
+        // try {
+        //     setLoading(true)
+        //     const configKey = config?.find(x => x.key == section)
+        //     let postData = modulePostBody(e, programData, prevDataStore as unknown as DataStoreConfigType[], configKey)
+        //     const keyIndex = postData?.findIndex((x: any) => x.key == section)
+        //     const { academicYear, ...rest } = postData?.[keyIndex]?.[e?.module]
 
-            if (keyIndex > -1) {
-                postData[keyIndex] = { ...postData[keyIndex], [e?.module]: rest }
-            }
+        //     if (keyIndex > -1) {
+        //         postData[keyIndex] = { ...postData[keyIndex], [e?.module]: rest }
+        //     }
 
-            createDataStore({
-                data: postData,
-                key: 'dataStore/semis/values',
-            }).then(async () => {
-                if (academicYear) {
-                    await createDataStore({
-                        key: "dataStore/semis/schoolCalendar",
-                        data: { ...calendar, academicYear: academicYear }
-                    }).then(() => {
-                        refetch().then(() => {
-                            setLoading(false);
-                            show({
-                                message: i18n.t(`Configurations saved successfuly`),
-                                type: { success: true }
-                            })
-                            handleCloseModal()
-                        })
-                    })
-                } else {
-                    refetch().then(() => {
-                        setLoading(false);
-                        show({
-                            message: i18n.t(`Configurations saved successfuly`),
-                            type: { success: true }
-                        })
-                        handleCloseModal()
-                    })
-                }
-            })
-        } catch (error: any) {
-            show({
-                message: `${i18n.t("Unable to save data")}: ${error.message}`,
-                type: { critical: true }
-            });
-        }
+        //     createDataStore({
+        //         data: postData,
+        //         key: 'dataStore/semis/values',
+        //     }).then(async () => {
+        //         if (academicYear) {
+        //             await createDataStore({
+        //                 key: "dataStore/semis/schoolCalendar",
+        //                 data: { ...calendar, academicYear: academicYear }
+        //             }).then(() => {
+        //                 refetch().then(() => {
+        //                     setLoading(false);
+        //                     show({
+        //                         message: i18n.t(`Configurations saved successfuly`),
+        //                         type: { success: true }
+        //                     })
+        //                     handleCloseModal()
+        //                 })
+        //             })
+        //         } else {
+        //             refetch().then(() => {
+        //                 setLoading(false);
+        //                 show({
+        //                     message: i18n.t(`Configurations saved successfuly`),
+        //                     type: { success: true }
+        //                 })
+        //                 handleCloseModal()
+        //             })
+        //         }
+        //     })
+        // } catch (error: any) {
+        //     show({
+        //         message: `${i18n.t("Unable to save data")}: ${error.message}`,
+        //         type: { critical: true }
+        //     });
+        // }
     }
 
     const formatedName = capitalizeString(name!)

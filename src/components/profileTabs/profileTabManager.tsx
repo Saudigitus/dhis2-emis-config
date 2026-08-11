@@ -15,7 +15,6 @@ const FIXED_MAX = 6;
 
 export const LabelManager = () => {
     const [inputText, setInputText] = useState('');
-    const showMaxConfig = true
     const [selectedColor, setSelectedColor] = useState(DEFAULT_LABEL_COLORS[0]);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editText, setEditText] = useState('');
@@ -161,7 +160,7 @@ export const LabelManager = () => {
 
     return (
         <div className="lm-root">
-            {showMaxConfig && <LabelHeader currentCount={labels.length} fixedMax={FIXED_MAX} />}
+            {/* {showMaxConfig && <LabelHeader currentCount={labels.length} fixedMax={FIXED_MAX} />} */}
 
             <div className="lm-input-section">
                 <LabelInputForm

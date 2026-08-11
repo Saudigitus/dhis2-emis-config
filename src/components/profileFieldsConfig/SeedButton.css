@@ -1,0 +1,25 @@
+/* ==========================================================================
+   SeedButton.css
+   Pure CSS (no Tailwind) — converted from utility classes.
+   ========================================================================== */
+
+.sb-btn {
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.sb-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.sb-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}

@@ -4,17 +4,6 @@ export const config = (i18n: D2I18n) => [
     {
         profile: {
             prifileView: {
-                profileFields: {
-                    filter: '',
-                    hint: i18n.t('Attributes'),
-                    inputType: 'LIST',
-                    label: i18n.t('Student profile attributes'),
-                    optionSetValue: true,
-                    order: 1,
-                    required: true,
-                    resource: 'attributes',
-                    valueType: 'TEXT'
-                },
                 summaryIndicators: {
                     filter: '',
                     hint: i18n.t('Program indicator'),
