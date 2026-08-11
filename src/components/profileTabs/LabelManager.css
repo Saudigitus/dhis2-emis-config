@@ -170,16 +170,32 @@
     cursor: not-allowed;
 }
 
-/* ---- Select (list mode) ---- */
-.lm-select-wrapper {
-    display: flex;
-    align-items: stretch;
+/* ---- Searchable select (list mode) ---- */
+.lm-searchable-select {
+    position: relative;
+    width: 100%;
 }
 
-.lm-select-input {
+.lm-searchable-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.lm-searchable-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    display: inline-flex;
+    pointer-events: none;
+}
+
+.lm-searchable-input {
     width: 100%;
     height: 2.5rem;
-    padding: 0 2.25rem 0 0.875rem;
+    padding: 0 2.5rem 0 2.25rem;
     font-size: 0.875rem;
     background-color: #ffffff;
     border: 1px solid #cbd5e1;
@@ -187,89 +203,73 @@
     outline: none;
     transition: all 0.15s ease;
     color: #1e293b;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
 }
 
-.lm-select-input:focus {
+.lm-searchable-input:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 4px rgb(219 234 254 / 1);
 }
 
-.lm-select-input.is-disabled {
+.lm-searchable-input.is-disabled {
     background-color: #f1f5f9;
     color: #94a3b8;
     border-color: #e2e8f0;
     cursor: not-allowed;
 }
 
-.lm-select-chevron {
+.lm-searchable-toggle {
     position: absolute;
-    right: 0.625rem;
+    right: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
     color: #64748b;
-    pointer-events: none;
-}
-
-.lm-color-picker {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    background-color: #f1f5f9;
-    /* bg-slate-100 */
-    padding: 0 0.5rem;
-    border-radius: 0.375rem;
-    border: 1px solid #e2e8f0;
-    /* border-slate-200 */
-    flex-shrink: 0;
-}
-
-.lm-color-picker-label {
-    font-size: 0.75rem;
-    color: #64748b;
-    /* text-slate-500 */
-    font-weight: 500;
-    margin-right: 0.25rem;
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .lm-color-picker-label {
-        display: inline;
-    }
-}
-
-.lm-color-swatches {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.lm-color-swatch {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 9999px;
-    transition: transform 0.15s ease;
+    background: none;
+    border: none;
     cursor: pointer;
-    border: 1px solid #cbd5e1;
-    /* border-slate-300 */
+    padding: 0.125rem;
+    display: inline-flex;
 }
 
-.lm-color-swatch:hover {
-    transform: scale(1.05);
+.lm-searchable-dropdown {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: 12rem;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-.lm-color-swatch.is-selected {
-    box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #ffffff;
-    /* ring-2 ring-blue-500 ring-offset-1 */
-    transform: scale(1.1);
-    border-color: #94a3b8;
-    /* border-slate-400 */
+.lm-searchable-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: #1e293b;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.lm-searchable-option:hover {
+    background-color: #f1f5f9;
+}
+
+.lm-searchable-option.is-selected {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    font-weight: 600;
+}
+
+.lm-searchable-empty {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: #94a3b8;
 }
 
 .lm-ok-button {
@@ -757,6 +757,48 @@
     /* text-blue-700 */
     border-color: #bfdbfe;
     /* border-blue-200 */
+}
+
+.lm-chip-badge.lm-label-blue {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border-color: #bfdbfe;
+}
+
+.lm-chip-badge.lm-label-emerald {
+    background-color: #d1fae5;
+    color: #047857;
+    border-color: #a7f3d0;
+}
+
+.lm-chip-badge.lm-label-purple {
+    background-color: #ede9fe;
+    color: #6b21a8;
+    border-color: #ddd6fe;
+}
+
+.lm-chip-badge.lm-label-amber {
+    background-color: #fef3c7;
+    color: #b45309;
+    border-color: #fde68a;
+}
+
+.lm-chip-badge.lm-label-rose {
+    background-color: #ffe4e6;
+    color: #be123c;
+    border-color: #fecdd3;
+}
+
+.lm-chip-badge.lm-label-indigo {
+    background-color: #e0e7ff;
+    color: #4338ca;
+    border-color: #c7d2fe;
+}
+
+.lm-chip-badge.lm-label-slate {
+    background-color: #e2e8f0;
+    color: #334155;
+    border-color: #cbd5e1;
 }
 
 .lm-chip-bottom-row {

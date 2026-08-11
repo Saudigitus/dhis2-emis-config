@@ -1,14 +1,11 @@
-import React from 'react';
-import { IconCheckmarkCircle16, IconWarningFilled16 } from '@dhis2/ui';
+import React, { useEffect, useRef, useState } from 'react';
+import { IconCheckmarkCircle16, IconWarningFilled16, IconChevronDown16, IconSearch16 } from '@dhis2/ui';
 import { motion } from 'framer-motion';
-import { DEFAULT_LABEL_COLORS } from '../../utils/constants/colors/colors';
 import { LabelInputType, LabelOption } from '../../types/profileTypes/profileTypes';
 
 interface LabelInputFormProps {
     inputText: string;
     setInputText: (val: string) => void;
-    selectedColor: typeof DEFAULT_LABEL_COLORS[0];
-    setSelectedColor: (color: typeof DEFAULT_LABEL_COLORS[0]) => void;
     onAddLabel: () => void;
     isMaxReached: boolean;
     errorMsg: string | null;
@@ -22,8 +19,6 @@ interface LabelInputFormProps {
 export const LabelInputForm: React.FC<LabelInputFormProps> = ({
     inputText,
     setInputText,
-    selectedColor,
-    setSelectedColor,
     onAddLabel,
     isMaxReached,
     errorMsg,
@@ -44,51 +39,23 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
 
     return (
         <div className="lm-input-section-content">
-            <label className="lm-input-label">
-                {isList ? 'Add a Tab' : 'Add a Tab'}
-            </label>
+            <label className="lm-input-label">Add a Tab</label>
 
             <div className="lm-input-row">
-                {isList ? (
-                    <div className="lm-input-wrapper lm-select-wrapper">
-                        <select
+                <div className="lm-input-wrapper">
+                    {isList ? (
+                        <SearchableSelect
+                            options={availableOptions}
                             value={inputText}
-                            onChange={(e) => {
-                                setInputText(e.target.value);
-                                if (errorMsg) setErrorMsg(null);
-                            }}
+                            onChange={setInputText}
                             disabled={isMaxReached || availableOptions.length === 0}
-                            className={`lm-select-input ${isMaxReached ? 'is-disabled' : ''}`}
-                        >
-                            <option value="">
-                                {isMaxReached
+                            placeholder={
+                                isMaxReached
                                     ? `Maximum of ${fixedMax} labels reached`
-                                    : 'Select an option...'}
-                            </option>
-
-                            {availableOptions.map((option) => (
-                                <option key={option.key} value={option.key}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-
-                        <svg
-                            className="lm-select-chevron"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                            />
-                        </svg>
-                    </div>
-                ) : (
-                    <div className="lm-input-wrapper">
+                                    : 'Search / select an option...'
+                            }
+                        />
+                    ) : (
                         <input
                             ref={inputRef as any}
                             type="text"
@@ -106,8 +73,8 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
                             }
                             className={`lm-text-input ${isMaxReached ? 'is-disabled' : ''}`}
                         />
-                    </div>
-                )}
+                    )}
+                </div>
 
                 <button
                     type="button"
@@ -130,6 +97,108 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
                     <IconWarningFilled16 />
                     <span>{errorMsg}</span>
                 </motion.div>
+            )}
+        </div>
+    );
+};
+
+interface SearchableSelectProps {
+    options: LabelOption[];
+    value: string;
+    onChange: (key: string) => void;
+    disabled?: boolean;
+    placeholder?: string;
+}
+
+const SearchableSelect: React.FC<SearchableSelectProps> = ({
+    options,
+    value,
+    onChange,
+    disabled,
+    placeholder,
+}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [query, setQuery] = useState('');
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(e.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () =>
+            document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const filtered = query.trim()
+        ? options.filter((o) =>
+            o.label.toLowerCase().includes(query.toLowerCase())
+        )
+        : options;
+
+    const selectedLabel = options.find((o) => o.key === value)?.label ?? '';
+
+    return (
+        <div className="lm-searchable-select" ref={containerRef}>
+            <div className="lm-searchable-input-wrap">
+                <span className="lm-searchable-icon">
+                    <IconSearch16 />
+                </span>
+
+                <input
+                    type="text"
+                    value={isOpen ? query : selectedLabel}
+                    placeholder={placeholder}
+                    disabled={disabled}
+                    onFocus={() => {
+                        setIsOpen(true);
+                        setQuery('');
+                    }}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        setIsOpen(true);
+                    }}
+                    className={`lm-searchable-input ${disabled ? 'is-disabled' : ''}`}
+                />
+
+                <button
+                    type="button"
+                    className="lm-searchable-toggle"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    tabIndex={-1}
+                >
+                    <IconChevronDown16 />
+                </button>
+            </div>
+
+            {isOpen && !disabled && (
+                <div className="lm-searchable-dropdown">
+                    {filtered.length === 0 ? (
+                        <div className="lm-searchable-empty">No matching options</div>
+                    ) : (
+                        filtered.map((option) => (
+                            <button
+                                key={option.key}
+                                type="button"
+                                className={`lm-searchable-option ${option.key === value ? 'is-selected' : ''}`}
+                                onClick={() => {
+                                    onChange(option.key);
+                                    setIsOpen(false);
+                                    setQuery('');
+                                }}
+                            >
+                                {option.label}
+                            </button>
+                        ))
+                    )}
+                </div>
             )}
         </div>
     );

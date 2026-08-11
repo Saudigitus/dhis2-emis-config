@@ -11,6 +11,13 @@ import './LabelManager.css';
 
 const FIXED_MAX = 6;
 
+/**
+ * Auto-assigns a color to a new label by cycling through the palette,
+ * so each label card gets its own distinct color.
+ */
+const nextColor = (index: number) =>
+    DEFAULT_LABEL_COLORS[index % DEFAULT_LABEL_COLORS.length].className;
+
 export const LabelManager = ({
     labels,
     setLabels,
@@ -23,7 +30,6 @@ export const LabelManager = ({
     options?: LabelOption[];
 }) => {
     const [inputText, setInputText] = useState('');
-    const [selectedColor, setSelectedColor] = useState(DEFAULT_LABEL_COLORS[0]);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editText, setEditText] = useState('');
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -79,7 +85,7 @@ export const LabelManager = ({
         const newLabel: LabelItem = {
             id: `label-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
             text,
-            color: `${selectedColor.bg} ${selectedColor.text} ${selectedColor.border}`,
+            color: nextColor(labels.length),
             createdAt: Date.now(),
         };
 
@@ -178,8 +184,6 @@ export const LabelManager = ({
                 <LabelInputForm
                     inputText={inputText}
                     setInputText={setInputText}
-                    selectedColor={selectedColor}
-                    setSelectedColor={setSelectedColor}
                     onAddLabel={handleAddLabel}
                     isMaxReached={isMaxReached}
                     errorMsg={errorMsg}
