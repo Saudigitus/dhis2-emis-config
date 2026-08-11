@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { IconCheckmarkCircle16, IconLink24, IconArrowLeft16, IconArrowRight16 } from '@dhis2/ui';
 import { AnimatePresence } from 'framer-motion';
-import { LabelItem, SortMode } from '../../types/profileTypes/profileTypes';
+import { LabelItem, SortMode, LabelInputType, LabelOption } from '../../types/profileTypes/profileTypes';
 import { DEFAULT_LABEL_COLORS } from '../../utils/constants/colors/colors';
 import { LabelInputForm } from './LabelInputForm';
 import { LabelCard } from './LabelCard';
@@ -11,7 +11,17 @@ import './LabelManager.css';
 
 const FIXED_MAX = 6;
 
-export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLabels: (labels: LabelItem[]) => void }) => {
+export const LabelManager = ({
+    labels,
+    setLabels,
+    inputType = 'text',
+    options = [],
+}: {
+    labels: LabelItem[];
+    setLabels: (labels: LabelItem[]) => void;
+    inputType?: LabelInputType;
+    options?: LabelOption[];
+}) => {
     const [inputText, setInputText] = useState('');
     const [selectedColor, setSelectedColor] = useState(DEFAULT_LABEL_COLORS[0]);
     const [editingId, setEditingId] = useState<string | null>(null);
@@ -25,14 +35,34 @@ export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLa
     const inputRef = useRef<HTMLInputElement>(null);
     const isMaxReached = labels?.length >= FIXED_MAX;
 
+    /**
+     * Options still available: those not currently selected as a label.
+     * Removing a label automatically makes its option available again.
+     */
+    const availableOptions = options.filter(
+        (option) =>
+            !labels.some(
+                (l) => l.text.toLowerCase() === option.label.toLowerCase()
+            )
+    );
+
+    const selectedOption = inputType === 'list'
+        ? options.find((o) => o.key === inputText)
+        : undefined;
+
     const onLabelsChange = (newLabels: LabelItem[]) => setLabels(newLabels);
 
     const handleAddLabel = () => {
         setErrorMsg(null);
-        const trimmed = inputText.trim();
 
-        if (!trimmed) {
-            setErrorMsg('Please enter a label name before clicking OK.');
+        const text = selectedOption?.label ?? inputText.trim();
+
+        if (!text) {
+            setErrorMsg(
+                inputType === 'list'
+                    ? 'Please select an option before clicking OK.'
+                    : 'Please enter a label name before clicking OK.'
+            );
             return;
         }
 
@@ -41,14 +71,14 @@ export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLa
             return;
         }
 
-        if (labels.some((l: any) => l.text.toLowerCase() === trimmed.toLowerCase())) {
-            setErrorMsg(`Label "${trimmed}" already exists.`);
+        if (labels.some((l: any) => l.text.toLowerCase() === text.toLowerCase())) {
+            setErrorMsg(`Label "${text}" already exists.`);
             return;
         }
 
         const newLabel: LabelItem = {
             id: `label-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-            text: trimmed,
+            text,
             color: `${selectedColor.bg} ${selectedColor.text} ${selectedColor.border}`,
             createdAt: Date.now(),
         };
@@ -156,6 +186,8 @@ export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLa
                     setErrorMsg={setErrorMsg}
                     fixedMax={FIXED_MAX}
                     inputRef={inputRef}
+                    inputType={inputType}
+                    availableOptions={availableOptions}
                 />
             </div>
 
@@ -192,7 +224,11 @@ export const LabelManager = ({ labels, setLabels }: { labels: LabelItem[], setLa
                         <IconLink24 />
                         <p className="lm-empty-title">No labels listed yet</p>
                         <p className="lm-empty-subtitle">
-                            Write a label name above and click <strong>"OK"</strong> to add it. Max {FIXED_MAX} labels. They will appear horizontally.
+                            {inputType === 'list' ? (
+                                <>Select an option above and click <strong>"OK"</strong> to add it. Max {FIXED_MAX} labels. They will appear horizontally.</>
+                            ) : (
+                                <>Write a label name above and click <strong>"OK"</strong> to add it. Max {FIXED_MAX} labels. They will appear horizontally.</>
+                            )}
                         </p>
                         <div className="lm-empty-slots-preview">
                             {Array.from({ length: FIXED_MAX }).map((_, i) => (

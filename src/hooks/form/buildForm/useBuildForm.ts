@@ -39,7 +39,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { buildStudentFinalResultForm } = useBuildStudentFinalResultForm()
     const { buildStudentAttendanceForm } = useBuildStudentAttendanceForm()
     const { buildAttendanceClassConfigForm } = useBuildAttendanceClassConfigForm()
-    const { buildStudentProfileForm, buildStudentProfileIndicators } = useBuildStudentProfileForm()
+    const { buildStudentProfileForm } = useBuildStudentProfileForm()
     const { getProgram } = useProgramConfig()
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
     const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
@@ -242,15 +242,7 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         }
                     ) : []
 
-                const indicatorsField = data ?
-                    buildStudentProfileIndicators(
-                        {
-                            dataStoreConfig: dataStoreConfig,
-                            programs
-                        }
-                    ) : []
-
-                const profileForm = formStudentProfile({ profileFields, programFields, programIndicatorFields: indicatorsField, i18n })
+                const profileForm = formStudentProfile({ profileFields, programFields, i18n })
                 return profileForm
 
             case 'performance':

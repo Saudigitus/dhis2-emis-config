@@ -1,13 +1,10 @@
 import { useUrlParams } from "dhis2-semis-functions"
 import { ConfigCustomAttributeProps, SectionType } from "../../../../types/variables/Variables"
 import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
-import { useDataStoreKey, useProgramsKeys } from "dhis2-semis-components"
 
 function useBuildStudentProfileForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
-    const programs = useProgramsKeys()
-    const { program } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
 
     const buildFields = (config: Record<string, any>, program?: any): ConfigCustomAttributeProps[] => {
         return Object.entries(config)
@@ -47,22 +44,8 @@ function useBuildStudentProfileForm() {
         return buildFields(other)
     }
 
-    const buildStudentProfileIndicators = ({ dataStoreConfig }: any) => {
-
-        const { prifileView } = getDataStoreConfigKeys({
-            dataStoreConfig,
-            sectionType: section,
-            element: "profile",
-        })
-
-        const sectionProgram = programs?.find(x => x.id == program)
-
-        return buildFields(prifileView, sectionProgram)
-    }
-
     return {
-        buildStudentProfileForm,
-        buildStudentProfileIndicators,
+        buildStudentProfileForm
     }
 }
 export { useBuildStudentProfileForm }

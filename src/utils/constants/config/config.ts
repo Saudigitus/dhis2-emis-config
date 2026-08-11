@@ -3,17 +3,6 @@ import { D2I18n } from "dhis2-semis-types";
 export const config = (i18n: D2I18n) => [
     {
         profile: {
-            prifileView: {
-                summaryIndicators: {
-                    filter: '',
-                    hint: i18n.t('Program indicator'),
-                    inputType: 'MULTI_SELECT',
-                    label: i18n.t('Summary indicators'),
-                    optionSetValue: false,
-                    order: 2,
-                    resource: 'programIndicator',
-                },
-            },
             other: {
                 dropoutOption: {
                     filter: '',

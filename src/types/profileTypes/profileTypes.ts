@@ -16,6 +16,13 @@ export interface StudentProfileFormData {
 
 export type SortMode = 'custom' | 'alphabetical-asc' | 'alphabetical-desc' | 'newest' | 'oldest';
 
+export type LabelInputType = 'text' | 'list';
+
+export interface LabelOption {
+    key: string;
+    label: string;
+}
+
 export interface LabelPreset {
   name: string;
   description: string;

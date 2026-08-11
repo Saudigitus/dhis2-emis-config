@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form } from 'react-final-form';
 import { ModalContentInterface } from '../../types/modal/ModalProps';
-import { CustomForm, WithBorder, WithPadding } from 'dhis2-semis-components';
+import { CustomForm, useDataStoreKey, useProgramsKeys, WithBorder, WithPadding } from 'dhis2-semis-components';
 import { LinearProgress } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { ProgramLoaderState } from '../../atoms/getProgramLoaderSchema';
@@ -10,12 +10,21 @@ import { CardLayoutConfigurator } from '../profileFieldsConfig/CardLayoutConfigu
 import { CardLayoutItem } from '../profileFieldsConfig/types';
 import { LabelItem } from '../../types/profileTypes/profileTypes';
 import { organizeProfileSections } from '../../utils/profileFieldGroup/profileGroupFieldFormatter';
+import { useUrlParams } from 'dhis2-semis-functions';
+import { SectionType } from 'src/types/variables/Variables';
 
 function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
     const loadingProgram = useRecoilValue<boolean>(ProgramLoaderState)
     const [cardLayoutItems, setCardLayoutItems] = useState<CardLayoutItem[]>([])
     const [labels, setLabels] = useState<LabelItem[]>([])
+    const [indicators, setIndicators] = useState<LabelItem[]>([])
+    const { useQuery } = useUrlParams()
+    const section = useQuery.get("section") as SectionType
+    const programs = useProgramsKeys()
+    const { program } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
+    const sectionProgram: any = programs?.find(x => x.id == program)
+    const indicatorOptions = sectionProgram?.programIndicators?.map((prog: any) => ({ key: prog.id, label: prog.displayName })) || []
 
     const onSave = (e: any) => {
         const fieldGroups = organizeProfileSections(cardLayoutItems as any)
@@ -43,6 +52,11 @@ function ModalContent(props: ModalContentInterface) {
                                 <hr />
                                 <WithPadding p='1px 18px'>
                                     <CardLayoutConfigurator items={cardLayoutItems} setItems={setCardLayoutItems} />
+                                </WithPadding>
+                                <hr />
+                                <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Program indicators configuration </h6>
+                                <WithPadding p='1px 18px'>
+                                    <LabelManager inputType='list' options={indicatorOptions} labels={indicators} setLabels={setIndicators} />
                                 </WithPadding>
                                 <hr />
                                 <h6 style={{ margin: "30px 0 0 10px", fontWeight: "700", fontSize: "18px" }} > Tabs configuration </h6>
