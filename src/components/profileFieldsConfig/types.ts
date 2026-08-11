@@ -4,12 +4,12 @@ export interface CardLayoutItem {
     fieldKey: string;
     label: string;
     sortOrder: number;
-    groupId: number | null;
+    groupId: string | null;
     groupName: string | null;
 }
 
 export interface GroupDef {
-    id: number;
+    id: string;
     name: string;
 }
 
@@ -18,7 +18,7 @@ export interface ProfileFieldRow {
     fieldKey: string;
     label: string;
     fieldType: string;
-    groupId: number;
+    groupId: string;
     sortOrder: number;
     visible: boolean;
     options: string[] | null;
@@ -45,4 +45,4 @@ export interface GroupData {
 
 export type Block =
     | { type: 'standalone'; items: CardLayoutItem[] }
-    | { type: 'group'; groupId: number; groupName: string; items: CardLayoutItem[] };
+    | { type: 'group'; groupId: string; groupName: string; items: CardLayoutItem[] };

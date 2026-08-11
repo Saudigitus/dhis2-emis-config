@@ -33,7 +33,7 @@ export const config = (i18n: D2I18n) => [
                     resource: 'attributes',
                     valueType: 'BOOLEAN'
                 },
-                listdefaultPageSize: {
+                listDefaultPageSize: {
                     filter: 'valueType:eq:TEXT',
                     inputType: 'TEXT',
                     label: i18n.t('Default page size'),

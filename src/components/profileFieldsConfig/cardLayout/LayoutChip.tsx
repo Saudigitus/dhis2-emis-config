@@ -4,20 +4,20 @@ import { GroupColorClass } from './groupColors';
 interface LayoutChipProps {
     item: CardLayoutItem;
     index: number;
-    isFirstBlock: boolean;
-    isLastBlock: boolean;
+    isFirstInGroup: boolean;
+    isLastInGroup: boolean;
     colorClass: GroupColorClass;
-    onMoveBlock: (direction: 'left' | 'right') => void;
+    onMoveItem: (direction: 'up' | 'down') => void;
     onRemove: () => void;
 }
 
 export function LayoutChip({
     item,
     index,
-    isFirstBlock,
-    isLastBlock,
+    isFirstInGroup,
+    isLastInGroup,
     colorClass,
-    onMoveBlock,
+    onMoveItem,
     onRemove,
 }: LayoutChipProps) {
     return (
@@ -28,9 +28,10 @@ export function LayoutChip({
 
             <div className="clc-chip-actions">
                 <button
-                    onClick={() => onMoveBlock('left')}
-                    disabled={isFirstBlock}
+                    onClick={() => onMoveItem('up')}
+                    disabled={isFirstInGroup}
                     className="clc-chip-btn"
+                    title="Move field up in group"
                 >
                     <svg
                         className="clc-icon-sm"
@@ -42,15 +43,16 @@ export function LayoutChip({
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                            d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
                         />
                     </svg>
                 </button>
 
                 <button
-                    onClick={() => onMoveBlock('right')}
-                    disabled={isLastBlock}
+                    onClick={() => onMoveItem('down')}
+                    disabled={isLastInGroup}
                     className="clc-chip-btn"
+                    title="Move field down in group"
                 >
                     <svg
                         className="clc-icon-sm"
@@ -62,7 +64,7 @@ export function LayoutChip({
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                            d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
                         />
                     </svg>
                 </button>

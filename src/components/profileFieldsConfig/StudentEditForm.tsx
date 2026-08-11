@@ -23,7 +23,7 @@ export function StudentEditForm({ studentId, fields, studentData, onSaved, onCan
     const [saving, setSaving] = useState(false);
 
     // Group fields by group
-    const grouped = fields.reduce<Record<number, { groupName: string; groupColor: string; fields: ProfileFieldRow[] }>>(
+    const grouped = fields.reduce<Record<string, { groupName: string; groupColor: string; fields: ProfileFieldRow[] }>>(
         (acc, f) => {
             if (!acc[f.groupId]) {
                 acc[f.groupId] = { groupName: f.groupName, groupColor: f.groupColor, fields: [] };

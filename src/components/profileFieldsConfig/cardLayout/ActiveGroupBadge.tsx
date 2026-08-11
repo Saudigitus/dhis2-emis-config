@@ -2,7 +2,7 @@ import { groupColorClass, GroupColorClass } from './groupColors';
 
 interface ActiveGroupBadgeProps {
     name: string;
-    groupId: number;
+    groupId: string;
     colorClass?: GroupColorClass;
 }
 

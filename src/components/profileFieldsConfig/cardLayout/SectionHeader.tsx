@@ -7,13 +7,13 @@ import { SectionConfig } from './constants';
 interface SectionHeaderProps {
     section: SectionConfig;
     groups: GroupDef[];
-    selectedGroupId: number | undefined;
+    selectedGroupId: string | undefined;
     activeGroupName: string | null;
     canAdd: boolean;
     hasGroup: boolean;
     available: { key: string; label: string }[];
     onAddItem: (key: string) => void;
-    onSelectGroup: (groupId: number) => void;
+    onSelectGroup: (groupId: string) => void;
     onCreateGroup: () => void;
 }
 

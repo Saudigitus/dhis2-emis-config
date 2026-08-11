@@ -9,6 +9,7 @@ import { LabelManager } from '../profileTabs/profileTabManager';
 import { CardLayoutConfigurator } from '../profileFieldsConfig/CardLayoutConfigurator';
 import { CardLayoutItem } from '../profileFieldsConfig/types';
 import { LabelItem } from '../../types/profileTypes/profileTypes';
+import { organizeProfileSections } from '../../utils/profileFieldGroup/profileGroupFieldFormatter';
 
 function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
@@ -17,7 +18,8 @@ function ModalContent(props: ModalContentInterface) {
     const [labels, setLabels] = useState<LabelItem[]>([])
 
     const onSave = (e: any) => {
-        console.log(cardLayoutItems, labels, e)
+        const fieldGroups = organizeProfileSections(cardLayoutItems as any)
+        onSubmit({ ...e, ...fieldGroups, tabs: labels })
     }
 
     return (

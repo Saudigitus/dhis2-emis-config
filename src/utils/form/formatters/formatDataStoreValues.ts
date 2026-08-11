@@ -281,6 +281,16 @@ const profileBodyToForm = (dataStoreValues: any, module: string) => {
     }
 }
 
+const profilePostBody = (values: any) => {
+    const { academicYear, key, program, module, ...rest } = values
+
+    return {
+        [values?.module]: {
+            ...rest
+        }
+    }
+}
+
 const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfigType[], config: any): any => {
     const prevDataStore = prevData
     const selectedDataStoreKey = prevData?.find((x: any) => x.program == program.id)
@@ -312,6 +322,8 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfig
         case 'performance':
             return returnBody(performancePostBody(formValues))
 
+        case 'profile':
+            return returnBody(profilePostBody(formValues))
         default:
             return {}
     }

@@ -15,7 +15,12 @@ export type GroupColorClass = (typeof GROUP_COLOR_CLASSES)[number];
  * Assigns a color class to a group deterministically based on its id,
  * so each group always renders with the same color.
  */
-export function groupColorClass(groupId: number): GroupColorClass {
-    const idx = (groupId - 1) % GROUP_COLOR_CLASSES.length;
-    return GROUP_COLOR_CLASSES[idx];
+export function groupColorClass(groupId: string): GroupColorClass {
+    let hash = 0;
+
+    for (let i = 0; i < groupId.length; i++) {
+        hash = (hash * 31 + groupId.charCodeAt(i)) >>> 0;
+    }
+
+    return GROUP_COLOR_CLASSES[hash % GROUP_COLOR_CLASSES.length];
 }

@@ -2,8 +2,8 @@ import { GroupDef } from '../types';
 
 interface GroupSelectorProps {
     groups: GroupDef[];
-    selectedGroupId: number | undefined;
-    onSelect: (groupId: number) => void;
+    selectedGroupId: string | undefined;
+    onSelect: (groupId: string) => void;
     onCreate: () => void;
 }
 
@@ -33,7 +33,7 @@ export function GroupSelector({
                         }
 
                         if (value.startsWith('gid:')) {
-                            onSelect(parseInt(value.split(':')[1], 10));
+                            onSelect(value.split(':').slice(1).join(':'));
                         }
                     }}
                     className="clc-group-select"

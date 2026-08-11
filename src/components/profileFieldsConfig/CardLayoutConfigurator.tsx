@@ -2,10 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 
 import './CardLayoutConfigurator.css';
 import { CardLayoutItem, GroupDef } from './types';
-import { ALL_ATTRIBUTES, SECTIONS } from './cardLayout/constants';
+import { SECTIONS } from './cardLayout/constants';
 import { buildBlocks } from './cardLayout/buildBlocks';
 import { LayoutSection } from './cardLayout/LayoutSection';
 import { CreateGroupModal } from './cardLayout/CreateGroupModal';
+import { useUrlParams } from 'dhis2-semis-functions';
+import { useDataStoreKey, useProgramsKeys } from 'dhis2-semis-components';
+import { SectionType } from 'src/types/variables/Variables';
 
 interface Props {
     items: CardLayoutItem[];
@@ -13,7 +16,17 @@ interface Props {
 }
 
 export function CardLayoutConfigurator({ items, setItems }: Props) {
-    // Per-section group definitions
+    const { useQuery } = useUrlParams()
+    const section = useQuery.get("section") as SectionType
+    const programs = useProgramsKeys()
+    const { program } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
+    const sectionProgram = programs?.find(x => x.id == program)
+    const AllAttributes = sectionProgram?.programTrackedEntityAttributes?.map(x => ({
+        key: x?.trackedEntityAttribute?.id,
+        label: x?.trackedEntityAttribute?.displayName,
+    })) || []
+
+    console.log(sectionProgram)
     const [sectionGroups, setSectionGroups] = useState<Record<number, GroupDef[]>>(() => {
         const map: Record<number, GroupDef[]> = {
             1: [],
@@ -49,7 +62,7 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
      *
      * There is intentionally no "standalone" option.
      */
-    const [activeGroup, setActiveGroup] = useState<Record<number, number | undefined>>({});
+    const [activeGroup, setActiveGroup] = useState<Record<number, string | undefined>>({});
 
     // Create group modal state
     const [creatingInSection, setCreatingInSection] = useState<number | null>(null);
@@ -110,7 +123,7 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
     }
 
     function availableFor(sectionMax: number, sectionItemsLen: number) {
-        return ALL_ATTRIBUTES.filter(
+        return AllAttributes.filter(
             (a) =>
                 !usedKeys.has(a.key) &&
                 sectionItemsLen < sectionMax
@@ -126,7 +139,7 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
 
         if (current.length >= secConfig.max) return;
 
-        const attr = ALL_ATTRIBUTES.find((a) => a.key === key);
+        const attr = AllAttributes.find((a) => a.key === key);
 
         if (!attr) return;
 
@@ -147,18 +160,41 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
             return;
         }
 
-        setItems([
-            ...items,
-            {
-                id: Date.now() + sectionId,
-                section: sectionId,
-                fieldKey: key,
-                label: attr.label,
-                sortOrder: current.length,
-                groupId,
-                groupName: gdef.name,
-            },
-        ]);
+        /**
+         * Insert the new field right after the last field of its
+         * group, so the group stays contiguous and buildBlocks
+         * merges it into the existing block (no duplicate groups).
+         */
+        const lastGroupIdx = current.reduce(
+            (last, item, idx) =>
+                item.groupId === groupId ? idx : last,
+            -1
+        );
+
+        const insertIdx = lastGroupIdx + 1;
+
+        const newItems = [...items];
+
+        current.slice(insertIdx).forEach((item) => {
+            const i = newItems.findIndex((x) => x.id === item.id);
+
+            newItems[i] = {
+                ...item,
+                sortOrder: item.sortOrder + 1,
+            };
+        });
+
+        newItems.push({
+            id: Date.now() + sectionId,
+            section: sectionId,
+            fieldKey: key,
+            label: attr.label,
+            sortOrder: insertIdx,
+            groupId,
+            groupName: gdef.name,
+        });
+
+        setItems(newItems);
     }
 
     function removeItem(fieldKey: string) {
@@ -173,10 +209,7 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
         const sectionId = creatingInSection;
         const currentGroups = sectionGroups[sectionId] || [];
 
-        const newId =
-            currentGroups.length > 0
-                ? Math.max(...currentGroups.map((g) => g.id)) + 1
-                : 1;
+        const newId = crypto.randomUUID();
 
         const name = newGroupName.trim();
 
@@ -199,6 +232,37 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
 
         setCreatingInSection(null);
         setNewGroupName('');
+    }
+
+    function moveItem(
+        section: number,
+        blockIdx: number,
+        itemIdx: number,
+        direction: 'up' | 'down'
+    ) {
+        const blocks = buildBlocks(itemsForSection(section));
+
+        const block = blocks[blockIdx];
+
+        if (!block) return;
+
+        const targetIdx =
+            direction === 'up' ? itemIdx - 1 : itemIdx + 1;
+
+        if (targetIdx < 0 || targetIdx >= block.items.length) return;
+
+        const a = block.items[itemIdx];
+        const b = block.items[targetIdx];
+
+        const newItems = [...items];
+
+        const aIdx = newItems.findIndex((x) => x.id === a.id);
+        const bIdx = newItems.findIndex((x) => x.id === b.id);
+
+        newItems[aIdx] = { ...b, sortOrder: a.sortOrder };
+        newItems[bIdx] = { ...a, sortOrder: b.sortOrder };
+
+        setItems(newItems);
     }
 
     function moveBlock(
@@ -303,6 +367,9 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
                         onMoveBlock={(blockIdx, direction) =>
                             moveBlock(sec.id, blockIdx, direction)
                         }
+                        onMoveItem={(blockIdx, itemIdx, direction) =>
+                            moveItem(sec.id, blockIdx, itemIdx, direction)
+                        }
                         onRemoveItem={removeItem}
                     />
                 );
@@ -311,7 +378,8 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
             <div className="clc-hint">
                 <span className="clc-hint-dot">•</span>
                 <span>
-                    Horizontal ordering · Groups move together.
+                    Group name arrows move the whole group · field
+                    arrows reorder fields within a group.
                 </span>
             </div>
 

@@ -9,6 +9,11 @@ interface SectionDropzoneProps {
     blocks: GroupBlock[];
     sectionItems: CardLayoutItem[];
     onMoveBlock: (blockIdx: number, direction: 'left' | 'right') => void;
+    onMoveItem: (
+        blockIdx: number,
+        itemIdx: number,
+        direction: 'up' | 'down'
+    ) => void;
     onRemoveItem: (fieldKey: string) => void;
 }
 
@@ -19,6 +24,7 @@ export function SectionDropzone({
     blocks,
     sectionItems,
     onMoveBlock,
+    onMoveItem,
     onRemoveItem,
 }: SectionDropzoneProps) {
     if (count === 0) {
@@ -46,6 +52,7 @@ export function SectionDropzone({
                         totalBlocks={blocks.length}
                         sectionItems={sectionItems}
                         onMoveBlock={onMoveBlock}
+                        onMoveItem={onMoveItem}
                         onRemoveItem={onRemoveItem}
                     />
                 ))}

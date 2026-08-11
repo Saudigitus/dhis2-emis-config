@@ -9,16 +9,21 @@ interface LayoutSectionProps {
     sectionItems: CardLayoutItem[];
     blocks: GroupBlock[];
     groups: GroupDef[];
-    selectedGroupId: number | undefined;
+    selectedGroupId: string | undefined;
     activeGroupName: string | null;
     canAdd: boolean;
     hasGroup: boolean;
     available: { key: string; label: string }[];
     showDivider: boolean;
     onAddItem: (key: string) => void;
-    onSelectGroup: (groupId: number) => void;
+    onSelectGroup: (groupId: string) => void;
     onCreateGroup: () => void;
     onMoveBlock: (blockIdx: number, direction: 'left' | 'right') => void;
+    onMoveItem: (
+        blockIdx: number,
+        itemIdx: number,
+        direction: 'up' | 'down'
+    ) => void;
     onRemoveItem: (fieldKey: string) => void;
 }
 
@@ -37,6 +42,7 @@ export function LayoutSection({
     onSelectGroup,
     onCreateGroup,
     onMoveBlock,
+    onMoveItem,
     onRemoveItem,
 }: LayoutSectionProps) {
     return (
@@ -61,6 +67,7 @@ export function LayoutSection({
                 blocks={blocks}
                 sectionItems={sectionItems}
                 onMoveBlock={onMoveBlock}
+                onMoveItem={onMoveItem}
                 onRemoveItem={onRemoveItem}
             />
 
