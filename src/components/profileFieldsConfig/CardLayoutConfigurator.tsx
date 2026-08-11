@@ -1,58 +1,11 @@
-
 import { useEffect, useMemo, useState } from 'react';
 
 import './CardLayoutConfigurator.css';
-import { CardLayoutItem, GroupDef, Block } from './types';
-
-const ALL_ATTRIBUTES = [
-    { key: 'fullName', label: 'Nome completo' },
-    { key: 'systemId', label: 'Código do sistema' },
-    { key: 'dateOfBirth', label: 'Data de nascimento' },
-    { key: 'gender', label: 'Sexo' },
-    { key: 'nationality', label: 'Nacionalidade' },
-    { key: 'enrollmentStatus', label: 'Estado de matrícula' },
-    { key: 'guardian', label: 'Encarregado' },
-    { key: 'guardianContact', label: 'Contacto do encarregado' },
-    { key: 'distanceToSchool', label: 'Distância à escola' },
-    { key: 'modeOfTransport', label: 'Meio de transporte' },
-    { key: 'foodProgramme', label: 'Programa alimentar' },
-    { key: 'disability', label: 'Deficiência' },
-    { key: 'orphanStatus', label: 'Estado de orfandade' },
-    { key: 'householdIncome', label: 'Rendimento familiar' },
-    { key: 'numberOfSiblings', label: 'Número de irmãos' },
-];
-
-const SECTIONS = [
-    { id: 1, headerLabel: 'Section 1 · Names', placeholder: 'Add attribute…', max: 5 },
-    { id: 2, headerLabel: 'Section 2 · Subtitle', placeholder: 'Add attribute…', max: 5 },
-    { id: 3, headerLabel: 'Section 3 · Tags', placeholder: 'Add attribute…', max: 5 },
-];
-
-function buildBlocks(sectionItems: CardLayoutItem[]): Block[] {
-    const blocks: Block[] = [];
-
-    for (const item of sectionItems) {
-        // All items must belong to a group.
-        if (item.groupId === null || item.groupId === undefined) {
-            continue;
-        }
-
-        const last = blocks[blocks.length - 1];
-
-        if (last && last.type === 'group' && last.groupId === item.groupId) {
-            last.items.push(item);
-        } else {
-            blocks.push({
-                type: 'group',
-                groupId: item.groupId,
-                groupName: item.groupName || `G${item.groupId}`,
-                items: [item],
-            });
-        }
-    }
-
-    return blocks;
-}
+import { CardLayoutItem, GroupDef } from './types';
+import { ALL_ATTRIBUTES, SECTIONS } from './cardLayout/constants';
+import { buildBlocks } from './cardLayout/buildBlocks';
+import { LayoutSection } from './cardLayout/LayoutSection';
+import { CreateGroupModal } from './cardLayout/CreateGroupModal';
 
 interface Props {
     items: CardLayoutItem[];
@@ -306,7 +259,6 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
 
             {SECTIONS.map((sec, secIdx) => {
                 const sectionItems = itemsForSection(sec.id);
-                const count = sectionItems.length;
                 const groupsInSection = sectionGroups[sec.id] || [];
                 const blocks = buildBlocks(sectionItems);
 
@@ -319,347 +271,40 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
                         )
                         : null;
 
-                const canAdd = count < sec.max;
+                const canAdd = sectionItems.length < sec.max;
                 const hasGroup = selectedGroupId !== undefined;
 
                 const available = availableFor(
                     sec.max,
-                    count
+                    sectionItems.length
                 );
 
                 return (
-                    <div key={sec.id} className="clc-section">
-                        {/* Header row */}
-                        <div className="clc-header">
-                            <div className="clc-header-left">
-                                <span className="clc-icon-slate">
-                                    <svg
-                                        className="clc-icon-lg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth="1.8"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                    </svg>
-                                </span>
-
-                                <span className="clc-header-label">
-                                    {sec.headerLabel}
-                                </span>
-
-                                <span className="clc-fixed-badge">
-                                    Fixed to {sec.max}
-                                </span>
-                            </div>
-
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    gap: '10px',
-                                }}
-                            >
-                                {/* Group selector */}
-                                <div className="clc-group-toggle">
-                                    <span className="clc-group-toggle-label">
-                                        Group:
-                                    </span>
-
-                                    <div className="clc-group-select-wrap">
-                                        <select
-                                            value={
-                                                selectedGroupId !== undefined
-                                                    ? `gid:${selectedGroupId}`
-                                                    : ''
-                                            }
-                                            onChange={(e) => {
-                                                const value =
-                                                    e.target.value;
-
-                                                if (value === 'new') {
-                                                    setCreatingInSection(
-                                                        sec.id
-                                                    );
-                                                    return;
-                                                }
-
-                                                if (
-                                                    value.startsWith(
-                                                        'gid:'
-                                                    )
-                                                ) {
-                                                    setActiveGroup({
-                                                        ...activeGroup,
-                                                        [sec.id]:
-                                                            parseInt(
-                                                                value.split(
-                                                                    ':'
-                                                                )[1],
-                                                                10
-                                                            ),
-                                                    });
-                                                }
-                                            }}
-                                            className="clc-group-select"
-                                        >
-                                            <option value="">
-                                                Select group…
-                                            </option>
-
-                                            <option value="new">
-                                                + Create new…
-                                            </option>
-
-                                            {groupsInSection.map((g) => (
-                                                <option
-                                                    key={g.id}
-                                                    value={`gid:${g.id}`}
-                                                >
-                                                    {g.name}
-                                                </option>
-                                            ))}
-                                        </select>
-
-                                        <span className="clc-group-select-chevron">
-                                            <svg
-                                                className="clc-icon-xs"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                                />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Active group badge */}
-                                {activeGdef && (
-                                    <span className="clc-group-badge">
-                                        <svg
-                                            className="clc-icon-xs"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.861-2.578a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L4.217 8.688"
-                                            />
-                                        </svg>
-
-                                        {activeGdef.name}
-                                    </span>
-                                )}
-
-                                {/* Attribute select */}
-                                <div className="clc-select-wrap">
-                                    <select
-                                        value=""
-                                        onChange={(e) => {
-                                            if (e.target.value) {
-                                                addItem(
-                                                    sec.id,
-                                                    e.target.value
-                                                );
-                                            }
-                                        }}
-                                        disabled={
-                                            !canAdd ||
-                                            !hasGroup ||
-                                            available.length === 0
-                                        }
-                                        className="clc-select"
-                                    >
-                                        <option value="">
-                                            {!hasGroup
-                                                ? 'Select a group first…'
-                                                : sec.placeholder}
-                                        </option>
-
-                                        {available.map((a) => (
-                                            <option
-                                                key={a.key}
-                                                value={a.key}
-                                            >
-                                                {a.label}
-                                            </option>
-                                        ))}
-                                    </select>
-
-                                    <span className="clc-select-chevron">
-                                        <svg
-                                            className="clc-icon-sm"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                            />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Dropzone */}
-                        <div className="clc-dropzone">
-                            {count === 0 ? (
-                                <div className="clc-empty">
-                                    <div className="clc-empty-subtitle">
-                                        {!hasGroup
-                                            ? 'Create or select a group before adding attributes.'
-                                            : `Choose an attribute above. Max ${sec.max}.`}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="clc-blocks">
-                                    {blocks.map((block: any, blockIdx) => (
-                                        <div
-                                            key={`${block.groupId}-${blockIdx}`}
-                                            className="clc-block"
-                                        >
-                                            <span className="clc-block-group-tag">
-                                                {block.groupName}
-                                            </span>
-
-                                            {block.items.map((item: any) => {
-                                                const globalIdx =
-                                                    sectionItems.findIndex(
-                                                        (x) =>
-                                                            x.id === item.id
-                                                    );
-
-                                                return (
-                                                    <div
-                                                        key={item.fieldKey}
-                                                        className="clc-chip clc-chip-group"
-                                                    >
-                                                        <span className="clc-chip-index">
-                                                            {globalIdx + 1}
-                                                        </span>
-
-                                                        <span>
-                                                            {item.label}
-                                                        </span>
-
-                                                        <div className="clc-chip-actions">
-                                                            <button
-                                                                onClick={() =>
-                                                                    moveBlock(
-                                                                        sec.id,
-                                                                        blockIdx,
-                                                                        'left'
-                                                                    )
-                                                                }
-                                                                disabled={
-                                                                    blockIdx ===
-                                                                    0
-                                                                }
-                                                                className="clc-chip-btn"
-                                                            >
-                                                                <svg
-                                                                    className="clc-icon-sm"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="2"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                                                                    />
-                                                                </svg>
-                                                            </button>
-
-                                                            <button
-                                                                onClick={() =>
-                                                                    moveBlock(
-                                                                        sec.id,
-                                                                        blockIdx,
-                                                                        'right'
-                                                                    )
-                                                                }
-                                                                disabled={
-                                                                    blockIdx ===
-                                                                    blocks.length -
-                                                                    1
-                                                                }
-                                                                className="clc-chip-btn"
-                                                            >
-                                                                <svg
-                                                                    className="clc-icon-sm"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="2"
-                                                                >
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                                                                    />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-
-                                                        <button
-                                                            onClick={() =>
-                                                                removeItem(
-                                                                    item.fieldKey
-                                                                )
-                                                            }
-                                                            className="clc-chip-btn clc-chip-remove"
-                                                            title="Remove"
-                                                        >
-                                                            <svg
-                                                                className="clc-icon-sm"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                stroke="currentColor"
-                                                                strokeWidth="2.5"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M6 18L18 6M6 6l12 12"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        {secIdx < SECTIONS.length - 1 && (
-                            <div className="clc-divider" />
-                        )}
-                    </div>
+                    <LayoutSection
+                        key={sec.id}
+                        section={sec}
+                        sectionItems={sectionItems}
+                        blocks={blocks}
+                        groups={groupsInSection}
+                        selectedGroupId={selectedGroupId}
+                        activeGroupName={activeGdef ? activeGdef.name : null}
+                        canAdd={canAdd}
+                        hasGroup={hasGroup}
+                        available={available}
+                        showDivider={secIdx < SECTIONS.length - 1}
+                        onAddItem={(key) => addItem(sec.id, key)}
+                        onSelectGroup={(groupId) =>
+                            setActiveGroup({
+                                ...activeGroup,
+                                [sec.id]: groupId,
+                            })
+                        }
+                        onCreateGroup={() => setCreatingInSection(sec.id)}
+                        onMoveBlock={(blockIdx, direction) =>
+                            moveBlock(sec.id, blockIdx, direction)
+                        }
+                        onRemoveItem={removeItem}
+                    />
                 );
             })}
 
@@ -670,56 +315,16 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
                 </span>
             </div>
 
-            {/* Create group modal */}
             {creatingInSection !== null && (
-                <div className="clc-modal-overlay">
-                    <div className="clc-modal">
-                        <h3 className="clc-modal-title">
-                            New group name
-                        </h3>
-
-                        <input
-                            type="text"
-                            value={newGroupName}
-                            onChange={(e) =>
-                                setNewGroupName(e.target.value)
-                            }
-                            placeholder="e.g. Family, Academic, ID…"
-                            className="clc-modal-input"
-                            autoFocus
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    confirmCreateGroup();
-                                }
-
-                                if (e.key === 'Escape') {
-                                    setCreatingInSection(null);
-                                    setNewGroupName('');
-                                }
-                            }}
-                        />
-
-                        <div className="clc-modal-actions">
-                            <button
-                                onClick={() => {
-                                    setCreatingInSection(null);
-                                    setNewGroupName('');
-                                }}
-                                className="clc-btn clc-btn-secondary clc-btn-sm"
-                            >
-                                Cancel
-                            </button>
-
-                            <button
-                                onClick={confirmCreateGroup}
-                                disabled={!newGroupName.trim()}
-                                className="clc-btn clc-btn-primary clc-btn-sm"
-                            >
-                                Create
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <CreateGroupModal
+                    value={newGroupName}
+                    onChange={setNewGroupName}
+                    onCreate={confirmCreateGroup}
+                    onClose={() => {
+                        setCreatingInSection(null);
+                        setNewGroupName('');
+                    }}
+                />
             )}
         </div>
     );
