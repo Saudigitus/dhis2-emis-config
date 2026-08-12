@@ -40,43 +40,43 @@ interface ProfileSectionsResult {
 export function organizeProfileSections(
     items: CardLayoutItem[]
 ): ProfileSectionsResult {
-    const sorted = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
+    const sorted = [...items]?.sort((a, b) => a?.sortOrder - b?.sortOrder);
 
     const sectionOrder: number[] = [];
     const sectionsMap = new Map<number, CardLayoutItem[]>();
 
-    sorted.forEach((item) => {
-        if (!sectionsMap.has(item.section)) {
-            sectionsMap.set(item.section, []);
-            sectionOrder.push(item.section);
+    sorted?.forEach((item) => {
+        if (!sectionsMap?.has(item?.section)) {
+            sectionsMap?.set(item?.section, []);
+            sectionOrder?.push(item?.section);
         }
-        sectionsMap.get(item.section)!.push(item);
+        sectionsMap?.get(item?.section)!?.push(item);
     });
 
-    const profileSections: ProfileSection[] = sectionOrder.map(
+    const profileSections: ProfileSection[] = sectionOrder?.map(
         (sectionNumber) => {
-            const sectionItems = sectionsMap.get(sectionNumber)!;
+            const sectionItems = sectionsMap?.get(sectionNumber)!;
 
             const groupOrder: string[] = [];
             const groupsMap = new Map<string, ProfileFieldDetail[]>();
             const groupNames = new Map<string, string>();
 
-            sectionItems.forEach((item) => {
-                if (!groupsMap.has(item.groupId)) {
-                    groupsMap.set(item.groupId, []);
-                    groupNames.set(item.groupId, item.groupName);
-                    groupOrder.push(item.groupId);
+            sectionItems?.forEach((item) => {
+                if (!groupsMap?.has(item?.groupId)) {
+                    groupsMap?.set(item?.groupId, []);
+                    groupNames?.set(item?.groupId, item?.groupName);
+                    groupOrder?.push(item?.groupId);
                 }
-                groupsMap.get(item.groupId)!.push({
-                    id: item.id,
-                    fieldKey: item.fieldKey,
+                groupsMap?.get(item?.groupId)!?.push({
+                    id: item?.id,
+                    fieldKey: item?.fieldKey,
                 });
             });
 
-            const fieldGroups: ProfileFieldGroup[] = groupOrder.map((groupId) => ({
+            const fieldGroups: ProfileFieldGroup[] = groupOrder?.map((groupId) => ({
                 id: groupId,
-                groupName: groupNames.get(groupId)!,
-                fields: groupsMap.get(groupId)!,
+                groupName: groupNames?.get(groupId)!,
+                fields: groupsMap?.get(groupId)!,
             }));
 
             return {
@@ -100,16 +100,16 @@ export function flattenProfileSections(
 ): CardLayoutItem[] {
     const items: CardLayoutItem[] = [];
 
-    data.profileSections.forEach((section) => {
-        section.fieldGroups.forEach((group) => {
-            group.fields.forEach((field, sortOrder) => {
-                items.push({
-                    id: field.id,
-                    section: section.sectionNumber,
-                    fieldKey: field.fieldKey,
+    data?.profileSections?.forEach((section) => {
+        section?.fieldGroups?.forEach((group) => {
+            group?.fields?.forEach((field, sortOrder) => {
+                items?.push({
+                    id: field?.id,
+                    section: section?.sectionNumber,
+                    fieldKey: field?.fieldKey,
                     sortOrder,
-                    groupId: group.id,
-                    groupName: group.groupName,
+                    groupId: group?.id,
+                    groupName: group?.groupName,
                 });
             });
         });

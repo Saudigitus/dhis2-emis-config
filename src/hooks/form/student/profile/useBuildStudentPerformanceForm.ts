@@ -1,12 +1,16 @@
 import { useUrlParams } from "dhis2-semis-functions"
 import { ConfigCustomAttributeProps, SectionType } from "../../../../types/variables/Variables"
 import { getDataStoreConfigKeys } from "../../../../utils/dataStore/dataStoreConfigKeys"
+import { useDataStoreKey, useProgramsKeys } from "dhis2-semis-components"
 
 function useBuildStudentProfileForm() {
     const { useQuery } = useUrlParams()
     const section = useQuery.get("section") as SectionType
+    const programs = useProgramsKeys()
+    const { program, "final-result": finalResult } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
+    const sectionProgram: any = programs?.find(x => x.id == program)
 
-    const buildFields = (config: Record<string, any>, program?: any): ConfigCustomAttributeProps[] => {
+    const buildFields = (config: Record<string, any>): ConfigCustomAttributeProps[] => {
         return Object.entries(config)
             .filter(([, configuration]) => configuration)
             .map(([element, configuration]) => ({
@@ -27,7 +31,12 @@ function useBuildStudentProfileForm() {
                     optionSet: {
                         id: element,
                         options: configuration?.resource == "programIndicator" ?
-                            program?.programIndicators?.map((prog: any) => ({ value: prog.id, label: prog.displayName })) : []
+                            sectionProgram?.programIndicators?.map((prog: any) => ({ value: prog.id, label: prog.displayName })) :
+                            configuration?.resource == "performanceOptionSets" ?
+                                sectionProgram?.programStages?.find((x: any) => x.id == finalResult?.programStage)?.
+                                    programStageDataElements?.find((x: any) => x?.dataElement?.id == finalResult?.status)?.
+                                    dataElement?.optionSet?.options?.map((opt: any) => ({ value: opt.value, label: opt.label }))
+                                : []
                     }
                 }
             }))

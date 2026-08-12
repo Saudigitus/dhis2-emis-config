@@ -6,27 +6,13 @@ import { SECTIONS } from './cardLayout/constants';
 import { buildBlocks } from './cardLayout/buildBlocks';
 import { LayoutSection } from './cardLayout/LayoutSection';
 import { CreateGroupModal } from './cardLayout/CreateGroupModal';
-import { useUrlParams } from 'dhis2-semis-functions';
-import { useDataStoreKey, useProgramsKeys } from 'dhis2-semis-components';
-import { SectionType } from 'src/types/variables/Variables';
-
 interface Props {
     items: CardLayoutItem[];
     setItems: (items: CardLayoutItem[]) => void;
+    AllAttributes: any[]
 }
 
-export function CardLayoutConfigurator({ items, setItems }: Props) {
-    const { useQuery } = useUrlParams()
-    const section = useQuery.get("section") as SectionType
-    const programs = useProgramsKeys()
-    const { program } = useDataStoreKey({ sectionType: section ?? "" }) ?? [];
-    const sectionProgram = programs?.find(x => x.id == program)
-    const AllAttributes = sectionProgram?.programTrackedEntityAttributes?.map(x => ({
-        key: x?.trackedEntityAttribute?.id,
-        label: x?.trackedEntityAttribute?.displayName,
-    })) || []
-
-    console.log(sectionProgram)
+export function CardLayoutConfigurator({ items, setItems, AllAttributes }: Props) {
     const [sectionGroups, setSectionGroups] = useState<Record<number, GroupDef[]>>(() => {
         const map: Record<number, GroupDef[]> = {
             1: [],
@@ -309,10 +295,6 @@ export function CardLayoutConfigurator({ items, setItems }: Props) {
         });
 
         setItems(newItems);
-    }
-
-    async function handleSubmit() {
-        console.log(items);
     }
 
     return (

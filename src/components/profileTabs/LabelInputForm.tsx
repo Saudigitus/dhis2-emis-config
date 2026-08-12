@@ -28,13 +28,6 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
     inputType = 'text',
     availableOptions = [],
 }) => {
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            onAddLabel();
-        }
-    };
-
     const isList = inputType === 'list';
 
     return (
@@ -64,7 +57,6 @@ export const LabelInputForm: React.FC<LabelInputFormProps> = ({
                                 setInputText(e.target.value);
                                 if (errorMsg) setErrorMsg(null);
                             }}
-                            onKeyDown={handleKeyDown}
                             disabled={isMaxReached}
                             placeholder={
                                 isMaxReached

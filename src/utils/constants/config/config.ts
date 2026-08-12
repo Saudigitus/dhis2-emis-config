@@ -5,31 +5,24 @@ export const config = (i18n: D2I18n) => [
         profile: {
             other: {
                 dropoutOption: {
-                    filter: '',
                     hint: i18n.t('Option sets'),
                     inputType: 'LIST',
                     label: i18n.t('Dropout option'),
                     order: 1,
-                    resource: 'optionSets',
+                    resource: 'performanceOptionSets',
                     valueType: 'TEXT'
                 },
                 enableDelete: {
-                    filter: 'valueType:eq:TEXT',
                     inputType: 'BOOLEAN',
                     label: i18n.t('Enable delete option'),
-                    optionSetValue: true,
                     order: 2,
-                    resource: 'attributes',
                     valueType: 'BOOLEAN'
                 },
                 listDefaultPageSize: {
-                    filter: 'valueType:eq:TEXT',
-                    inputType: 'TEXT',
+                    inputType: 'NUMBER',
                     label: i18n.t('Default page size'),
-                    optionSetValue: true,
                     order: 3,
-                    resource: 'attributes',
-                    valueType: 'TEXT'
+                    valueType: 'NUMBER'
                 },
             }
         },

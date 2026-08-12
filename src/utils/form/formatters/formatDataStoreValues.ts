@@ -1,3 +1,4 @@
+import { flattenProfileSections } from '../../../utils/profileFieldGroup/profileGroupFieldFormatter'
 import { DataStoreConfigType } from '../../../types/dataStore/dataStoreConfigType'
 
 const registrationPostBody = (formValues: any, program: any, config: any) => {
@@ -195,7 +196,6 @@ const finalResultPostBody = (formValues: any) => {
     }
 }
 
-
 const transferBodyToForm = (dataStoreValues: any, module: string) => {
     return {
         module: module,
@@ -275,9 +275,13 @@ const performancePostBody = (formValues: any) => {
 }
 
 const profileBodyToForm = (dataStoreValues: any, module: string) => {
+    const { profileSections, ...rest } = dataStoreValues?.[module]
+
     return {
         module: module,
         program: dataStoreValues?.program,
+        profileSections: flattenProfileSections({ profileSections }),
+        ...rest
     }
 }
 
