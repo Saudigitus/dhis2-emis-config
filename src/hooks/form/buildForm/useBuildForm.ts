@@ -185,11 +185,10 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         {
                             dataStoreConfig: dataStoreConfig,
                             programStages: attendanceStatusProgram?.programStages ?? [],
-                            programs
+                            programs: programs.filter((program: any) => program.programType == "WITHOUT_REGISTRATION")
                         },
                         attendaceClassConfigStageDataElements
                     ) : []
-
 
                 const theForm = formStudentAttendance({
                     attendanceDetails: attendace,

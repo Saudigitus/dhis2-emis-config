@@ -89,6 +89,8 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
 
 const attendance = (dataStoreValues: any, module: string) => {
     const { attendanceStatus, ...rest } = dataStoreValues
+
+    console.log(dataStoreValues?.[module]?.statusOptions?.[0]?.totalSummary, "sdjsd")
     return {
         module: module,
         program: dataStoreValues?.program,
@@ -96,6 +98,7 @@ const attendance = (dataStoreValues: any, module: string) => {
         allowClassAttendanceConfig: JSON?.stringify(dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus),
         programAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.program,
         attendaceClassConfigStatus: dataStoreValues?.[module]?.attendanceStatus?.status,
+        attendaceClassConfigSummary: dataStoreValues?.[module]?.statusOptions?.[0]?.totalSummary,
         programStageAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.programStage,
         ...rest?.[module],
         ...rest?.[module]?.statusOptions?.reduce(
@@ -107,7 +110,8 @@ const attendance = (dataStoreValues: any, module: string) => {
 
 const attendancePostBody = (formValues: any) => {
     const { absentCode, lateCode, leaveCode, presentCode, allowClassAttendanceConfig,
-        programAttendanceClassConfig, attendaceClassConfigStatus, programStageAttendanceClassConfig
+        programAttendanceClassConfig, attendaceClassConfigStatus, programStageAttendanceClassConfig,
+        attendaceClassConfigSummary
     } = formValues
 
     return {
@@ -126,7 +130,7 @@ const attendancePostBody = (formValues: any) => {
                 attendanceStatus: {
                     allowAttendanceStatus: allowClassAttendanceConfig === 'true',
                     program: programAttendanceClassConfig,
-                    status: attendaceClassConfigStatus,
+                    totalRecords: attendaceClassConfigStatus,
                     programStage: programStageAttendanceClassConfig
                 }
             } : {}
@@ -139,7 +143,8 @@ const attendancePostBody = (formValues: any) => {
                             color: '#81C784',
                             icon: 'correct_blue_fill',
                             key: presentCode,
-                            configKey: `presentCode`
+                            configKey: `presentCode`,
+                            totalSummary: attendaceClassConfigSummary
                         }
                     ]
                     : []),
@@ -150,7 +155,8 @@ const attendancePostBody = (formValues: any) => {
                             color: '#E57373',
                             icon: 'wrong_red_fill',
                             key: absentCode,
-                            configKey: `absentCode`
+                            configKey: `absentCode`,
+                            totalSummary: attendaceClassConfigSummary
                         }
                     ]
                     : []),
@@ -161,7 +167,8 @@ const attendancePostBody = (formValues: any) => {
                             color: '#f4fb71ff',
                             icon: 'correct_blue_fill',
                             key: lateCode,
-                            configKey: `lateCode`
+                            configKey: `lateCode`,
+                            totalSummary: attendaceClassConfigSummary
                         }
                     ]
                     : []),
@@ -172,7 +179,8 @@ const attendancePostBody = (formValues: any) => {
                             color: '#a6d652ff',
                             icon: 'wrong_red_fill',
                             key: leaveCode,
-                            configKey: `leaveCode`
+                            configKey: `leaveCode`,
+                            totalSummary: attendaceClassConfigSummary
                         }
                     ]
                     : [])
