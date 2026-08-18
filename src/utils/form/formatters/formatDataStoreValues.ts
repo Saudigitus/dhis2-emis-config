@@ -90,14 +90,13 @@ const finalResultBodyToForm = (dataStoreValues: any, module: string) => {
 const attendance = (dataStoreValues: any, module: string) => {
     const { attendanceStatus, ...rest } = dataStoreValues
 
-    console.log(dataStoreValues?.[module]?.statusOptions?.[0]?.totalSummary, "sdjsd")
     return {
         module: module,
         program: dataStoreValues?.program,
         programStageAttendance: dataStoreValues?.[module]?.programStage,
         allowClassAttendanceConfig: JSON?.stringify(dataStoreValues?.[module]?.attendanceStatus?.allowAttendanceStatus),
         programAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.program,
-        attendaceClassConfigStatus: dataStoreValues?.[module]?.attendanceStatus?.status,
+        attendaceClassConfigRecord: dataStoreValues?.[module]?.attendanceStatus?.totalRecords,
         attendaceClassConfigSummary: dataStoreValues?.[module]?.statusOptions?.[0]?.totalSummary,
         programStageAttendanceClassConfig: dataStoreValues?.[module]?.attendanceStatus?.programStage,
         ...rest?.[module],
@@ -110,8 +109,8 @@ const attendance = (dataStoreValues: any, module: string) => {
 
 const attendancePostBody = (formValues: any) => {
     const { absentCode, lateCode, leaveCode, presentCode, allowClassAttendanceConfig,
-        programAttendanceClassConfig, attendaceClassConfigStatus, programStageAttendanceClassConfig,
-        attendaceClassConfigSummary
+        programAttendanceClassConfig, attendaceClassConfigSummary, programStageAttendanceClassConfig,
+        attendaceClassConfigRecord
     } = formValues
 
     return {
@@ -125,12 +124,12 @@ const attendancePostBody = (formValues: any) => {
             programStage: formValues?.programStageAttendance,
             status: formValues?.status,
             ...((allowClassAttendanceConfig != undefined && programAttendanceClassConfig
-                && attendaceClassConfigStatus && programStageAttendanceClassConfig
+                && attendaceClassConfigSummary && programStageAttendanceClassConfig
             ) ? {
                 attendanceStatus: {
                     allowAttendanceStatus: allowClassAttendanceConfig === 'true',
                     program: programAttendanceClassConfig,
-                    totalRecords: attendaceClassConfigStatus,
+                    totalRecords: attendaceClassConfigRecord,
                     programStage: programStageAttendanceClassConfig
                 }
             } : {}

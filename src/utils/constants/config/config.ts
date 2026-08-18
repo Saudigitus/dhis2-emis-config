@@ -86,7 +86,7 @@ export const config = (i18n: D2I18n) => [
                     required: false,
                     resource: 'programStages'
                 },
-                attendaceClassConfigStatus: {
+                attendaceClassConfigSummary: {
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('Data Element with option sets'),
                     inputType: 'LIST',
@@ -97,7 +97,7 @@ export const config = (i18n: D2I18n) => [
                     resource: 'dataElements',
                     valueType: 'TEXT'
                 },
-                attendaceClassConfigSummary: {
+                attendaceClassConfigRecord: {
                     filter: 'valueType:eq:TEXT',
                     hint: i18n.t('Data Element with option sets'),
                     inputType: 'LIST',
