@@ -16,6 +16,7 @@ import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../uti
 import { hasNullOrUndefined } from '../utils/valuesFormatter/valuesFormatter';
 import { D2I18n } from 'dhis2-semis-types';
 import useShowAlerts from '../hooks/alert/useShowAlert';
+import { useNavigate } from 'react-router-dom';
 
 const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { add, useQuery } = useUrlParams();
@@ -31,6 +32,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { getDataStore } = useDataStore()
   const [open, setOpen] = useState(Boolean(name && module && section));
   const { show } = useShowAlerts()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (open) {
@@ -92,7 +94,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
     })
   }
 
-  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
+  const makeAction = ({ hasNavigation, route, module, section, label, registrationLabel, configurable }: { hasNavigation: boolean, route: string, configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
 
     return ([
@@ -112,12 +114,16 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
         icon: <Settings />,
         disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
         onAction: () => {
-          const initialValues = {
-            module: module, key: section.toLocaleLowerCase(),
-            ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
+          if (hasNavigation) {
+            navigate(route)
+          } else {
+            const initialValues = {
+              module: module, key: section.toLocaleLowerCase(),
+              ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
+            }
+            setInitialValues(() => initialValues)
+            handleConfiguration({ module, section, label })
           }
-          setInitialValues(() => initialValues)
-          handleConfiguration({ module, section, label })
         },
       }] : []),
       {
@@ -142,12 +148,12 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
             return (
               <DashboardLayout title={i18n.t('{{section}}', { section: i18n.t(section) })} >
                 {
-                  cards.map(({ key: module, label, icon, configurable }) => (
+                  cards.map(({ key: module, label, icon, configurable, hasNavigation, route }) => (
                     <DashboardCard
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction({ module, section, label, registrationLabel: cards[0]?.label, configurable })]}
+                      actions={[...makeAction({ hasNavigation, route, module, section, label, registrationLabel: cards[0]?.label, configurable })]}
                     />
                   ))
                 }
