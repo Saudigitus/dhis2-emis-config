@@ -1,0 +1,248 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    color: #212934;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.pageHeader h1 {
+    margin: 0 0 6px;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.pageHeader p {
+    margin: 0;
+    color: #6c7787;
+    font-size: 14px;
+}
+
+.workspace {
+    overflow: hidden;
+    border: 1px solid #d5dde5;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .08);
+}
+
+.tabsRow {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    min-height: 49px;
+    padding: 0 12px;
+    border-bottom: 1px solid #d5dde5;
+}
+
+.tab {
+    position: relative;
+    min-width: 120px;
+    padding: 14px 16px 12px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #4a5768;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tab:hover,
+.tab:focus-visible {
+    background: #f5f8fa;
+    outline: none;
+}
+
+.tabSelected {
+    color: #0d47a1;
+    font-weight: 600;
+}
+
+.tabEdit {
+    margin-left: 7px;
+    color: #6c7787;
+    font-size: 12px;
+}
+
+.addTab {
+    align-self: center;
+    margin-left: 8px;
+    padding: 7px 10px;
+    border: 1px dashed #aab7c4;
+    border-radius: 4px;
+    background: #fff;
+    color: #0d47a1;
+    cursor: pointer;
+}
+
+.canvas {
+    min-height: 218px;
+    padding: 16px;
+    background: #f8fafb;
+}
+
+.componentGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.componentCard {
+    min-height: 145px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #d5dde5;
+    border-radius: 5px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.componentCard:hover,
+.componentCard:focus-visible {
+    border-color: #147cd7;
+    box-shadow: 0 0 0 2px rgba(20, 124, 215, .12);
+    outline: none;
+}
+
+.componentFull {
+    grid-column: 1 / -1;
+}
+
+.componentHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e9ed;
+    background: #f8fafb;
+    color: #0d62c7;
+    font-weight: 600;
+}
+
+.componentBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 94px;
+    padding: 16px;
+    color: #6c7787;
+    font-size: 13px;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    gap: 10px;
+    border: 1px dashed #aab7c4;
+    border-radius: 5px;
+    background: #fff;
+    color: #6c7787;
+}
+
+.addComponent {
+    display: block;
+    margin: 14px auto 0;
+}
+
+.dialogForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 480px;
+}
+
+.field,
+.checkboxField {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #404b5a;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.checkboxField {
+    flex-direction: row;
+    align-items: center;
+    font-weight: 400;
+}
+
+.input,
+.select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #aab7c4;
+    border-radius: 3px;
+    background: #fff;
+    color: #212934;
+    font: inherit;
+}
+
+.select[multiple] {
+    min-height: 150px;
+}
+
+.fieldHint {
+    color: #6c7787;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.fieldGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.error {
+    margin: 0;
+    color: #d64a2f;
+    font-size: 13px;
+}
+
+.dialogActions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dialogActionsRight {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+@media (max-width: 760px) {
+    .pageHeader {
+        flex-direction: column;
+    }
+
+    .componentGrid,
+    .fieldGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .componentFull {
+        grid-column: auto;
+    }
+
+    .tabsRow {
+        overflow-x: auto;
+    }
+
+    .dialogForm {
+        min-width: 0;
+    }
+}
