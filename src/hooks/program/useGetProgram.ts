@@ -1,0 +1,41 @@
+import { useDataEngine } from "@dhis2/app-runtime"
+import { useState } from "react"
+import { useRecoilState } from "recoil"
+import { ProgramLoaderState } from "../../atoms/getProgramLoaderSchema"
+import { ProgramDataState } from "../../atoms/ProgramDataSchema"
+
+const PROGRAMQUERY: any = (id: string) => ({
+  results: {
+    resource: "programs",
+    id: id,
+    params: {
+      fields: [
+        "access",
+        "id,displayName,description,programType,version",
+        "trackedEntityType[id,trackedEntityTypeAttributes[trackedEntityAttribute[id]]]",
+        "programTrackedEntityAttributes[name,displayName,mandatory,searchable,displayInList,trackedEntityAttribute[generated,pattern,id,displayName,name,formName,unique,valueType,optionSet[options[code~rename(value),displayName~rename(label)]]]]",
+        "programStages[id,displayName,autoGenerateEvent,repeatable, programStageDataElements[name,displayName,displayInReports,compulsory,dataElement[id,displayName,formName,name,valueType,optionSet[options[code~rename(value),displayName~rename(label)]]]]]"
+      ]
+    }
+  }
+})
+
+const useProgramConfig = () => {
+  const [loading, setLoading] = useRecoilState<boolean>(ProgramLoaderState)
+  const [error, setError] = useState<unknown>(null)
+  const engine = useDataEngine()
+
+  const getProgram = async (program: string) => {
+    setLoading(true)
+    try {
+      const response = await engine.query(PROGRAMQUERY(program));
+      return response?.results
+    } catch (error) {
+      setError(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+  return {loading, error, getProgram }
+}
+export default useProgramConfig

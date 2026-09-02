@@ -1,22 +1,33 @@
 import React from 'react'
 import "./App.module.css"
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "react-select/dist/react-select.css";
-import { Router } from "../components/routes"
 import "../assets/style/globalStyle.css"
-import getInitDataStore from '../hooks/commons/useInitDataStore';
+import { Router } from "../components/routes"
+import { useConfig } from '@dhis2/app-runtime'
+import CustomAppWrapper from './wrapper/AppWrapper';
+import { AppWrapper } from 'dhis2-semis-components'
+import { HashRouter } from 'react-router-dom'
+import { D2I18n } from 'dhis2-semis-types';
+import i18next from '@dhis2/d2-i18n'
 
-function App() {
-    const { isInitialized } = getInitDataStore()
-
-    if (!isInitialized) {
-        return <></>
-    }
+function ConfigirationsPage({ i18n, baseUrl }: { i18n: D2I18n; baseUrl?: string }) {
+    const { baseUrl: localBaseUrl } = useConfig()
+    const i18nLocal = i18n ? i18n : i18next
+    const useBaseUrl = baseUrl || localBaseUrl
 
     return (
-        <>
-            <Router />
-        </>
+        // <AppWrapper
+        //     i18n={i18nLocal}
+        //     baseUrl={useBaseUrl}
+        //     dataStoreKey="dataStore/semis/values"
+        //     schoolCalendarKey='dataStore/semis/schoolCalendar'
+        // >
+        //     <HashRouter>
+                <CustomAppWrapper i18n={i18nLocal} >
+                    <Router i18n={i18nLocal} />
+                </CustomAppWrapper>
+        //      </HashRouter >
+        // </AppWrapper>
     )
 }
-export default App
+
+export default ConfigirationsPage

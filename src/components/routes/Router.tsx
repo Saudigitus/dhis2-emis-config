@@ -1,25 +1,14 @@
 import React from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import { RouteList } from '.';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import AppsConfiguration from '../../pages/AppsConfiguration';
+import { D2I18n } from 'dhis2-semis-types';
 
-export default function Router() {
+export default function Router({ i18n }: { i18n: D2I18n }) {
     return (
-        <HashRouter>
-            <Routes>
-                {
-                    RouteList().map((route, index) => (
-                        <Route
-                            key={index}
-                            path={route.path}
-                            element={
-                                <route.layout>
-                                    {route.component()}
-                                </route.layout>
-                            }
-                        />
-                    ))
-                }
-            </Routes>
-        </HashRouter>
+        <Routes>
+            <Route path='/' element={<Outlet />} >
+                <Route key={'configuration'} path={'/'} element={<AppsConfiguration i18n={i18n} />} />
+            </Route>
+        </Routes>
     )
 }

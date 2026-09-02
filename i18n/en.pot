@@ -5,20 +5,291 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-01-26T09:46:14.972Z\n"
-"PO-Revision-Date: 2024-01-26T09:46:14.972Z\n"
+"POT-Creation-Date: 2025-12-09T09:14:18.336Z\n"
+"PO-Revision-Date: 2025-12-09T09:14:18.336Z\n"
 
-msgid "Column"
-msgstr "Column"
+msgid "Configurations saved successfuly"
+msgstr "Configurations saved successfuly"
 
-msgid "Select columns"
-msgstr "Select columns"
+msgid "Unable to save data"
+msgstr "Unable to save data"
 
-msgid "Columns to show in the table"
-msgstr "Columns to show in the table"
+msgid "{{name}}"
+msgstr "{{name}}"
 
-msgid "Save"
-msgstr "Save"
+msgid "{{section}} Configuration"
+msgstr "{{section}} Configuration"
 
-msgid "No data to display"
-msgstr "No data to display"
+msgid "{{section}} {{key}} enabled successfully"
+msgstr "{{section}} {{key}} enabled successfully"
+
+msgid "{{section}} {{key}} disabled successfully"
+msgstr "{{section}} {{key}} disabled successfully"
+
+msgid ""
+"This module contain general configuration and it's required for semis to "
+"work properly"
+msgstr ""
+"This module contain general configuration and it's required for semis to "
+"work properly"
+
+msgid "Configure {{label}}"
+msgstr "Configure {{label}}"
+
+msgid "Cannot configure {{label}} before configuring {{registrationLabel}}"
+msgstr "Cannot configure {{label}} before configuring {{registrationLabel}}"
+
+msgid "Disable"
+msgstr "Disable"
+
+msgid "Enable"
+msgstr "Enable"
+
+msgid "You must configure this module first to enable it"
+msgstr "You must configure this module first to enable it"
+
+msgid "{{section}}"
+msgstr "{{section}}"
+
+msgid "Data Element with option sets"
+msgstr "Data Element with option sets"
+
+msgid "Reason of absence"
+msgstr "Reason of absence"
+
+msgid "option sets"
+msgstr "option sets"
+
+msgid "Absent Code"
+msgstr "Absent Code"
+
+msgid "Late Code"
+msgstr "Late Code"
+
+msgid "Leave Code"
+msgstr "Leave Code"
+
+msgid "Present Code"
+msgstr "Present Code"
+
+msgid "Allow Attendance Status"
+msgstr "Allow Attendance Status"
+
+msgid "Event Program"
+msgstr "Event Program"
+
+msgid "Attendance Class Config Program"
+msgstr "Attendance Class Config Program"
+
+msgid "Non Repeatable Program Stage"
+msgstr "Non Repeatable Program Stage"
+
+msgid "Attendance Class Config Program Stage"
+msgstr "Attendance Class Config Program Stage"
+
+msgid "Attendance Status"
+msgstr "Attendance Status"
+
+msgid "Repeatable Program Stage"
+msgstr "Repeatable Program Stage"
+
+msgid "Attendance Program Stage"
+msgstr "Attendance Program Stage"
+
+msgid "Allow Searching"
+msgstr "Allow Searching"
+
+msgid "Default order by"
+msgstr "Default order by"
+
+msgid "Order as"
+msgstr "Order as"
+
+msgid "asc"
+msgstr "asc"
+
+msgid "desc"
+msgstr "desc"
+
+msgid "Non-Repeatable Program Stage"
+msgstr "Non-Repeatable Program Stage"
+
+msgid "Final Result Program Stage"
+msgstr "Final Result Program Stage"
+
+msgid "Data Element"
+msgstr "Data Element"
+
+msgid "Final result status"
+msgstr "Final result status"
+
+msgid "List of final result status that allows student promotion"
+msgstr "List of final result status that allows student promotion"
+
+msgid "Promotable Status"
+msgstr "Promotable Status"
+
+msgid "List of final result status that allows student dropout"
+msgstr "List of final result status that allows student dropout"
+
+msgid "Dropout Status"
+msgstr "Dropout Status"
+
+msgid "Allow multi selection of program stage"
+msgstr "Allow multi selection of program stage"
+
+msgid "Performance/marks Program Stages"
+msgstr "Performance/marks Program Stages"
+
+msgid "Tracker Program"
+msgstr "Tracker Program"
+
+msgid "Student Program"
+msgstr "Student Program"
+
+msgid "Data Element with Option Sets"
+msgstr "Data Element with Option Sets"
+
+msgid "Academic Year"
+msgstr "Academic Year"
+
+msgid "Grade"
+msgstr "Grade"
+
+msgid "The name that should appear in the global filters"
+msgstr "The name that should appear in the global filters"
+
+msgid "Grade filter name"
+msgstr "Grade filter name"
+
+msgid "Non-repeatable ProgramStage"
+msgstr "Non-repeatable ProgramStage"
+
+msgid "Registration Program Stage"
+msgstr "Registration Program Stage"
+
+msgid "Data optionally with Option Sets"
+msgstr "Data optionally with Option Sets"
+
+msgid "Class/Section"
+msgstr "Class/Section"
+
+msgid "Section filter name"
+msgstr "Section filter name"
+
+msgid "Non-repeateable ProgramStage"
+msgstr "Non-repeateable ProgramStage"
+
+msgid "Socio-economics Program Stage"
+msgstr "Socio-economics Program Stage"
+
+msgid "Organisation Unit  Data Element"
+msgstr "Organisation Unit  Data Element"
+
+msgid "Destiny School"
+msgstr "Destiny School"
+
+msgid "Origin School"
+msgstr "Origin School"
+
+msgid "Program Stage"
+msgstr "Program Stage"
+
+msgid "Transfer Status"
+msgstr "Transfer Status"
+
+msgid "Approved Code"
+msgstr "Approved Code"
+
+msgid "Pedding Code"
+msgstr "Pedding Code"
+
+msgid "Reproved Code"
+msgstr "Reproved Code"
+
+msgid "List of final result status that allows staff promotion"
+msgstr "List of final result status that allows staff promotion"
+
+msgid "Staff Program"
+msgstr "Staff Program"
+
+msgid "Employment type"
+msgstr "Employment type"
+
+msgid "Employment type filter name"
+msgstr "Employment type filter name"
+
+msgid "Repeatable ProgramStage"
+msgstr "Repeatable ProgramStage"
+
+msgid "Type of staff"
+msgstr "Type of staff"
+
+msgid "Type of staff filter name"
+msgstr "Type of staff filter name"
+
+msgid "Enrollment"
+msgstr "Enrollment"
+
+msgid "Attendance"
+msgstr "Attendance"
+
+msgid "Performance"
+msgstr "Performance"
+
+msgid "Transfer"
+msgstr "Transfer"
+
+msgid "Final Result"
+msgstr "Final Result"
+
+msgid "Staff registry"
+msgstr "Staff registry"
+
+msgid "Re-enroll"
+msgstr "Re-enroll"
+
+msgid "Program Details"
+msgstr "Program Details"
+
+msgid "Attendance General Details"
+msgstr "Attendance General Details"
+
+msgid "Attendance Statuses Details"
+msgstr "Attendance Statuses Details"
+
+msgid "Class Attendance Configuration"
+msgstr "Class Attendance Configuration"
+
+msgid "Registration Details"
+msgstr "Registration Details"
+
+msgid "If you don't use socio-economic module, please leave this field blanck"
+msgstr "If you don't use socio-economic module, please leave this field blanck"
+
+msgid "Select a program to follow and config the socio economic details"
+msgstr "Select a program to follow and config the socio economic details"
+
+msgid "Socio Economic Details"
+msgstr "Socio Economic Details"
+
+msgid "Select a program to follow and config the registration details"
+msgstr "Select a program to follow and config the registration details"
+
+msgid "Default Configurations"
+msgstr "Default Configurations"
+
+msgid "Final Result Details"
+msgstr "Final Result Details"
+
+msgid "Promotion & Dropout Criteria"
+msgstr "Promotion & Dropout Criteria"
+
+msgid "Performance details"
+msgstr "Performance details"
+
+msgid "Transfer Details"
+msgstr "Transfer Details"
+
+msgid "Transfer Status Details"
+msgstr "Transfer Status Details"
