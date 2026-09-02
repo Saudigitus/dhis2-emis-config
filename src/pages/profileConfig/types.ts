@@ -40,9 +40,17 @@ export type ProfileTabConfig = {
     order: number;
 };
 
+export type ProfileSummaryCard = {
+    displayName: string;
+    order: number;
+    source: 'ATTRIBUTE' | 'DATA_ELEMENTS';
+    variable: string;
+};
+
 export type ProfileConfig = {
     identityCard: IdentityCardConfig;
     program: string;
+    summaryCards: ProfileSummaryCard[];
     tabs: ProfileTabConfig[];
 };
 
@@ -52,27 +60,3 @@ export type VariableOption = {
     source: 'ATTRIBUTE' | 'DATA_ELEMENTS';
     valueType?: string;
 };
-
-export const emptyIdentityCard = (): IdentityCardConfig => ({
-    badges: [],
-    photo: { attribute: '' },
-    subtitle: { attributes: [], separator: ' · ' },
-    title: { attributes: [], separator: ' ' },
-});
-
-export const createProfileTab = (order: number): ProfileTabConfig => ({
-    color: '#147CD7',
-    components: [],
-    createdAt: Date.now(),
-    displayName: `Section ${order + 1}`,
-    id: `profile-tab-${Date.now()}-${order}`,
-    order,
-});
-
-export const createProfileComponent = (order: number): ProfileComponentConfig => ({
-    type: 'TEI_FORM',
-    displayName: `Component ${order + 1}`,
-    editable: false,
-    order,
-    size: 'FULL',
-});

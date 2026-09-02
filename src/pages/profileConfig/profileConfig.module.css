@@ -32,6 +32,82 @@
     box-shadow: 0 1px 2px rgba(33, 41, 52, .08);
 }
 
+.summarySection {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.summarySectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.summarySectionHeader h2 {
+    margin: 0;
+    color: #404b5a;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.summarySectionHeader span {
+    color: #6c7787;
+    font-size: 12px;
+}
+
+.summaryCards {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(130px, 1fr));
+    gap: 12px;
+}
+
+.summaryCard {
+    display: flex;
+    min-height: 82px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px;
+    border: 1px solid #9ecbfa;
+    border-radius: 10px;
+    background: #f0f7ff;
+    color: #064ba5;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+
+.summaryCard:hover,
+.summaryCard:focus-visible {
+    border-color: #147cd7;
+    box-shadow: 0 0 0 2px rgba(20, 124, 215, .12);
+    outline: none;
+}
+
+.summaryCardEmpty {
+    border-style: dashed;
+    border-color: #aab7c4;
+    background: #fff;
+    color: #6c7787;
+}
+
+.summaryValue {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.summaryName {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .tabsRow {
     display: flex;
     align-items: stretch;
@@ -200,6 +276,12 @@
     font-weight: 400;
 }
 
+.optionalLabel {
+    color: #6c7787;
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .fieldGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -244,5 +326,15 @@
 
     .dialogForm {
         min-width: 0;
+    }
+
+    .summaryCards {
+        grid-template-columns: repeat(2, minmax(130px, 1fr));
+    }
+}
+
+@media (min-width: 761px) and (max-width: 1200px) {
+    .summaryCards {
+        grid-template-columns: repeat(3, minmax(130px, 1fr));
     }
 }

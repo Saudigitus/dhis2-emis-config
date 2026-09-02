@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card } from '@dhis2/ui';
-import { Edit as IconEdit, Person as IconUser } from '@mui/icons-material';
+import { Person as IconUser } from '@mui/icons-material';
 import { D2I18n } from 'dhis2-semis-types';
 import styles from './idDetails.module.css';
 import { IdentityCardConfig, VariableOption } from '../types';
+import EditableRegion from './EditableRegion';
 
 type IdentitySection = 'photo' | 'title' | 'subtitle' | 'badges';
 
@@ -19,20 +20,6 @@ const getLabels = (ids: string[], variables: VariableOption[]) => {
     const labels = new Map(variables.map(variable => [variable.id, variable.label]));
     return ids.map(id => labels.get(id) ?? id);
 };
-
-function EditableRegion({ label, children, onClick, className = '' }: {
-    label: string;
-    children: React.ReactNode;
-    onClick: () => void;
-    className?: string;
-}) {
-    return (
-        <button type="button" className={`${styles.editableRegion} ${className}`} onClick={onClick}>
-            {children}
-            <span className={styles.editHint}><IconEdit sx={{ fontSize: 14 }} /> {label}</span>
-        </button>
-    );
-}
 
 export default function IdDetails({ i18n, config, attributes, dataElements, onConfigure }: Props) {
     const titleLabels = getLabels(config.title.attributes, attributes);
