@@ -2,9 +2,8 @@ import React from 'react';
 import { D2I18n } from 'dhis2-semis-types';
 import ComponentConfigurationDialog from './dialogs/ComponentConfigurationDialog';
 import IdentityConfigurationDialog from './dialogs/IdentityConfigurationDialog';
-import SummaryCardConfigurationDialog from './dialogs/SummaryCardConfigurationDialog';
 import TabConfigurationDialog from './dialogs/TabConfigurationDialog';
-import { DialogTarget, IdentityCardConfig, ProfileComponentConfig, ProfileSummaryCard, ProfileTabConfig, VariableOption, } from './types';
+import { DialogTarget, IdentityCardConfig, ProfileComponentConfig, ProfileTabConfig, VariableOption, } from './types';
 
 type Props = {
     i18n: D2I18n;
@@ -15,7 +14,6 @@ type Props = {
     programStages: Array<{ id: string; label: string }>;
     onClose: () => void;
     onApplyIdentity: (value: IdentityCardConfig) => void;
-    onApplySummaryCard: (value: ProfileSummaryCard) => void;
     onApplyTab: (value: ProfileTabConfig) => void;
     onApplyComponent: (value: ProfileComponentConfig) => void;
     onDelete?: () => void;
@@ -34,20 +32,6 @@ export default function ConfigurationDialog(props: Props) {
                 dataElements={props.dataElements}
                 onClose={props.onClose}
                 onApply={props.onApplyIdentity}
-            />
-        );
-    }
-
-    if (target.kind === 'summaryCard') {
-        return (
-            <SummaryCardConfigurationDialog
-                i18n={props.i18n}
-                card={target.card}
-                attributes={props.attributes}
-                dataElements={props.dataElements}
-                onClose={props.onClose}
-                onApply={props.onApplySummaryCard}
-                onDelete={target.isNew ? undefined : props.onDelete}
             />
         );
     }

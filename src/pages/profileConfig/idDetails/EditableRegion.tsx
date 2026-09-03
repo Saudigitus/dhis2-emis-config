@@ -11,7 +11,12 @@ type Props = {
 
 export default function EditableRegion({ label, children, onClick, className = '' }: Props) {
     return (
-        <button type="button" className={`${styles.editableRegion} ${className}`} onClick={onClick}>
+        <button
+            type="button"
+            className={`${styles.editableRegion} ${className}`}
+            aria-label={label}
+            onClick={onClick}
+        >
             {children}
             <span className={styles.editHint}><IconEdit sx={{ fontSize: 14 }} /> {label}</span>
         </button>

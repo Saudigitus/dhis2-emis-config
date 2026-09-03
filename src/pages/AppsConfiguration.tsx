@@ -94,7 +94,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
     })
   }
 
-  const makeAction = ({ hasNavigation, route, module, section, label, registrationLabel, configurable }: { hasNavigation: boolean, route: string, configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
+  const makeAction = ({ hasNavigation, route, module, section, label, registrationLabel, configurable }: { hasNavigation: boolean | undefined, route: undefined | string, configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
 
     return ([

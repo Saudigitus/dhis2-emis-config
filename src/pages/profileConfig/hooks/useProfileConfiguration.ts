@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useGetSelectedKeys from '../../../../../../libs/components/src/hooks/config/useGetSelectedKeys';
 import {
     getAttributeOptions,
     getDataElementOptions,
@@ -8,6 +7,7 @@ import {
     normalizeProfile,
 } from '../utils/profileConfigUtils';
 import useProfileEditor from './useProfileEditor';
+import useGetSelectedKeys from '../../../../../../libs/components/src/hooks/config/useGetSelectedKeys';
 
 export default function useProfileConfiguration() {
     const navigate = useNavigate();
@@ -22,7 +22,8 @@ export default function useProfileConfiguration() {
     const attributes = useMemo(() => getAttributeOptions(program), [program]);
     const dataElements = useMemo(() => getDataElementOptions(program), [program]);
     const programStages = useMemo(() => getProgramStageOptions(program), [program]);
-console.log(program)
+
+    console.log(program,'aa')
     return {
         ...editor,
         attributes,

@@ -28,8 +28,6 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                 />
                 <SummaryCards
                     i18n={i18n}
-                    cards={profile.profileConfig.summaryCards}
-                    onConfigure={profile.openDialog}
                 />
                 <ProfileSections
                     i18n={i18n}
@@ -51,7 +49,6 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                     programStages={profile.programStages}
                     onClose={profile.closeDialog}
                     onApplyIdentity={profile.updateIdentity}
-                    onApplySummaryCard={profile.updateSummaryCard}
                     onApplyTab={profile.updateTab}
                     onApplyComponent={profile.updateComponent}
                     onDelete={profile.dialogTarget.kind === 'identity' ? undefined : profile.deleteTarget}

@@ -4,7 +4,6 @@ import {
     IdentityCardConfig,
     ProfileComponentConfig,
     ProfileConfig,
-    ProfileSummaryCard,
     ProfileTabConfig,
 } from '../types';
 
@@ -31,16 +30,6 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
 
     const updateIdentity = (identityCard: IdentityCardConfig) => {
         updateProfileConfig({ ...profileConfig, identityCard });
-        closeDialog();
-    };
-
-    const updateSummaryCard = (card: ProfileSummaryCard) => {
-        const exists = profileConfig.summaryCards.some(item => item.order === card.order);
-        const summaryCards = exists
-            ? profileConfig.summaryCards.map(item => item.order === card.order ? card : item)
-            : [...profileConfig.summaryCards, card];
-
-        updateProfileConfig({ ...profileConfig, summaryCards: summaryCards.sort((a, b) => a.order - b.order) });
         closeDialog();
     };
 
@@ -84,13 +73,6 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
             setActiveTabId(tabs[0]?.id ?? '');
         }
 
-        if (dialogTarget.kind === 'summaryCard') {
-            updateProfileConfig({
-                ...profileConfig,
-                summaryCards: profileConfig.summaryCards.filter(card => card.order !== dialogTarget.card.order),
-            });
-        }
-
         if (dialogTarget.kind === 'component') {
             const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
             if (activeTab) {
@@ -118,7 +100,6 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         selectTab: setActiveTabId,
         updateComponent,
         updateIdentity,
-        updateSummaryCard,
         updateTab,
     };
 }

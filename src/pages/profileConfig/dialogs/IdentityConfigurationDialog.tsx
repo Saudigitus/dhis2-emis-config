@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
+import { Modal } from '@dhis2/ui';
 import { D2I18n } from 'dhis2-semis-types';
-import { IdentityCardConfig, VariableOption } from '../types';
-import ConfigurationModal from './ConfigurationModal';
-import IdentityFields from './IdentityFields';
+import FormModalContent from '../../../components/saveConfiguration/ModalContent';
+import { IdentityBadge, IdentityCardConfig, VariableOption } from '../types';
+import { buildIdentityFormFields } from '../utils/identityFormFields';
 
 type IdentitySection = 'photo' | 'title' | 'subtitle' | 'badges';
 
@@ -16,6 +17,29 @@ type Props = {
     onApply: (value: IdentityCardConfig) => void;
 };
 
+type FormValues = {
+    attribute?: string;
+    variables?: string[];
+    separator?: string;
+    styled?: boolean | string;
+};
+
+const getInitialValues = (section: IdentitySection, identityCard: IdentityCardConfig): FormValues => {
+    if (section === 'photo') {
+        return { attribute: identityCard?.photo?.attribute ?? '' };
+    }
+    if (section === 'title' || section === 'subtitle') {
+        return {
+            variables: identityCard?.[section]?.attributes ?? [],
+            separator: identityCard?.[section]?.separator ?? '',
+        };
+    }
+    return {
+        variables: identityCard?.badges?.map(badge => `${badge?.source}:${badge?.variable ?? ''}`) ?? [],
+        styled: identityCard?.badges?.every(badge => badge?.styled) ?? true,
+    };
+};
+
 export default function IdentityConfigurationDialog({
     i18n,
     section,
@@ -25,24 +49,62 @@ export default function IdentityConfigurationDialog({
     onClose,
     onApply,
 }: Props) {
-    const [value, setValue] = useState(identityCard);
-    const title = {
-        photo: i18n.t('Configure photo'),
-        title: i18n.t('Configure title'),
-        subtitle: i18n.t('Configure subtitle'),
-        badges: i18n.t('Configure badges'),
-    }[section];
+    const initialValues = useMemo(
+        () => getInitialValues(section, identityCard),
+        [identityCard, section],
+    );
+    const formFields = useMemo(() => buildIdentityFormFields({
+        i18n,
+        section,
+        attributes,
+        dataElements,
+    }), [attributes, dataElements, i18n, section]);
+
+    const apply = (values: FormValues) => {
+        if (section === 'photo') {
+            onApply({ ...identityCard, photo: { attribute: values?.attribute ?? '' } });
+            return;
+        }
+        if (section === 'title' || section === 'subtitle') {
+            onApply({
+                ...identityCard,
+                [section]: {
+                    attributes: values?.variables ?? [],
+                    separator: values?.separator ?? '',
+                },
+            });
+            return;
+        }
+
+        const previousBadges = new Map<string, IdentityBadge>(
+            (identityCard?.badges ?? []).map(badge => [
+                `${badge?.source}:${badge?.variable ?? ''}`,
+                badge,
+            ] as const),
+        );
+        const styled = values?.styled === true || String(values?.styled) === 'true';
+        const badges = (values?.variables ?? []).map((item, order) => {
+            const [source, ...variableParts] = item.split(':');
+            return {
+                ...previousBadges.get(item),
+                order,
+                source: source as IdentityBadge['source'],
+                variable: variableParts.join(':'),
+                styled,
+            };
+        });
+        onApply({ ...identityCard, badges });
+    };
 
     return (
-        <ConfigurationModal i18n={i18n} title={title} onClose={onClose} onApply={() => onApply(value)}>
-            <IdentityFields
-                i18n={i18n}
-                section={section}
-                value={value}
-                attributes={attributes}
-                dataElements={dataElements}
-                onChange={setValue}
+        <Modal onClose={onClose} position="middle" large>
+            <FormModalContent
+                formFields={formFields}
+                initialValues={initialValues}
+                loading={false}
+                onCancel={onClose}
+                onSubmit={apply}
             />
-        </ConfigurationModal>
+        </Modal>
     );
 }

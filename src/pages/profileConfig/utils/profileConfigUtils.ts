@@ -18,9 +18,6 @@ export const normalizeProfile = (
             badges: profile?.identityCard?.badges ?? [],
         },
         program: profile?.program ?? programId,
-        summaryCards: (profile?.summaryCards ?? [])
-            .filter(card => card.order >= 0 && card.order < 6)
-            .sort((left, right) => left.order - right.order),
         tabs: (profile?.tabs ?? []).map((tab, tabIndex) => ({
             ...tab,
             order: tabIndex,

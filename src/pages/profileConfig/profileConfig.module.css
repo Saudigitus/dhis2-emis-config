@@ -58,51 +58,36 @@
 
 .summaryCards {
     display: grid;
-    grid-template-columns: repeat(6, minmax(130px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(6, minmax(90px, 1fr));
+    gap: 8px;
 }
 
 .summaryCard {
     display: flex;
-    min-height: 82px;
+    min-height: 58px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 7px;
-    padding: 10px;
+    gap: 3px;
+    padding: 6px 8px;
     border: 1px solid #9ecbfa;
-    border-radius: 10px;
+    border-radius: 6px;
     background: #f0f7ff;
     color: #064ba5;
     font: inherit;
     text-align: center;
-    cursor: pointer;
-}
-
-.summaryCard:hover,
-.summaryCard:focus-visible {
-    border-color: #147cd7;
-    box-shadow: 0 0 0 2px rgba(20, 124, 215, .12);
-    outline: none;
-}
-
-.summaryCardEmpty {
-    border-style: dashed;
-    border-color: #aab7c4;
-    background: #fff;
-    color: #6c7787;
 }
 
 .summaryValue {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 18px;
 }
 
 .summaryName {
     max-width: 100%;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
