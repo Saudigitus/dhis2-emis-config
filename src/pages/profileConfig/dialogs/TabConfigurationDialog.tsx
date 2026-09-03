@@ -47,6 +47,7 @@ export default function TabConfigurationDialog({
     });
     const [trackedValues, setTrackedValues] = useState<Partial<ProfileTabConfig>>({});
     const [error, setError] = useState('');
+
     const formFields = useMemo(() => buildTabFormFields({
         i18n,
         tab: initialValues,
@@ -81,7 +82,6 @@ export default function TabConfigurationDialog({
 
     return (
         <Modal onClose={onClose} position="middle" large>
-            <ModalTitle>{isNew ? i18n.t('Add section') : i18n.t('Configure section')}</ModalTitle>
             {onDelete && (
                 <div className={styles.formModalDelete}>
                     <Button destructive onClick={onDelete}>{i18n.t('Delete')}</Button>

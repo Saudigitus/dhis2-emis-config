@@ -23,20 +23,20 @@ export default function SummaryCardConfigurationDialog({
     onApply,
     onDelete,
 }: Props) {
-    const [draft, setDraft] = useState(card);
+    const [value, setValue] = useState(card);
     const [error, setError] = useState('');
 
     const apply = () => {
-        if (!draft.variable) {
+        if (!value.variable) {
             setError(i18n.t('Select a variable.'));
             return;
         }
         const selectedVariable = [...attributes, ...dataElements].find(variable => (
-            variable.id === draft.variable && variable.source === draft.source
+            variable.id === value.variable && variable.source === value.source
         ));
         onApply({
-            ...draft,
-            displayName: draft.displayName.trim() || selectedVariable?.label || draft.variable,
+            ...value,
+            displayName: value.displayName.trim() || selectedVariable?.label || value.variable,
         });
     };
 
@@ -51,10 +51,10 @@ export default function SummaryCardConfigurationDialog({
         >
             <SummaryCardFields
                 i18n={i18n}
-                value={draft}
+                value={value}
                 attributes={attributes}
                 dataElements={dataElements}
-                onChange={setDraft}
+                onChange={setValue}
             />
         </ConfigurationModal>
     );

@@ -21,19 +21,19 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                 />
                 <IdDetails
                     i18n={i18n}
-                    config={profile.draft.identityCard}
+                    config={profile.profileConfig.identityCard}
                     attributes={profile.attributes}
                     dataElements={profile.dataElements}
                     onConfigure={section => profile.openDialog({ kind: 'identity', section })}
                 />
                 <SummaryCards
                     i18n={i18n}
-                    cards={profile.draft.summaryCards}
+                    cards={profile.profileConfig.summaryCards}
                     onConfigure={profile.openDialog}
                 />
                 <ProfileSections
                     i18n={i18n}
-                    tabs={profile.draft.tabs}
+                    tabs={profile.profileConfig.tabs}
                     activeTabId={profile.activeTabId}
                     programStages={profile.programStages}
                     onSelectTab={profile.selectTab}
@@ -45,7 +45,7 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                 <ConfigurationDialog
                     i18n={i18n}
                     target={profile.dialogTarget}
-                    identityCard={profile.draft.identityCard}
+                    identityCard={profile.profileConfig.identityCard}
                     attributes={profile.attributes}
                     dataElements={profile.dataElements}
                     programStages={profile.programStages}

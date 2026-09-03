@@ -10,7 +10,6 @@ function ModalContent(props: ModalContentInterface) {
     const { formFields, onSubmit, onCancel, initialValues, loading, setTrackedValues } = props;
     const loadingProgram = useRecoilValue<boolean>(ProgramLoaderState)
 
-    console.log(formFields)
     return (
         <WithPadding>
             <WithBorder type='all'>

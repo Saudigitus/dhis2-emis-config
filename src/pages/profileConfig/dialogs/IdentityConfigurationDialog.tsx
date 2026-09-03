@@ -25,7 +25,7 @@ export default function IdentityConfigurationDialog({
     onClose,
     onApply,
 }: Props) {
-    const [draft, setDraft] = useState(identityCard);
+    const [value, setValue] = useState(identityCard);
     const title = {
         photo: i18n.t('Configure photo'),
         title: i18n.t('Configure title'),
@@ -34,14 +34,14 @@ export default function IdentityConfigurationDialog({
     }[section];
 
     return (
-        <ConfigurationModal i18n={i18n} title={title} onClose={onClose} onApply={() => onApply(draft)}>
+        <ConfigurationModal i18n={i18n} title={title} onClose={onClose} onApply={() => onApply(value)}>
             <IdentityFields
                 i18n={i18n}
                 section={section}
-                value={draft}
+                value={value}
                 attributes={attributes}
                 dataElements={dataElements}
-                onChange={setDraft}
+                onChange={setValue}
             />
         </ConfigurationModal>
     );

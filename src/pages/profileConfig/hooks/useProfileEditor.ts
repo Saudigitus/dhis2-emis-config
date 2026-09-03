@@ -9,47 +9,47 @@ import {
 } from '../types';
 
 export default function useProfileEditor(sourceProfile: ProfileConfig) {
-    const [draft, setDraft] = useState(sourceProfile);
+    const [profileConfig, setProfileConfig] = useState(sourceProfile);
     const [activeTabId, setActiveTabId] = useState(sourceProfile.tabs[0]?.id ?? '');
     const [dialogTarget, setDialogTarget] = useState<DialogTarget | null>(null);
     const [dirty, setDirty] = useState(false);
 
     useEffect(() => {
-        setDraft(sourceProfile);
+        setProfileConfig(sourceProfile);
         setActiveTabId(current => sourceProfile.tabs.some(tab => tab.id === current)
             ? current
             : sourceProfile.tabs[0]?.id ?? '');
         setDirty(false);
     }, [sourceProfile]);
 
-    const updateDraft = (next: ProfileConfig) => {
-        setDraft(next);
+    const updateProfileConfig = (next: ProfileConfig) => {
+        setProfileConfig(next);
         setDirty(true);
     };
 
     const closeDialog = () => setDialogTarget(null);
 
     const updateIdentity = (identityCard: IdentityCardConfig) => {
-        updateDraft({ ...draft, identityCard });
+        updateProfileConfig({ ...profileConfig, identityCard });
         closeDialog();
     };
 
     const updateSummaryCard = (card: ProfileSummaryCard) => {
-        const exists = draft.summaryCards.some(item => item.order === card.order);
+        const exists = profileConfig.summaryCards.some(item => item.order === card.order);
         const summaryCards = exists
-            ? draft.summaryCards.map(item => item.order === card.order ? card : item)
-            : [...draft.summaryCards, card];
+            ? profileConfig.summaryCards.map(item => item.order === card.order ? card : item)
+            : [...profileConfig.summaryCards, card];
 
-        updateDraft({ ...draft, summaryCards: summaryCards.sort((a, b) => a.order - b.order) });
+        updateProfileConfig({ ...profileConfig, summaryCards: summaryCards.sort((a, b) => a.order - b.order) });
         closeDialog();
     };
 
     const updateTab = (tab: ProfileTabConfig) => {
-        const tabs = draft.tabs.filter(item => item.id !== tab.id);
+        const tabs = profileConfig.tabs.filter(item => item.id !== tab.id);
         const insertionIndex = Math.min(Math.max(tab.order, 0), tabs.length);
         tabs.splice(insertionIndex, 0, tab);
-        updateDraft({
-            ...draft,
+        updateProfileConfig({
+            ...profileConfig,
             tabs: tabs.map((item, order) => ({ ...item, order })),
         });
         setActiveTabId(tab.id);
@@ -57,7 +57,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
     };
 
     const updateComponent = (component: ProfileComponentConfig) => {
-        const activeTab = draft.tabs.find(tab => tab.id === activeTabId);
+        const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
         if (!activeTab) return;
 
         const exists = activeTab.components.some(item => item.order === component.order);
@@ -65,9 +65,9 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
             ? activeTab.components.map(item => item.order === component.order ? component : item)
             : [...activeTab.components, component];
 
-        updateDraft({
-            ...draft,
-            tabs: draft.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
+        updateProfileConfig({
+            ...profileConfig,
+            tabs: profileConfig.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
         });
         closeDialog();
     };
@@ -76,29 +76,29 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         if (!dialogTarget) return;
 
         if (dialogTarget.kind === 'tab') {
-            const tabs = draft.tabs
+            const tabs = profileConfig.tabs
                 .filter(tab => tab.id !== dialogTarget.tab.id)
                 .map((tab, order) => ({ ...tab, order }));
-            updateDraft({ ...draft, tabs });
+            updateProfileConfig({ ...profileConfig, tabs });
             setActiveTabId(tabs[0]?.id ?? '');
         }
 
         if (dialogTarget.kind === 'summaryCard') {
-            updateDraft({
-                ...draft,
-                summaryCards: draft.summaryCards.filter(card => card.order !== dialogTarget.card.order),
+            updateProfileConfig({
+                ...profileConfig,
+                summaryCards: profileConfig.summaryCards.filter(card => card.order !== dialogTarget.card.order),
             });
         }
 
         if (dialogTarget.kind === 'component') {
-            const activeTab = draft.tabs.find(tab => tab.id === activeTabId);
+            const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
             if (activeTab) {
                 const components = activeTab.components
                     .filter(component => component.order !== dialogTarget.component.order)
                     .map((component, order) => ({ ...component, order }));
-                updateDraft({
-                    ...draft,
-                    tabs: draft.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
+                updateProfileConfig({
+                    ...profileConfig,
+                    tabs: profileConfig.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
                 });
             }
         }
@@ -110,7 +110,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         activeTabId,
         dialogTarget,
         dirty,
-        draft,
+        profileConfig,
         closeDialog,
         deleteTarget,
         openDialog: setDialogTarget,

@@ -4,14 +4,7 @@ import ComponentConfigurationDialog from './dialogs/ComponentConfigurationDialog
 import IdentityConfigurationDialog from './dialogs/IdentityConfigurationDialog';
 import SummaryCardConfigurationDialog from './dialogs/SummaryCardConfigurationDialog';
 import TabConfigurationDialog from './dialogs/TabConfigurationDialog';
-import {
-    DialogTarget,
-    IdentityCardConfig,
-    ProfileComponentConfig,
-    ProfileSummaryCard,
-    ProfileTabConfig,
-    VariableOption,
-} from './types';
+import { DialogTarget, IdentityCardConfig, ProfileComponentConfig, ProfileSummaryCard, ProfileTabConfig, VariableOption, } from './types';
 
 type Props = {
     i18n: D2I18n;

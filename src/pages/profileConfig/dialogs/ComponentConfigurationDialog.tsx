@@ -23,19 +23,19 @@ export default function ComponentConfigurationDialog({
     onApply,
     onDelete,
 }: Props) {
-    const [draft, setDraft] = useState(component);
+    const [value, setValue] = useState(component);
     const [error, setError] = useState('');
 
     const apply = () => {
-        if (!draft.displayName.trim()) {
+        if (!value.displayName.trim()) {
             setError(i18n.t('The component name is required.'));
             return;
         }
-        if (draft.type !== 'TEI_FORM' && !draft.details?.programStage) {
+        if (value.type !== 'TEI_FORM' && !value.details?.programStage) {
             setError(i18n.t('Select a program stage.'));
             return;
         }
-        onApply({ ...draft, displayName: draft.displayName.trim() });
+        onApply({ ...value, displayName: value.displayName.trim() });
     };
 
     return (
@@ -49,9 +49,9 @@ export default function ComponentConfigurationDialog({
         >
             <ComponentFields
                 i18n={i18n}
-                value={draft}
+                value={value}
                 programStages={programStages}
-                onChange={setDraft}
+                onChange={setValue}
             />
         </ConfigurationModal>
     );
