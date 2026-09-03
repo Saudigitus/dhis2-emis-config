@@ -27,16 +27,16 @@ export default function SummaryCardConfigurationDialog({
     const [error, setError] = useState('');
 
     const apply = () => {
-        if (!value.variable) {
+        if (!value?.variable) {
             setError(i18n.t('Select a variable.'));
             return;
         }
         const selectedVariable = [...attributes, ...dataElements].find(variable => (
-            variable.id === value.variable && variable.source === value.source
+            variable?.id === value?.variable && variable?.source === value?.source
         ));
         onApply({
             ...value,
-            displayName: value.displayName.trim() || selectedVariable?.label || value.variable,
+            displayName: value?.displayName?.trim() || selectedVariable?.label || value?.variable || '',
         });
     };
 

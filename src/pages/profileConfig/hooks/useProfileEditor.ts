@@ -60,10 +60,11 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
         if (!activeTab) return;
 
-        const exists = activeTab.components.some(item => item.order === component.order);
+        const activeComponents = activeTab?.components ?? [];
+        const exists = activeComponents?.some(item => item?.order === component?.order);
         const components = exists
-            ? activeTab.components.map(item => item.order === component.order ? component : item)
-            : [...activeTab.components, component];
+            ? activeComponents?.map(item => item?.order === component?.order ? component : item)
+            : [...activeComponents, component];
 
         updateProfileConfig({
             ...profileConfig,
@@ -93,7 +94,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         if (dialogTarget.kind === 'component') {
             const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
             if (activeTab) {
-                const components = activeTab.components
+                const components = (activeTab?.components ?? [])
                     .filter(component => component.order !== dialogTarget.component.order)
                     .map((component, order) => ({ ...component, order }));
                 updateProfileConfig({

@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Modal, ModalTitle } from '@dhis2/ui';
+import { Button, Modal } from '@dhis2/ui';
 import { D2I18n } from 'dhis2-semis-types';
 import FormModalContent from '../../../components/saveConfiguration/ModalContent';
 import styles from '../profileConfig.module.css';
 import { ProfileComponentConfig, ProfileTabConfig } from '../types';
-import { createProfileComponent } from '../utils/profileFactories';
 import { buildTabFormFields } from '../utils/tabFormFields';
 
 type Props = {
@@ -19,15 +18,15 @@ type Props = {
 
 const normalizeComponent = (component: ProfileComponentConfig, order: number): ProfileComponentConfig => ({
     ...component,
-    displayName: component.displayName?.trim() ?? '',
-    editable: component.editable === true || String(component.editable) === 'true',
+    displayName: component?.displayName?.trim() ?? '',
+    editable: component?.editable === true || String(component?.editable) === 'true',
     order,
-    size: component.size || 'FULL',
-    type: component.type || 'TEI_FORM',
-    details: component.type === 'EVENT_TABLE' || component.type === 'EVENT_CARDS'
+    size: component?.size || 'FULL',
+    type: component?.type || 'TEI_FORM',
+    details: component?.type === 'EVENT_TABLE' || component?.type === 'EVENT_CARDS'
         ? {
-            pageSize: Math.max(1, Number(component.details?.pageSize) || 1),
-            programStage: component.details?.programStage ?? '',
+            pageSize: Math.max(1, Number(component?.details?.pageSize) || 1),
+            programStage: component?.details?.programStage ?? '',
         }
         : undefined,
 });
@@ -41,19 +40,15 @@ export default function TabConfigurationDialog({
     onApply,
     onDelete,
 }: Props) {
-    const [initialValues] = useState<ProfileTabConfig>({
-        ...tab,
-        components: tab.components.length > 0 ? tab.components : [createProfileComponent(0)],
-    });
     const [trackedValues, setTrackedValues] = useState<Partial<ProfileTabConfig>>({});
     const [error, setError] = useState('');
 
     const formFields = useMemo(() => buildTabFormFields({
         i18n,
-        tab: initialValues,
+        tab,
         trackedValues,
         programStages,
-    }), [i18n, initialValues, programStages, trackedValues]);
+    }), [i18n, programStages, trackedValues]);
 
     const apply = (values: ProfileTabConfig) => {
         if (!values.displayName?.trim()) {
@@ -61,21 +56,23 @@ export default function TabConfigurationDialog({
             return;
         }
 
-        const components = (values.components ?? []).map(normalizeComponent);
-        if (components.some(component => !component.displayName)) {
+        const components = (values?.components ?? []).map(normalizeComponent);
+        if (components?.some(component => !component?.displayName)) {
             setError(i18n.t('The component name is required.'));
             return;
         }
-        if (components.some(component => component.type !== 'TEI_FORM' && !component.details?.programStage)) {
+        if (components?.some(component => (
+            (component?.type === 'EVENT_TABLE' || component?.type === 'EVENT_CARDS')
+            && !component?.details?.programStage
+        ))) {
             setError(i18n.t('Select a program stage for every event component.'));
             return;
         }
 
         onApply({
-            ...initialValues,
             ...values,
-            displayName: values.displayName.trim(),
-            order: Math.max(0, Math.floor(Number(values.order) || 0)),
+            displayName: values?.displayName?.trim() ?? '',
+            order: Math.max(0, Math.floor(Number(values?.order) || 0)),
             components,
         });
     };
@@ -89,7 +86,7 @@ export default function TabConfigurationDialog({
             )}
             <FormModalContent
                 formFields={formFields}
-                initialValues={initialValues}
+                initialValues={{}}
                 loading={false}
                 setTrackedValues={setTrackedValues}
                 onCancel={onClose}

@@ -27,15 +27,16 @@ export default function ComponentConfigurationDialog({
     const [error, setError] = useState('');
 
     const apply = () => {
-        if (!value.displayName.trim()) {
+        if (!value?.displayName?.trim()) {
             setError(i18n.t('The component name is required.'));
             return;
         }
-        if (value.type !== 'TEI_FORM' && !value.details?.programStage) {
+        const isEventComponent = value?.type === 'EVENT_TABLE' || value?.type === 'EVENT_CARDS';
+        if (isEventComponent && !value?.details?.programStage) {
             setError(i18n.t('Select a program stage.'));
             return;
         }
-        onApply({ ...value, displayName: value.displayName.trim() });
+        onApply({ ...value, displayName: value?.displayName?.trim() ?? '' });
     };
 
     return (

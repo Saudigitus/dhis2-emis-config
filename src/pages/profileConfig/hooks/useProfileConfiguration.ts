@@ -22,7 +22,7 @@ export default function useProfileConfiguration() {
     const attributes = useMemo(() => getAttributeOptions(program), [program]);
     const dataElements = useMemo(() => getDataElementOptions(program), [program]);
     const programStages = useMemo(() => getProgramStageOptions(program), [program]);
-
+console.log(program)
     return {
         ...editor,
         attributes,

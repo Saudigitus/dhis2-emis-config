@@ -1,5 +1,4 @@
 import { ProfileConfig, VariableOption } from '../types';
-import { emptyIdentityCard } from './profileFactories';
 
 export type ProgramStageOption = { id: string; label: string };
 
@@ -7,15 +6,15 @@ export const normalizeProfile = (
     profile: Partial<ProfileConfig> | undefined,
     programId = '',
 ): ProfileConfig => {
-    const emptyIdentity = emptyIdentityCard();
+    const emptyIdentity: any = {};
 
     return {
         identityCard: {
             ...emptyIdentity,
             ...(profile?.identityCard ?? {}),
-            photo: { ...emptyIdentity.photo, ...(profile?.identityCard?.photo ?? {}) },
-            title: { ...emptyIdentity.title, ...(profile?.identityCard?.title ?? {}) },
-            subtitle: { ...emptyIdentity.subtitle, ...(profile?.identityCard?.subtitle ?? {}) },
+            photo: { ...emptyIdentity?.photo, ...(profile?.identityCard?.photo ?? {}) },
+            title: { ...emptyIdentity?.title, ...(profile?.identityCard?.title ?? {}) },
+            subtitle: { ...emptyIdentity?.subtitle, ...(profile?.identityCard?.subtitle ?? {}) },
             badges: profile?.identityCard?.badges ?? [],
         },
         program: profile?.program ?? programId,

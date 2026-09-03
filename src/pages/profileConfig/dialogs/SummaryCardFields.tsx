@@ -19,7 +19,7 @@ export default function SummaryCardFields({ i18n, value, attributes, dataElement
                 <select
                     className={styles.select}
                     autoFocus
-                    value={value.variable ? `${value.source}:${value.variable}` : ''}
+                    value={value?.variable ? `${value?.source}:${value?.variable}` : ''}
                     onChange={event => {
                         const [source, ...variableParts] = event.target.value.split(':');
                         onChange({
@@ -31,13 +31,13 @@ export default function SummaryCardFields({ i18n, value, attributes, dataElement
                 >
                     <option value="">{i18n.t('Select a variable')}</option>
                     <optgroup label={i18n.t('Attributes')}>
-                        {attributes.map(option => (
-                            <option key={`ATTRIBUTE:${option.id}`} value={`ATTRIBUTE:${option.id}`}>{option.label}</option>
+                        {attributes?.map(option => (
+                            <option key={`ATTRIBUTE:${option?.id}`} value={`ATTRIBUTE:${option?.id}`}>{option?.label}</option>
                         ))}
                     </optgroup>
                     <optgroup label={i18n.t('Data elements')}>
-                        {dataElements.map(option => (
-                            <option key={`DATA_ELEMENTS:${option.id}`} value={`DATA_ELEMENTS:${option.id}`}>{option.label}</option>
+                        {dataElements?.map(option => (
+                            <option key={`DATA_ELEMENTS:${option?.id}`} value={`DATA_ELEMENTS:${option?.id}`}>{option?.label}</option>
                         ))}
                     </optgroup>
                 </select>
@@ -46,7 +46,7 @@ export default function SummaryCardFields({ i18n, value, attributes, dataElement
                 {i18n.t('Card name')} <span className={styles.optionalLabel}>({i18n.t('optional')})</span>
                 <input
                     className={styles.input}
-                    value={value.displayName}
+                    value={value?.displayName ?? ''}
                     placeholder={i18n.t('Uses the variable name when empty')}
                     onChange={event => onChange({ ...value, displayName: event.target.value })}
                 />

@@ -54,7 +54,9 @@ export const buildTabFormFields = ({
     trackedValues?: Partial<ProfileTabConfig>;
     programStages: ProgramStageOption[];
 }) => {
-    const currentComponents = trackedValues?.components ?? tab.components;
+    const components = tab?.components ?? [];
+    const currentComponents = trackedValues?.components ?? components;
+    const componentIndexes = Array.from({ length: Math.max(components?.length ?? 0, 1) }, (_, index) => index);
 
     return [
         {
@@ -72,6 +74,7 @@ export const buildTabFormFields = ({
                     name: 'color',
                     label: i18n.t('Color'),
                     valueType: 'TEXT',
+                    required:false,
                     order: 1,
                 }),
                 buildField({
@@ -82,15 +85,16 @@ export const buildTabFormFields = ({
                 }),
             ],
         },
-        ...tab.components.map((component, index) => {
-            const currentType = currentComponents[index]?.type ?? component.type;
+        ...componentIndexes.map(index => {
+            const component = components?.[index];
+            const currentType = currentComponents?.[index]?.type ?? component?.type;
             const isEventComponent = currentType === 'EVENT_TABLE' || currentType === 'EVENT_CARDS';
             const componentPath = `components[${index}]`;
 
             return {
                 visible: true,
                 description: '',
-                name: `${i18n.t('Component')} ${index + 1}`,
+                name: `${i18n.t('Component')}`,
                 fields: [
                     buildField({
                         name: `${componentPath}.displayName`,
@@ -110,8 +114,18 @@ export const buildTabFormFields = ({
                         valueType: 'LIST',
                         order: 2,
                         options: [
-                            { value: 'HALF', label: i18n.t('Half width') },
-                            { value: 'FULL', label: i18n.t('Full width') },
+                            { value: 'w1', label: 'w1' },
+                            { value: 'w2', label: 'w2' },
+                            { value: 'w3', label: 'w3' },
+                            { value: 'w4', label: 'w4' },
+                            { value: 'w5', label: 'w5' },
+                            { value: 'w6', label: 'w6' },
+                            { value: 'w7', label: 'w7' },
+                            { value: 'w8', label: 'w8' },
+                            { value: 'w9', label: 'w9' },
+                            { value: 'w10', label: 'w10' },
+                            { value: 'w11', label: 'w11' },
+                            { value: 'w12', label: 'w12' },
                         ],
                     }),
                     buildField({
@@ -138,7 +152,7 @@ export const buildTabFormFields = ({
                         valueType: 'LIST',
                         order: 5,
                         visible: isEventComponent,
-                        options: programStages.map(stage => ({ value: stage.id, label: stage.label })),
+                        options: programStages?.map(stage => ({ value: stage.id, label: stage.label })) ?? [],
                     }),
                 ],
             };

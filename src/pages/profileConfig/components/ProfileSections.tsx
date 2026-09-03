@@ -4,7 +4,6 @@ import { Add as AddIcon, Edit as EditIcon } from '@mui/icons-material';
 import { D2I18n } from 'dhis2-semis-types';
 import styles from '../profileConfig.module.css';
 import { DialogTarget, ProfileTabConfig } from '../types';
-import { createProfileComponent, createProfileTab } from '../utils/profileFactories';
 
 type Props = {
     i18n: D2I18n;
@@ -29,12 +28,12 @@ export default function ProfileSections({
     onSelectTab,
     onConfigure,
 }: Props) {
-    const activeTab = tabs.find(tab => tab.id === activeTabId);
+    const activeTab = tabs?.find(tab => tab?.id === activeTabId);
 
     return (
         <section className={styles.workspace} aria-label={i18n.t('Profile sections')}>
             <div className={styles.tabsRow}>
-                {tabs.map(tab => (
+                {tabs?.map(tab => (
                     <button
                         key={tab.id}
                         type="button"
@@ -52,7 +51,7 @@ export default function ProfileSections({
                 <button
                     type="button"
                     className={styles.addTab}
-                    onClick={() => onConfigure({ kind: 'tab', tab: createProfileTab(tabs.length), isNew: true })}
+                    onClick={() => onConfigure({ kind: 'tab', tab: {} as any, isNew: true })}
                 >
                     + {i18n.t('Add section')}
                 </button>
@@ -61,9 +60,9 @@ export default function ProfileSections({
             <div className={styles.canvas}>
                 {activeTab ? (
                     <>
-                        {activeTab.components.length > 0 ? (
+                        {(activeTab?.components?.length ?? 0) > 0 ? (
                             <div className={styles.componentGrid}>
-                                {activeTab.components.map(component => (
+                                {activeTab?.components?.map(component => (
                                     <button
                                         type="button"
                                         key={`${activeTab.id}-${component.order}`}
@@ -76,7 +75,7 @@ export default function ProfileSections({
                                         </span>
                                         <span className={styles.componentBody}>
                                             {componentTypeLabel(component.type, i18n)}
-                                            {component.details?.programStage && ` · ${programStages.find(stage => stage.id === component.details?.programStage)?.label ?? component.details.programStage}`}
+                                            {component?.details?.programStage && ` · ${programStages?.find(stage => stage?.id === component?.details?.programStage)?.label ?? component?.details?.programStage}`}
                                         </span>
                                     </button>
                                 ))}
@@ -93,7 +92,7 @@ export default function ProfileSections({
                             icon={<AddIcon fontSize="small" />}
                             onClick={() => onConfigure({
                                 kind: 'component',
-                                component: createProfileComponent(activeTab.components.length),
+                                component: {} as any,
                                 isNew: true,
                             })}
                         >

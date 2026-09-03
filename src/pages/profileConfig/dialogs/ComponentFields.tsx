@@ -11,10 +11,11 @@ type Props = {
 };
 
 export default function ComponentFields({ i18n, value, programStages, onChange }: Props) {
+    const isEventComponent = value?.type === 'EVENT_TABLE' || value?.type === 'EVENT_CARDS';
     const updateType = (type: ProfileComponentType) => onChange({
         ...value,
         type,
-        details: type === 'TEI_FORM' ? undefined : value.details ?? { pageSize: 5, programStage: '' },
+        details: type === 'TEI_FORM' ? undefined : value?.details ?? { pageSize: 5, programStage: '' },
     });
 
     return (
@@ -24,7 +25,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                 <input
                     className={styles.input}
                     autoFocus
-                    value={value.displayName}
+                    value={value?.displayName ?? ''}
                     onChange={event => onChange({ ...value, displayName: event.target.value })}
                 />
             </label>
@@ -33,7 +34,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                     {i18n.t('Display type')}
                     <select
                         className={styles.select}
-                        value={value.type}
+                        value={value?.type ?? ''}
                         onChange={event => updateType(event.target.value as ProfileComponentType)}
                     >
                         <option value="TEI_FORM">{i18n.t('Personal details')}</option>
@@ -45,7 +46,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                     {i18n.t('Width')}
                     <select
                         className={styles.select}
-                        value={value.size}
+                        value={value?.size ?? ''}
                         onChange={event => onChange({ ...value, size: event.target.value })}
                     >
                         <option value="HALF">{i18n.t('Half width')}</option>
@@ -53,7 +54,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                     </select>
                 </label>
             </div>
-            {value.type !== 'TEI_FORM' && (
+            {isEventComponent && (
                 <div className={styles.fieldGrid}>
                     <label className={styles.field}>
                         {i18n.t('Program stage')}
@@ -63,13 +64,13 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                             onChange={event => onChange({
                                 ...value,
                                 details: {
-                                    pageSize: value.details?.pageSize ?? 5,
+                                    pageSize: value?.details?.pageSize ?? 5,
                                     programStage: event.target.value,
                                 },
                             })}
                         >
                             <option value="">{i18n.t('Select a program stage')}</option>
-                            {programStages.map(stage => <option key={stage.id} value={stage.id}>{stage.label}</option>)}
+                            {programStages?.map(stage => <option key={stage?.id} value={stage?.id}>{stage?.label}</option>)}
                         </select>
                     </label>
                     <label className={styles.field}>
@@ -83,7 +84,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
                             onChange={event => onChange({
                                 ...value,
                                 details: {
-                                    programStage: value.details?.programStage ?? '',
+                                    programStage: value?.details?.programStage ?? '',
                                     pageSize: Math.max(1, Number(event.target.value) || 1),
                                 },
                             })}
@@ -94,7 +95,7 @@ export default function ComponentFields({ i18n, value, programStages, onChange }
             <label className={styles.checkboxField}>
                 <input
                     type="checkbox"
-                    checked={value.editable}
+                    checked={value?.editable ?? false}
                     onChange={event => onChange({ ...value, editable: event.target.checked })}
                 />
                 {i18n.t('Allow editing from the profile')}

@@ -16,16 +16,16 @@ const selectedValues = (event: React.ChangeEvent<HTMLSelectElement>) =>
     Array.from(event.target.selectedOptions).map(option => option.value);
 
 export default function IdentityFields({ i18n, section, value, attributes, dataElements, onChange }: Props) {
-    const textValue = section === 'title' || section === 'subtitle' ? value[section] : undefined;
+    const textValue = section === 'title' || section === 'subtitle' ? value?.[section] : undefined;
 
     if (section === 'photo') {
-        const imageAttributes = attributes.filter(option => option.valueType === 'IMAGE');
+        const imageAttributes = attributes?.filter(option => option?.valueType === 'IMAGE') ?? [];
         return (
             <label className={styles.field}>
                 {i18n.t('Photo attribute')}
                 <select
                     className={styles.select}
-                    value={value.photo.attribute}
+                    value={value?.photo?.attribute ?? ''}
                     onChange={event => onChange({ ...value, photo: { attribute: event.target.value } })}
                 >
                     <option value="">{i18n.t('No photo')}</option>
@@ -52,7 +52,7 @@ export default function IdentityFields({ i18n, section, value, attributes, dataE
                             [section]: { ...textValue, attributes: selectedValues(event) },
                         })}
                     >
-                        {attributes.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}
+                        {attributes?.map(option => <option key={option?.id} value={option?.id}>{option?.label}</option>)}
                     </select>
                     <span className={styles.fieldHint}>{i18n.t('Use Ctrl/Cmd to select more than one variable.')}</span>
                 </label>
@@ -72,7 +72,7 @@ export default function IdentityFields({ i18n, section, value, attributes, dataE
         );
     }
 
-    const selectedBadges = value.badges.map(badge => `${badge.source}:${badge.variable ?? ''}`);
+    const selectedBadges = value?.badges?.map(badge => `${badge?.source}:${badge?.variable ?? ''}`) ?? [];
     return (
         <>
             <label className={styles.field}>
@@ -82,7 +82,12 @@ export default function IdentityFields({ i18n, section, value, attributes, dataE
                     multiple
                     value={selectedBadges}
                     onChange={event => {
-                        const previous = new Map(value.badges.map(badge => [`${badge.source}:${badge.variable ?? ''}`, badge]));
+                        const previous = new Map<string, IdentityBadge>(
+                            (value?.badges ?? []).map(badge => [
+                                `${badge?.source}:${badge?.variable ?? ''}`,
+                                badge,
+                            ] as const),
+                        );
                         const badges: IdentityBadge[] = selectedValues(event).map((item, order) => {
                             const [source, ...idParts] = item.split(':');
                             return {
@@ -96,32 +101,32 @@ export default function IdentityFields({ i18n, section, value, attributes, dataE
                     }}
                 >
                     <optgroup label={i18n.t('Attributes')}>
-                        {attributes.map(option => (
+                        {attributes?.map(option => (
                             <option key={`ATTRIBUTE:${option.id}`} value={`ATTRIBUTE:${option.id}`}>{option.label}</option>
                         ))}
                     </optgroup>
                     <optgroup label={i18n.t('Data elements')}>
-                        {dataElements.map(option => (
+                        {dataElements?.map(option => (
                             <option key={`DATA_ELEMENTS:${option.id}`} value={`DATA_ELEMENTS:${option.id}`}>{option.label}</option>
                         ))}
                     </optgroup>
                 </select>
                 <span className={styles.fieldHint}>{i18n.t('Badges appear below the subtitle in the selected order.')}</span>
             </label>
-            {value.badges.length > 0 && (
+            {(value?.badges?.length ?? 0) > 0 && (
                 <label className={styles.checkboxField}>
                     <input
                         type="checkbox"
-                        checked={value.badges.every(badge => badge.styled)}
+                        checked={value?.badges?.every(badge => badge?.styled) ?? false}
                         onChange={event => onChange({
                             ...value,
-                            badges: value.badges.map(badge => ({ ...badge, styled: event.target.checked })),
+                            badges: value?.badges?.map(badge => ({ ...badge, styled: event.target.checked })) ?? [],
                         })}
                     />
                     {i18n.t('Use option colors when available')}
                 </label>
             )}
-            {attributes.length + dataElements.length === 0 && (
+            {(attributes?.length ?? 0) + (dataElements?.length ?? 0) === 0 && (
                 <span className={styles.fieldHint}>{i18n.t('No variables are available for this program.')}</span>
             )}
         </>
