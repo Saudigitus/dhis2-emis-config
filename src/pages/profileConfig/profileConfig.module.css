@@ -4,6 +4,21 @@
     gap: 18px;
     color: #212934;
 }
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12.5px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 4px;
+}
 
 .pageHeader {
     display: flex;
@@ -26,10 +41,10 @@
 
 .workspace {
     overflow: hidden;
-    border: 1px solid #d5dde5;
+    border: 1px solid #e1e5e9;
     border-radius: 4px;
     background: #fff;
-    box-shadow: 0 1px 2px rgba(33, 41, 52, .08);
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .18);
 }
 
 .summarySection {
@@ -41,7 +56,6 @@
 .summarySectionHeader {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .summarySectionHeader h2 {
@@ -54,12 +68,14 @@
 .summarySectionHeader span {
     color: #6c7787;
     font-size: 12px;
+    margin-left: 8px;
 }
 
 .academicYearLabel {
     color: #526278;
     font-size: 14px;
     font-weight: 500;
+    margin: 5px 0;
 }
 
 .summaryCards {
@@ -107,20 +123,28 @@
 .tabsRow {
     display: flex;
     align-items: stretch;
-    gap: 2px;
+    gap: 0;
     min-height: 49px;
     padding: 0 12px;
-    border-bottom: 1px solid #d5dde5;
+    border-bottom: 1px solid #d9dfe5;
+}
+
+.tabItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    border-bottom: 4px solid transparent;
 }
 
 .tab {
-    position: relative;
-    min-width: 120px;
-    padding: 14px 16px 12px;
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    padding: 14px 6px 12px 16px;
     border: 0;
-    border-bottom: 3px solid transparent;
     background: transparent;
-    color: #4a5768;
+    color: #5f6b7a;
     font: inherit;
     font-size: 14px;
     cursor: pointer;
@@ -128,19 +152,46 @@
 
 .tab:hover,
 .tab:focus-visible {
-    background: #f5f8fa;
     outline: none;
 }
 
-.tabSelected {
+.tabSelected .tab {
     color: #0d47a1;
     font-weight: 600;
 }
 
-.tabEdit {
-    margin-left: 7px;
-    color: #6c7787;
-    font-size: 12px;
+.itemActions {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding-right: 7px;
+}
+
+.iconAction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #657589;
+    cursor: pointer;
+}
+
+.iconAction:hover,
+.iconAction:focus-visible {
+    background: #e8f1fb;
+    color: #0868ce;
+    outline: none;
+}
+
+.deleteAction:hover,
+.deleteAction:focus-visible {
+    background: #fcebea;
+    color: #d64a2f;
 }
 
 .addTab {
@@ -155,57 +206,70 @@
 }
 
 .canvas {
-    min-height: 218px;
+    min-height: 214px;
     padding: 16px;
-    background: #f8fafb;
+    background: #fff;
 }
 
 .componentGrid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 12px;
 }
 
 .componentCard {
-    min-height: 145px;
-    padding: 0;
+    min-height: 180px;
     overflow: hidden;
-    border: 1px solid #d5dde5;
-    border-radius: 5px;
+    border: 1px solid #d8e0e8;
+    border-radius: 8px;
     background: #fff;
-    text-align: left;
-    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .06);
 }
 
 .componentCard:hover,
-.componentCard:focus-visible {
-    border-color: #147cd7;
-    box-shadow: 0 0 0 2px rgba(20, 124, 215, .12);
+.componentCard:focus-within {
+    border-color: #b8c7d6;
+    box-shadow: 0 1px 3px rgba(33, 41, 52, .12);
     outline: none;
-}
-
-.componentFull {
-    grid-column: 1 / -1;
 }
 
 .componentHeader {
     display: flex;
     justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e9ed;
-    background: #f8fafb;
-    color: #0d62c7;
+    min-height: 45px;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 12px 18px;
+    border-bottom: 1px solid #d8e0e8;
+    background: #f7f9fb;
+    color: #0868ce;
+    font-size: 14px;
     font-weight: 600;
+}
+
+.componentHeader .itemActions {
+    padding-right: 0;
 }
 
 .componentBody {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 94px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 133px;
     padding: 16px;
-    color: #6c7787;
+    border: 0;
+    background: #fff;
+    color: #697789;
+    font-family: inherit;
     font-size: 13px;
+    cursor: pointer;
+}
+
+.componentBody:focus-visible {
+    outline: 2px solid #147cd7;
+    outline-offset: -2px;
 }
 
 .emptyState {
@@ -221,9 +285,10 @@
     color: #6c7787;
 }
 
-.addComponent {
-    display: block;
-    margin: 14px auto 0;
+.componentToolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
 }
 
 .dialogForm {
@@ -291,10 +356,17 @@
     font-size: 13px;
 }
 
-.formModalDelete {
+.confirmationContent {
+    padding: 8px 24px 24px;
+    color: #4a5768;
+    font-size: 14px;
+}
+
+.confirmationActions {
     display: flex;
     justify-content: flex-end;
-    padding: 0 24px;
+    gap: 8px;
+    padding: 0 24px 24px;
 }
 
 .error {
@@ -325,8 +397,8 @@
         grid-template-columns: 1fr;
     }
 
-    .componentFull {
-        grid-column: auto;
+    .componentCard {
+        grid-column: 1 / -1 !important;
     }
 
     .tabsRow {

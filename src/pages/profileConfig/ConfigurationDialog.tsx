@@ -16,7 +16,6 @@ type Props = {
     onApplyIdentity: (value: IdentityCardConfig) => void;
     onApplyTab: (value: ProfileTabConfig) => void;
     onApplyComponent: (value: ProfileComponentConfig) => void;
-    onDelete?: () => void;
 };
 
 export default function ConfigurationDialog(props: Props) {
@@ -44,7 +43,6 @@ export default function ConfigurationDialog(props: Props) {
                 isNew={target.isNew}
                 onClose={props.onClose}
                 onApply={props.onApplyTab}
-                onDelete={target.isNew ? undefined : props.onDelete}
             />
         );
     }
@@ -57,7 +55,6 @@ export default function ConfigurationDialog(props: Props) {
             programStages={props.programStages}
             onClose={props.onClose}
             onApply={props.onApplyComponent}
-            onDelete={target.isNew ? undefined : props.onDelete}
         />
     );
 }

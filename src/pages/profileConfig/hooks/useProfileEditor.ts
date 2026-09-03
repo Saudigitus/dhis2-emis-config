@@ -64,22 +64,22 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         closeDialog();
     };
 
-    const deleteTarget = () => {
-        if (!dialogTarget) return;
+    const deleteTarget = (target: DialogTarget | null = dialogTarget) => {
+        if (!target || target.kind === 'identity') return;
 
-        if (dialogTarget.kind === 'tab') {
+        if (target.kind === 'tab') {
             const tabs = profileConfig.tabs
-                .filter(tab => tab.id !== dialogTarget.tab.id)
+                .filter(tab => tab.id !== target.tab.id)
                 .map((tab, order) => ({ ...tab, order }));
             updateProfileConfig({ ...profileConfig, tabs });
-            setActiveTabId(tabs[0]?.id ?? '');
+            setActiveTabId(current => current === target.tab.id ? tabs[0]?.id ?? '' : current);
         }
 
-        if (dialogTarget.kind === 'component') {
+        if (target.kind === 'component') {
             const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
             if (activeTab) {
                 const components = (activeTab?.components ?? [])
-                    .filter(component => component.order !== dialogTarget.component.order)
+                    .filter(component => component.order !== target.component.order)
                     .map((component, order) => ({ ...component, order }));
                 updateProfileConfig({
                     ...profileConfig,

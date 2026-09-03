@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Modal, ModalTitle } from '@dhis2/ui';
+import { Modal, ModalTitle } from '@dhis2/ui';
 import { D2I18n } from 'dhis2-semis-types';
 import FormModalContent from '../../../components/saveConfiguration/ModalContent';
 import styles from '../profileConfig.module.css';
@@ -13,7 +13,6 @@ type Props = {
     programStages: Array<{ id: string; label: string }>;
     onClose: () => void;
     onApply: (value: ProfileComponentConfig) => void;
-    onDelete?: () => void;
 };
 
 export default function ComponentConfigurationDialog({
@@ -23,7 +22,6 @@ export default function ComponentConfigurationDialog({
     programStages,
     onClose,
     onApply,
-    onDelete,
 }: Props) {
     const [trackedValues, setTrackedValues] = useState<Partial<ProfileComponentConfig>>({});
     const [error, setError] = useState('');
@@ -67,21 +65,18 @@ export default function ComponentConfigurationDialog({
 
     return (
         <Modal onClose={onClose} position="middle" large>
-            <ModalTitle>{isNew ? i18n.t('Add component') : i18n.t('Configure component')}</ModalTitle>
-            {onDelete && (
-                <div className={styles.formModalDelete}>
-                    <Button destructive onClick={onDelete}>{i18n.t('Delete')}</Button>
-                </div>
-            )}
-            <FormModalContent
-                formFields={formFields}
-                initialValues={isNew ? { order: component?.order } : component}
-                loading={false}
-                setTrackedValues={setTrackedValues}
-                onCancel={onClose}
-                onSubmit={apply}
-            />
-            {error && <p className={styles.formModalError}>{error}</p>}
+            <div>
+                <ModalTitle>{isNew ? i18n.t('Add component') : i18n.t('Configure component')}</ModalTitle>
+                <FormModalContent
+                    formFields={formFields}
+                    initialValues={isNew ? { order: component?.order } : component}
+                    loading={false}
+                    setTrackedValues={setTrackedValues}
+                    onCancel={onClose}
+                    onSubmit={apply}
+                />
+                {error && <p className={styles.formModalError}>{error}</p>}
+            </div>
         </Modal>
     );
 }

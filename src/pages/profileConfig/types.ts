@@ -19,12 +19,16 @@ export type IdentityCardConfig = {
 
 export type ProfileComponentType = 'TEI_FORM' | 'EVENT_CARDS' | 'EVENT_TABLE';
 
+export type ProfileComponentSize =
+    | 'w1' | 'w2' | 'w3' | 'w4' | 'w5' | 'w6'
+    | 'w7' | 'w8' | 'w9' | 'w10' | 'w11' | 'w12';
+
 export type ProfileComponentConfig = {
     type: ProfileComponentType;
     displayName: string;
     editable: boolean;
     order: number;
-    size: string;
+    size: ProfileComponentSize;
     details?: {
         pageSize: number;
         programStage: string;

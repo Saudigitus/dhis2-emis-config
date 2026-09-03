@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Modal, ModalTitle } from '@dhis2/ui';
+import { Modal, ModalTitle } from '@dhis2/ui';
 import { D2I18n } from 'dhis2-semis-types';
 import FormModalContent from '../../../components/saveConfiguration/ModalContent';
 import styles from '../profileConfig.module.css';
@@ -12,7 +12,6 @@ type Props = {
     isNew?: boolean;
     onClose: () => void;
     onApply: (value: ProfileTabConfig) => void;
-    onDelete?: () => void;
 };
 
 export default function TabConfigurationDialog({
@@ -21,7 +20,6 @@ export default function TabConfigurationDialog({
     isNew,
     onClose,
     onApply,
-    onDelete,
 }: Props) {
     const [error, setError] = useState('');
 
@@ -49,20 +47,17 @@ export default function TabConfigurationDialog({
 
     return (
         <Modal onClose={onClose} position="middle" large>
-            <ModalTitle>{isNew ? i18n.t('Add section') : i18n.t('Configure section')}</ModalTitle>
-            {onDelete && (
-                <div className={styles.formModalDelete}>
-                    <Button destructive onClick={onDelete}>{i18n.t('Delete')}</Button>
-                </div>
-            )}
-            <FormModalContent
-                formFields={formFields}
-                initialValues={initialValues}
-                loading={false}
-                onCancel={onClose}
-                onSubmit={apply}
-            />
-            {error && <p className={styles.formModalError}>{error}</p>}
+            <div>
+                <ModalTitle>{isNew ? i18n.t('Add section') : i18n.t('Configure section')}</ModalTitle>
+                <FormModalContent
+                    formFields={formFields}
+                    initialValues={initialValues}
+                    loading={false}
+                    onCancel={onClose}
+                    onSubmit={apply}
+                />
+                {error && <p className={styles.formModalError}>{error}</p>}
+            </div>
         </Modal>
     );
 }
