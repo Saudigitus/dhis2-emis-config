@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { DialogTarget } from '../ConfigurationDialog';
 import {
+    DialogTarget,
     IdentityCardConfig,
     ProfileComponentConfig,
     ProfileConfig,
@@ -29,12 +29,12 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
 
     const closeDialog = () => setDialogTarget(null);
 
-    const saveIdentity = (identityCard: IdentityCardConfig) => {
+    const updateIdentity = (identityCard: IdentityCardConfig) => {
         updateDraft({ ...draft, identityCard });
         closeDialog();
     };
 
-    const saveSummaryCard = (card: ProfileSummaryCard) => {
+    const updateSummaryCard = (card: ProfileSummaryCard) => {
         const exists = draft.summaryCards.some(item => item.order === card.order);
         const summaryCards = exists
             ? draft.summaryCards.map(item => item.order === card.order ? card : item)
@@ -44,17 +44,19 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         closeDialog();
     };
 
-    const saveTab = (tab: ProfileTabConfig) => {
-        const exists = draft.tabs.some(item => item.id === tab.id);
+    const updateTab = (tab: ProfileTabConfig) => {
+        const tabs = draft.tabs.filter(item => item.id !== tab.id);
+        const insertionIndex = Math.min(Math.max(tab.order, 0), tabs.length);
+        tabs.splice(insertionIndex, 0, tab);
         updateDraft({
             ...draft,
-            tabs: exists ? draft.tabs.map(item => item.id === tab.id ? tab : item) : [...draft.tabs, tab],
+            tabs: tabs.map((item, order) => ({ ...item, order })),
         });
         setActiveTabId(tab.id);
         closeDialog();
     };
 
-    const saveComponent = (component: ProfileComponentConfig) => {
+    const updateComponent = (component: ProfileComponentConfig) => {
         const activeTab = draft.tabs.find(tab => tab.id === activeTabId);
         if (!activeTab) return;
 
@@ -111,12 +113,11 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         draft,
         closeDialog,
         deleteTarget,
-        markSaved: () => setDirty(false),
         openDialog: setDialogTarget,
-        saveComponent,
-        saveIdentity,
-        saveSummaryCard,
-        saveTab,
         selectTab: setActiveTabId,
+        updateComponent,
+        updateIdentity,
+        updateSummaryCard,
+        updateTab,
     };
 }

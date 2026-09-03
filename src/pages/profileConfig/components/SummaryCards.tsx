@@ -1,9 +1,8 @@
 import React from 'react';
 import { D2I18n } from 'dhis2-semis-types';
 import styles from '../profileConfig.module.css';
-import { ProfileSummaryCard } from '../types';
+import { DialogTarget, ProfileSummaryCard } from '../types';
 import { createSummaryCard } from '../utils/profileFactories';
-import type { DialogTarget } from '../ConfigurationDialog';
 
 type Props = {
     i18n: D2I18n;

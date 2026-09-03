@@ -12,21 +12,21 @@ export const emptyIdentityCard = (): IdentityCardConfig => ({
     title: { attributes: [], separator: ' ' },
 });
 
-export const createProfileTab = (order: number): ProfileTabConfig => ({
-    color: '#147CD7',
-    components: [],
-    createdAt: Date.now(),
-    displayName: `Section ${order + 1}`,
-    id: `profile-tab-${Date.now()}-${order}`,
-    order,
-});
-
 export const createProfileComponent = (order: number): ProfileComponentConfig => ({
     type: 'TEI_FORM',
     displayName: `Component ${order + 1}`,
     editable: false,
     order,
     size: 'FULL',
+});
+
+export const createProfileTab = (order: number): ProfileTabConfig => ({
+    color: '#147CD7',
+    components: [createProfileComponent(0)],
+    createdAt: Date.now(),
+    displayName: `Section ${order + 1}`,
+    id: `profile-tab-${Date.now()}-${order}`,
+    order,
 });
 
 export const createSummaryCard = (order: number): ProfileSummaryCard => ({

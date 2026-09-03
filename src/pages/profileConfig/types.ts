@@ -60,3 +60,9 @@ export type VariableOption = {
     source: 'ATTRIBUTE' | 'DATA_ELEMENTS';
     valueType?: string;
 };
+
+export type DialogTarget =
+    | { kind: 'identity'; section: 'photo' | 'title' | 'subtitle' | 'badges' }
+    | { kind: 'summaryCard'; card: ProfileSummaryCard; isNew?: boolean }
+    | { kind: 'tab'; tab: ProfileTabConfig; isNew?: boolean }
+    | { kind: 'component'; component: ProfileComponentConfig; isNew?: boolean };

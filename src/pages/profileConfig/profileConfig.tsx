@@ -10,17 +10,14 @@ import IdDetails from './idDetails/idDetails';
 import styles from './profileConfig.module.css';
 
 export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
-    const profile = useProfileConfiguration(i18n);
+    const profile = useProfileConfiguration();
 
     return (
         <WithPadding p="24px">
             <div className={styles.page}>
                 <ProfileHeader
                     i18n={i18n}
-                    dirty={profile.dirty}
-                    saving={profile.saving}
                     onBack={profile.goBack}
-                    onSave={profile.saveConfiguration}
                 />
                 <IdDetails
                     i18n={i18n}
@@ -53,10 +50,10 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                     dataElements={profile.dataElements}
                     programStages={profile.programStages}
                     onClose={profile.closeDialog}
-                    onSaveIdentity={profile.saveIdentity}
-                    onSaveSummaryCard={profile.saveSummaryCard}
-                    onSaveTab={profile.saveTab}
-                    onSaveComponent={profile.saveComponent}
+                    onApplyIdentity={profile.updateIdentity}
+                    onApplySummaryCard={profile.updateSummaryCard}
+                    onApplyTab={profile.updateTab}
+                    onApplyComponent={profile.updateComponent}
                     onDelete={profile.dialogTarget.kind === 'identity' ? undefined : profile.deleteTarget}
                 />
             )}

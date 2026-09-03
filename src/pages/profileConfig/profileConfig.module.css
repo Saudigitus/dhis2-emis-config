@@ -288,6 +288,19 @@
     gap: 16px;
 }
 
+.formModalError {
+    margin: 0;
+    padding: 0 24px 20px;
+    color: #d64a2f;
+    font-size: 13px;
+}
+
+.formModalDelete {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 24px;
+}
+
 .error {
     margin: 0;
     color: #d64a2f;

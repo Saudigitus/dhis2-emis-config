@@ -65,11 +65,3 @@ export const getDataElementOptions = (program: any): VariableOption[] => {
 export const getProgramStageOptions = (program: any): ProgramStageOption[] => (
     program?.programStages ?? []
 ).map((stage: any) => ({ id: stage.id, label: stage.displayName }));
-
-export const replaceDataStoreProfile = (
-    dataStore: any[],
-    sectionKey: string,
-    profile: ProfileConfig,
-) => dataStore.map(section => section.key === sectionKey
-    ? { ...section, profile: { ...profile, program: profile.program || section.program } }
-    : section);

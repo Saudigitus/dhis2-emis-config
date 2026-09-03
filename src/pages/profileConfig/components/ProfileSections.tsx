@@ -2,9 +2,8 @@ import React from 'react';
 import { Button } from '@dhis2/ui';
 import { Add as AddIcon, Edit as EditIcon } from '@mui/icons-material';
 import { D2I18n } from 'dhis2-semis-types';
-import type { DialogTarget } from '../ConfigurationDialog';
 import styles from '../profileConfig.module.css';
-import { ProfileTabConfig } from '../types';
+import { DialogTarget, ProfileTabConfig } from '../types';
 import { createProfileComponent, createProfileTab } from '../utils/profileFactories';
 
 type Props = {
