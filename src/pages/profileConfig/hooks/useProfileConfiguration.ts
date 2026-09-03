@@ -23,12 +23,13 @@ export default function useProfileConfiguration() {
     const dataElements = useMemo(() => getDataElementOptions(program), [program]);
     const programStages = useMemo(() => getProgramStageOptions(program), [program]);
 
-    console.log(program,'aa')
     return {
         ...editor,
         attributes,
         dataElements,
         programStages,
+        program,
+        dataStoreData,
         goBack: () => navigate(-1),
     };
 }

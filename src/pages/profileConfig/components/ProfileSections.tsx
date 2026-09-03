@@ -51,7 +51,11 @@ export default function ProfileSections({
                 <button
                     type="button"
                     className={styles.addTab}
-                    onClick={() => onConfigure({ kind: 'tab', tab: {} as any, isNew: true })}
+                    onClick={() => onConfigure({
+                        kind: 'tab',
+                        tab: { order: tabs?.length ?? 0, components: [] } as ProfileTabConfig,
+                        isNew: true,
+                    })}
                 >
                     + {i18n.t('Add section')}
                 </button>
@@ -92,7 +96,7 @@ export default function ProfileSections({
                             icon={<AddIcon fontSize="small" />}
                             onClick={() => onConfigure({
                                 kind: 'component',
-                                component: {} as any,
+                                component: { order: activeTab?.components?.length ?? 0 } as ProfileTabConfig['components'][number],
                                 isNew: true,
                             })}
                         >

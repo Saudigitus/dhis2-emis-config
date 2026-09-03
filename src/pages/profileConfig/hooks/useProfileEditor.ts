@@ -34,14 +34,16 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
     };
 
     const updateTab = (tab: ProfileTabConfig) => {
-        const tabs = profileConfig.tabs.filter(item => item.id !== tab.id);
-        const insertionIndex = Math.min(Math.max(tab.order, 0), tabs.length);
-        tabs.splice(insertionIndex, 0, tab);
+        const id = tab?.id || `profile-tab-${Date.now()}-${profileConfig.tabs.length}`;
+        const nextTab = { ...tab, id, createdAt: tab?.createdAt ?? Date.now() };
+        const tabs = profileConfig.tabs.filter(item => item.id !== id);
+        const insertionIndex = Math.min(Math.max(nextTab.order, 0), tabs.length);
+        tabs.splice(insertionIndex, 0, nextTab);
         updateProfileConfig({
             ...profileConfig,
             tabs: tabs.map((item, order) => ({ ...item, order })),
         });
-        setActiveTabId(tab.id);
+        setActiveTabId(id);
         closeDialog();
     };
 

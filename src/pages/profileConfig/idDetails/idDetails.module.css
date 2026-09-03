@@ -2,6 +2,9 @@
     width: 100%;
     overflow: visible !important;
 }
+.divider{
+    margin: 2px;
+}
 
 .profileHeader {
     display: flex;
@@ -23,8 +26,8 @@
 }
 
 .avatarContainer {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border: 1px solid #d5dee8;
     border-radius: 50%;
     background: #e8f0f8;
@@ -95,8 +98,8 @@
 }
 
 .studentId {
-    color: #525e6d;
-    font-size: 13px;
+    color: #000000;
+    font-size: 14px;
 }
 
 .tagsContainer {

@@ -56,39 +56,50 @@
     font-size: 12px;
 }
 
+.academicYearLabel {
+    color: #526278;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .summaryCards {
     display: grid;
-    grid-template-columns: repeat(6, minmax(90px, 1fr));
+    grid-template-columns: repeat(6, minmax(130px, 1fr));
     gap: 8px;
 }
 
 .summaryCard {
+    box-sizing: border-box;
     display: flex;
-    min-height: 58px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    padding: 6px 8px;
-    border: 1px solid #9ecbfa;
-    border-radius: 6px;
-    background: #f0f7ff;
-    color: #064ba5;
+    border-radius: 12px;
+    min-width: 130px;
+    height: 80px;
+    padding: 16px;
+    border: 1px solid #bfdbfe;
+    background-color: #eff6ff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    color: #0d47a1;
     font: inherit;
     text-align: center;
 }
 
 .summaryValue {
-    font-size: 16px;
+    font-size: 25px;
     font-weight: 700;
-    line-height: 18px;
+    line-height: 1;
+    letter-spacing: -.02em;
 }
 
 .summaryName {
+    margin-top: 4px;
     max-width: 100%;
     overflow: hidden;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: .9;
     text-overflow: ellipsis;
     white-space: nowrap;
 }

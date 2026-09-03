@@ -48,11 +48,17 @@ export default function IdDetails({ i18n, config, attributes, dataElements, onCo
                                 {titleLabels?.length > 0 ? titleLabels.join(config?.title?.separator) : i18n.t('Select title variables')}
                             </span>
                         </EditableRegion>
+
+                        <div className={styles.divider} />
+
                         <EditableRegion label={i18n.t('Subtitle')} onClick={() => onConfigure('subtitle')}>
                             <span className={styles.studentId}>
                                 {subtitleLabels?.length > 0 ? subtitleLabels.join(config?.subtitle?.separator) : i18n.t('Select subtitle variables')}
                             </span>
                         </EditableRegion>
+
+                        <div className={styles.divider} />
+
                         <EditableRegion label={i18n.t('Badges')} onClick={() => onConfigure('badges')}>
                             <span className={styles.tagsContainer}>
                                 {badgeLabels?.length > 0 ? badgeLabels?.map((badgeLabel, index) => (

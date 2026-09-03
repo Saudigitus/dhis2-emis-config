@@ -42,7 +42,6 @@ export default function ConfigurationDialog(props: Props) {
                 i18n={props.i18n}
                 tab={target.tab}
                 isNew={target.isNew}
-                programStages={props.programStages}
                 onClose={props.onClose}
                 onApply={props.onApplyTab}
                 onDelete={target.isNew ? undefined : props.onDelete}

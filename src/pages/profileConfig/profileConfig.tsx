@@ -28,6 +28,7 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                 />
                 <SummaryCards
                     i18n={i18n}
+                    program={profile.program?.id!}
                 />
                 <ProfileSections
                     i18n={i18n}
