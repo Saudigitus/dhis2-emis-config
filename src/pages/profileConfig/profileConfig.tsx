@@ -13,7 +13,7 @@ import { DialogTarget } from './types';
 
 type Confirmation = {
     type: 'delete' | 'update';
-    action: () => void;
+    action: () => void | Promise<void>;
 };
 
 export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
@@ -28,9 +28,17 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
         confirm('delete', () => profile.deleteTarget(target));
     };
 
-    const runConfirmedAction = () => {
-        confirmation?.action();
+    const runConfirmedAction = async () => {
+        const action = confirmation?.action;
+
+        if (confirmation?.type === 'delete') {
+            await action?.();
+            setConfirmation(null);
+            return;
+        }
+
         setConfirmation(null);
+        await action?.();
     };
 
     return (
@@ -70,6 +78,7 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                     attributes={profile.attributes}
                     dataElements={profile.dataElements}
                     programStages={profile.programStages}
+                    loading={profile.loading}
                     onClose={profile.closeDialog}
                     onApplyIdentity={value => confirm('update', () => profile.updateIdentity(value))}
                     onApplyTab={value => profile.dialogTarget?.kind === 'tab' && profile.dialogTarget.isNew
@@ -85,6 +94,7 @@ export default function ProfileConfiguration({ i18n }: { i18n: D2I18n }) {
                 <ConfirmationDialog
                     i18n={i18n}
                     type={confirmation.type}
+                    loading={profile.loading}
                     onCancel={() => setConfirmation(null)}
                     onConfirm={runConfirmedAction}
                 />

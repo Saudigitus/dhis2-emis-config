@@ -13,6 +13,7 @@ type Props = {
     identityCard: IdentityCardConfig;
     attributes: VariableOption[];
     dataElements: VariableOption[];
+    loading: boolean;
     onClose: () => void;
     onApply: (value: IdentityCardConfig) => void;
 };
@@ -46,6 +47,7 @@ export default function IdentityConfigurationDialog({
     identityCard,
     attributes,
     dataElements,
+    loading,
     onClose,
     onApply,
 }: Props) {
@@ -101,7 +103,7 @@ export default function IdentityConfigurationDialog({
             <FormModalContent
                 formFields={formFields}
                 initialValues={initialValues}
-                loading={false}
+                loading={loading}
                 onCancel={onClose}
                 onSubmit={apply}
             />

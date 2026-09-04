@@ -11,6 +11,7 @@ type Props = {
     component: ProfileComponentConfig;
     isNew?: boolean;
     programStages: Array<{ id: string; label: string }>;
+    loading: boolean;
     onClose: () => void;
     onApply: (value: ProfileComponentConfig) => void;
 };
@@ -20,6 +21,7 @@ export default function ComponentConfigurationDialog({
     component,
     isNew,
     programStages,
+    loading,
     onClose,
     onApply,
 }: Props) {
@@ -70,7 +72,7 @@ export default function ComponentConfigurationDialog({
                 <FormModalContent
                     formFields={formFields}
                     initialValues={isNew ? { order: component?.order } : component}
-                    loading={false}
+                    loading={loading}
                     setTrackedValues={setTrackedValues}
                     onCancel={onClose}
                     onSubmit={apply}

@@ -11,7 +11,7 @@ import useGetSelectedKeys from '../../../../../../libs/components/src/hooks/conf
 
 export default function useProfileConfiguration() {
     const navigate = useNavigate();
-    const { program, dataStoreData } = useGetSelectedKeys();
+    const { program, dataStoreData = {} as any } = useGetSelectedKeys();
 
     const sourceProfile = useMemo(
         () => normalizeProfile(dataStoreData?.profile, dataStoreData?.program ?? program?.id ?? ''),

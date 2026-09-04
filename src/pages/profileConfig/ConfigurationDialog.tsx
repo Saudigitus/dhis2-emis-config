@@ -12,6 +12,7 @@ type Props = {
     attributes: VariableOption[];
     dataElements: VariableOption[];
     programStages: Array<{ id: string; label: string }>;
+    loading: boolean;
     onClose: () => void;
     onApplyIdentity: (value: IdentityCardConfig) => void;
     onApplyTab: (value: ProfileTabConfig) => void;
@@ -29,6 +30,7 @@ export default function ConfigurationDialog(props: Props) {
                 identityCard={props.identityCard}
                 attributes={props.attributes}
                 dataElements={props.dataElements}
+                loading={props.loading}
                 onClose={props.onClose}
                 onApply={props.onApplyIdentity}
             />
@@ -41,6 +43,7 @@ export default function ConfigurationDialog(props: Props) {
                 i18n={props.i18n}
                 tab={target.tab}
                 isNew={target.isNew}
+                loading={props.loading}
                 onClose={props.onClose}
                 onApply={props.onApplyTab}
             />
@@ -53,6 +56,7 @@ export default function ConfigurationDialog(props: Props) {
             component={target.component}
             isNew={target.isNew}
             programStages={props.programStages}
+            loading={props.loading}
             onClose={props.onClose}
             onApply={props.onApplyComponent}
         />

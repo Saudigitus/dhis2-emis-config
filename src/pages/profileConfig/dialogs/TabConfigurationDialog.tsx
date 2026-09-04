@@ -10,6 +10,7 @@ type Props = {
     i18n: D2I18n;
     tab: ProfileTabConfig;
     isNew?: boolean;
+    loading: boolean;
     onClose: () => void;
     onApply: (value: ProfileTabConfig) => void;
 };
@@ -18,6 +19,7 @@ export default function TabConfigurationDialog({
     i18n,
     tab,
     isNew,
+    loading,
     onClose,
     onApply,
 }: Props) {
@@ -52,7 +54,7 @@ export default function TabConfigurationDialog({
                 <FormModalContent
                     formFields={formFields}
                     initialValues={initialValues}
-                    loading={false}
+                    loading={loading}
                     onCancel={onClose}
                     onSubmit={apply}
                 />

@@ -6,12 +6,20 @@ import {
     ProfileConfig,
     ProfileTabConfig,
 } from '../types';
+import usePostDataStore from '../../../hooks/dataStore/usePostDataStore';
+import { useRecoilValue } from 'recoil';
+import { DataStoreState } from 'dhis2-semis-components';
+import { useUrlParams } from 'dhis2-semis-functions';
 
 export default function useProfileEditor(sourceProfile: ProfileConfig) {
     const [profileConfig, setProfileConfig] = useState(sourceProfile);
     const [activeTabId, setActiveTabId] = useState(sourceProfile.tabs[0]?.id ?? '');
     const [dialogTarget, setDialogTarget] = useState<DialogTarget | null>(null);
     const [dirty, setDirty] = useState(false);
+    const { createDataStore, error, loading } = usePostDataStore()
+    const dataStore = useRecoilValue(DataStoreState)
+    const { urlParameters } = useUrlParams()
+    const { sectionType } = urlParameters
 
     useEffect(() => {
         setProfileConfig(sourceProfile);
@@ -21,25 +29,31 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         setDirty(false);
     }, [sourceProfile]);
 
-    const updateProfileConfig = (next: ProfileConfig) => {
+    const updateProfileConfig = async (next: ProfileConfig) => {
+        let updatedDataStoreIndex = dataStore?.findIndex(x => x.key === sectionType)
+        let copyDataStore: any = [...dataStore]
+        copyDataStore[updatedDataStoreIndex] = { ...copyDataStore[updatedDataStoreIndex], profile: next }
+
+        await createDataStore({ data: copyDataStore, key: 'dataStore/semis/values' })
+
         setProfileConfig(next);
         setDirty(true);
     };
 
     const closeDialog = () => setDialogTarget(null);
 
-    const updateIdentity = (identityCard: IdentityCardConfig) => {
-        updateProfileConfig({ ...profileConfig, identityCard });
+    const updateIdentity = async (identityCard: IdentityCardConfig) => {
+        await updateProfileConfig({ ...profileConfig, identityCard });
         closeDialog();
     };
 
-    const updateTab = (tab: ProfileTabConfig) => {
+    const updateTab = async (tab: ProfileTabConfig) => {
         const id = tab?.id || `profile-tab-${Date.now()}-${profileConfig.tabs.length}`;
         const nextTab = { ...tab, id, createdAt: tab?.createdAt ?? Date.now() };
         const tabs = profileConfig.tabs.filter(item => item.id !== id);
         const insertionIndex = Math.min(Math.max(nextTab.order, 0), tabs.length);
         tabs.splice(insertionIndex, 0, nextTab);
-        updateProfileConfig({
+        await updateProfileConfig({
             ...profileConfig,
             tabs: tabs.map((item, order) => ({ ...item, order })),
         });
@@ -47,7 +61,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         closeDialog();
     };
 
-    const updateComponent = (component: ProfileComponentConfig) => {
+    const updateComponent = async (component: ProfileComponentConfig) => {
         const activeTab = profileConfig.tabs.find(tab => tab.id === activeTabId);
         if (!activeTab) return;
 
@@ -57,21 +71,21 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
             ? activeComponents?.map(item => item?.order === component?.order ? component : item)
             : [...activeComponents, component];
 
-        updateProfileConfig({
+        await updateProfileConfig({
             ...profileConfig,
             tabs: profileConfig.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
         });
         closeDialog();
     };
 
-    const deleteTarget = (target: DialogTarget | null = dialogTarget) => {
+    const deleteTarget = async (target: DialogTarget | null = dialogTarget) => {
         if (!target || target.kind === 'identity') return;
 
         if (target.kind === 'tab') {
             const tabs = profileConfig.tabs
                 .filter(tab => tab.id !== target.tab.id)
                 .map((tab, order) => ({ ...tab, order }));
-            updateProfileConfig({ ...profileConfig, tabs });
+            await updateProfileConfig({ ...profileConfig, tabs });
             setActiveTabId(current => current === target.tab.id ? tabs[0]?.id ?? '' : current);
         }
 
@@ -81,7 +95,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
                 const components = (activeTab?.components ?? [])
                     .filter(component => component.order !== target.component.order)
                     .map((component, order) => ({ ...component, order }));
-                updateProfileConfig({
+                await updateProfileConfig({
                     ...profileConfig,
                     tabs: profileConfig.tabs.map(tab => tab.id === activeTab.id ? { ...tab, components } : tab),
                 });
@@ -95,6 +109,8 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         activeTabId,
         dialogTarget,
         dirty,
+        error,
+        loading,
         profileConfig,
         closeDialog,
         deleteTarget,

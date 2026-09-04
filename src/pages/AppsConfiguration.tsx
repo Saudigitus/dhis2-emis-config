@@ -115,7 +115,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
         disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
         onAction: () => {
           if (hasNavigation) {
-            navigate(route)
+            navigate(route!)
           } else {
             const initialValues = {
               module: module, key: section.toLocaleLowerCase(),
@@ -161,12 +161,14 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
             )
           })
         }
+
         {open && <ModalManager
           i18n={i18n}
           open={open}
           setOpen={setOpen}
           initialValues={{ ...initialValues, academicYear: schoolCalendarKeys?.academicYear }}
         />}
+        
       </WithPadding >
     </Box>
   )
