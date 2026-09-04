@@ -1,0 +1,421 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    color: #212934;
+}
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12.5px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 4px;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.pageHeader h1 {
+    margin: 0 0 6px;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.pageHeader p {
+    margin: 0;
+    color: #6c7787;
+    font-size: 14px;
+}
+
+.workspace {
+    overflow: hidden;
+    border: 1px solid #e1e5e9;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .18);
+}
+
+.summarySection {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.summarySectionHeader {
+    display: flex;
+    align-items: center;
+}
+
+.summarySectionHeader h2 {
+    margin: 0;
+    color: #404b5a;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.summarySectionHeader span {
+    color: #6c7787;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.academicYearLabel {
+    color: #526278;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.summaryCards {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(130px, 1fr));
+    gap: 8px;
+}
+
+.summaryCard {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    min-width: 130px;
+    height: 80px;
+    padding: 16px;
+    border: 1px solid #bfdbfe;
+    background-color: #eff6ff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    color: #0d47a1;
+    font: inherit;
+    text-align: center;
+}
+
+.summaryValue {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.02em;
+}
+
+.summaryName {
+    margin-top: 4px;
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: .9;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tabsRow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-height: 49px;
+    padding: 0 12px;
+    border-bottom: 1px solid #d9dfe5;
+}
+
+.tabItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    border-bottom: 4px solid transparent;
+}
+
+.tab {
+    align-self: stretch;
+    flex: 1;
+    min-width: 0;
+    padding: 14px 6px 12px 16px;
+    border: 0;
+    background: transparent;
+    color: #5f6b7a;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tab:hover,
+.tab:focus-visible {
+    outline: none;
+}
+
+.tabSelected .tab {
+    color: #0d47a1;
+    font-weight: 600;
+}
+
+.itemActions {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding-right: 7px;
+}
+
+.iconAction {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #657589;
+    cursor: pointer;
+}
+
+.iconAction:hover,
+.iconAction:focus-visible {
+    background: #e8f1fb;
+    color: #0868ce;
+    outline: none;
+}
+
+.deleteAction:hover,
+.deleteAction:focus-visible {
+    background: #fcebea;
+    color: #d64a2f;
+}
+
+.addTab {
+    align-self: center;
+    margin-left: 8px;
+    padding: 7px 10px;
+    border: 1px dashed #aab7c4;
+    border-radius: 4px;
+    background: #fff;
+    color: #0d47a1;
+    cursor: pointer;
+}
+
+.canvas {
+    min-height: 214px;
+    padding: 16px;
+    background: #fff;
+}
+
+.componentGrid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.componentCard {
+    min-height: 180px;
+    overflow: hidden;
+    border: 1px solid #d8e0e8;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .06);
+}
+
+.componentCard:hover,
+.componentCard:focus-within {
+    border-color: #b8c7d6;
+    box-shadow: 0 1px 3px rgba(33, 41, 52, .12);
+    outline: none;
+}
+
+.componentHeader {
+    display: flex;
+    justify-content: space-between;
+    min-height: 45px;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 12px 18px;
+    border-bottom: 1px solid #d8e0e8;
+    background: #f7f9fb;
+    color: #0868ce;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.componentHeader .itemActions {
+    padding-right: 0;
+}
+
+.componentBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 133px;
+    padding: 16px;
+    border: 0;
+    background: #fff;
+    color: #697789;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.componentBody:focus-visible {
+    outline: 2px solid #147cd7;
+    outline-offset: -2px;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    gap: 10px;
+    border: 1px dashed #aab7c4;
+    border-radius: 5px;
+    background: #fff;
+    color: #6c7787;
+}
+
+.componentToolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+
+.dialogForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 480px;
+}
+
+.field,
+.checkboxField {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #404b5a;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.checkboxField {
+    flex-direction: row;
+    align-items: center;
+    font-weight: 400;
+}
+
+.input,
+.select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #aab7c4;
+    border-radius: 3px;
+    background: #fff;
+    color: #212934;
+    font: inherit;
+}
+
+.select[multiple] {
+    min-height: 150px;
+}
+
+.fieldHint {
+    color: #6c7787;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.optionalLabel {
+    color: #6c7787;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.fieldGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.formModalError {
+    margin: 0;
+    padding: 0 24px 20px;
+    color: #d64a2f;
+    font-size: 13px;
+}
+
+.confirmationContent {
+    padding: 8px 24px 24px;
+    color: #4a5768;
+    font-size: 14px;
+}
+
+.confirmationActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0 24px 24px;
+}
+
+.error {
+    margin: 0;
+    color: #d64a2f;
+    font-size: 13px;
+}
+
+.dialogActions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.dialogActionsRight {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+@media (max-width: 760px) {
+    .pageHeader {
+        flex-direction: column;
+    }
+
+    .componentGrid,
+    .fieldGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .componentCard {
+        grid-column: 1 / -1 !important;
+    }
+
+    .tabsRow {
+        overflow-x: auto;
+    }
+
+    .dialogForm {
+        min-width: 0;
+    }
+
+    .summaryCards {
+        grid-template-columns: repeat(2, minmax(130px, 1fr));
+    }
+}
+
+@media (min-width: 761px) and (max-width: 1200px) {
+    .summaryCards {
+        grid-template-columns: repeat(3, minmax(130px, 1fr));
+    }
+}

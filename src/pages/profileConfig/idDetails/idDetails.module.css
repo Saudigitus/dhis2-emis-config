@@ -1,0 +1,150 @@
+.profileCard {
+    width: 100%;
+    overflow: visible !important;
+}
+.divider{
+    margin: 2px;
+}
+
+.profileHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatarRegion {
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.avatarContainer {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #d5dee8;
+    border-radius: 50%;
+    background: #e8f0f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photoName {
+    max-width: 100px;
+    overflow: hidden;
+    color: #6c7787;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.studentDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.editableRegion {
+    position: relative;
+    display: flex;
+    padding: 3px 6px;
+    border: 1px dashed #aab7c4;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.editableRegion:focus-visible {
+    outline: 2px solid #147cd7;
+    outline-offset: 2px;
+}
+
+.editHint {
+    position: absolute;
+    z-index: 2;
+    top: -25px;
+    left: 0;
+    display: none;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 6px;
+    border-radius: 3px;
+    background: #25364a;
+    color: #fff;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.editableRegion:hover .editHint,
+.editableRegion:focus-visible .editHint {
+    display: flex;
+}
+
+.studentName {
+    color: #0a1b2a;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.studentId {
+    color: #000000;
+    font-size: 14px;
+}
+
+.tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge {
+    display: inline-flex;
+    min-height: 22px;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 3px;
+    background: #147cd7;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.emptyBadges {
+    color: #6c7787;
+    font-size: 12px;
+}
+
+.previewLabel {
+    align-self: flex-start;
+    padding: 5px 9px;
+    border-radius: 12px;
+    background: #e8f0f8;
+    color: #1e6194;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+    .profileHeader,
+    .profileInfo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .previewLabel {
+        display: none;
+    }
+}
