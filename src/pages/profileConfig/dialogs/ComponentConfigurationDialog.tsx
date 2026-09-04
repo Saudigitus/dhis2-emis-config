@@ -34,6 +34,20 @@ export default function ComponentConfigurationDialog({
         name: '',
         fields: buildComponentFields({ i18n, type: currentType, programStages }),
     }], [currentType, i18n, isNew, programStages]);
+    const initialValues = useMemo(() => {
+        if (isNew) return { order: component?.order };
+
+        const values: any = { ...component };
+        if (!component?.size?.trim()) delete values.size;
+        if (!component?.type?.trim()) delete values.type;
+
+        if (component?.details) {
+            values.details = { ...component.details };
+            if (!component.details?.programStage?.trim()) delete values.details.programStage;
+        }
+
+        return values;
+    }, [component, isNew]);
 
     const apply = (values: ProfileComponentConfig) => {
         if (!values?.displayName?.trim()) {
@@ -71,7 +85,7 @@ export default function ComponentConfigurationDialog({
                 <ModalTitle>{isNew ? i18n.t('Add component') : i18n.t('Configure component')}</ModalTitle>
                 <FormModalContent
                     formFields={formFields}
-                    initialValues={isNew ? { order: component?.order } : component}
+                    initialValues={initialValues}
                     loading={loading}
                     setTrackedValues={setTrackedValues}
                     onCancel={onClose}

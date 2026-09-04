@@ -18,18 +18,26 @@ type Props = {
 
 const getLabels = (ids: string[] | undefined, variables: VariableOption[]) => {
     const labels = new Map(variables?.map(variable => [variable?.id, variable?.label]));
-    return ids?.map(id => labels.get(id) ?? id);
+    return (ids ?? [])
+        .map(id => id?.trim())
+        .filter((id): id is string => Boolean(id))
+        .map(id => labels.get(id) ?? id);
 };
 
 export default function IdDetails({ i18n, config, attributes, dataElements, onConfigure }: Props) {
-    const titleLabels = getLabels(config?.title?.attributes, attributes) || [];
-    const subtitleLabels = getLabels(config?.subtitle?.attributes, attributes) || [];
+    const titleLabels = getLabels(config?.title?.attributes, attributes);
+    const subtitleLabels = getLabels(config?.subtitle?.attributes, attributes);
     const allVariables = [...(attributes ?? []), ...(dataElements ?? [])];
-    const badgeLabels = config?.badges?.map(badge => {
-        const match = allVariables.find(variable => variable.id === badge.variable && variable.source === badge.source);
-        return match?.label ?? badge.variable ?? i18n.t('Variable');
-    });
-    const photo = attributes?.find(attribute => attribute?.id === config?.photo?.attribute);
+    const badgeLabels = (config?.badges ?? [])
+        .filter(badge => Boolean(badge?.source && badge?.variable?.trim()))
+        .map(badge => {
+            const match = allVariables.find(variable => variable.id === badge.variable && variable.source === badge.source);
+            return match?.label ?? badge.variable;
+        });
+    const photoAttribute = config?.photo?.attribute?.trim();
+    const photo = photoAttribute
+        ? attributes?.find(attribute => attribute?.id === photoAttribute)
+        : undefined;
 
     return (
         <Card className={styles.profileCard}>
@@ -45,7 +53,7 @@ export default function IdDetails({ i18n, config, attributes, dataElements, onCo
                     <div className={styles.studentDetails}>
                         <EditableRegion label={i18n.t('Title')} onClick={() => onConfigure('title')}>
                             <span className={styles.studentName}>
-                                {titleLabels?.length > 0 ? titleLabels.join(config?.title?.separator) : i18n.t('Select title variables')}
+                                {titleLabels.length > 0 ? titleLabels.join(config?.title?.separator) : i18n.t('Select title variables')}
                             </span>
                         </EditableRegion>
 
@@ -53,7 +61,7 @@ export default function IdDetails({ i18n, config, attributes, dataElements, onCo
 
                         <EditableRegion label={i18n.t('Subtitle')} onClick={() => onConfigure('subtitle')}>
                             <span className={styles.studentId}>
-                                {subtitleLabels?.length > 0 ? subtitleLabels.join(config?.subtitle?.separator) : i18n.t('Select subtitle variables')}
+                                {subtitleLabels.length > 0 ? subtitleLabels.join(config?.subtitle?.separator) : i18n.t('Select subtitle variables')}
                             </span>
                         </EditableRegion>
 
@@ -61,7 +69,7 @@ export default function IdDetails({ i18n, config, attributes, dataElements, onCo
 
                         <EditableRegion label={i18n.t('Badges')} onClick={() => onConfigure('badges')}>
                             <span className={styles.tagsContainer}>
-                                {badgeLabels?.length > 0 ? badgeLabels?.map((badgeLabel, index) => (
+                                {badgeLabels.length > 0 ? badgeLabels.map((badgeLabel, index) => (
                                     <span key={`${badgeLabel}-${index}`} className={styles.badge}>{badgeLabel}</span>
                                 )) : <span className={styles.emptyBadges}>{i18n.t('Add badges')}</span>}
                             </span>
