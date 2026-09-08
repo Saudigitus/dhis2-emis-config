@@ -84,6 +84,11 @@
     gap: 8px;
 }
 
+.summaryCardSkeleton {
+    min-width: 130px;
+    border-radius: 12px !important;
+}
+
 .summaryWarningContainer {
     display: flex;
     justify-content: center;

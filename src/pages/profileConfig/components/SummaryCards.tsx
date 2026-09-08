@@ -4,6 +4,7 @@ import styles from '../profileConfig.module.css';
 import { useGetProgramIndicators } from 'dhis2-semis-functions';
 import { Button, Card } from '@dhis2/ui';
 import { WarningAmber as WarningIcon } from '@mui/icons-material';
+import { Skeleton } from '@mui/material';
 
 type Props = {
     i18n: D2I18n;
@@ -11,9 +12,10 @@ type Props = {
 };
 
 const indicators = Array.from({ length: 5 }, (_, index) => index + 1);
+const summaryCardSkeletons = Array.from({ length: 6 }, (_, index) => index);
 
 export default function SummaryCards({ i18n, program }: Props) {
-    const { programIndicators } = useGetProgramIndicators({ programId: program })
+    const { programIndicators, loading } = useGetProgramIndicators({ programId: program })
 
     return (
         <section className={styles.summarySection} aria-label={i18n.t('Summary cards')}>
@@ -40,7 +42,22 @@ export default function SummaryCards({ i18n, program }: Props) {
                 <span>{i18n.t('Max: 6 indicators')}</span>
             </div>
 
-            {programIndicators?.length === 0 ? (
+            {loading ? (
+                <div
+                    className={styles.summaryCards}
+                    aria-label={i18n.t('Loading summary cards')}
+                    aria-busy="true"
+                >
+                    {summaryCardSkeletons.map(index => (
+                        <Skeleton
+                            key={`summary-card-skeleton-${index}`}
+                            className={styles.summaryCardSkeleton}
+                            variant="rounded"
+                            height={80}
+                        />
+                    ))}
+                </div>
+            ) : programIndicators?.length === 0 ? (
                 <div className={styles.summaryWarningContainer}>
                     <Card className={styles.summaryWarningCard}>
                         <span className={styles.summaryWarningIconContainer}>
