@@ -88,7 +88,9 @@ export const buildComponentFields = ({
             valueType: 'LIST',
             order: 5,
             visible: isEventComponent,
-            options: programStages?.map(stage => ({ value: stage?.id, label: stage?.label })) ?? [],
+            options: programStages
+                ?.filter(stage => Boolean(stage?.id?.trim()))
+                .map(stage => ({ value: stage.id, label: stage?.label })) ?? [],
         }),
     ];
 };

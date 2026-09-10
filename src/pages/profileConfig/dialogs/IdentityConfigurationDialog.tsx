@@ -25,19 +25,29 @@ type FormValues = {
     styled?: boolean | string;
 };
 
+const nonEmptyValues = (values: string[] | undefined) => (values ?? [])
+    .map(value => value?.trim())
+    .filter((value): value is string => Boolean(value));
+
+const hasValidBadgeValue = (badge: IdentityBadge) => (
+    (badge?.source === 'ATTRIBUTE' || badge?.source === 'DATA_ELEMENTS')
+    && Boolean(badge?.variable?.trim())
+);
+
 const getInitialValues = (section: IdentitySection, identityCard: IdentityCardConfig): FormValues => {
     if (section === 'photo') {
-        return { attribute: identityCard?.photo?.attribute ?? '' };
+        return { attribute: identityCard?.photo?.attribute?.trim() || undefined };
     }
     if (section === 'title' || section === 'subtitle') {
         return {
-            variables: identityCard?.[section]?.attributes ?? [],
+            variables: nonEmptyValues(identityCard?.[section]?.attributes),
             separator: identityCard?.[section]?.separator ?? '',
         };
     }
+    const badges = (identityCard?.badges ?? []).filter(hasValidBadgeValue);
     return {
-        variables: identityCard?.badges?.map(badge => `${badge?.source}:${badge?.variable ?? ''}`) ?? [],
-        styled: identityCard?.badges?.every(badge => badge?.styled) ?? true,
+        variables: badges.map(badge => `${badge.source}:${badge.variable?.trim()}`),
+        styled: badges.length > 0 ? badges.every(badge => badge?.styled) : true,
     };
 };
 
@@ -64,14 +74,14 @@ export default function IdentityConfigurationDialog({
 
     const apply = (values: FormValues) => {
         if (section === 'photo') {
-            onApply({ ...identityCard, photo: { attribute: values?.attribute ?? '' } });
+            onApply({ ...identityCard, photo: { attribute: values?.attribute?.trim() ?? '' } });
             return;
         }
         if (section === 'title' || section === 'subtitle') {
             onApply({
                 ...identityCard,
                 [section]: {
-                    attributes: values?.variables ?? [],
+                    attributes: nonEmptyValues(values?.variables),
                     separator: values?.separator ?? '',
                 },
             });
@@ -85,16 +95,22 @@ export default function IdentityConfigurationDialog({
             ] as const),
         );
         const styled = values?.styled === true || String(values?.styled) === 'true';
-        const badges = (values?.variables ?? []).map((item, order) => {
-            const [source, ...variableParts] = item.split(':');
-            return {
-                ...previousBadges.get(item),
-                order,
-                source: source as IdentityBadge['source'],
-                variable: variableParts.join(':'),
-                styled,
-            };
-        });
+        const badges = nonEmptyValues(values?.variables)
+            .filter(item => {
+                const [source, ...variableParts] = item.split(':');
+                return (source === 'ATTRIBUTE' || source === 'DATA_ELEMENTS')
+                    && Boolean(variableParts.join(':').trim());
+            })
+            .map((item, order) => {
+                const [source, ...variableParts] = item.split(':');
+                return {
+                    ...previousBadges.get(item),
+                    order,
+                    source: source as IdentityBadge['source'],
+                    variable: variableParts.join(':').trim(),
+                    styled,
+                };
+            });
         onApply({ ...identityCard, badges });
     };
 

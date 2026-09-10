@@ -2,7 +2,9 @@ import React from 'react';
 import { D2I18n } from 'dhis2-semis-types';
 import styles from '../profileConfig.module.css';
 import { useGetProgramIndicators } from 'dhis2-semis-functions';
-import { Button } from '@dhis2/ui';
+import { Button, Card } from '@dhis2/ui';
+import { WarningAmber as WarningIcon } from '@mui/icons-material';
+import { Skeleton } from '@mui/material';
 
 type Props = {
     i18n: D2I18n;
@@ -10,9 +12,10 @@ type Props = {
 };
 
 const indicators = Array.from({ length: 5 }, (_, index) => index + 1);
+const summaryCardSkeletons = Array.from({ length: 6 }, (_, index) => index);
 
 export default function SummaryCards({ i18n, program }: Props) {
-    const { programIndicators } = useGetProgramIndicators({ programId: program })
+    const { programIndicators, loading } = useGetProgramIndicators({ programId: program })
 
     return (
         <section className={styles.summarySection} aria-label={i18n.t('Summary cards')}>
@@ -39,19 +42,48 @@ export default function SummaryCards({ i18n, program }: Props) {
                 <span>{i18n.t('Max: 6 indicators')}</span>
             </div>
 
-            <div className={styles.summaryCards}>
-                {programIndicators?.slice(0, 6)?.map(indicator => (
-                    <div
-                        key={`indicator-${indicator?.id}`}
-                        className={styles.summaryCard}
-                    >
-                        <span className={styles.summaryValue}>{i18n.t('N/A')}</span>
-                        <span className={styles.summaryName}>
-                            {indicator?.displayName}
+            {loading ? (
+                <div
+                    className={styles.summaryCards}
+                    aria-label={i18n.t('Loading summary cards')}
+                    aria-busy="true"
+                >
+                    {summaryCardSkeletons.map(index => (
+                        <Skeleton
+                            key={`summary-card-skeleton-${index}`}
+                            className={styles.summaryCardSkeleton}
+                            variant="rounded"
+                            height={80}
+                        />
+                    ))}
+                </div>
+            ) : programIndicators?.length === 0 ? (
+                <div className={styles.summaryWarningContainer}>
+                    <Card className={styles.summaryWarningCard}>
+                        <span className={styles.summaryWarningIconContainer}>
+                            <WarningIcon className={styles.summaryWarningIcon} />
                         </span>
-                    </div>
-                ))}
-            </div>
+                        <span className={styles.summaryWarningContent}>
+                            <strong>{i18n.t('No program indicators')}</strong>
+                            <span>{i18n.t('There are no program indicators configured for this program.')}</span>
+                        </span>
+                    </Card>
+                </div>
+            ) : (
+                <div className={styles.summaryCards}>
+                    {programIndicators?.slice(0, 6)?.map(indicator => (
+                        <div
+                            key={`indicator-${indicator?.id}`}
+                            className={styles.summaryCard}
+                        >
+                            <span className={styles.summaryValue}>{i18n.t('N/A')}</span>
+                            <span className={styles.summaryName}>
+                                {indicator?.displayName}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </section>
     );
 }

@@ -22,7 +22,7 @@ const staffCards = (i18n: D2I18n) => [
     { key: "attendance", label: i18n.t("Attendance"), icon: attendanceImage, path: "attendance", configurable: true },
     { key: "transfer", label: i18n.t("Transfer"), icon: transferImage, path: "transfer", configurable: true },
     { key: "final-result", label: i18n.t("Re-enroll"), icon: resultImage, path: "final-result", configurable: true },
-    { key: "profile", hasNavigation: true, route: "profile/sectionType=staff", label: i18n.t("Staff Profile"), icon: workerImage, path: "profile", configurable: true },
+    { key: "profile", hasNavigation: true, route: "profile?sectionType=staff", label: i18n.t("Staff Profile"), icon: workerImage, path: "profile", configurable: true },
 ];
 
 const dashboardData = (i18n: D2I18n) => [

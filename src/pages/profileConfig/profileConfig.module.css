@@ -84,6 +84,63 @@
     gap: 8px;
 }
 
+.summaryCardSkeleton {
+    min-width: 130px;
+    border-radius: 12px !important;
+}
+
+.summaryWarningContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.summaryWarningCard {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(100%, 440px);
+    padding: 14px 16px;
+    border: 1px solid #d8e0e8;
+    border-left: 4px solid #d99000;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(33, 41, 52, .08);
+}
+
+.summaryWarningIconContainer {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff4d6;
+}
+
+.summaryWarningIcon {
+    color: #a86400;
+    font-size: 19px !important;
+}
+
+.summaryWarningContent {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+    color: #6c7787;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.summaryWarningContent strong {
+    color: #404b5a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
 .summaryCard {
     box-sizing: border-box;
     display: flex;

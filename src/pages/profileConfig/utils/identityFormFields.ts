@@ -42,10 +42,12 @@ const field = ({
     } : {}),
 });
 
-const variableOptions = (variables: VariableOption[]): Option[] => variables?.map(variable => ({
-    value: variable?.id,
-    label: variable?.label,
-})) ?? [];
+const variableOptions = (variables: VariableOption[]): Option[] => (variables ?? [])
+    .filter(variable => Boolean(variable?.id?.trim()))
+    .map(variable => ({
+        value: variable.id,
+        label: variable?.label,
+    }));
 
 export const buildIdentityFormFields = ({
     i18n,
@@ -87,11 +89,11 @@ export const buildIdentityFormFields = ({
         ];
     } else {
         const badgeOptions: Option[] = [
-            ...(attributes?.map(variable => ({
+            ...(attributes?.filter(variable => Boolean(variable?.id?.trim())).map(variable => ({
                 value: `ATTRIBUTE:${variable?.id}`,
                 label: variable?.label,
             })) ?? []),
-            ...(dataElements?.map(variable => ({
+            ...(dataElements?.filter(variable => Boolean(variable?.id?.trim())).map(variable => ({
                 value: `DATA_ELEMENTS:${variable?.id}`,
                 label: variable?.label,
             })) ?? []),

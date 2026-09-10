@@ -7,7 +7,7 @@ import {
     ProfileTabConfig,
 } from '../types';
 import usePostDataStore from '../../../hooks/dataStore/usePostDataStore';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { DataStoreState } from 'dhis2-semis-components';
 import { useUrlParams } from 'dhis2-semis-functions';
 
@@ -17,7 +17,7 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
     const [dialogTarget, setDialogTarget] = useState<DialogTarget | null>(null);
     const [dirty, setDirty] = useState(false);
     const { createDataStore, error, loading } = usePostDataStore()
-    const dataStore = useRecoilValue(DataStoreState)
+    const [dataStore, setDataStore] = useRecoilState(DataStoreState)
     const { urlParameters } = useUrlParams()
     const { sectionType } = urlParameters
 
@@ -35,7 +35,8 @@ export default function useProfileEditor(sourceProfile: ProfileConfig) {
         copyDataStore[updatedDataStoreIndex] = { ...copyDataStore[updatedDataStoreIndex], profile: next }
 
         await createDataStore({ data: copyDataStore, key: 'dataStore/semis/values' })
-
+       
+        setDataStore(copyDataStore)
         setProfileConfig(next);
         setDirty(true);
     };
