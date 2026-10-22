@@ -33,7 +33,7 @@ function formStudentFinalResultForm({
             ? [
                   {
                       visible: true,
-                      name: i18n.t('Promotion & Dropout Criteria'),
+                      name: i18n.t('Final Result Criteria'),
                       fields: [...finalResultStatusDetails]
                   }
               ]

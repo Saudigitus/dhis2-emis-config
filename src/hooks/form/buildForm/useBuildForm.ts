@@ -21,6 +21,8 @@ import { formmStudentPerformance } from '../../../utils/form/student/performance
 import { D2I18n } from 'dhis2-semis-types'
 import { useBuildAttendanceClassConfigForm } from '../student/attendance/useBuildAttendanceClassConfigForm'
 import { ProgramDataState } from '../../../atoms/ProgramDataSchema'
+import { SchoolCalendarState } from '../../../atoms/schoolCalendar'
+import { DataStoreState } from 'dhis2-semis-components'
 
 const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n }) => {
     const { useQuery } = useUrlParams()
@@ -42,6 +44,8 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
     const { buildStudentTransferForm } = useBuildStudentTransferForm()
     const { buildStudentPerformanceForm } = useBuildStudentPerformanceForm()
     const setMainProgram = useSetRecoilState<any>(ProgramDataState)
+    const dataStoreValues = useRecoilValue<any>(DataStoreState)
+    const calendar = useRecoilValue<any>(SchoolCalendarState)
 
 
     useEffect(() => {
@@ -190,7 +194,23 @@ const useBuildForm = ({ trackeValues, i18n }: { trackeValues?: any, i18n: D2I18n
                         attendaceClassConfigStageDataElements
                     ) : []
 
+                // The attendance of each class is registered with the filters and the academic year, so the
+                // attendance stage must have those data elements.
+                const sectionFilters = dataStoreValues?.find?.((x: any) => x.key == section)?.filters?.dataElements ?? []
+                const requiredDataElements = [
+                    ...sectionFilters.map((filter: any) => ({ id: filter.dataElement, name: filter.label })),
+                    ...(calendar?.academicYear ? [{ id: calendar.academicYear, name: i18n.t('Academic Year') }] : [])
+                ]
+                const missingDataElements = trackeValues?.allowClassAttendanceConfig === 'true' && stageDataElements
+                    ? requiredDataElements.filter(({ id }) => id && !stageDataElements.some((item: any) => item?.dataElement?.id === id))
+                    : []
+
                 const theForm = formStudentAttendance({
+                    warning: missingDataElements.length
+                        ? i18n.t('The attendance program stage must have these data elements to register the attendance of each class: {{dataElements}}', {
+                            dataElements: missingDataElements.map(({ name }) => name).join(', ')
+                        })
+                        : '',
                     attendanceDetails: attendace,
                     programFields: programFields,
                     attendanceStatusDetails,

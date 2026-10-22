@@ -16,7 +16,6 @@ import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../uti
 import { hasNullOrUndefined } from '../utils/valuesFormatter/valuesFormatter';
 import { D2I18n } from 'dhis2-semis-types';
 import useShowAlerts from '../hooks/alert/useShowAlert';
-import { useNavigate } from 'react-router-dom';
 
 const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { add, useQuery } = useUrlParams();
@@ -32,7 +31,6 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { getDataStore } = useDataStore()
   const [open, setOpen] = useState(Boolean(name && module && section));
   const { show } = useShowAlerts()
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (open) {
@@ -94,12 +92,12 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
     })
   }
 
-  const makeAction = ({ hasNavigation, route, module, section, label, registrationLabel, configurable }: { hasNavigation: boolean | undefined, route: undefined | string, configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
+  const makeAction = ({ module, section, label, registrationLabel, configurable }: { configurable: boolean, module: string, section: string, label: string, registrationLabel: string }) => {
     const formatedLabel = label.replace("-", " ")
 
     return ([
       ...(module == "registration" ? [{
-        label: i18n.t("This module contain general configuration and it's required for semis to work properly"),
+        label: i18n.t("This module contains the general settings required for SEMIS to work properly"),
         icon: <InfoIcon style={{ color: "orange" }} />,
       }] : [{}]),
       ...(configurable ? [{
@@ -114,16 +112,12 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
         icon: <Settings />,
         disabled: module == "registration" ? false : !isModuleConfigured(section, dataStore, "registration"),
         onAction: () => {
-          if (hasNavigation) {
-            navigate(route!)
-          } else {
-            const initialValues = {
-              module: module, key: section.toLocaleLowerCase(),
-              ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
-            }
-            setInitialValues(() => initialValues)
-            handleConfiguration({ module, section, label })
+          const initialValues = {
+            module: module, key: section.toLocaleLowerCase(),
+            ...moduleBodyToForm(getDataStoreSection(section, dataStore), module ?? "")
           }
+          setInitialValues(() => initialValues)
+          handleConfiguration({ module, section, label })
         },
       }] : []),
       {
@@ -148,12 +142,12 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
             return (
               <DashboardLayout title={i18n.t('{{section}}', { section: i18n.t(section) })} >
                 {
-                  cards.map(({ key: module, label, icon, configurable, hasNavigation, route }) => (
+                  cards.map(({ key: module, label, icon, configurable }) => (
                     <DashboardCard
                       key={label}
                       icon={icon}
                       contents={[{ label }]}
-                      actions={[...makeAction({ hasNavigation, route, module, section, label, registrationLabel: cards[0]?.label, configurable })]}
+                      actions={[...makeAction({ module, section, label, registrationLabel: cards[0]?.label, configurable })]}
                     />
                   ))
                 }

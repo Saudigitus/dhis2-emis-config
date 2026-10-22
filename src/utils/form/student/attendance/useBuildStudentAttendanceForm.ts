@@ -5,10 +5,11 @@ type formStudentFinalResultFormType = {
     attendanceDetails: GroupFormProps["fields"],
     attendanceStatusDetails: GroupFormProps["fields"]
     attendanceClassConfig: GroupFormProps["fields"]
+    warning?: string
     i18n: D2I18n
 }
 
-function formStudentAttendance({ attendanceDetails, programFields, attendanceStatusDetails, attendanceClassConfig, i18n }: formStudentFinalResultFormType) {
+function formStudentAttendance({ attendanceDetails, programFields, attendanceStatusDetails, attendanceClassConfig, warning, i18n }: formStudentFinalResultFormType) {
     return [
         {
             visible: true,
@@ -18,6 +19,7 @@ function formStudentAttendance({ attendanceDetails, programFields, attendanceSta
         },
         ...(attendanceDetails?.length > 0 ? [{
             visible: true,
+            description: warning ?? '',
             name: i18n.t('Attendance General Details'),
             fields: [...attendanceDetails]
         }] : []),
@@ -28,7 +30,7 @@ function formStudentAttendance({ attendanceDetails, programFields, attendanceSta
         }] : []),
         ...(attendanceClassConfig?.length > 0 ? [{
             visible: true,
-            description: "The Class Attendance Configuration section allows administrators to define how the system interprets and records student attendance status.",
+            description: i18n.t("Defines how the attendance of each class is registered and summarised."),
             name: i18n.t('Class Attendance Configuration'),
             fields: [...attendanceClassConfig]
         }] : [])
