@@ -1,7 +1,9 @@
 import { DataStoreConfigType } from '../../../types/dataStore/dataStoreConfigType'
 
 const registrationPostBody = (formValues: any, program: any, config: any) => {
+    // In the order of the form, so the global filters keep the same order.
     const keys = Object.keys(config?.registration ?? {})
+        .sort((a, b) => (config.registration[a]?.order ?? 0) - (config.registration[b]?.order ?? 0))
     let filters = []
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i]
@@ -17,12 +19,18 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
         }
     }
 
+    // grade and section are the data elements of the "grade" and "class" filters: the other modules pair them
+    // with the grade and class URL parameters (for staff, Employment type and Type of staff).
+    const filterField = (code: string) => keys.find((key) => config?.registration?.[key]?.filterCode === code)
+    const gradeField = filterField('grade')
+    const sectionField = filterField('class')
+
     return {
         [formValues?.module]: {
             enabled: formValues?.enabled ?? true,
             academicYear: formValues.academicYear,
-            grade: formValues?.grade ? formValues?.grade : formValues.typeOfStaff ?? null,
-            section: formValues?.section ? formValues?.section : formValues.employmentType ?? null,
+            grade: (gradeField && formValues?.[gradeField]) || null,
+            section: (sectionField && formValues?.[sectionField]) || null,
             lastUpdate: new Date().toISOString(),
             programStage: formValues.programStageRegistration
         },
@@ -48,25 +56,27 @@ const registrationPostBody = (formValues: any, program: any, config: any) => {
 }
 
 const registrationBodyToForm = (dataStoreValues: any, module: string) => {
+    const filters = dataStoreValues?.filters?.dataElements ?? []
+    const filterLabel = (code: string) => (filters.find((x: any) => x.code == code)
+        ?? filters.find((x: any) => x.dataElement == dataStoreValues?.[module]?.[code === 'grade' ? 'grade' : 'section']))?.label
+
     return {
         module: module,
         program: dataStoreValues?.program,
         programStageRegistration: dataStoreValues?.[module]?.programStage,
         ...dataStoreValues?.[module],
+        // Staff: Employment type is the "grade" filter and Type of staff the "class" filter.
         ...(dataStoreValues?.key == 'staff'
             ? {
-                typeOfStaff: dataStoreValues?.[module]?.grade,
-                employmentType: dataStoreValues?.[module]?.section
+                typeOfStaff: dataStoreValues?.[module]?.section,
+                employmentType: dataStoreValues?.[module]?.grade,
+                typeOfStaffName: filterLabel('class'),
+                employmentTypeName: filterLabel('grade')
             }
-            : {}),
-        [dataStoreValues?.key == 'student' ? 'gradeName' : 'typeOfStaffName']:
-            dataStoreValues?.filters?.dataElements?.find((x: any) => x.dataElement == dataStoreValues?.[module]?.grade)
-                ?.label,
-
-        [dataStoreValues?.key == 'student' ? 'sectionName' : 'employmentTypeName']:
-            dataStoreValues?.filters?.dataElements?.find(
-                (x: any) => x.dataElement == dataStoreValues?.[module]?.section
-            )?.label,
+            : {
+                gradeName: filterLabel('grade'),
+                sectionName: filterLabel('class')
+            }),
 
         orderType: dataStoreValues?.defaults?.defaultOrder?.split(':')?.[1],
         programStageSocioEconomic: dataStoreValues?.['socio-economics']?.programStage,
@@ -107,18 +117,17 @@ const attendance = (dataStoreValues: any, module: string) => {
     }
 }
 
-const attendancePostBody = (formValues: any) => {
+const attendancePostBody = (formValues: any, prev: any) => {
     const { absentCode, lateCode, leaveCode, presentCode, allowClassAttendanceConfig,
         programAttendanceClassConfig, attendaceClassConfigSummary, programStageAttendanceClassConfig,
         attendaceClassConfigRecord
     } = formValues
 
     return {
-        absenteeism: {
-            enabled: true
-        },
+        absenteeism: prev?.absenteeism ?? { enabled: true },
         [formValues?.module]: {
-            enabled: true,
+            // Saving the settings keeps the module on or off as it is.
+            enabled: prev?.[formValues?.module]?.enabled ?? true,
             absenceReason: formValues?.absenceReason,
             lastUpdate: new Date().toISOString(),
             programStage: formValues?.programStageAttendance,
@@ -141,7 +150,7 @@ const attendancePostBody = (formValues: any) => {
                             code: presentCode,
                             color: '#81C784',
                             icon: 'correct_blue_fill',
-                            key: presentCode,
+                            key: 'present',
                             configKey: `presentCode`,
                             totalSummary: attendaceClassConfigSummary
                         }
@@ -153,7 +162,7 @@ const attendancePostBody = (formValues: any) => {
                             code: absentCode,
                             color: '#E57373',
                             icon: 'wrong_red_fill',
-                            key: absentCode,
+                            key: 'absent',
                             configKey: `absentCode`,
                             totalSummary: attendaceClassConfigSummary
                         }
@@ -165,7 +174,7 @@ const attendancePostBody = (formValues: any) => {
                             code: lateCode,
                             color: '#f4fb71ff',
                             icon: 'correct_blue_fill',
-                            key: lateCode,
+                            key: 'late',
                             configKey: `lateCode`,
                             totalSummary: attendaceClassConfigSummary
                         }
@@ -177,7 +186,7 @@ const attendancePostBody = (formValues: any) => {
                             code: leaveCode,
                             color: '#a6d652ff',
                             icon: 'wrong_red_fill',
-                            key: leaveCode,
+                            key: 'leave',
                             configKey: `leaveCode`,
                             totalSummary: attendaceClassConfigSummary
                         }
@@ -188,11 +197,11 @@ const attendancePostBody = (formValues: any) => {
     }
 }
 
-const finalResultPostBody = (formValues: any) => {
+const finalResultPostBody = (formValues: any, prev: any) => {
 
     return {
         [formValues?.module]: {
-            enabled: true,
+            enabled: prev?.[formValues?.module]?.enabled ?? true,
             programStage: formValues.programStageFinalResult,
             validStatusValue: formValues?.programStages,
             dropoutStatusValues: formValues?.dropout,
@@ -222,9 +231,8 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
     return {
         ...prevDataStore,
         [formValues?.module]: {
-            enabled: true,
+            enabled: prevDataStore?.[formValues?.module]?.enabled ?? true,
             status: formValues.status,
-            originSchool: formValues.originSchool,
             destinySchool: formValues.destinySchool,
             programStage: formValues.programStageTransfer,
             lastUpdate: new Date().toISOString(),
@@ -234,7 +242,7 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
                         {
                             code: approvedCode,
                             configKey: 'approvedCode',
-                            key: approvedCode?.toLowerCase()
+                            key: 'approved'
                         }
                     ]
                     : []),
@@ -243,7 +251,7 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
                         {
                             code: penddingCode,
                             configKey: 'penddingCode',
-                            key: penddingCode?.toLowerCase()
+                            key: 'pending'
                         }
                     ]
                     : []),
@@ -252,7 +260,7 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
                         {
                             code: reprovedCode,
                             configKey: 'reprovedCode',
-                            key: reprovedCode?.toLowerCase()
+                            key: 'reproved'
                         }
                     ]
                     : [])
@@ -269,10 +277,10 @@ const performanceBodyToForm = (dataStoreValues: any, module: string) => {
     }
 }
 
-const performancePostBody = (formValues: any) => {
+const performancePostBody = (formValues: any, prev: any) => {
     return {
         [formValues?.module]: {
-            enabled: true,
+            enabled: prev?.[formValues?.module]?.enabled ?? true,
             lastUpdate: new Date().toISOString(),
             programStages: formValues?.programStages?.map((e: string) => {
                 return { programStage: e }
@@ -301,16 +309,16 @@ const modulePostBody = (formValues: any, program: any, prevData: DataStoreConfig
             return returnBody(registrationPostBody(formValues, program, config))
 
         case 'final-result':
-            return returnBody(finalResultPostBody(formValues))
+            return returnBody(finalResultPostBody(formValues, selectedDataStoreKey))
 
         case 'attendance':
-            return returnBody(attendancePostBody(formValues))
+            return returnBody(attendancePostBody(formValues, selectedDataStoreKey))
 
         case 'transfer':
             return returnBody(transferPostBody(formValues, selectedDataStoreKey))
 
         case 'performance':
-            return returnBody(performancePostBody(formValues))
+            return returnBody(performancePostBody(formValues, selectedDataStoreKey))
 
         default:
             return {}
