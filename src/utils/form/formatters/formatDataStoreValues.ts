@@ -233,7 +233,6 @@ const transferPostBody = (formValues: any, prevDataStore: any) => {
         [formValues?.module]: {
             enabled: prevDataStore?.[formValues?.module]?.enabled ?? true,
             status: formValues.status,
-            originSchool: formValues.originSchool,
             destinySchool: formValues.destinySchool,
             programStage: formValues.programStageTransfer,
             lastUpdate: new Date().toISOString(),

@@ -320,15 +320,6 @@ export const config = (i18n: D2I18n) => [
                 hint: i18n.t('Organisation unit data element'),
                 inputType: 'LIST',
                 label: i18n.t('Destination School'),
-                order: 2,
-                resource: 'dataElements'
-            },
-            originSchool: {
-                required: true,
-                filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: i18n.t('Organisation unit data element'),
-                inputType: 'LIST',
-                label: i18n.t('Origin School'),
                 order: 1,
                 resource: 'dataElements'
             },
@@ -348,7 +339,7 @@ export const config = (i18n: D2I18n) => [
                 inputType: 'LIST',
                 label: i18n.t('Transfer Status'),
                 optionSetValue: true,
-                order: 3,
+                order: 2,
                 resource: 'dataElements',
                 valueType: 'TEXT'
             },
@@ -689,15 +680,6 @@ export const config = (i18n: D2I18n) => [
                 hint: i18n.t('Organisation unit data element'),
                 inputType: 'LIST',
                 label: i18n.t('Destination School'),
-                order: 2,
-                resource: 'dataElements'
-            },
-            originSchool: {
-                required: true,
-                filter: 'valueType:eq:ORGANISATION_UNIT',
-                hint: i18n.t('Organisation unit data element'),
-                inputType: 'LIST',
-                label: i18n.t('Origin School'),
                 order: 1,
                 resource: 'dataElements'
             },
@@ -717,7 +699,7 @@ export const config = (i18n: D2I18n) => [
                 inputType: 'LIST',
                 label: i18n.t('Transfer Status'),
                 optionSetValue: true,
-                order: 3,
+                order: 2,
                 resource: 'dataElements',
                 valueType: 'TEXT'
             },
