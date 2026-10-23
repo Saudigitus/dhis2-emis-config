@@ -16,6 +16,7 @@ import { getDataStoreSection, isModuleConfigured, isModuleEnabled } from '../uti
 import { hasNullOrUndefined } from '../utils/valuesFormatter/valuesFormatter';
 import { D2I18n } from 'dhis2-semis-types';
 import useShowAlerts from '../hooks/alert/useShowAlert';
+import useEnsureAndroidSettings from '../hooks/dataStore/useEnsureAndroidSettings';
 
 const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { add, useQuery } = useUrlParams();
@@ -31,6 +32,7 @@ const AppsConfiguration = ({ i18n }: { i18n: D2I18n }) => {
   const { getDataStore } = useDataStore()
   const [open, setOpen] = useState(Boolean(name && module && section));
   const { show } = useShowAlerts()
+  useEnsureAndroidSettings()
 
   useEffect(() => {
     if (open) {
