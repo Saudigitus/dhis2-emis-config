@@ -571,8 +571,19 @@ export const config = (i18n: D2I18n) => [
                     hint: i18n.t('List of final result status that allows staff promotion'),
                     inputType: 'MULTI_SELECT',
                     label: i18n.t('Promotable Status'),
+                    order: 0,
                     resource: 'optionSets'
-                }
+                },
+                // Required by "Perform re-enrollment": staff with one of these statuses are not re-enrolled
+                dropout: {
+                    required: true,
+                    filter: 'valueType:eq:TEXT',
+                    hint: i18n.t('List of final result status that blocks staff re-enrollment'),
+                    inputType: 'MULTI_SELECT',
+                    label: i18n.t('Dropout Status'),
+                    order: 1,
+                    resource: 'optionSets'
+                },
             },
             status: {
                 required: true,
